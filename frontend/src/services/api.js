@@ -1,23 +1,45 @@
 /**
  * ExamOps Frontend — API Client Layer
- * Handles communication with FastAPI backend, token management, and active role switching.
+ * Handles communication with FastAPI backend, token management, and authenticated session dispatching.
  */
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
 class ApiClient {
   constructor() {
-    this.activeRole = localStorage.getItem('examops_active_role') || 'ACADEMIC_ADMINISTRATOR';
     this.token = localStorage.getItem('examops_token') || null;
+    try {
+      this.currentUser = JSON.parse(localStorage.getItem('examops_user') || 'null');
+    } catch {
+      this.currentUser = null;
+    }
+    this.activeRole = this.currentUser?.role || 'ACADEMIC_ADMINISTRATOR';
   }
 
-  setActiveRole(role) {
-    this.activeRole = role;
-    localStorage.setItem('examops_active_role', role);
+  getToken() {
+    return this.token;
+  }
+
+  setSession(token, user) {
+    this.token = token;
+    this.currentUser = user;
+    this.activeRole = user?.role || 'ACADEMIC_ADMINISTRATOR';
+    if (token) {
+      localStorage.setItem('examops_token', token);
+    } else {
+      localStorage.removeItem('examops_token');
+    }
+    if (user) {
+      localStorage.setItem('examops_user', JSON.stringify(user));
+      localStorage.setItem('examops_active_role', user.role);
+    } else {
+      localStorage.removeItem('examops_user');
+      localStorage.removeItem('examops_active_role');
+    }
   }
 
   getActiveRole() {
-    return this.activeRole;
+    return this.currentUser?.role || this.activeRole;
   }
 
   _formatParams(params = {}) {
@@ -43,7 +65,6 @@ class ApiClient {
     const url = `${API_BASE}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
     const headers = {
       'Content-Type': 'application/json',
-      'X-Test-Role': this.activeRole,
       ...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
       ...options.headers,
     };
@@ -77,6 +98,24 @@ class ApiClient {
   }
 
   // Auth & Profile
+  async login(email, password = null) {
+    const data = await this.request('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+    this.setSession(data.access_token, data.user);
+    return data;
+  }
+
+  async devSwitchRole(role) {
+    const data = await this.request('/auth/dev-switch-role', {
+      method: 'POST',
+      body: JSON.stringify({ role }),
+    });
+    this.setSession(data.access_token, data.user);
+    return data;
+  }
+
   async getMe() {
     return this.request('/auth/me');
   }

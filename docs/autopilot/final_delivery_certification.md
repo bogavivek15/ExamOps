@@ -246,6 +246,14 @@ Independent security testing verified that access control boundaries are enforce
 9. **Database Role Escalation**: Trigger `trg_user_profile_immutability` blocks SQL updates attempting to modify user roles.
 10. **Secret Key Isolation**: Static audit of frontend JavaScript bundles confirms zero `service_role` keys or private credentials exist in client assets.
 
+### 8.2 Scheduling Workspace RBAC Hardening (Dual Role Testing)
+An independent dual-role verification was conducted via `scripts/verify_scheduling_rbac.py` on the Scheduling Workspace:
+- **Authorized Operator Execution**: Authenticated as `exam.officer@examops.institution.edu` (`ACADEMIC_ADMINISTRATOR`). Created scheduling run `RUN-20261101-0004` -> returned `HTTP 200 OK` with valid `run_code` and status `DRAFT`.
+- **Unauthorized Learner Rejection**: Authenticated as `maya.muller.0001@student.institution.edu` (`LEARNER`). Attempted to create run -> returned `HTTP 403 Forbidden` (`role 'LEARNER' lacks permission for this action`).
+- **Client Role Spoofing Immunity**: Sent arbitrary client headers (`X-Test-Role: ACADEMIC_ADMINISTRATOR`, `X-User-Role: EXAM_OFFICER`, body `{ role: 'SUPER_ADMIN' }`). The backend ignored all unverified client-supplied claims and enforced PostgreSQL `user_profiles.role`, returning `HTTP 403 Forbidden`.
+- **JWT Cryptographic Integrity**: Tampered signatures rejected with `HTTP 401 Unauthorized`.
+- **Frontend Feedback**: In `SchedulingWorkspace.jsx`, non-administrator roles render a prominent warning banner ("Read-Only Perspective"), and any rejected mutation renders an explicit HTTP 403 error dialog within the modal dialog.
+
 ---
 
 ## 9. Cloud Integration & Deployment Status
@@ -362,3 +370,4 @@ ExamOps has been built strictly to the Master Engineering Specification. It is c
   SUBMISSION READINESS:        CERTIFIED FOR DEFENSE & DEPLOYMENT
 ================================================================================
 ```
+

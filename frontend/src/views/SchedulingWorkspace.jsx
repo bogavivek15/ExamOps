@@ -26,7 +26,7 @@ import Modal from '../components/common/Modal';
 import LoadingState from '../components/common/LoadingState';
 
 export default function SchedulingWorkspace() {
-  const { isAdmin } = useAuth();
+  const { isAdmin, currentRole } = useAuth();
 
   const [runs, setRuns] = useState([]);
   const [selectedRunId, setSelectedRunId] = useState(null);
@@ -45,6 +45,7 @@ export default function SchedulingWorkspace() {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [newRunSeed, setNewRunSeed] = useState(20261022);
   const [newRunVersion, setNewRunVersion] = useState('1.0.0');
+  const [modalError, setModalError] = useState(null);
 
   useEffect(() => {
     loadRuns();
@@ -91,6 +92,7 @@ export default function SchedulingWorkspace() {
 
   const handleCreateRun = async (e) => {
     e.preventDefault();
+    setModalError(null);
     try {
       const periodId = activeRun?.academic_period_id || '11111111-1111-1111-1111-111111111111';
       const newRun = await api.createRun({
@@ -103,7 +105,13 @@ export default function SchedulingWorkspace() {
       setSelectedRunId(newRun.id);
       setActionMessage({ type: 'success', text: `Created run ${newRun.run_code}` });
     } catch (err) {
-      setActionMessage({ type: 'error', text: err.message });
+      const msg = err.message || '';
+      let userFriendlyError = err.message;
+      if (msg.includes('403') || msg.includes('Forbidden') || msg.includes('permission') || msg.includes('lacks permission')) {
+        userFriendlyError = `Permission Denied (HTTP 403): Current role '${currentRole || 'LEARNER'}' lacks authorization to create scheduling runs. Authorized roles are: EXAM_OFFICER, ACADEMIC_ADMINISTRATOR, PLATFORM_ADMINISTRATOR, SUPER_ADMIN.`;
+      }
+      setModalError(userFriendlyError);
+      setActionMessage({ type: 'error', text: userFriendlyError });
     }
   };
 
@@ -293,7 +301,10 @@ export default function SchedulingWorkspace() {
             </select>
 
             <button
-              onClick={() => setCreateModalOpen(true)}
+              onClick={() => {
+                setModalError(null);
+                setCreateModalOpen(true);
+              }}
               className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded text-xs text-brand-text hover:border-brand-accent transition-colors"
             >
               <Plus size={14} className="text-brand-accent" /> New Run
@@ -348,6 +359,18 @@ export default function SchedulingWorkspace() {
             </div>
           </div>
         </div>
+
+        {/* Read-Only Role Notice if not authorized */}
+        {!isAdmin && (
+          <div className="p-3 bg-amber-950/30 border border-amber-800/40 rounded-lg flex items-center justify-between text-xs text-amber-200">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>
+                <strong>Read-Only Perspective:</strong> Active role is <span className="font-mono font-bold text-amber-300">{currentRole || 'LEARNER'}</span>. Operational actions (create run, execute solver, approve schedule) require <strong>EXAM_OFFICER</strong> or <strong>ACADEMIC_ADMINISTRATOR</strong>.
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Action Notification Message */}
         {actionMessage && (
@@ -481,11 +504,23 @@ export default function SchedulingWorkspace() {
       {/* New Run Modal */}
       <Modal
         isOpen={createModalOpen}
-        onClose={() => setCreateModalOpen(false)}
+        onClose={() => {
+          setCreateModalOpen(false);
+          setModalError(null);
+        }}
         title="Create New Operational Scheduling Run"
         subtitle="Initialize a new scheduling instance for the active academic period."
       >
         <form onSubmit={handleCreateRun} className="space-y-4">
+          {modalError && (
+            <div className="p-3 bg-red-950/70 border border-red-800 rounded-md flex items-start gap-2.5 text-xs text-red-200">
+              <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+              <div>
+                <span className="font-bold block text-red-100">Authorization Rejection (HTTP 403)</span>
+                <span className="text-[11px] leading-relaxed text-red-300">{modalError}</span>
+              </div>
+            </div>
+          )}
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1">
               Random Seed
