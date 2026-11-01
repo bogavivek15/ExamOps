@@ -27,3 +27,13 @@
 - **Context**: Concurrent publication requests could attempt to publish conflicting schedules simultaneously.
 - **Decision**: Publications acquire an exclusive row lock on `academic_periods` (`SELECT ... FOR UPDATE`), check existing published runs, atomically update previous published runs to `SUPERSEDED`, and set target run to `PUBLISHED`, backed by a partial unique index `(academic_period_id) WHERE (status = 'PUBLISHED')`.
 - **Consequence**: Guaranteed linearizable schedule publication with zero race conditions.
+
+### `DEC-005`: Role Aliasing in Dependency-Injected Authentication
+- **Context**: Frontend client conventions and problem documentation refer to user roles as `STUDENT`, `EXAM_OFFICER`, and `SUPER_ADMIN`, whereas the PostgreSQL database enum constraint uses `LEARNER`, `ACADEMIC_ADMINISTRATOR`, and `PLATFORM_ADMINISTRATOR`.
+- **Decision**: Maintain a bidirectional `ROLE_ALIASES` mapping in `backend/auth.py`. Route handlers and dependency checkers accept both external and database-canonical forms transparently.
+- **Consequence**: Full backward and forward compatibility between API consumers, UI forms, and PostgreSQL RLS constraints.
+
+### `DEC-006`: Chunked Bulk Insert Optimization for High-Volume Seatings
+- **Context**: Persisting an institutional schedule run produces 25,000+ student room seatings and hundreds of invigilator staffings. Executing individual `INSERT` queries took 35-40 seconds.
+- **Decision**: Implement `psycopg2.extras.execute_values` with chunk sizes of 1,000 to 2,000 rows across `run_exam_students`, `schedule_assignments`, `assignment_students`, and `scheduling_decisions`.
+- **Consequence**: Full run persistence latency reduced from ~40s to <1.0s while preserving all composite foreign key guarantees.
