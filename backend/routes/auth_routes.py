@@ -28,3 +28,4 @@ def list_user_profiles(limit: int = 50, offset: int = 0):
         "SELECT id, email, display_name, role, status, student_id, invigilator_id, department, created_at FROM user_profiles ORDER BY email ASC LIMIT %s OFFSET %s;",
         (limit, offset),
     )
+

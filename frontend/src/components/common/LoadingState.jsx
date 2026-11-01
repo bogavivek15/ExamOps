@@ -9,3 +9,4 @@ export default function LoadingState({ message = 'Loading institutional operatio
     </div>
   );
 }
+

@@ -106,3 +106,4 @@ LAST_NAMES = [
     "Rao", "Rodriguez", "Sharma", "Singh", "Smith", "Taylor", "Thomas", "Verma", "Wang", "Williams",
     "Wilson", "Wright", "Yamamoto", "Zhang", "Al-Mansoor", "O'Connor", "Dubois", "Muller", "Tanaka", "Sato"
 ]
+

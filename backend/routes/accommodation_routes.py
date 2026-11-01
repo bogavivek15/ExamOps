@@ -47,3 +47,4 @@ def get_accommodation_notes(
     Redacts medical information unless the caller is SUPER_ADMIN or EXAM_OFFICER.
     """
     return AccommodationService.get_accommodation_notes(acc_id, viewer_role=current_user.role)
+

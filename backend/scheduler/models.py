@@ -105,3 +105,4 @@ class DecisionRecord:
     reason_codes: List[str] = field(default_factory=list)
     selected_candidate: Optional[Dict[str, Any]] = None
     candidate_details: Dict[str, Any] = field(default_factory=dict)
+

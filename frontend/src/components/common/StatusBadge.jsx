@@ -42,3 +42,4 @@ export default function StatusBadge({ status, size = 'sm', className = '' }) {
     </span>
   );
 }
+

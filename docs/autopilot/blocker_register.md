@@ -17,3 +17,4 @@
 | Blocker ID | Date | Description | Resolution Strategy | Status |
 |---|---|---|---|---|
 | `BLK-001` | 2026-11-01 | PowerShell execution policy restricts `.ps1` wrapper execution for `npm` | Use `npm.cmd` and `npx.cmd` directly for all Node and Supabase CLI commands | RESOLVED |
+

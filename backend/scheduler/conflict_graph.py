@@ -72,3 +72,4 @@ class ConflictGraph:
                 e.exam_code,
             )
         )
+

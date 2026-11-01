@@ -233,3 +233,4 @@ def test_audit_logs():
     logs = res_admin.json()
     assert isinstance(logs, list)
     assert len(logs) > 0
+

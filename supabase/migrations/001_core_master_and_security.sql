@@ -430,3 +430,4 @@ CREATE TABLE IF NOT EXISTS accommodation_notes (
 );
 
 CREATE INDEX IF NOT EXISTS idx_acco_notes_id ON accommodation_notes(accommodation_id);
+

@@ -21,3 +21,4 @@ def compute_candidate_score(
     total_invigilators = sum(len(a.assigned_invigilators) for a in allocations)
 
     return (num_rooms, wasted_seats, float(total_invigilators), slot_index)
+

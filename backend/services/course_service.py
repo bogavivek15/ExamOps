@@ -55,3 +55,4 @@ class ExamService:
     @staticmethod
     def get_exam_requirements(exam_id: str) -> List[Dict[str, Any]]:
         return execute_query("SELECT * FROM exam_requirements WHERE exam_id = %s;", (exam_id,))
+

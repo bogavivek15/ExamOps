@@ -59,3 +59,4 @@ class CandidateSlotGenerator:
             current_date += timedelta(days=1)
 
         return slots
+

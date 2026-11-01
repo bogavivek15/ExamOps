@@ -36,3 +36,4 @@ def get_exam_requirements(
 ):
     """Retrieves equipment and physical requirements for an examination."""
     return ExamService.get_exam_requirements(exam_id)
+

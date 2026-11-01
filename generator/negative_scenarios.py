@@ -116,3 +116,4 @@ def generate_ground_truth_fixtures(
     })
 
     return fixtures
+

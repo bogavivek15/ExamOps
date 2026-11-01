@@ -38,3 +38,4 @@ def list_enrollments(
 ):
     """Lists student course enrollments."""
     return CourseService.list_enrollments(course_id=course_id, student_id=student_id, limit=limit)
+

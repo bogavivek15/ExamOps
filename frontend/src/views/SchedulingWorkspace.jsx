@@ -535,3 +535,4 @@ export default function SchedulingWorkspace() {
     </div>
   );
 }
+

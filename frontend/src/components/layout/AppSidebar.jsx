@@ -150,3 +150,4 @@ export default function AppSidebar({ collapsed, onToggle }) {
     </aside>
   );
 }
+

@@ -50,3 +50,4 @@ def get_student_schedule(
         raise HTTPException(status_code=403, detail="Forbidden: You may only view your own schedule.")
     
     return StudentService.get_student_schedule(student_id)
+

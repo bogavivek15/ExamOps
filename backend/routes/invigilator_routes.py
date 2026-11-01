@@ -55,3 +55,4 @@ def get_invigilator_schedule(
     if current_user.role == "INVIGILATOR" and current_user.invigilator_id != invigilator_id:
         raise HTTPException(status_code=403, detail="Forbidden: You may only view your own assignments.")
     return InvigilatorService.get_invigilator_assignments(invigilator_id)
+

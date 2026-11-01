@@ -55,3 +55,4 @@ The final acceptance of ExamOps requires passing three independent evaluations:
 - [ ] CSV and JSON export functionality verified
 - [ ] Full end-to-end user journeys tested (Admin, Learner, Instructor)
 - [ ] Candidate interview readiness and clear architecture documentation
+

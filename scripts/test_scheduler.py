@@ -392,3 +392,4 @@ if __name__ == "__main__":
     test_room_splitting_invariants()
     test_five_negative_scenarios()
     test_full_baseline_execution()
+

@@ -86,3 +86,4 @@ class InvigilatorAllocator:
                 temporarily_assigned_ids.add(s.id)
 
         return True, []
+

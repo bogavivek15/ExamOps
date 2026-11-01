@@ -235,3 +235,4 @@ DROP TRIGGER IF EXISTS trg_events_immutable ON schedule_events;
 CREATE TRIGGER trg_events_immutable
 BEFORE UPDATE OR DELETE ON schedule_events
 FOR EACH ROW EXECUTE FUNCTION public.prevent_modification_of_immutable_logs();
+

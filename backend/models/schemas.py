@@ -229,3 +229,4 @@ class AuditLogResponse(BaseModel):
     entity_id: str
     result: str
     created_at: datetime
+

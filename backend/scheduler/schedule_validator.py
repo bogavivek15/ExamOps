@@ -210,3 +210,4 @@ class ScheduleValidator:
 
         is_certified_valid = (len(violations) == 0)
         return is_certified_valid, violations
+

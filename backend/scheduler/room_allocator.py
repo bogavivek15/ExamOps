@@ -168,3 +168,4 @@ class RoomAllocator:
             return None, ["CAPACITY_DEFICIT"]
 
         return allocations, []
+

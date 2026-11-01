@@ -42,7 +42,7 @@ class StudentService:
     @staticmethod
     def get_student_schedule(student_id: str) -> List[Dict[str, Any]]:
         sql = """
-        SELECT ast.id as assignment_student_id, ast.effective_duration_minutes, ast.start_time, ast.end_time,
+        SELECT ast.id as assignment_student_id, ast.effective_duration_minutes, sa.start_time, sa.end_time,
                sa.assignment_code, sa.status as assignment_status,
                ex.id as exam_id, ex.exam_code, ex.title as exam_title,
                r.id as room_id, r.room_code, r.name as room_name, r.building, r.floor, r.is_accessible
@@ -51,6 +51,7 @@ class StudentService:
         JOIN exams ex ON ex.id = ast.exam_id
         JOIN rooms r ON r.id = ast.room_id
         WHERE ast.student_id = %s
-        ORDER BY ast.start_time ASC;
+        ORDER BY sa.start_time ASC;
         """
         return execute_query(sql, (student_id,))
+

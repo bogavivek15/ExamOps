@@ -169,3 +169,4 @@ def publish_scheduling_run(
         return res
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Publication failed: {str(e)}")
+

@@ -62,3 +62,4 @@ def get_room_availabilities(
 ):
     """Retrieves operating hours and maintenance closures for a room."""
     return RoomService.get_room_availabilities(room_id)
+

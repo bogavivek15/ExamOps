@@ -28,3 +28,4 @@ def export_run_json(
 ):
     """Exports complete scheduling run data including telemetry as JSON."""
     return ExportService.export_schedule_json(run_id)
+

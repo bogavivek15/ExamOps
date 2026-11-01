@@ -18,3 +18,4 @@ def list_audit_logs(
 ):
     """Retrieves immutable audit logs showing user actions, state changes, and results."""
     return AuditService.list_logs(limit=limit, offset=offset, entity_type=entity_type, action=action)
+

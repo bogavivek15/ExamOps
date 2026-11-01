@@ -360,3 +360,4 @@ class SchedulingEngine:
                 week_n = shift_d.isocalendar()[1]
                 self.invigilator_daily_hours[(inv.id, shift_d)] += dur_hrs
                 self.invigilator_weekly_hours[(inv.id, week_n)] += dur_hrs
+

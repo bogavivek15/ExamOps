@@ -45,3 +45,4 @@ assert len(erd_blocks) == 26, f"Expected 26 entity blocks in ERD, got {len(erd_b
 assert set(dd_tables) == set(perm_tables), f"Mismatch between data dictionary and permissions: {set(dd_tables) ^ set(perm_tables)}"
 
 print("\nSUCCESS: All 26 entities are identical and fully reconciled across ERD, Data Dictionary, and Permissions Matrix!")
+
