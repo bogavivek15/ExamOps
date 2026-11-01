@@ -58,10 +58,37 @@ export default function ExceptionCenter() {
     try {
       const [issuesData, decisionsData] = await Promise.all([
         api.getRunIssues(runId).catch(() => []),
-        api.getRunDecisions(runId, { outcome: 'FAILED', limit: 100 }).catch(() => ({ items: [] })),
+        api.getRunDecisions(runId, { is_assigned: false, limit: 300 }).catch(() => []),
       ]);
-      setIssues(issuesData || []);
-      setDecisions(decisionsData.items || []);
+      const rawIssues = Array.isArray(issuesData) ? issuesData : [];
+      const unassignedList = Array.isArray(decisionsData) ? decisionsData : (decisionsData?.items || []);
+
+      const formattedIssues = [
+        ...rawIssues.map(iss => ({
+          ...iss,
+          id: iss.id,
+          exam_id: iss.exam_id,
+          exam_code: iss.exam_code,
+          exam_title: iss.exam_title,
+          severity: iss.severity || 'CRITICAL',
+          reason_code: iss.issue_code || iss.reason_code || 'HARD_CONSTRAINT_BREACH',
+          description: iss.description || iss.message || 'Hard constraint breach detected by independent validator.',
+        })),
+        ...unassignedList.map(dec => ({
+          id: dec.id,
+          exam_id: dec.exam_id,
+          exam_code: dec.exam_code,
+          exam_title: dec.exam_title,
+          severity: 'BLOCKING',
+          reason_code: (dec.reason_codes && dec.reason_codes[0]) || 'STUDENT_CONFLICT',
+          description: `No feasible timeslot and room combination met all constraints across ${dec.candidate_details?.evaluated_slots || 192} candidate slots (Cohort size: ${dec.candidate_details?.cohort_size || 'N/A'}). Primary bottleneck: ${(dec.reason_codes && dec.reason_codes.join(', ')) || 'STUDENT_CONFLICT'}.`,
+          candidate_details: dec.candidate_details,
+          reason_codes: dec.reason_codes,
+        })),
+      ];
+
+      setIssues(formattedIssues);
+      setDecisions(unassignedList);
     } catch (err) {
       setError(err.message || 'Failed to load run exceptions');
     } finally {

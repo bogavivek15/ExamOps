@@ -20,6 +20,25 @@ class ApiClient {
     return this.activeRole;
   }
 
+  _formatParams(params = {}) {
+    const formatted = { ...params };
+    if (params.page_size && !params.limit) {
+      formatted.limit = params.page_size;
+      delete formatted.page_size;
+    }
+    if (params.page && params.offset === undefined) {
+      const limit = formatted.limit || 50;
+      formatted.offset = (params.page - 1) * limit;
+      delete formatted.page;
+    }
+    Object.keys(formatted).forEach((k) => {
+      if (formatted[k] === undefined || formatted[k] === null || formatted[k] === '') {
+        delete formatted[k];
+      }
+    });
+    return formatted;
+  }
+
   async request(endpoint, options = {}) {
     const url = `${API_BASE}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
     const headers = {
@@ -46,6 +65,10 @@ class ApiClient {
       if (!response.ok) {
         throw new Error(data.detail || data.message || `Request failed with status ${response.status}`);
       }
+      if (Array.isArray(data)) {
+        data.items = data;
+        data.total = data.length;
+      }
       return data;
     } catch (err) {
       console.error(`API Error [${endpoint}]:`, err);
@@ -64,7 +87,7 @@ class ApiClient {
 
   // Master Data
   async listStudents(params = {}) {
-    const q = new URLSearchParams(params).toString();
+    const q = new URLSearchParams(this._formatParams(params)).toString();
     return this.request(`/students${q ? `?${q}` : ''}`);
   }
 
@@ -77,17 +100,17 @@ class ApiClient {
   }
 
   async listCourses(params = {}) {
-    const q = new URLSearchParams(params).toString();
+    const q = new URLSearchParams(this._formatParams(params)).toString();
     return this.request(`/courses${q ? `?${q}` : ''}`);
   }
 
   async listEnrollments(params = {}) {
-    const q = new URLSearchParams(params).toString();
+    const q = new URLSearchParams(this._formatParams(params)).toString();
     return this.request(`/enrollments${q ? `?${q}` : ''}`);
   }
 
   async listExams(params = {}) {
-    const q = new URLSearchParams(params).toString();
+    const q = new URLSearchParams(this._formatParams(params)).toString();
     return this.request(`/exams${q ? `?${q}` : ''}`);
   }
 
@@ -100,7 +123,7 @@ class ApiClient {
   }
 
   async listRooms(params = {}) {
-    const q = new URLSearchParams(params).toString();
+    const q = new URLSearchParams(this._formatParams(params)).toString();
     return this.request(`/rooms${q ? `?${q}` : ''}`);
   }
 
@@ -109,7 +132,7 @@ class ApiClient {
   }
 
   async listInvigilators(params = {}) {
-    const q = new URLSearchParams(params).toString();
+    const q = new URLSearchParams(this._formatParams(params)).toString();
     return this.request(`/invigilators${q ? `?${q}` : ''}`);
   }
 
@@ -122,7 +145,7 @@ class ApiClient {
   }
 
   async listAccommodations(params = {}) {
-    const q = new URLSearchParams(params).toString();
+    const q = new URLSearchParams(this._formatParams(params)).toString();
     return this.request(`/accommodations${q ? `?${q}` : ''}`);
   }
 
@@ -153,12 +176,12 @@ class ApiClient {
   }
 
   async getRunAssignments(id, params = {}) {
-    const q = new URLSearchParams(params).toString();
+    const q = new URLSearchParams(this._formatParams(params)).toString();
     return this.request(`/scheduling/runs/${id}/assignments${q ? `?${q}` : ''}`);
   }
 
   async getRunDecisions(id, params = {}) {
-    const q = new URLSearchParams(params).toString();
+    const q = new URLSearchParams(this._formatParams(params)).toString();
     return this.request(`/scheduling/runs/${id}/decisions${q ? `?${q}` : ''}`);
   }
 
@@ -188,7 +211,7 @@ class ApiClient {
   }
 
   async listAuditLogs(params = {}) {
-    const q = new URLSearchParams(params).toString();
+    const q = new URLSearchParams(this._formatParams(params)).toString();
     return this.request(`/audit/logs${q ? `?${q}` : ''}`);
   }
 
@@ -202,4 +225,3 @@ class ApiClient {
 }
 
 export const api = new ApiClient();
-

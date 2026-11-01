@@ -73,7 +73,7 @@ export default function CourseManagement() {
     },
     {
       header: 'Title',
-      accessor: 'title',
+      cell: (row) => row.name || row.title || 'Course Unit',
       className: 'text-brand-text font-medium truncate max-w-[240px]',
     },
     {

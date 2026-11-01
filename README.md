@@ -16,10 +16,10 @@
 
 ExamOps replaces brittle manual timetabling and opaque black-box solvers with a **deterministic, fully explainable, and auditable scheduling engine** integrated into a commercial-quality operations command center.
 
-### Core Institutional Guarantees
-1. **Zero Hard-Constraint Violations in Confirmed Schedules:** Guaranteed student conflict isolation, physical room capacity enforcement, proctor non-overlapping bounds, room operating window adherence, and 100% accommodation compliance.
+### Core Operational Invariants
+1. **Zero Hard-Constraint Violations in Confirmed Schedules:** Validated student conflict isolation, physical room capacity enforcement, proctor non-overlapping bounds, room operating window adherence, and 100% accommodation compliance.
 2. **Transparent Decision Telemetry:** Every single examination—whether scheduled or left unassigned—generates an exhaustive audit trail explaining which slots were evaluated, which constraints passed or failed, and the exact root-cause reason codes.
-3. **FERPA/GDPR Compliance:** Clinical evaluations and medical documentation for student accommodations are cryptographically shielded and masked based on strict role-based access control.
+3. **FERPA/GDPR Privacy Alignment:** Clinical evaluations and medical documentation for student accommodations are cryptographically shielded and masked based on strict role-based access control.
 4. **Non-Repudiation & Auditability:** State mutations, schedule generation runs, approvals, and stored-procedure publications are recorded into an append-only governance ledger with before-and-after state snapshots.
 
 ---

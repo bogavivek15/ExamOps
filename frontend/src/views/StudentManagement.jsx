@@ -68,7 +68,7 @@ export default function StudentManagement() {
   const columns = [
     {
       header: 'Student Number',
-      accessor: 'student_number',
+      accessor: 'student_code',
       className: 'font-mono text-brand-accent font-semibold',
     },
     {

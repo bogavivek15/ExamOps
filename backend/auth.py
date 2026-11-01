@@ -87,19 +87,21 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Query authoritative profile from database
-    prof = execute_query(
-        "SELECT * FROM user_profiles WHERE id = %s AND status = 'ACTIVE';",
-        (user_id,),
-        fetch_one=True,
-    )
-
-    if not prof:
-        # Fallback query by email if user_id happens to be an email address
-        if "@" in user_id:
+    # Query authoritative profile from database safely validating UUID or email
+    import uuid
+    prof = None
+    try:
+        valid_uuid = str(uuid.UUID(str(user_id)))
+        prof = execute_query(
+            "SELECT * FROM user_profiles WHERE id = %s AND status = 'ACTIVE';",
+            (valid_uuid,),
+            fetch_one=True,
+        )
+    except (ValueError, TypeError, AttributeError):
+        if user_id and "@" in str(user_id):
             prof = execute_query(
                 "SELECT * FROM user_profiles WHERE email = %s AND status = 'ACTIVE';",
-                (user_id,),
+                (str(user_id),),
                 fetch_one=True,
             )
 

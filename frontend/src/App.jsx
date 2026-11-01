@@ -3,15 +3,19 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import AppLayout from './components/layout/AppLayout';
 
-// Module View Stubs (to be populated in Phase 6)
-function PlaceholderView({ title, description }) {
-  return (
-    <div className="bg-brand-surface border border-brand-border rounded-lg p-8 text-center space-y-2">
-      <h2 className="text-base font-bold text-brand-text tracking-wide">{title}</h2>
-      <p className="text-xs text-brand-muted max-w-md mx-auto">{description}</p>
-    </div>
-  );
-}
+// All 12 Operational Product Modules
+import OverviewDashboard from './views/OverviewDashboard';
+import SchedulingWorkspace from './views/SchedulingWorkspace';
+import ExamManagement from './views/ExamManagement';
+import StudentManagement from './views/StudentManagement';
+import CourseManagement from './views/CourseManagement';
+import RoomManagement from './views/RoomManagement';
+import InvigilatorManagement from './views/InvigilatorManagement';
+import AccommodationManagement from './views/AccommodationManagement';
+import ExceptionCenter from './views/ExceptionCenter';
+import AnalyticsReports from './views/AnalyticsReports';
+import AuditActivity from './views/AuditActivity';
+import Administration from './views/Administration';
 
 export default function App() {
   return (
@@ -19,18 +23,43 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<AppLayout />}>
-            <Route index element={<PlaceholderView title="Module 1: Overview Dashboard" description="Operational summary metrics, published schedule KPIs, and system telemetry." />} />
-            <Route path="scheduling" element={<PlaceholderView title="Module 2: Scheduling Workspace" description="Intelligent timetable operations, solver execution, and conflict resolution." />} />
-            <Route path="exceptions" element={<PlaceholderView title="Module 9: Exception Center" description="Detailed inspection and corrective resolution of unassigned exams." />} />
-            <Route path="exams" element={<PlaceholderView title="Module 3: Examination Management" description="Course examinations, duration requirements, and equipment profiles." />} />
-            <Route path="students" element={<PlaceholderView title="Module 4: Student Management" description="Student registry, course enrollments, and individual exam timetables." />} />
-            <Route path="courses" element={<PlaceholderView title="Module 5: Course & Enrollment Management" description="Course catalog and student enrollment mappings." />} />
-            <Route path="rooms" element={<PlaceholderView title="Module 6: Room & Facilities Management" description="Venues, examination capacities, accessibility features, and equipment inventory." />} />
-            <Route path="invigilators" element={<PlaceholderView title="Module 7: Invigilator Management" description="Invigilator profiles, availability windows, workload tracking, and shift rosters." />} />
-            <Route path="accommodations" element={<PlaceholderView title="Module 8: Accommodation Management" description="Student accessibility needs, extra time allocations, and medical note protections." />} />
-            <Route path="analytics" element={<PlaceholderView title="Module 10: Analytics & Reports" description="Capacity utilization, invigilator workloads, and CSV/JSON data streams." />} />
-            <Route path="audit" element={<PlaceholderView title="Module 11: Audit & Activity" description="Immutable governance log of state changes, approvals, and security events." />} />
-            <Route path="admin" element={<PlaceholderView title="Module 12: Administration" description="System configuration, academic period parameters, and user permissions." />} />
+            {/* Module 1: Overview Dashboard */}
+            <Route index element={<OverviewDashboard />} />
+
+            {/* Module 2: Scheduling Operations Center */}
+            <Route path="scheduling" element={<SchedulingWorkspace />} />
+
+            {/* Module 3: Examination Management */}
+            <Route path="exams" element={<ExamManagement />} />
+
+            {/* Module 4: Student Management */}
+            <Route path="students" element={<StudentManagement />} />
+
+            {/* Module 5: Course & Enrollment Management */}
+            <Route path="courses" element={<CourseManagement />} />
+
+            {/* Module 6: Room & Facilities Management */}
+            <Route path="rooms" element={<RoomManagement />} />
+
+            {/* Module 7: Invigilator Management */}
+            <Route path="invigilators" element={<InvigilatorManagement />} />
+
+            {/* Module 8: Accommodation Management */}
+            <Route path="accommodations" element={<AccommodationManagement />} />
+
+            {/* Module 9: Exception Center */}
+            <Route path="exceptions" element={<ExceptionCenter />} />
+
+            {/* Module 10: Analytics & Reports */}
+            <Route path="analytics" element={<AnalyticsReports />} />
+
+            {/* Module 11: Audit & Activity */}
+            <Route path="audit" element={<AuditActivity />} />
+
+            {/* Module 12: Administration & Policies */}
+            <Route path="admin" element={<Administration />} />
+
+            {/* Fallback route */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </Routes>
