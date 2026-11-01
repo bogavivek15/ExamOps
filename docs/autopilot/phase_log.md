@@ -42,3 +42,21 @@
 - **Second Independent Verification (Pass B)**: PASSED (`python scripts/apply_and_test_database.py` executed against PostgreSQL 16 in Docker; all 12 tests passed)
 - **Exit Gate Status**: PASSED
 - **Git Commit**: PENDING commit before advancing to Phase 2.
+
+### Phase 2: Synthetic Data Generation
+- **Start Timestamp**: 2026-11-01T18:08:00+05:30
+- **Scope**:
+  - Author `generator/config.py`, `generator/negative_scenarios.py`, `generator/exporters.py`, and `generator/generate.py`.
+  - Deterministic generation with fixed seed `20261022` supporting `--profile {starter, full}`.
+  - Exactly 5,000 students, 300 exams, 100 rooms, 200 invigilators.
+  - 5 labelled negative scenarios with separated ground truth (`data/ground_truth.json`, `data/ground_truth.csv`).
+  - Export CSV, JSON, SQL seed, and canonical manifest (`data/manifest.json`).
+  - Empirical verification script `scripts/test_synthetic_data.py`.
+- **Implementation Status**: COMPLETED
+- **First Independent Verification (Pass A)**: PASSED (Design, normalized models, and negative scenario definitions verified)
+- **Defects Discovered & Resolved**:
+  - `DEF-007` (Ground truth CSV heterogeneous keys): Resolved in `exporters.py` by extracting ordered key union.
+  - `DEF-008` (Normalized model column boundaries): Stripped runtime memory fields (`enrolled_student_count`, room capacities) from master table inserts.
+- **Second Independent Verification (Pass B)**: PASSED (`python scripts/test_synthetic_data.py` confirmed 100% reproducibility match, zero dangling foreign keys, canonical identifier compliance, and 100% database row count reconciliation across all tables in PostgreSQL 16)
+- **Exit Gate Status**: PASSED
+- **Git Commit**: PENDING commit before advancing to Phase 3.

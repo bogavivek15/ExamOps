@@ -1,0 +1,46 @@
+id,email,display_name,role,student_id,invigilator_id,department,status
+adb5e511-f32a-51e5-8006-38eda2aa3d52,admin@examops.institution.edu,Chief Platform Administrator,PLATFORM_ADMINISTRATOR,,,Information Technology,ACTIVE
+d082c415-67b4-5c33-bc25-62e65c25241a,exam.director.1@examops.institution.edu,Operations Officer 1,ACADEMIC_ADMINISTRATOR,,,Examinations Office,ACTIVE
+2492c851-bca4-51d1-b255-a618166f96b3,exam.director.2@examops.institution.edu,Operations Officer 2,ACADEMIC_ADMINISTRATOR,,,Examinations Office,ACTIVE
+c96757ef-3328-5414-9a98-62c98e292d19,facilities.lead.1@examops.institution.edu,Disability & Facilities Lead 1,SUPPORT_STAFF,,,Campus Facilities & Accessibility,ACTIVE
+0c04cec5-0fc0-5313-8fea-d618b336e3fc,facilities.lead.2@examops.institution.edu,Disability & Facilities Lead 2,SUPPORT_STAFF,,,Campus Facilities & Accessibility,ACTIVE
+d5695714-f459-5c51-b0e3-7c6cbe86b76e,head.computer@faculty.institution.edu,Prof. Kapoor (Computer Science),INSTRUCTOR,,,Computer Science,ACTIVE
+830d2f35-a2ab-5bb3-9347-427a064e99db,head.electrical@faculty.institution.edu,Prof. Muller (Electrical Engineering),INSTRUCTOR,,,Electrical Engineering,ACTIVE
+1e776060-1417-5d94-9814-6cc54ac86340,head.mechanical@faculty.institution.edu,Prof. Al-Mansoor (Mechanical Engineering),INSTRUCTOR,,,Mechanical Engineering,ACTIVE
+fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3,head.mathematics@faculty.institution.edu,Prof. Kumar (Mathematics & Statistics),INSTRUCTOR,,,Mathematics & Statistics,ACTIVE
+0fec67be-57fe-59c1-a482-30668ba77709,head.physics@faculty.institution.edu,Prof. Smith (Physics),INSTRUCTOR,,,Physics,ACTIVE
+1555d476-188c-5d18-878b-cb00fa2cd765,head.chemistry@faculty.institution.edu,Prof. Chen (Chemistry),INSTRUCTOR,,,Chemistry,ACTIVE
+2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34,head.biological@faculty.institution.edu,Prof. Wright (Biological Sciences),INSTRUCTOR,,,Biological Sciences,ACTIVE
+d6ce7210-ac18-5acb-8918-709e7f9faacc,head.economics@faculty.institution.edu,Prof. Hernandez (Economics & Finance),INSTRUCTOR,,,Economics & Finance,ACTIVE
+4894d4c9-210a-54cb-a984-d620d4a18b86,head.business@faculty.institution.edu,Prof. Nair (Business Administration),INSTRUCTOR,,,Business Administration,ACTIVE
+fa3af712-4ba7-59a8-9151-d59c9897df1e,head.humanities@faculty.institution.edu,Prof. Sato (Humanities & Social Sciences),INSTRUCTOR,,,Humanities & Social Sciences,ACTIVE
+1fc0d2d5-ed79-5dfd-b250-1a5b548d9188,inv.liam.chen.001@staff.institution.edu,Liam Chen,SUPPORT_STAFF,,2f7079a1-1400-54ff-aa06-87490d40db0c,Computer Science,ACTIVE
+76f430f8-4b07-578c-afcf-aeb6cac5eecc,inv.ishaan.jones.002@staff.institution.edu,Ishaan Jones,SUPPORT_STAFF,,a92f5e87-ef75-5083-95f5-7fcb77058c6d,Humanities & Social Sciences,ACTIVE
+511d0327-51d6-570b-81f0-93550c5e4654,inv.michael.yamamoto.003@staff.institution.edu,Michael Yamamoto,SUPPORT_STAFF,,9d7d1143-cbe7-5421-953f-fc71320df8d6,Computer Science,ACTIVE
+f3955031-d98e-5331-b8f7-0b6c343bb46c,inv.william.garcia.004@staff.institution.edu,William Garcia,SUPPORT_STAFF,,298cfc40-9982-5210-afd2-76c127748cd4,Biological Sciences,ACTIVE
+a5d650b5-4c19-5946-acb6-aa6b4ac297d2,inv.mei.hernandez.005@staff.institution.edu,Mei Hernandez,SUPPORT_STAFF,,a1e97659-b8a7-5bba-9346-c0bb8bda8e9f,Economics & Finance,ACTIVE
+bfd984e7-8f01-5729-a271-a67ab759e86d,inv.isabella.hernandez.006@staff.institution.edu,Isabella Hernandez,SUPPORT_STAFF,,f4948fb0-e18d-59ca-8a4e-fb057a725a00,Mathematics & Statistics,ACTIVE
+c85162d7-07a6-562e-b919-ee06977175e9,inv.gabriel.zhang.007@staff.institution.edu,Gabriel Zhang,SUPPORT_STAFF,,42982f39-9931-5a6d-92d2-d5f2923307ef,Economics & Finance,ACTIVE
+479672bd-651b-5af8-9271-a45252202cf9,inv.liam.singh.008@staff.institution.edu,Liam Singh,SUPPORT_STAFF,,c0b5e91a-f71e-5b4b-a30a-1d3ad9b31fe1,Mechanical Engineering,ACTIVE
+09f72b7f-7b95-59d4-9e9b-213fc0c66aa9,inv.lucas.verma.009@staff.institution.edu,Lucas Verma,SUPPORT_STAFF,,6ca0a020-a362-5f65-b8e6-fefce0660e8d,Computer Science,ACTIVE
+3a14c37a-d662-5ab9-975b-a344f5a0888b,inv.ishaan.tanaka.010@staff.institution.edu,Ishaan Tanaka,SUPPORT_STAFF,,4a3007cd-2f6d-520c-8a70-a86acda51db2,Physics,ACTIVE
+ac84b8fd-df82-5a32-bc00-ab6fbf5e0475,maya.muller.0001@student.institution.edu,Maya Muller,LEARNER,fb233d58-8494-562b-852b-afa00adddac6,,,ACTIVE
+ade22bec-e687-5bd8-8077-8cc49ab5a66c,isabella.kumar.0002@student.institution.edu,Isabella Kumar,LEARNER,971396a9-e9f9-54c2-9e06-252784d6f7ce,,,ACTIVE
+3f5d663f-a16b-59f9-b7d2-bccee0930db7,amara.kapoor.0003@student.institution.edu,Amara Kapoor,LEARNER,2c5f3c3c-e12c-5946-a809-867532884245,,,ACTIVE
+6b584379-9167-5538-a01e-23a968894a73,hannah.iyer.0004@student.institution.edu,Hannah Iyer,LEARNER,9b530bce-6d8f-537a-b8a2-a4ed412007fa,,,ACTIVE
+464549ed-a346-5531-8d57-582a59671ba4,zara.wang.0005@student.institution.edu,Zara Wang,LEARNER,041041e8-0e1f-593d-bcb7-8eaff2078b72,,,ACTIVE
+83b9f8fb-a41e-526b-bfc4-4b21c92208bc,mei.iyer.0006@student.institution.edu,Mei Iyer,LEARNER,782c6792-bd16-5748-9cfe-0880744e613d,,,ACTIVE
+6dab249c-1886-5f91-a09d-c6d613cfab60,amara.chen.0007@student.institution.edu,Amara Chen,LEARNER,71e5b5fd-02bf-5bac-9ec9-e3a969ffbddf,,,ACTIVE
+bf494ca1-4ca9-5052-a065-f2d610a7784b,carlos.garcia.0008@student.institution.edu,Carlos Garcia,LEARNER,7ac16901-2aa4-5ba0-9232-9576759882f7,,,ACTIVE
+5e2cda51-9fe4-5241-b4ec-15dfa840188e,david.jones.0009@student.institution.edu,David Jones,LEARNER,a6abfe15-a402-55ad-81b3-c1bb2b6ce6a5,,,ACTIVE
+8bf0ac72-f4ed-5b42-8714-99898e0e32c8,chloe.verma.0010@student.institution.edu,Chloe Verma,LEARNER,251b35d8-7dab-5cb2-bee2-223d52e8abd6,,,ACTIVE
+a2394dd2-2b5d-5535-b694-aca12d062698,michael.zhang.0011@student.institution.edu,Michael Zhang,LEARNER,211d9b54-1900-5a86-8f12-67c983d1c356,,,ACTIVE
+9a010146-bf80-566e-9b34-312a623e8f44,mei.garcia.0012@student.institution.edu,Mei Garcia,LEARNER,243e348e-f0d4-58a8-931f-2e297b6b6a24,,,ACTIVE
+c2f1c716-337c-5bfe-ae2a-a63828a2a226,aarav.garcia.0013@student.institution.edu,Aarav Garcia,LEARNER,a29b5255-56af-531f-ad7b-0d7739d1f9d7,,,ACTIVE
+4e2f1162-aefb-5ab7-bffa-b67db01a161f,yuki.wright.0014@student.institution.edu,Yuki Wright,LEARNER,902610d7-6715-5422-83b9-d1721ae9414f,,,ACTIVE
+b22b446e-64a5-5bdc-ab87-24b361cc62e2,mei.brown.0015@student.institution.edu,Mei Brown,LEARNER,bfc52772-c9c9-5765-867b-4c82b56c8b44,,,ACTIVE
+c83c5bbc-d2fd-5dbb-b475-cb5fc681c304,samuel.brown.0016@student.institution.edu,Samuel Brown,LEARNER,41b1859a-abe9-5f71-9863-9cda4bf73aab,,,ACTIVE
+add5e76a-f5f8-5c9f-add3-9a761ff2a195,kavita.zhang.0017@student.institution.edu,Kavita Zhang,LEARNER,86eb2873-c16c-54b1-8f94-73f38bc93ed2,,,ACTIVE
+b49047dc-c11f-5ef0-8722-0807389b5115,alexander.patel.0018@student.institution.edu,Alexander Patel,LEARNER,d6607b7d-df0f-54d6-8307-1837bf44eda2,,,ACTIVE
+f252779e-9d6d-55b9-93dd-b5579531e324,aditi.nair.0019@student.institution.edu,Aditi Nair,LEARNER,78d820ec-119a-52ba-87c5-f8f08c292510,,,ACTIVE
+990f36c0-126f-512f-a2db-778674d86bb6,alexander.yamamoto.0020@student.institution.edu,Alexander Yamamoto,LEARNER,77eb9913-6295-53a3-9e8c-cb0a50c69118,,,ACTIVE

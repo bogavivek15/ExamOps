@@ -1,0 +1,1352 @@
+[
+  {
+    "id": "065a79b5-d21a-5ec8-8cfd-88f38452d274",
+    "course_code": "CRS-000001",
+    "name": "Computer Science Foundation & Applied Topics 1",
+    "department": "Computer Science",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "394b1035-e509-5659-81e1-7f6da0123f79",
+    "course_code": "CRS-000002",
+    "name": "Computer Science Foundation & Applied Topics 2",
+    "department": "Computer Science",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "92afd497-7d2c-5e5b-9819-bed4bc731824",
+    "course_code": "CRS-000003",
+    "name": "Computer Science Foundation & Applied Topics 3",
+    "department": "Computer Science",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "1924a428-23c0-5207-9891-8ddab2ad4a70",
+    "course_code": "CRS-000004",
+    "name": "Computer Science Foundation & Applied Topics 4",
+    "department": "Computer Science",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "1d7c4852-83db-5a8c-8d46-8eaa0e7c0916",
+    "course_code": "CRS-000005",
+    "name": "Computer Science Foundation & Applied Topics 5",
+    "department": "Computer Science",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "a5b568f6-483d-5ff2-b733-9e56d90dc24d",
+    "course_code": "CRS-000006",
+    "name": "Computer Science Foundation & Applied Topics 6",
+    "department": "Computer Science",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0da025c6-1e22-57ea-8c44-905c020c16a2",
+    "course_code": "CRS-000007",
+    "name": "Computer Science Foundation & Applied Topics 7",
+    "department": "Computer Science",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0478f796-ffbb-5ee9-8bd0-2af567243f7e",
+    "course_code": "CRS-000008",
+    "name": "Computer Science Foundation & Applied Topics 8",
+    "department": "Computer Science",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "4bae5058-5820-5c1e-b338-0d3afd5ea3b4",
+    "course_code": "CRS-000009",
+    "name": "Computer Science Foundation & Applied Topics 9",
+    "department": "Computer Science",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "5e419eb0-6250-5910-a6c1-a3a4572ec875",
+    "course_code": "CRS-000010",
+    "name": "Computer Science Foundation & Applied Topics 10",
+    "department": "Computer Science",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "50cfe515-e579-5107-8594-cd796402ce9a",
+    "course_code": "CRS-000011",
+    "name": "Computer Science Foundation & Applied Topics 11",
+    "department": "Computer Science",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "d837a46b-fb5e-500b-b403-0f80503e665d",
+    "course_code": "CRS-000012",
+    "name": "Computer Science Foundation & Applied Topics 12",
+    "department": "Computer Science",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "a97b2d63-6ebc-5f53-8f65-07cf5483b639",
+    "course_code": "CRS-000013",
+    "name": "Computer Science Foundation & Applied Topics 13",
+    "department": "Computer Science",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "65f9fc92-b5cd-5438-a9c9-da263b356f5b",
+    "course_code": "CRS-000014",
+    "name": "Computer Science Foundation & Applied Topics 14",
+    "department": "Computer Science",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "2b1ff743-c848-54d3-8b25-37f0d7121792",
+    "course_code": "CRS-000015",
+    "name": "Computer Science Foundation & Applied Topics 15",
+    "department": "Computer Science",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "57f52e0c-5463-52e8-9903-c383a007d33f",
+    "course_code": "CRS-000016",
+    "name": "Electrical Engineering Foundation & Applied Topics 1",
+    "department": "Electrical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "3231885b-16c6-5cd0-b64b-fe377197e341",
+    "course_code": "CRS-000017",
+    "name": "Electrical Engineering Foundation & Applied Topics 2",
+    "department": "Electrical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "89ddb105-1582-510f-acb2-ab4ae66bc775",
+    "course_code": "CRS-000018",
+    "name": "Electrical Engineering Foundation & Applied Topics 3",
+    "department": "Electrical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "181dcfa3-c4ce-5070-b7b4-85aad53c9140",
+    "course_code": "CRS-000019",
+    "name": "Electrical Engineering Foundation & Applied Topics 4",
+    "department": "Electrical Engineering",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "298c02ac-69cb-5713-a2c5-d7b0c3dcf19d",
+    "course_code": "CRS-000020",
+    "name": "Electrical Engineering Foundation & Applied Topics 5",
+    "department": "Electrical Engineering",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "7cbe69c9-5357-5ed0-982c-e559ad09f05c",
+    "course_code": "CRS-000021",
+    "name": "Electrical Engineering Foundation & Applied Topics 6",
+    "department": "Electrical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "722bc840-b635-56c3-9e9c-80d141ae6a4a",
+    "course_code": "CRS-000022",
+    "name": "Electrical Engineering Foundation & Applied Topics 7",
+    "department": "Electrical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "b4a9a49b-9bcc-5b3f-9e3f-10318e91c67a",
+    "course_code": "CRS-000023",
+    "name": "Electrical Engineering Foundation & Applied Topics 8",
+    "department": "Electrical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "a6600eba-556c-52c1-958b-68dc5a6f0c35",
+    "course_code": "CRS-000024",
+    "name": "Electrical Engineering Foundation & Applied Topics 9",
+    "department": "Electrical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "7c82fe33-9dcd-5099-ade8-0aea319aea93",
+    "course_code": "CRS-000025",
+    "name": "Electrical Engineering Foundation & Applied Topics 10",
+    "department": "Electrical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "9d3065d1-2273-551f-b25f-fe5cebca2737",
+    "course_code": "CRS-000026",
+    "name": "Electrical Engineering Foundation & Applied Topics 11",
+    "department": "Electrical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c99e0e9c-edbd-5f19-a120-c4280fb42d35",
+    "course_code": "CRS-000027",
+    "name": "Electrical Engineering Foundation & Applied Topics 12",
+    "department": "Electrical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0e732df9-656c-5953-89d5-89a400123fb3",
+    "course_code": "CRS-000028",
+    "name": "Electrical Engineering Foundation & Applied Topics 13",
+    "department": "Electrical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "e20ae64b-4bb7-55e9-8813-03b23863efdf",
+    "course_code": "CRS-000029",
+    "name": "Electrical Engineering Foundation & Applied Topics 14",
+    "department": "Electrical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "da0610f4-0ecc-5549-bb65-96a3ad55bce0",
+    "course_code": "CRS-000030",
+    "name": "Electrical Engineering Foundation & Applied Topics 15",
+    "department": "Electrical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "55e0959e-0c18-511e-a787-7510f71d6f25",
+    "course_code": "CRS-000031",
+    "name": "Mechanical Engineering Foundation & Applied Topics 1",
+    "department": "Mechanical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "cceed700-1eb5-5b5d-8c34-95ec26d27488",
+    "course_code": "CRS-000032",
+    "name": "Mechanical Engineering Foundation & Applied Topics 2",
+    "department": "Mechanical Engineering",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "5d39f5f0-e706-5e3f-bcd5-a2911ed73de8",
+    "course_code": "CRS-000033",
+    "name": "Mechanical Engineering Foundation & Applied Topics 3",
+    "department": "Mechanical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "869b42dd-c8a0-52e7-b095-20f41195edd8",
+    "course_code": "CRS-000034",
+    "name": "Mechanical Engineering Foundation & Applied Topics 4",
+    "department": "Mechanical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "421bc338-40fc-505a-b4e3-cd92b7d56597",
+    "course_code": "CRS-000035",
+    "name": "Mechanical Engineering Foundation & Applied Topics 5",
+    "department": "Mechanical Engineering",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "743a1509-d490-57a0-a0d5-2cd6b00f01aa",
+    "course_code": "CRS-000036",
+    "name": "Mechanical Engineering Foundation & Applied Topics 6",
+    "department": "Mechanical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "18f3b9e1-05b4-5056-b2d9-32e5687d1569",
+    "course_code": "CRS-000037",
+    "name": "Mechanical Engineering Foundation & Applied Topics 7",
+    "department": "Mechanical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "8bd3fec8-8fe8-5ed3-b879-29033e40bda4",
+    "course_code": "CRS-000038",
+    "name": "Mechanical Engineering Foundation & Applied Topics 8",
+    "department": "Mechanical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "db00d8a1-f3c6-50ea-ac62-d077067ec845",
+    "course_code": "CRS-000039",
+    "name": "Mechanical Engineering Foundation & Applied Topics 9",
+    "department": "Mechanical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "b8f59469-a2af-59f2-aefc-71316d335cb1",
+    "course_code": "CRS-000040",
+    "name": "Mechanical Engineering Foundation & Applied Topics 10",
+    "department": "Mechanical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "ce5bb40f-abac-5ef4-aa4a-3fa3018d7a43",
+    "course_code": "CRS-000041",
+    "name": "Mechanical Engineering Foundation & Applied Topics 11",
+    "department": "Mechanical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "056b8cbe-36fc-53ac-a096-b6e9d3ad3713",
+    "course_code": "CRS-000042",
+    "name": "Mechanical Engineering Foundation & Applied Topics 12",
+    "department": "Mechanical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "d4860c01-881d-5496-a21b-db9aabdcd6db",
+    "course_code": "CRS-000043",
+    "name": "Mechanical Engineering Foundation & Applied Topics 13",
+    "department": "Mechanical Engineering",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "8a1ca77f-875b-5f51-9be8-ce16493d07ca",
+    "course_code": "CRS-000044",
+    "name": "Mechanical Engineering Foundation & Applied Topics 14",
+    "department": "Mechanical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "326fd487-a577-5afa-8ff9-4f85bf6673a7",
+    "course_code": "CRS-000045",
+    "name": "Mechanical Engineering Foundation & Applied Topics 15",
+    "department": "Mechanical Engineering",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "2b74f7c6-5c2f-53d5-a79a-9369d2094b9e",
+    "course_code": "CRS-000046",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 1",
+    "department": "Mathematics & Statistics",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "e10f5d42-231a-5126-be4d-3f89c0d58b2b",
+    "course_code": "CRS-000047",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 2",
+    "department": "Mathematics & Statistics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "a7f85a07-4f75-5c01-bff6-4f5ffc5a9bcd",
+    "course_code": "CRS-000048",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 3",
+    "department": "Mathematics & Statistics",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "94c59fe8-dd50-5373-92cc-f9d8875b9068",
+    "course_code": "CRS-000049",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 4",
+    "department": "Mathematics & Statistics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "1b69d918-9ea7-5510-9d1f-18f61ebf3367",
+    "course_code": "CRS-000050",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 5",
+    "department": "Mathematics & Statistics",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0be1634d-ce7c-5e5c-9d5c-707aec5b4ec0",
+    "course_code": "CRS-000051",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 6",
+    "department": "Mathematics & Statistics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c3ebab2a-74ed-5cbe-9b0b-6960644ac7e2",
+    "course_code": "CRS-000052",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 7",
+    "department": "Mathematics & Statistics",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "40f3ab60-90c4-57fa-bdda-bb96f67a8290",
+    "course_code": "CRS-000053",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 8",
+    "department": "Mathematics & Statistics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "f5acbce2-062e-5521-bb7c-9b45d455a55e",
+    "course_code": "CRS-000054",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 9",
+    "department": "Mathematics & Statistics",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "de4f7e5e-2bf0-5d1e-bba1-3405d9bcc6a2",
+    "course_code": "CRS-000055",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 10",
+    "department": "Mathematics & Statistics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "fc8bf89f-27b0-580f-a7ac-2bf67dffb37c",
+    "course_code": "CRS-000056",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 11",
+    "department": "Mathematics & Statistics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "202e63b7-2193-530f-aae0-996e795e1933",
+    "course_code": "CRS-000057",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 12",
+    "department": "Mathematics & Statistics",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "daaa873e-e56a-50fa-a7a0-1620b10d3ba3",
+    "course_code": "CRS-000058",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 13",
+    "department": "Mathematics & Statistics",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c17e731a-6880-5ed5-b078-b014bf2dfe01",
+    "course_code": "CRS-000059",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 14",
+    "department": "Mathematics & Statistics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "780aae5b-bdcf-5a5f-8d56-8af5daaf17d2",
+    "course_code": "CRS-000060",
+    "name": "Mathematics & Statistics Foundation & Applied Topics 15",
+    "department": "Mathematics & Statistics",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "f0f096af-3c72-51a5-bfaa-9b0ce781ae4f",
+    "course_code": "CRS-000061",
+    "name": "Physics Foundation & Applied Topics 1",
+    "department": "Physics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "fa36d0f3-da3b-53f7-b018-f2caa7310e40",
+    "course_code": "CRS-000062",
+    "name": "Physics Foundation & Applied Topics 2",
+    "department": "Physics",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "e6cd0d3e-8dab-592a-bf23-1f3b9a1a3380",
+    "course_code": "CRS-000063",
+    "name": "Physics Foundation & Applied Topics 3",
+    "department": "Physics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0962640d-8e14-5713-a7ea-19c2e4bc98e3",
+    "course_code": "CRS-000064",
+    "name": "Physics Foundation & Applied Topics 4",
+    "department": "Physics",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "1b4350ad-b20a-5444-bf32-47b828d79cec",
+    "course_code": "CRS-000065",
+    "name": "Physics Foundation & Applied Topics 5",
+    "department": "Physics",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c48b357c-cbb7-5f2d-9f5f-4631f8c754b3",
+    "course_code": "CRS-000066",
+    "name": "Physics Foundation & Applied Topics 6",
+    "department": "Physics",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "d3e9a617-5598-5157-96e9-439f7a75cf36",
+    "course_code": "CRS-000067",
+    "name": "Physics Foundation & Applied Topics 7",
+    "department": "Physics",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "361ca025-f97b-555f-8e0f-405c67e25c12",
+    "course_code": "CRS-000068",
+    "name": "Physics Foundation & Applied Topics 8",
+    "department": "Physics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "b95be3c7-e8ad-554a-8d0b-96bbe07f028c",
+    "course_code": "CRS-000069",
+    "name": "Physics Foundation & Applied Topics 9",
+    "department": "Physics",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "ed7ecb52-9418-56e5-8653-0ea083d1ac4e",
+    "course_code": "CRS-000070",
+    "name": "Physics Foundation & Applied Topics 10",
+    "department": "Physics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "58545143-2654-5228-a6a6-b4a491e07ebe",
+    "course_code": "CRS-000071",
+    "name": "Physics Foundation & Applied Topics 11",
+    "department": "Physics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "227b936d-0e75-5660-bf8a-dde6ca2c8cf4",
+    "course_code": "CRS-000072",
+    "name": "Physics Foundation & Applied Topics 12",
+    "department": "Physics",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "1074b5d3-dfe2-51e7-92e7-74c35ecf5fe4",
+    "course_code": "CRS-000073",
+    "name": "Physics Foundation & Applied Topics 13",
+    "department": "Physics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "825470e5-90f1-53fd-b01c-9967eba23160",
+    "course_code": "CRS-000074",
+    "name": "Physics Foundation & Applied Topics 14",
+    "department": "Physics",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "55ac4298-f1b1-56bd-9f66-f19a8559a9e3",
+    "course_code": "CRS-000075",
+    "name": "Physics Foundation & Applied Topics 15",
+    "department": "Physics",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "2e2ebce3-f761-5bc4-b6fd-75c5d3805b56",
+    "course_code": "CRS-000076",
+    "name": "Chemistry Foundation & Applied Topics 1",
+    "department": "Chemistry",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "081520fe-88a8-5867-892c-705738b0990f",
+    "course_code": "CRS-000077",
+    "name": "Chemistry Foundation & Applied Topics 2",
+    "department": "Chemistry",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "61cd25d4-b5bb-515d-bcfa-52b5de5d4d0c",
+    "course_code": "CRS-000078",
+    "name": "Chemistry Foundation & Applied Topics 3",
+    "department": "Chemistry",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "ac1cb3bb-7f27-57a6-a2bc-6d0522f3e01f",
+    "course_code": "CRS-000079",
+    "name": "Chemistry Foundation & Applied Topics 4",
+    "department": "Chemistry",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "8ad736c0-d60d-598e-a0d2-98a37a799e05",
+    "course_code": "CRS-000080",
+    "name": "Chemistry Foundation & Applied Topics 5",
+    "department": "Chemistry",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "536ec00a-5c88-5619-a4e1-351a6c781dd8",
+    "course_code": "CRS-000081",
+    "name": "Chemistry Foundation & Applied Topics 6",
+    "department": "Chemistry",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "e2e8676b-7526-5c00-862d-84f60533572e",
+    "course_code": "CRS-000082",
+    "name": "Chemistry Foundation & Applied Topics 7",
+    "department": "Chemistry",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "d91b2bde-04ac-5b59-a14c-43604d696ad8",
+    "course_code": "CRS-000083",
+    "name": "Chemistry Foundation & Applied Topics 8",
+    "department": "Chemistry",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "f3963bd7-8102-56fb-94a4-83854d186c4f",
+    "course_code": "CRS-000084",
+    "name": "Chemistry Foundation & Applied Topics 9",
+    "department": "Chemistry",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "d117706e-e4c6-5052-961c-985d7b783f4d",
+    "course_code": "CRS-000085",
+    "name": "Chemistry Foundation & Applied Topics 10",
+    "department": "Chemistry",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "308fd19a-9bc8-5b1c-a96c-14bebfb6e190",
+    "course_code": "CRS-000086",
+    "name": "Chemistry Foundation & Applied Topics 11",
+    "department": "Chemistry",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "adf804af-5c30-59da-bb98-450357008c8e",
+    "course_code": "CRS-000087",
+    "name": "Chemistry Foundation & Applied Topics 12",
+    "department": "Chemistry",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "2a8d9b11-3057-5a23-9cc4-b18910f37013",
+    "course_code": "CRS-000088",
+    "name": "Chemistry Foundation & Applied Topics 13",
+    "department": "Chemistry",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "03a782fa-fb59-59cb-b83c-503e87b7fe2a",
+    "course_code": "CRS-000089",
+    "name": "Chemistry Foundation & Applied Topics 14",
+    "department": "Chemistry",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "b6549791-be13-5a29-90db-e5b8bb4143c8",
+    "course_code": "CRS-000090",
+    "name": "Chemistry Foundation & Applied Topics 15",
+    "department": "Chemistry",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "77c1cd07-22e4-5e2d-bf7a-77be4e741bf0",
+    "course_code": "CRS-000091",
+    "name": "Biological Sciences Foundation & Applied Topics 1",
+    "department": "Biological Sciences",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "56807c46-1fba-583a-84b0-a88c33ae7375",
+    "course_code": "CRS-000092",
+    "name": "Biological Sciences Foundation & Applied Topics 2",
+    "department": "Biological Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "dc9b061f-b792-5c23-82f0-e0b052fbae28",
+    "course_code": "CRS-000093",
+    "name": "Biological Sciences Foundation & Applied Topics 3",
+    "department": "Biological Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "eb1a723e-1094-5917-91cd-370885825f55",
+    "course_code": "CRS-000094",
+    "name": "Biological Sciences Foundation & Applied Topics 4",
+    "department": "Biological Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "9f043505-d900-5813-861e-793d19a5dbba",
+    "course_code": "CRS-000095",
+    "name": "Biological Sciences Foundation & Applied Topics 5",
+    "department": "Biological Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "f018d0fc-22ed-53bf-999a-f40b6c28b764",
+    "course_code": "CRS-000096",
+    "name": "Biological Sciences Foundation & Applied Topics 6",
+    "department": "Biological Sciences",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0c44c9b4-e94f-5616-89e9-e074debd088f",
+    "course_code": "CRS-000097",
+    "name": "Biological Sciences Foundation & Applied Topics 7",
+    "department": "Biological Sciences",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "45be5e90-2221-548f-bc6b-0b92613367e3",
+    "course_code": "CRS-000098",
+    "name": "Biological Sciences Foundation & Applied Topics 8",
+    "department": "Biological Sciences",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "fffac953-4104-5149-810c-c1ad54bc7ed8",
+    "course_code": "CRS-000099",
+    "name": "Biological Sciences Foundation & Applied Topics 9",
+    "department": "Biological Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "311c4034-f522-5f67-b85c-c0798e6c9d87",
+    "course_code": "CRS-000100",
+    "name": "Biological Sciences Foundation & Applied Topics 10",
+    "department": "Biological Sciences",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c88103cd-1b01-5484-b24b-9dc4a7b97877",
+    "course_code": "CRS-000101",
+    "name": "Biological Sciences Foundation & Applied Topics 11",
+    "department": "Biological Sciences",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "43f66d7a-d841-588e-8f5f-f24f563c22f6",
+    "course_code": "CRS-000102",
+    "name": "Biological Sciences Foundation & Applied Topics 12",
+    "department": "Biological Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "9f503d49-0cfa-531e-8542-49a0e4add548",
+    "course_code": "CRS-000103",
+    "name": "Biological Sciences Foundation & Applied Topics 13",
+    "department": "Biological Sciences",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "f2e43652-aa68-553b-8219-8e448d7c967d",
+    "course_code": "CRS-000104",
+    "name": "Biological Sciences Foundation & Applied Topics 14",
+    "department": "Biological Sciences",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "e46efc25-b29f-548e-80d7-bc8c9e3030df",
+    "course_code": "CRS-000105",
+    "name": "Biological Sciences Foundation & Applied Topics 15",
+    "department": "Biological Sciences",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "32d4daa8-2599-5ea3-960a-58167e5ea647",
+    "course_code": "CRS-000106",
+    "name": "Economics & Finance Foundation & Applied Topics 1",
+    "department": "Economics & Finance",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "8cd11a36-f430-52e8-b1ea-e5901b9b0f99",
+    "course_code": "CRS-000107",
+    "name": "Economics & Finance Foundation & Applied Topics 2",
+    "department": "Economics & Finance",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "38a86c63-7201-5b4d-8139-a61cbf5d5476",
+    "course_code": "CRS-000108",
+    "name": "Economics & Finance Foundation & Applied Topics 3",
+    "department": "Economics & Finance",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "ba7e52a7-a614-50af-b28a-5231fd699d89",
+    "course_code": "CRS-000109",
+    "name": "Economics & Finance Foundation & Applied Topics 4",
+    "department": "Economics & Finance",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "8fd918bb-97cb-5b97-868a-8f5b0f8c537b",
+    "course_code": "CRS-000110",
+    "name": "Economics & Finance Foundation & Applied Topics 5",
+    "department": "Economics & Finance",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "e399d0ef-ac7e-58dd-ae83-54fe28277f7a",
+    "course_code": "CRS-000111",
+    "name": "Economics & Finance Foundation & Applied Topics 6",
+    "department": "Economics & Finance",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "83d5f40e-e591-5dcd-847a-60ef9f260e75",
+    "course_code": "CRS-000112",
+    "name": "Economics & Finance Foundation & Applied Topics 7",
+    "department": "Economics & Finance",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "f08f676e-a3bd-51cd-afa9-cbcb701d5108",
+    "course_code": "CRS-000113",
+    "name": "Economics & Finance Foundation & Applied Topics 8",
+    "department": "Economics & Finance",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "2ba05c66-3b5e-5ada-a618-af7a01eb1005",
+    "course_code": "CRS-000114",
+    "name": "Economics & Finance Foundation & Applied Topics 9",
+    "department": "Economics & Finance",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "f87316be-bf22-58a8-8d31-f084d9c81323",
+    "course_code": "CRS-000115",
+    "name": "Economics & Finance Foundation & Applied Topics 10",
+    "department": "Economics & Finance",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "1fe13230-d635-5312-9cf7-c5f9c8efe3e0",
+    "course_code": "CRS-000116",
+    "name": "Economics & Finance Foundation & Applied Topics 11",
+    "department": "Economics & Finance",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "d5b0a9ac-f244-5ec6-921d-a9a38dc830de",
+    "course_code": "CRS-000117",
+    "name": "Economics & Finance Foundation & Applied Topics 12",
+    "department": "Economics & Finance",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0d87fcdf-e0e7-5a5f-9744-b78364e4a778",
+    "course_code": "CRS-000118",
+    "name": "Economics & Finance Foundation & Applied Topics 13",
+    "department": "Economics & Finance",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "5da3224f-c25e-538a-b888-32e4bcc0cfb2",
+    "course_code": "CRS-000119",
+    "name": "Economics & Finance Foundation & Applied Topics 14",
+    "department": "Economics & Finance",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0bde00a4-feed-5b89-ac9d-6c990c02eaf6",
+    "course_code": "CRS-000120",
+    "name": "Economics & Finance Foundation & Applied Topics 15",
+    "department": "Economics & Finance",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "546563dc-85c6-545a-9224-9bdf977f04c1",
+    "course_code": "CRS-000121",
+    "name": "Business Administration Foundation & Applied Topics 1",
+    "department": "Business Administration",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "ad8ca45f-525b-59aa-b85f-263722cd4d74",
+    "course_code": "CRS-000122",
+    "name": "Business Administration Foundation & Applied Topics 2",
+    "department": "Business Administration",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "215e5394-2bc7-5f40-a2d7-2c33215e47fa",
+    "course_code": "CRS-000123",
+    "name": "Business Administration Foundation & Applied Topics 3",
+    "department": "Business Administration",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "5557dfa1-50e1-539b-99ac-94493544c328",
+    "course_code": "CRS-000124",
+    "name": "Business Administration Foundation & Applied Topics 4",
+    "department": "Business Administration",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "be6af672-c560-54db-9261-9fda29e842a0",
+    "course_code": "CRS-000125",
+    "name": "Business Administration Foundation & Applied Topics 5",
+    "department": "Business Administration",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "af7af9ce-05fa-5fbe-ac83-af1d60bd96b3",
+    "course_code": "CRS-000126",
+    "name": "Business Administration Foundation & Applied Topics 6",
+    "department": "Business Administration",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "525af3df-580c-59f8-a594-5310c4af64ac",
+    "course_code": "CRS-000127",
+    "name": "Business Administration Foundation & Applied Topics 7",
+    "department": "Business Administration",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "d68f6852-d28a-5365-a677-1e0d0ef0e71b",
+    "course_code": "CRS-000128",
+    "name": "Business Administration Foundation & Applied Topics 8",
+    "department": "Business Administration",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0e4537af-22c1-581d-a961-732c54eec3f7",
+    "course_code": "CRS-000129",
+    "name": "Business Administration Foundation & Applied Topics 9",
+    "department": "Business Administration",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c118dd03-a8cd-5bc8-afca-f901eeb450ed",
+    "course_code": "CRS-000130",
+    "name": "Business Administration Foundation & Applied Topics 10",
+    "department": "Business Administration",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "6cbc640f-3933-5465-88b7-749a7bc5b911",
+    "course_code": "CRS-000131",
+    "name": "Business Administration Foundation & Applied Topics 11",
+    "department": "Business Administration",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "afd891cf-661a-526c-8a28-9f49cfd3dda9",
+    "course_code": "CRS-000132",
+    "name": "Business Administration Foundation & Applied Topics 12",
+    "department": "Business Administration",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "615fa5a3-fc52-5527-aa2a-8f7115ab718b",
+    "course_code": "CRS-000133",
+    "name": "Business Administration Foundation & Applied Topics 13",
+    "department": "Business Administration",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c71e7ba1-ac70-5568-9054-cdfdc60d5065",
+    "course_code": "CRS-000134",
+    "name": "Business Administration Foundation & Applied Topics 14",
+    "department": "Business Administration",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "28601275-0c3d-5967-8a1a-f48728729fc5",
+    "course_code": "CRS-000135",
+    "name": "Business Administration Foundation & Applied Topics 15",
+    "department": "Business Administration",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "618deb5a-09e8-5e4f-b0a2-976d777d802a",
+    "course_code": "CRS-000136",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 1",
+    "department": "Humanities & Social Sciences",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "4d216dcb-e8b5-5a65-b7f8-c3ac716197ef",
+    "course_code": "CRS-000137",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 2",
+    "department": "Humanities & Social Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "1582fd9b-2cfb-5a4c-af3f-bba93c074683",
+    "course_code": "CRS-000138",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 3",
+    "department": "Humanities & Social Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "99e4fd9d-5879-5689-bbbd-fd9f313c2f17",
+    "course_code": "CRS-000139",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 4",
+    "department": "Humanities & Social Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "694ab9f4-f057-52dd-aafd-dfb6c8a56391",
+    "course_code": "CRS-000140",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 5",
+    "department": "Humanities & Social Sciences",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "45656881-7813-5686-8953-8825f4493d0b",
+    "course_code": "CRS-000141",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 6",
+    "department": "Humanities & Social Sciences",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "e935c168-b938-5356-a893-f25687a63092",
+    "course_code": "CRS-000142",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 7",
+    "department": "Humanities & Social Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "5fe70632-ff0c-5dea-947d-3aae2303bb0a",
+    "course_code": "CRS-000143",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 8",
+    "department": "Humanities & Social Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "aa173e10-6ce0-50af-a544-9aec53494383",
+    "course_code": "CRS-000144",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 9",
+    "department": "Humanities & Social Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "5beaf5c0-2d69-53df-a149-40fbaecd721a",
+    "course_code": "CRS-000145",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 10",
+    "department": "Humanities & Social Sciences",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "8cb9ede3-2183-5625-b18d-0ca0b59a504f",
+    "course_code": "CRS-000146",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 11",
+    "department": "Humanities & Social Sciences",
+    "credits": 5,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "fb8877df-037e-5854-bd1d-2124327b6a32",
+    "course_code": "CRS-000147",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 12",
+    "department": "Humanities & Social Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "9b682dad-22de-5d9d-8bf9-682c1e1944ad",
+    "course_code": "CRS-000148",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 13",
+    "department": "Humanities & Social Sciences",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "779da1a4-1de8-5744-a4a4-f31a6863c74a",
+    "course_code": "CRS-000149",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 14",
+    "department": "Humanities & Social Sciences",
+    "credits": 4,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "4ccc081f-58d4-5906-a78b-9434c54776c8",
+    "course_code": "CRS-000150",
+    "name": "Humanities & Social Sciences Foundation & Applied Topics 15",
+    "department": "Humanities & Social Sciences",
+    "credits": 3,
+    "academic_period_id": "11111111-1111-1111-1111-111111111111",
+    "status": "ACTIVE"
+  }
+]

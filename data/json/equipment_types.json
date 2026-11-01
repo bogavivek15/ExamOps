@@ -1,0 +1,32 @@
+[
+  {
+    "id": "a9404a40-029d-5998-906e-5b61291071a7",
+    "code": "PROJECTOR",
+    "name": "High-Definition Ceiling Projector",
+    "category": "AV"
+  },
+  {
+    "id": "0025fa8e-b756-5d08-b0e5-76fdc5dc3d53",
+    "code": "COMPUTING_LAB",
+    "name": "Standard PC Lab Workstations",
+    "category": "COMPUTING"
+  },
+  {
+    "id": "957bf6fa-e9cc-587e-94cb-c18a05d06a8a",
+    "code": "ACCESSIBLE_DESK",
+    "name": "Height-Adjustable Accessible Examination Desk",
+    "category": "ACCESSIBILITY"
+  },
+  {
+    "id": "81c2dddc-3ffd-550b-b91d-b44224c0f613",
+    "code": "AUDIO_SYSTEM",
+    "name": "Voice Amplification Sound System",
+    "category": "AV"
+  },
+  {
+    "id": "d87da89a-435d-5d3d-b47a-067210343428",
+    "code": "LAB_MICROSCOPE",
+    "name": "Digital Inspection Microscope",
+    "category": "LABORATORY"
+  }
+]

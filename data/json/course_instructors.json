@@ -1,0 +1,902 @@
+[
+  {
+    "id": "379f4f2f-1e80-53f8-8b42-fe1d7818477b",
+    "course_id": "065a79b5-d21a-5ec8-8cfd-88f38452d274",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "a772dee3-e404-5ab6-9511-0ebcfb8dcb96",
+    "course_id": "394b1035-e509-5659-81e1-7f6da0123f79",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "cb9c92eb-dcb9-5595-9cd0-8c7a22e531a4",
+    "course_id": "92afd497-7d2c-5e5b-9819-bed4bc731824",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "815cd1a9-1361-58d3-af2b-c6aa3c49a7c1",
+    "course_id": "1924a428-23c0-5207-9891-8ddab2ad4a70",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "7cf554f4-9f2e-5510-a498-dbf5fd405b7f",
+    "course_id": "1d7c4852-83db-5a8c-8d46-8eaa0e7c0916",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "844e330e-b51b-5eae-ad36-397eb6e45219",
+    "course_id": "a5b568f6-483d-5ff2-b733-9e56d90dc24d",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "b1cdc363-33eb-5e53-8475-7bb29b6dcb3e",
+    "course_id": "0da025c6-1e22-57ea-8c44-905c020c16a2",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "0c067998-bf3a-5068-829c-447a5fa0200b",
+    "course_id": "0478f796-ffbb-5ee9-8bd0-2af567243f7e",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "fef176be-0b2b-5e9c-96a6-3431b9015ee5",
+    "course_id": "4bae5058-5820-5c1e-b338-0d3afd5ea3b4",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "eca5771f-e2b7-5aad-9a97-ac09ab901e51",
+    "course_id": "5e419eb0-6250-5910-a6c1-a3a4572ec875",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "367edeff-5a56-5c7e-9502-81ba7c20c3f5",
+    "course_id": "50cfe515-e579-5107-8594-cd796402ce9a",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "bead99c4-15af-52f2-8912-f31484fe1ca3",
+    "course_id": "d837a46b-fb5e-500b-b403-0f80503e665d",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "c73d8ba7-0563-5f88-bec7-cd4c04f68029",
+    "course_id": "a97b2d63-6ebc-5f53-8f65-07cf5483b639",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "32a4c90e-9701-557d-bc42-5baad5b21b60",
+    "course_id": "65f9fc92-b5cd-5438-a9c9-da263b356f5b",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "82e23c8d-75c4-5231-a725-aedf1e9ab203",
+    "course_id": "2b1ff743-c848-54d3-8b25-37f0d7121792",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "522b466e-e9dd-59f9-bfb0-3493555c0991",
+    "course_id": "57f52e0c-5463-52e8-9903-c383a007d33f",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "d7d8b07a-bcd7-542d-a385-cd69d5fc8367",
+    "course_id": "3231885b-16c6-5cd0-b64b-fe377197e341",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "582141c6-3e9c-5548-8b8e-8ef6b62f93f7",
+    "course_id": "89ddb105-1582-510f-acb2-ab4ae66bc775",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "d9cfdcfb-d1f9-542b-96a3-7cac5c752b5b",
+    "course_id": "181dcfa3-c4ce-5070-b7b4-85aad53c9140",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "39faa373-ec23-5d39-8da8-d6d11f3c26e7",
+    "course_id": "298c02ac-69cb-5713-a2c5-d7b0c3dcf19d",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "663f6b5a-ceed-540d-bb7c-34b5744f5cf8",
+    "course_id": "7cbe69c9-5357-5ed0-982c-e559ad09f05c",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "e32b37b0-cbec-5bc2-a527-5dc2d20654c0",
+    "course_id": "722bc840-b635-56c3-9e9c-80d141ae6a4a",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "dbdf9ebc-6c01-534a-9a02-901d6f211559",
+    "course_id": "b4a9a49b-9bcc-5b3f-9e3f-10318e91c67a",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "f7b33448-3ad6-5e9c-9d1a-0f0c1e3a70ba",
+    "course_id": "a6600eba-556c-52c1-958b-68dc5a6f0c35",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "9216da32-e0ca-5913-81f1-a4d865de5832",
+    "course_id": "7c82fe33-9dcd-5099-ade8-0aea319aea93",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "e40a8730-f7ce-5a67-aeb9-acc489b370d1",
+    "course_id": "9d3065d1-2273-551f-b25f-fe5cebca2737",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "50d4babc-d0a9-5851-a16f-ed0e6126c8f2",
+    "course_id": "c99e0e9c-edbd-5f19-a120-c4280fb42d35",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "3690bb4b-f18d-54bb-b6a8-08178ded1eb6",
+    "course_id": "0e732df9-656c-5953-89d5-89a400123fb3",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "b4caeb5f-7b5e-5a95-8e85-949ab7a1db03",
+    "course_id": "e20ae64b-4bb7-55e9-8813-03b23863efdf",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "71c8b23a-efb9-5864-b211-2bdc5dfac6ff",
+    "course_id": "da0610f4-0ecc-5549-bb65-96a3ad55bce0",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "0928d695-5680-577d-8354-622c40e950e0",
+    "course_id": "55e0959e-0c18-511e-a787-7510f71d6f25",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "47002b6b-7d47-59b3-a264-5af3c6a488bf",
+    "course_id": "cceed700-1eb5-5b5d-8c34-95ec26d27488",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "c1c46c2d-2be4-5f52-9460-be5ecd7ad1c4",
+    "course_id": "5d39f5f0-e706-5e3f-bcd5-a2911ed73de8",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "e7de4d16-7c0a-5a6d-b8dd-7e3ad881a5b0",
+    "course_id": "869b42dd-c8a0-52e7-b095-20f41195edd8",
+    "instructor_profile_id": "830d2f35-a2ab-5bb3-9347-427a064e99db",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "542100c2-048b-5481-a97a-12e0bbe9550d",
+    "course_id": "421bc338-40fc-505a-b4e3-cd92b7d56597",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "a5bca872-332a-5e9e-850b-0f177c7b6ff2",
+    "course_id": "743a1509-d490-57a0-a0d5-2cd6b00f01aa",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "f769c95a-488c-5eec-a932-6acd13315c0a",
+    "course_id": "18f3b9e1-05b4-5056-b2d9-32e5687d1569",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "e441ef09-7c3d-53b4-9082-b128cb450dc4",
+    "course_id": "8bd3fec8-8fe8-5ed3-b879-29033e40bda4",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "80b44eef-6133-5356-8820-de14251c3514",
+    "course_id": "db00d8a1-f3c6-50ea-ac62-d077067ec845",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "7dfb3ee0-ae24-5435-adfe-b406da746960",
+    "course_id": "b8f59469-a2af-59f2-aefc-71316d335cb1",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "b1d6ac2d-8180-50db-9ba4-785fcff464ef",
+    "course_id": "ce5bb40f-abac-5ef4-aa4a-3fa3018d7a43",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "f879ac04-512e-51b5-98ce-e13d8d927ab2",
+    "course_id": "056b8cbe-36fc-53ac-a096-b6e9d3ad3713",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "58b951b6-5291-567b-b323-3eb78705d203",
+    "course_id": "d4860c01-881d-5496-a21b-db9aabdcd6db",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "a1ce5670-df12-5b1a-ae06-328ba1685de3",
+    "course_id": "8a1ca77f-875b-5f51-9be8-ce16493d07ca",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "d142972f-a4b1-5d56-963f-df65f54119c7",
+    "course_id": "326fd487-a577-5afa-8ff9-4f85bf6673a7",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "bb145c8a-f2c1-56f6-917b-66a38adae0a1",
+    "course_id": "2b74f7c6-5c2f-53d5-a79a-9369d2094b9e",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "7c196d44-f711-5990-b316-3068fb8dfd22",
+    "course_id": "e10f5d42-231a-5126-be4d-3f89c0d58b2b",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "6d49ab09-77bd-5ee0-9059-9f119e3ac193",
+    "course_id": "a7f85a07-4f75-5c01-bff6-4f5ffc5a9bcd",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "918dce54-6772-559b-a69f-754e5cec6490",
+    "course_id": "94c59fe8-dd50-5373-92cc-f9d8875b9068",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "519b916a-1941-5364-bd83-a7299b038917",
+    "course_id": "1b69d918-9ea7-5510-9d1f-18f61ebf3367",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "bd3db4fd-e81b-5763-a866-7050969896ac",
+    "course_id": "0be1634d-ce7c-5e5c-9d5c-707aec5b4ec0",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "99de885f-d084-5cd5-856e-7dfbd27351a7",
+    "course_id": "c3ebab2a-74ed-5cbe-9b0b-6960644ac7e2",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "b3cc9993-7442-548f-9143-9b4ccf7e5e4c",
+    "course_id": "40f3ab60-90c4-57fa-bdda-bb96f67a8290",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "1cf1efdd-f6b2-51c1-a754-480488e8df34",
+    "course_id": "f5acbce2-062e-5521-bb7c-9b45d455a55e",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "1882a20f-37f4-51f4-a959-d27853e1242c",
+    "course_id": "de4f7e5e-2bf0-5d1e-bba1-3405d9bcc6a2",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "5f5d292a-2d97-531a-a213-2548c4848b96",
+    "course_id": "fc8bf89f-27b0-580f-a7ac-2bf67dffb37c",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "59aed214-8f59-521b-a7a8-0ffa71d1a531",
+    "course_id": "202e63b7-2193-530f-aae0-996e795e1933",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "d03a6da5-0ce3-5ab1-882e-b575b6164eca",
+    "course_id": "daaa873e-e56a-50fa-a7a0-1620b10d3ba3",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "e3317bbb-f9b9-50da-a6fb-3d9e70bde8af",
+    "course_id": "c17e731a-6880-5ed5-b078-b014bf2dfe01",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "0bf57492-7ef7-5695-af1e-abffa0fd81c5",
+    "course_id": "780aae5b-bdcf-5a5f-8d56-8af5daaf17d2",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "df54c0ea-2fd3-5e96-8a41-62108c7ae8cc",
+    "course_id": "f0f096af-3c72-51a5-bfaa-9b0ce781ae4f",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "6b3a98bf-fb6c-5db3-9fc1-970b77213aed",
+    "course_id": "fa36d0f3-da3b-53f7-b018-f2caa7310e40",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "2e833b82-7fa5-5d53-9df6-5cf56e926c74",
+    "course_id": "e6cd0d3e-8dab-592a-bf23-1f3b9a1a3380",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "0d2f1477-c378-5e17-86ff-aec33e3e87e0",
+    "course_id": "0962640d-8e14-5713-a7ea-19c2e4bc98e3",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "a09ed85e-d1c9-530d-bce9-0ae328905c34",
+    "course_id": "1b4350ad-b20a-5444-bf32-47b828d79cec",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "2c10fade-e0f4-52e9-afdf-2c6a326170bd",
+    "course_id": "c48b357c-cbb7-5f2d-9f5f-4631f8c754b3",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "743b616b-fb15-5bf8-9518-6c9e60564034",
+    "course_id": "d3e9a617-5598-5157-96e9-439f7a75cf36",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "ec810266-f9f8-57a2-8038-b658e7fd9acc",
+    "course_id": "361ca025-f97b-555f-8e0f-405c67e25c12",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "7c29a05d-cae6-55b8-abfd-839d11d05114",
+    "course_id": "b95be3c7-e8ad-554a-8d0b-96bbe07f028c",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "1e6add84-3ac9-510f-8669-d21f2d1b596c",
+    "course_id": "ed7ecb52-9418-56e5-8653-0ea083d1ac4e",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "34cad588-367c-5063-8bd5-793d6458474c",
+    "course_id": "58545143-2654-5228-a6a6-b4a491e07ebe",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "9414edeb-c88c-5b62-b6e9-ccfb1c300b4e",
+    "course_id": "227b936d-0e75-5660-bf8a-dde6ca2c8cf4",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "80a01ca7-01ae-556b-b66c-57fead2817cb",
+    "course_id": "1074b5d3-dfe2-51e7-92e7-74c35ecf5fe4",
+    "instructor_profile_id": "830d2f35-a2ab-5bb3-9347-427a064e99db",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "aad09833-6582-5377-9494-050219da91b1",
+    "course_id": "825470e5-90f1-53fd-b01c-9967eba23160",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "787bac29-5a9f-5a22-9c89-66292f192014",
+    "course_id": "55ac4298-f1b1-56bd-9f66-f19a8559a9e3",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "1360573b-6f3d-515b-a80a-01a0ca645385",
+    "course_id": "2e2ebce3-f761-5bc4-b6fd-75c5d3805b56",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "65cfb27d-c030-599c-a7f5-71a9228e191e",
+    "course_id": "081520fe-88a8-5867-892c-705738b0990f",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "1ef31597-3e19-59b7-814e-6f68b3e3d5df",
+    "course_id": "61cd25d4-b5bb-515d-bcfa-52b5de5d4d0c",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "c05156b2-2724-50ca-9d19-1ce35fe39c6b",
+    "course_id": "ac1cb3bb-7f27-57a6-a2bc-6d0522f3e01f",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "014e5db4-c7fc-58d5-961e-260fa7e28ffb",
+    "course_id": "8ad736c0-d60d-598e-a0d2-98a37a799e05",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "3713aa95-223d-5a5e-a028-8512d4cdd966",
+    "course_id": "536ec00a-5c88-5619-a4e1-351a6c781dd8",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "d4a1df0d-a270-513b-ad91-93ed610d13cb",
+    "course_id": "e2e8676b-7526-5c00-862d-84f60533572e",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "851d9847-d3ff-5a67-a2bd-a78436003aa5",
+    "course_id": "d91b2bde-04ac-5b59-a14c-43604d696ad8",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "dd718ec5-286b-5aad-8ebd-39447f50845e",
+    "course_id": "f3963bd7-8102-56fb-94a4-83854d186c4f",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "df2c9638-66da-5c62-b5ff-e8aafa98f2ee",
+    "course_id": "d117706e-e4c6-5052-961c-985d7b783f4d",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "e72bd863-3c83-54c8-955e-7e963d437c4b",
+    "course_id": "308fd19a-9bc8-5b1c-a96c-14bebfb6e190",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "e96c697a-37eb-58b5-8a6f-a8ca5dc373f8",
+    "course_id": "adf804af-5c30-59da-bb98-450357008c8e",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "5b46ae15-a926-5959-9100-0c734f6fd99b",
+    "course_id": "2a8d9b11-3057-5a23-9cc4-b18910f37013",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "2d0a0619-5184-5eb0-b643-3ac2b8055b85",
+    "course_id": "03a782fa-fb59-59cb-b83c-503e87b7fe2a",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "0eebde71-8cc3-54aa-8737-cfdf22b75ec5",
+    "course_id": "b6549791-be13-5a29-90db-e5b8bb4143c8",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "4bdb3f84-34b7-50fc-82d3-d3f30157f264",
+    "course_id": "77c1cd07-22e4-5e2d-bf7a-77be4e741bf0",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "d228ff9a-2ee6-5a7b-a002-d765b0997e8f",
+    "course_id": "56807c46-1fba-583a-84b0-a88c33ae7375",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "cc274057-58eb-59ac-a088-885d6a301cd7",
+    "course_id": "dc9b061f-b792-5c23-82f0-e0b052fbae28",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "ddafa612-21f4-51d8-ad64-2be4af3b235c",
+    "course_id": "eb1a723e-1094-5917-91cd-370885825f55",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "30de8f45-6d4b-529f-a083-e894dc563e63",
+    "course_id": "9f043505-d900-5813-861e-793d19a5dbba",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "3a08cdb1-0134-59f9-89c9-a8ef94bc7d33",
+    "course_id": "f018d0fc-22ed-53bf-999a-f40b6c28b764",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "623925c8-0140-59c9-9635-aaee42438814",
+    "course_id": "0c44c9b4-e94f-5616-89e9-e074debd088f",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "404bb261-715d-5c18-acb3-a748c78e379b",
+    "course_id": "45be5e90-2221-548f-bc6b-0b92613367e3",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "7652850f-2d4a-5862-8e3b-476ac438fd7a",
+    "course_id": "fffac953-4104-5149-810c-c1ad54bc7ed8",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "64286e78-7a18-5035-8d9f-54cd5bf632e0",
+    "course_id": "311c4034-f522-5f67-b85c-c0798e6c9d87",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "066d75dd-3a04-54a4-b17a-f626b94ca513",
+    "course_id": "c88103cd-1b01-5484-b24b-9dc4a7b97877",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "e4802be6-0d59-560e-a5f9-b0c8285777e7",
+    "course_id": "43f66d7a-d841-588e-8f5f-f24f563c22f6",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "a64ceedb-abcc-55cf-bdec-93ed039e50d9",
+    "course_id": "9f503d49-0cfa-531e-8542-49a0e4add548",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "10c93879-7e20-5c21-8f12-044c79b82750",
+    "course_id": "f2e43652-aa68-553b-8219-8e448d7c967d",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "a7d36ef8-78d8-5689-a4d6-69b347b443a8",
+    "course_id": "e46efc25-b29f-548e-80d7-bc8c9e3030df",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "0d61b73b-a6eb-5a5c-bc8b-a9f5f25c3a47",
+    "course_id": "32d4daa8-2599-5ea3-960a-58167e5ea647",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "30cad604-633e-5662-a81b-ef27e92283bb",
+    "course_id": "8cd11a36-f430-52e8-b1ea-e5901b9b0f99",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "6c8c0c26-5fa1-5715-90c0-ff1c854e49cf",
+    "course_id": "38a86c63-7201-5b4d-8139-a61cbf5d5476",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "f8e4c272-fdd1-587c-9ce1-f6d84cd85de0",
+    "course_id": "ba7e52a7-a614-50af-b28a-5231fd699d89",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "03014bcf-f5e8-575d-91e9-bc68f2d881bf",
+    "course_id": "8fd918bb-97cb-5b97-868a-8f5b0f8c537b",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "3ac68c9b-4bc7-5fd0-ab07-2ef5ac95f627",
+    "course_id": "e399d0ef-ac7e-58dd-ae83-54fe28277f7a",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "eaa18f5e-ed77-512c-9886-b7a6e6d33aa3",
+    "course_id": "83d5f40e-e591-5dcd-847a-60ef9f260e75",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "ec3039e7-a982-53e1-a3d5-216b43108a16",
+    "course_id": "f08f676e-a3bd-51cd-afa9-cbcb701d5108",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "948736d0-bd33-5be0-94b5-1f3718cced8d",
+    "course_id": "2ba05c66-3b5e-5ada-a618-af7a01eb1005",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "0d745181-8f34-5dfd-8135-1a128fa4d566",
+    "course_id": "f87316be-bf22-58a8-8d31-f084d9c81323",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "92c46fec-3156-5e86-9983-374f5fd1f7ab",
+    "course_id": "1fe13230-d635-5312-9cf7-c5f9c8efe3e0",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "6cfe2b97-dcdb-5d1f-8795-9fe51dd26afd",
+    "course_id": "d5b0a9ac-f244-5ec6-921d-a9a38dc830de",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "9c676401-ca84-597c-978d-474edf4b5eed",
+    "course_id": "0d87fcdf-e0e7-5a5f-9744-b78364e4a778",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "b7032ba4-bfc5-59c3-ad44-10575d78a8ec",
+    "course_id": "5da3224f-c25e-538a-b888-32e4bcc0cfb2",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "90de6c35-349e-5848-bf98-3ad2397bb62b",
+    "course_id": "0bde00a4-feed-5b89-ac9d-6c990c02eaf6",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "be9cb1b8-9a3a-5a13-b3b5-942f210f5459",
+    "course_id": "546563dc-85c6-545a-9224-9bdf977f04c1",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "96dc2d1a-ae70-5400-a24f-6e21c08e640e",
+    "course_id": "ad8ca45f-525b-59aa-b85f-263722cd4d74",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "4de2f40f-cc1e-54d7-8e53-fa6f905c1cbb",
+    "course_id": "215e5394-2bc7-5f40-a2d7-2c33215e47fa",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "88e2eefc-27a2-5379-a116-bcdf224e36cb",
+    "course_id": "5557dfa1-50e1-539b-99ac-94493544c328",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "f650ce24-2260-55b9-b330-490b893b8b19",
+    "course_id": "be6af672-c560-54db-9261-9fda29e842a0",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "910fc66f-1df1-565b-a93c-9363b94fef28",
+    "course_id": "af7af9ce-05fa-5fbe-ac83-af1d60bd96b3",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "957be754-41e8-5db3-af7a-8a93da33bfea",
+    "course_id": "525af3df-580c-59f8-a594-5310c4af64ac",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "ab295497-8e5d-5e92-b000-0c5a809af519",
+    "course_id": "d68f6852-d28a-5365-a677-1e0d0ef0e71b",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "6639f3b4-a48f-586a-ba4d-d8c47f99890d",
+    "course_id": "0e4537af-22c1-581d-a961-732c54eec3f7",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "eba06700-dfef-5fa7-8f4b-7a58ba42d73a",
+    "course_id": "c118dd03-a8cd-5bc8-afca-f901eeb450ed",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "12d329a4-16c0-5fc3-9ba3-1a2e3a6f9b4d",
+    "course_id": "6cbc640f-3933-5465-88b7-749a7bc5b911",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "7aee3159-71e5-5002-ac6f-debe3cf4d1fb",
+    "course_id": "afd891cf-661a-526c-8a28-9f49cfd3dda9",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "40e83f0b-c434-5619-8ad5-39bda0fb047a",
+    "course_id": "615fa5a3-fc52-5527-aa2a-8f7115ab718b",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "f56e0be3-de45-5b5c-9ce1-f15506019404",
+    "course_id": "c71e7ba1-ac70-5568-9054-cdfdc60d5065",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "6671ff97-a677-5d36-bb77-94dd06760dcc",
+    "course_id": "28601275-0c3d-5967-8a1a-f48728729fc5",
+    "instructor_profile_id": "830d2f35-a2ab-5bb3-9347-427a064e99db",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "9b5a48c8-b874-5755-beb6-571f92c5b3e3",
+    "course_id": "618deb5a-09e8-5e4f-b0a2-976d777d802a",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "f6e2136e-5c7c-5afe-b04d-05590752db07",
+    "course_id": "4d216dcb-e8b5-5a65-b7f8-c3ac716197ef",
+    "instructor_profile_id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "473ad8cb-b835-56f5-8193-bb7f51d512c2",
+    "course_id": "1582fd9b-2cfb-5a4c-af3f-bba93c074683",
+    "instructor_profile_id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "274e4756-cc6d-5946-ba22-16a1f714b91a",
+    "course_id": "99e4fd9d-5879-5689-bbbd-fd9f313c2f17",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "903fce70-be38-5a37-9d40-470dcd020f60",
+    "course_id": "694ab9f4-f057-52dd-aafd-dfb6c8a56391",
+    "instructor_profile_id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "ae231d53-599a-55b1-92b5-827f15a6bf0f",
+    "course_id": "45656881-7813-5686-8953-8825f4493d0b",
+    "instructor_profile_id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "33d42e9c-eb68-5b50-b301-9d985e1e9e7a",
+    "course_id": "e935c168-b938-5356-a893-f25687a63092",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "5f7041ff-5e1a-5a40-a433-2a0a3142ce61",
+    "course_id": "5fe70632-ff0c-5dea-947d-3aae2303bb0a",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "b2f380a6-937c-5dae-8c93-06fe2a25afcb",
+    "course_id": "aa173e10-6ce0-50af-a544-9aec53494383",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "e7cfcc89-38af-5d41-bc70-222742f6d885",
+    "course_id": "5beaf5c0-2d69-53df-a149-40fbaecd721a",
+    "instructor_profile_id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "87de75f8-406e-5a3f-bedb-dfea65463b52",
+    "course_id": "8cb9ede3-2183-5625-b18d-0ca0b59a504f",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "176e4bc5-d068-50e2-9769-d6d3af229565",
+    "course_id": "fb8877df-037e-5854-bd1d-2124327b6a32",
+    "instructor_profile_id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "0f029c6b-7411-5ea2-99a4-fed79ae6360a",
+    "course_id": "9b682dad-22de-5d9d-8bf9-682c1e1944ad",
+    "instructor_profile_id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "818da6bc-0994-5921-b0e8-530cc7adf214",
+    "course_id": "779da1a4-1de8-5744-a4a4-f31a6863c74a",
+    "instructor_profile_id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "role": "PRIMARY_INSTRUCTOR"
+  },
+  {
+    "id": "eba42a69-8722-535d-94d9-084a6f825f84",
+    "course_id": "4ccc081f-58d4-5906-a78b-9434c54776c8",
+    "instructor_profile_id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "role": "PRIMARY_INSTRUCTOR"
+  }
+]

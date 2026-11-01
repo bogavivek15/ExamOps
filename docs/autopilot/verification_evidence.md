@@ -102,3 +102,78 @@
     ==================================================================
     ```
 - **Exit Gate Status**: PASSED.
+
+---
+
+### Phase 2 Verifications: Synthetic Data Engineering
+
+#### Pass A: Design & Implementation Audit
+- **Reviewer Perspective**: Senior Data Engineer
+- **Audit Findings**:
+  - Deterministic generation with fixed seed `20261022`.
+  - Full volume baseline generated: exactly 5,000 students, 300 exams, 100 rooms, 200 invigilators.
+  - Topological hierarchy preserved: parent entities generated prior to dependent entities.
+  - Complete entity coverage: `students`, `courses`, `course_instructors`, `enrollments`, `exams`, `exam_requirements`, `rooms`, `room_capacities`, `equipment_types`, `room_equipment`, `room_availabilities`, `availabilities`, `accommodations`, `accommodation_notes`.
+  - Normalized database schemas respected: runtime derived fields (`enrolled_student_count`, room capacities) cleanly isolated to their dedicated normalized relational structures.
+  - The 5 negative scenarios generated with expected constraint breaches and reason codes, and persisted separately in `data/ground_truth.json` and `data/ground_truth.csv`.
+  - Formats exported: JSON (`data/json/`), CSV (`data/csv/`), SQL seed (`data/sql/seed_data.sql`), and cryptographic manifest (`data/manifest.json`).
+
+#### Pass B: Execution & Evidence Audit
+- **Reviewer Perspective**: Independent QA Engineer
+- **Command Executed**: `python scripts/test_synthetic_data.py`
+  - **Output Summary**:
+    ```
+    === Step 1: Testing Reproducibility across Independent Runs ===
+      ✓ academic_periods: 1 rows, SHA-256: 8d03b83421681cc2... (Reproducibility 100% MATCH)
+      ✓ students: 5000 rows, SHA-256: d445237657174558... (Reproducibility 100% MATCH)
+      ✓ invigilators: 200 rows, SHA-256: 5cb67fdb14e40669... (Reproducibility 100% MATCH)
+      ✓ user_profiles: 45 rows, SHA-256: 9e1f69860e854fa3... (Reproducibility 100% MATCH)
+      ✓ courses: 150 rows, SHA-256: 532825bb42c2c77a... (Reproducibility 100% MATCH)
+      ✓ course_instructors: 150 rows, SHA-256: 4163c874fee37de6... (Reproducibility 100% MATCH)
+      ✓ enrollments: 25044 rows, SHA-256: baf2ce8c46bbc343... (Reproducibility 100% MATCH)
+      ✓ exams: 300 rows, SHA-256: b6e9cbee7ff41035... (Reproducibility 100% MATCH)
+      ✓ exam_requirements: 107 rows, SHA-256: e17e335e144bdd01... (Reproducibility 100% MATCH)
+      ✓ rooms: 100 rows, SHA-256: 920b1054dd9b1028... (Reproducibility 100% MATCH)
+      ✓ room_capacities: 100 rows, SHA-256: a0996cde5a847f42... (Reproducibility 100% MATCH)
+      ✓ equipment_types: 5 rows, SHA-256: d6365995902d5a76... (Reproducibility 100% MATCH)
+      ✓ room_equipment: 136 rows, SHA-256: af44dcd7c7c8ab94... (Reproducibility 100% MATCH)
+      ✓ room_availabilities: 601 rows, SHA-256: 30701d86c4d408a2... (Reproducibility 100% MATCH)
+      ✓ availabilities: 1200 rows, SHA-256: 42216b26dff62f55... (Reproducibility 100% MATCH)
+      ✓ accommodations: 301 rows, SHA-256: 21c3ec7a93fd0fb9... (Reproducibility 100% MATCH)
+      ✓ accommodation_notes: 301 rows, SHA-256: 82fa16311f54cd5d... (Reproducibility 100% MATCH)
+      ✓ ground_truth: 5 negative fixtures MATCH.
+
+    === Step 2: In-Memory Referential Integrity Verification ===
+      ✓ All 25044 enrollments reference valid students and courses.
+      ✓ All 300 exams reference valid courses and academic periods.
+      ✓ All 107 requirements reference valid exams.
+      ✓ All room capacities and equipment reference valid rooms and equipment types.
+      ✓ All room and invigilator availabilities reference valid parents.
+      ✓ All accommodations and confidential notes reference valid parents.
+
+    === Step 3: Identifier Format Verification ===
+      ✓ All identifiers strictly conform to canonical uppercase padded syntax.
+
+    === Step 4: Loading SQL Seed into PostgreSQL & Reconciling Counts ===
+      ✓ academic_periods       | Source:      1 | DB:      1 | STATUS: RECONCILED
+      ✓ students               | Source:   5000 | DB:   5000 | STATUS: RECONCILED
+      ✓ invigilators           | Source:    200 | DB:    200 | STATUS: RECONCILED
+      ✓ user_profiles          | Source:     45 | DB:     45 | STATUS: RECONCILED
+      ✓ courses                | Source:    150 | DB:    150 | STATUS: RECONCILED
+      ✓ course_instructors     | Source:    150 | DB:    150 | STATUS: RECONCILED
+      ✓ enrollments            | Source:  25044 | DB:  25044 | STATUS: RECONCILED
+      ✓ exams                  | Source:    300 | DB:    300 | STATUS: RECONCILED
+      ✓ exam_requirements      | Source:    107 | DB:    107 | STATUS: RECONCILED
+      ✓ rooms                  | Source:    100 | DB:    100 | STATUS: RECONCILED
+      ✓ room_capacities        | Source:    100 | DB:    100 | STATUS: RECONCILED
+      ✓ equipment_types        | Source:      5 | DB:      5 | STATUS: RECONCILED
+      ✓ room_equipment         | Source:    136 | DB:    136 | STATUS: RECONCILED
+      ✓ room_availabilities    | Source:    601 | DB:    601 | STATUS: RECONCILED
+      ✓ availabilities         | Source:   1200 | DB:   1200 | STATUS: RECONCILED
+      ✓ accommodations         | Source:    301 | DB:    301 | STATUS: RECONCILED
+      ✓ accommodation_notes    | Source:    301 | DB:    301 | STATUS: RECONCILED
+    ==================================================================
+    ALL PHASE 2 SYNTHETIC DATA VERIFICATIONS PASSED SUCCESSFULLY!
+    ==================================================================
+    ```
+- **Exit Gate Status**: PASSED.

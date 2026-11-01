@@ -1,0 +1,902 @@
+[
+  {
+    "id": "70be8d24-b952-55b2-a676-c833ac6b9590",
+    "capacity_code": "CAP-000001",
+    "room_id": "1b902b80-79ae-58eb-9fd4-90d6ba099c87",
+    "standard_capacity": 124,
+    "exam_capacity": 73,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "ee28ec13-9597-5bb4-81dc-f55d4c59ca36",
+    "capacity_code": "CAP-000002",
+    "room_id": "4a0b67b5-ff77-5718-a924-595387899bc2",
+    "standard_capacity": 123,
+    "exam_capacity": 68,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "91797292-bfde-507b-8ebf-0eccbd84d8dd",
+    "capacity_code": "CAP-000003",
+    "room_id": "ac11eb25-686a-5db1-8708-e69ff5b8e2b3",
+    "standard_capacity": 200,
+    "exam_capacity": 123,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "a80d4cb1-fd99-5877-b902-12165ed4086d",
+    "capacity_code": "CAP-000004",
+    "room_id": "44dcfb01-2408-591a-a5de-1cc80a66d374",
+    "standard_capacity": 184,
+    "exam_capacity": 93,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "b4cb60e7-c585-50db-a420-e1821dcd660a",
+    "capacity_code": "CAP-000005",
+    "room_id": "ab0e4245-2c20-5643-998a-748f0c63fcdf",
+    "standard_capacity": 187,
+    "exam_capacity": 129,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "47505d2a-7fe2-5bb7-8fcd-a62b0f1ff812",
+    "capacity_code": "CAP-000006",
+    "room_id": "1c04edd9-9b00-511a-a515-0201719b5049",
+    "standard_capacity": 154,
+    "exam_capacity": 84,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "5704900c-3f78-58dd-8d71-1a4a305e21a8",
+    "capacity_code": "CAP-000007",
+    "room_id": "4ac215f2-49c5-5be6-9d59-8ffa943e65f3",
+    "standard_capacity": 177,
+    "exam_capacity": 101,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "8d47e98d-aeba-502d-bdcd-e67f515d0415",
+    "capacity_code": "CAP-000008",
+    "room_id": "e85e67d4-4d10-500e-a0ab-f6d6fae281da",
+    "standard_capacity": 167,
+    "exam_capacity": 93,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "e26d96f7-4910-5a41-a98d-cf2f8c876ab6",
+    "capacity_code": "CAP-000009",
+    "room_id": "d131597a-fa59-5459-95fe-d9e47370ae27",
+    "standard_capacity": 137,
+    "exam_capacity": 83,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "5505658e-f09a-5d8d-8061-8c19d89d6b8d",
+    "capacity_code": "CAP-000010",
+    "room_id": "cacc58d2-3225-5761-a2e2-7fb91b8a17ac",
+    "standard_capacity": 170,
+    "exam_capacity": 86,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "ee145287-7f27-5f09-9023-9942c72a20bb",
+    "capacity_code": "CAP-000011",
+    "room_id": "514e4db2-31f1-56ab-a83e-9a63f9c27f1e",
+    "standard_capacity": 199,
+    "exam_capacity": 117,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "8eeeb29c-4e44-5b72-8e51-45dc5fbd133a",
+    "capacity_code": "CAP-000012",
+    "room_id": "036c8876-0380-59d1-9462-8cd2c96667f0",
+    "standard_capacity": 129,
+    "exam_capacity": 78,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "93d6e909-40ac-5cbb-a94f-d99fd69d3420",
+    "capacity_code": "CAP-000013",
+    "room_id": "8a287dd2-6248-5fe6-af65-8b3100e234da",
+    "standard_capacity": 171,
+    "exam_capacity": 110,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "8acfed5c-5abf-5c5c-bf72-1cd95233349b",
+    "capacity_code": "CAP-000014",
+    "room_id": "e1126a16-9fc6-5b5a-bdae-3dd343ad4e01",
+    "standard_capacity": 122,
+    "exam_capacity": 69,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "29150bff-0341-5e1a-9400-2e6ef151e6e7",
+    "capacity_code": "CAP-000015",
+    "room_id": "a3c44fb9-24ce-58a1-8c9c-bdb66ac5afdf",
+    "standard_capacity": 191,
+    "exam_capacity": 99,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "a21013bf-696a-59b7-ac95-861cf247939e",
+    "capacity_code": "CAP-000016",
+    "room_id": "5aac6384-5f29-5df5-9a56-f4699551d48b",
+    "standard_capacity": 72,
+    "exam_capacity": 45,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "ffc25562-8927-59fd-a88d-ac91cf171be0",
+    "capacity_code": "CAP-000017",
+    "room_id": "9f89d8b1-599a-5d7b-b54f-dd18d9891a90",
+    "standard_capacity": 108,
+    "exam_capacity": 72,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "ffe4a8e8-dde8-5d8f-a861-000d5b9a3b4d",
+    "capacity_code": "CAP-000018",
+    "room_id": "a063dfa4-4aba-51eb-b9db-1f982d62e1f1",
+    "standard_capacity": 82,
+    "exam_capacity": 56,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "563c9db6-024c-5a6f-8996-43324b123df5",
+    "capacity_code": "CAP-000019",
+    "room_id": "4806cfba-75c3-55c7-adc3-939e2859fa87",
+    "standard_capacity": 93,
+    "exam_capacity": 47,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "b0c4f891-2b15-5b9d-88b1-c4ff5797406e",
+    "capacity_code": "CAP-000020",
+    "room_id": "62b447e4-2327-5649-b85d-01037388eb38",
+    "standard_capacity": 69,
+    "exam_capacity": 46,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "51dcada6-4f2f-5614-b5ed-c9889b98e9e4",
+    "capacity_code": "CAP-000021",
+    "room_id": "2e3a6c82-97e8-5e84-81bd-104e2edfe454",
+    "standard_capacity": 90,
+    "exam_capacity": 46,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "f09c9f9a-2c65-5c9c-ad2e-93eeae9a89ae",
+    "capacity_code": "CAP-000022",
+    "room_id": "251478e3-c4ad-562c-8146-d9a762044e95",
+    "standard_capacity": 107,
+    "exam_capacity": 56,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "2a63d8bc-4353-562d-8d2b-cfb2ccb424c3",
+    "capacity_code": "CAP-000023",
+    "room_id": "25e0d636-8491-5f8a-a8e9-005fe036116b",
+    "standard_capacity": 106,
+    "exam_capacity": 64,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "518859ee-9ff5-5b38-834f-3bd2838f513b",
+    "capacity_code": "CAP-000024",
+    "room_id": "c9d5a9da-c915-5a62-8e5c-e7ed12880741",
+    "standard_capacity": 85,
+    "exam_capacity": 54,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "e793180f-6c2f-5524-9a8a-b1ff0b7d9ecb",
+    "capacity_code": "CAP-000025",
+    "room_id": "021f6062-ad99-5eea-9c95-4819df73545b",
+    "standard_capacity": 93,
+    "exam_capacity": 54,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "6d282ea9-86e2-5a71-93d5-754c5371ad48",
+    "capacity_code": "CAP-000026",
+    "room_id": "991c4289-3ef8-5581-b679-86af9ca9a43a",
+    "standard_capacity": 72,
+    "exam_capacity": 36,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "abf563df-4f10-5557-a422-323e5dae71ab",
+    "capacity_code": "CAP-000027",
+    "room_id": "7216a507-ba52-500a-8b32-52428fa7c24f",
+    "standard_capacity": 60,
+    "exam_capacity": 30,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "4bc79ea5-bafc-51dc-97cd-f7780c64ee98",
+    "capacity_code": "CAP-000028",
+    "room_id": "b141a0a6-7c06-5ef2-ab2f-41a155550021",
+    "standard_capacity": 69,
+    "exam_capacity": 43,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "d121373e-4c41-5fba-bf9c-d5ae73d1ee49",
+    "capacity_code": "CAP-000029",
+    "room_id": "e8be9e30-ed98-5e4e-9451-f6bc4f234162",
+    "standard_capacity": 83,
+    "exam_capacity": 57,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "818ec293-70e2-521b-a8d2-033380653060",
+    "capacity_code": "CAP-000030",
+    "room_id": "2dc4496a-76ca-58bc-bbc7-d58fd1ee4f22",
+    "standard_capacity": 91,
+    "exam_capacity": 54,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "c4e43aee-b1c7-5ff9-b206-d16e3299183b",
+    "capacity_code": "CAP-000031",
+    "room_id": "6c93460c-92ed-5eca-b4e8-98b0ba8baf64",
+    "standard_capacity": 69,
+    "exam_capacity": 35,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "46bedb7b-231c-5efc-8605-0b72b9147e34",
+    "capacity_code": "CAP-000032",
+    "room_id": "63283e57-7e8e-565e-b185-1df13dd68f84",
+    "standard_capacity": 67,
+    "exam_capacity": 35,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "7ae6ae66-8b32-571a-8056-f890f52f1d9d",
+    "capacity_code": "CAP-000033",
+    "room_id": "c4f78997-71cf-5ac2-ab39-cfff8832e7ec",
+    "standard_capacity": 94,
+    "exam_capacity": 57,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "4725f483-2f5d-54b6-822c-3ce60fe1d91a",
+    "capacity_code": "CAP-000034",
+    "room_id": "95dfba0e-b8f4-5242-b3b6-af63c6e308cf",
+    "standard_capacity": 66,
+    "exam_capacity": 35,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "fff60ee9-2315-546b-9ad0-c365e05e21af",
+    "capacity_code": "CAP-000035",
+    "room_id": "5d9a1414-76f6-568c-85c2-e90fc96a9201",
+    "standard_capacity": 60,
+    "exam_capacity": 41,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "0d770a10-6f4c-58d4-828e-5b841ee6bfef",
+    "capacity_code": "CAP-000036",
+    "room_id": "5dc39b14-f258-52fc-923a-34acfab23855",
+    "standard_capacity": 80,
+    "exam_capacity": 52,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "aaa9d10b-75d7-5805-b818-9c77066f0642",
+    "capacity_code": "CAP-000037",
+    "room_id": "440504cd-38d7-5c6e-ba70-ae37e5e59a6d",
+    "standard_capacity": 65,
+    "exam_capacity": 45,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "fb957f23-c10e-570d-b1c7-b324218242e7",
+    "capacity_code": "CAP-000038",
+    "room_id": "304e83dd-2fc8-591f-a4b8-7cee1496c976",
+    "standard_capacity": 65,
+    "exam_capacity": 33,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "7741a0cc-d131-524e-8c31-17d388fda9b5",
+    "capacity_code": "CAP-000039",
+    "room_id": "af434bd0-4c82-5d58-a15b-a8836901230b",
+    "standard_capacity": 78,
+    "exam_capacity": 50,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "a61dbe70-5833-5e25-9ccd-16360de03305",
+    "capacity_code": "CAP-000040",
+    "room_id": "0c01aab5-e167-5004-9ed0-7ec19136e40f",
+    "standard_capacity": 63,
+    "exam_capacity": 39,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "d8d10a76-4747-5810-be26-141fe9f2cd22",
+    "capacity_code": "CAP-000041",
+    "room_id": "6dcbc680-835a-570e-bd49-df899e9d4c87",
+    "standard_capacity": 74,
+    "exam_capacity": 42,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "fac8d06d-52ca-50a3-9b55-c2e93a3661df",
+    "capacity_code": "CAP-000042",
+    "room_id": "79c1bd3c-f6b5-5759-8b72-cce58c1fecd7",
+    "standard_capacity": 99,
+    "exam_capacity": 52,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "ec3e6580-a774-5faa-af71-0e6ceb32c0c8",
+    "capacity_code": "CAP-000043",
+    "room_id": "56c51624-7783-5cd5-9763-da4064f3352b",
+    "standard_capacity": 84,
+    "exam_capacity": 46,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "2b1a33f4-55e7-59c9-8952-0476eb2c2b3d",
+    "capacity_code": "CAP-000044",
+    "room_id": "9042fa04-3460-5aae-ac9f-0a5005de0fab",
+    "standard_capacity": 105,
+    "exam_capacity": 60,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "5ea6bb19-39a7-520b-9445-f358784c796b",
+    "capacity_code": "CAP-000045",
+    "room_id": "df9aaa64-a90a-5b2f-9131-e6316ba02f0d",
+    "standard_capacity": 62,
+    "exam_capacity": 35,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "be484367-6651-513c-a69b-185ebf053566",
+    "capacity_code": "CAP-000046",
+    "room_id": "1a5be797-aece-5778-acbb-ca4185926707",
+    "standard_capacity": 63,
+    "exam_capacity": 35,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "761a4191-20be-5fbf-8d34-c545333bdbdf",
+    "capacity_code": "CAP-000047",
+    "room_id": "854c1840-950b-5dc3-95ca-715018ec389e",
+    "standard_capacity": 68,
+    "exam_capacity": 39,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "5d3e206b-235f-5570-8e46-243efe15b7b9",
+    "capacity_code": "CAP-000048",
+    "room_id": "6c59b65b-43c1-54e0-bcb9-b265c432ca21",
+    "standard_capacity": 73,
+    "exam_capacity": 43,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "a6facf5c-2e01-5239-9858-dd49af6caea1",
+    "capacity_code": "CAP-000049",
+    "room_id": "2e673021-2885-555d-b706-9eaa50fde951",
+    "standard_capacity": 71,
+    "exam_capacity": 46,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "c1183608-af60-5e65-8c6a-27b692602453",
+    "capacity_code": "CAP-000050",
+    "room_id": "c4ab0b65-4f58-5df4-9017-3d99425e1b1c",
+    "standard_capacity": 90,
+    "exam_capacity": 48,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "32c65b67-a81b-51e6-8afb-11b2fa603896",
+    "capacity_code": "CAP-000051",
+    "room_id": "2d7bd5ed-1be4-50a0-bb2a-083cec66b0f7",
+    "standard_capacity": 94,
+    "exam_capacity": 54,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "d481fa5a-3b22-54f8-b2fe-c7890e4ffd0d",
+    "capacity_code": "CAP-000052",
+    "room_id": "da431c74-df21-552e-a7cd-e08477579f05",
+    "standard_capacity": 91,
+    "exam_capacity": 59,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "b572e45d-c508-5e0f-83be-b977e467cd4b",
+    "capacity_code": "CAP-000053",
+    "room_id": "d2e7ab55-11ee-50f7-8e87-02d6ba8ad312",
+    "standard_capacity": 67,
+    "exam_capacity": 35,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "b9be50d9-274b-5506-a77d-17e083575e38",
+    "capacity_code": "CAP-000054",
+    "room_id": "261c99c1-d39d-5990-847d-966c73cbdf13",
+    "standard_capacity": 99,
+    "exam_capacity": 56,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "3ec54abb-1a4d-5ac7-8846-b4c167ae5c68",
+    "capacity_code": "CAP-000055",
+    "room_id": "e88c27be-627a-5c0c-981e-4362fc1a5227",
+    "standard_capacity": 60,
+    "exam_capacity": 36,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "24d9fb93-9947-5a3d-9c3a-ed0e8e629c03",
+    "capacity_code": "CAP-000056",
+    "room_id": "604f207e-b26d-5635-878a-c963ab303e2e",
+    "standard_capacity": 84,
+    "exam_capacity": 42,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "26f11a22-bf97-5686-bed0-fe7e6ffa9158",
+    "capacity_code": "CAP-000057",
+    "room_id": "226970d1-336e-5617-9bf8-ff5206222ea5",
+    "standard_capacity": 94,
+    "exam_capacity": 51,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "99a00a66-1624-55ee-bfa9-c9352ac7ea5e",
+    "capacity_code": "CAP-000058",
+    "room_id": "470c349e-70dc-5699-9adc-9a7e12e83767",
+    "standard_capacity": 79,
+    "exam_capacity": 39,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "92a58c28-0722-5124-9450-6f884efe076b",
+    "capacity_code": "CAP-000059",
+    "room_id": "a8d8f63a-b534-5373-91ad-bee9c562334f",
+    "standard_capacity": 63,
+    "exam_capacity": 35,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "4b9a7846-3565-50cf-a9c3-358616fa77c5",
+    "capacity_code": "CAP-000060",
+    "room_id": "0f388057-7ffe-5d2c-b7f0-5d1f79eb7490",
+    "standard_capacity": 96,
+    "exam_capacity": 50,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "3d963ddf-f722-5e19-ab53-c15d4f51c882",
+    "capacity_code": "CAP-000061",
+    "room_id": "0781ff42-9a87-5881-b0a4-491c18a6df6d",
+    "standard_capacity": 49,
+    "exam_capacity": 29,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "01830fd3-542f-5dd3-97fc-f7f87521d73f",
+    "capacity_code": "CAP-000062",
+    "room_id": "18076728-55e6-5883-8870-95e2ee582751",
+    "standard_capacity": 43,
+    "exam_capacity": 24,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "58191458-1077-5970-be1f-2502deca0c1a",
+    "capacity_code": "CAP-000063",
+    "room_id": "f9acde6d-e94b-5e9d-8910-5040a24dde40",
+    "standard_capacity": 44,
+    "exam_capacity": 24,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "afb6d89c-9154-5dd9-8684-e4ca0eb9c2ec",
+    "capacity_code": "CAP-000064",
+    "room_id": "f999d51b-3b86-51a0-b523-e2d2b0b106be",
+    "standard_capacity": 29,
+    "exam_capacity": 17,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "736b89e9-e777-5d78-910a-8df2e7cc6ee7",
+    "capacity_code": "CAP-000065",
+    "room_id": "2ac2b1d5-c576-5d72-aef9-4459a6ddc73a",
+    "standard_capacity": 28,
+    "exam_capacity": 19,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "004a0eb5-4a90-5160-b8b5-db930efcf93b",
+    "capacity_code": "CAP-000066",
+    "room_id": "c50ecc56-c6b4-5cd8-9cc7-a581790316be",
+    "standard_capacity": 29,
+    "exam_capacity": 19,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "15435c3b-e567-5c8f-a4b2-4f099390176f",
+    "capacity_code": "CAP-000067",
+    "room_id": "13e7eb2b-4a5e-51ee-b7cb-edd193a65590",
+    "standard_capacity": 43,
+    "exam_capacity": 24,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "8e58d07a-c09c-5c8d-8bd3-64d2b0fe82fa",
+    "capacity_code": "CAP-000068",
+    "room_id": "1e723070-29a1-553b-ab4f-327e7390f096",
+    "standard_capacity": 33,
+    "exam_capacity": 17,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "c0e3a565-5453-5ba9-8d53-db6845f2a138",
+    "capacity_code": "CAP-000069",
+    "room_id": "7b27d8ca-35ac-534a-81d8-ac7c246536ec",
+    "standard_capacity": 49,
+    "exam_capacity": 26,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "d2d10b48-051f-57dd-b7d7-ac804ebf4700",
+    "capacity_code": "CAP-000070",
+    "room_id": "a33aab1a-6b8a-5983-9071-84e4469bb48b",
+    "standard_capacity": 43,
+    "exam_capacity": 24,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "dc890188-8e65-5918-ad0f-e3fa0642656d",
+    "capacity_code": "CAP-000071",
+    "room_id": "3c10e302-35d2-57b0-96d4-e155e0f0fdf3",
+    "standard_capacity": 36,
+    "exam_capacity": 22,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "d36bc47b-e7f3-57dc-bd53-ab804176aa5e",
+    "capacity_code": "CAP-000072",
+    "room_id": "b48bee34-313e-5530-a59e-1fb604216286",
+    "standard_capacity": 43,
+    "exam_capacity": 22,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "c9d519ca-440e-59b3-a63e-c1247d7b9a35",
+    "capacity_code": "CAP-000073",
+    "room_id": "2056e6c6-31c7-5f86-b1cd-685b7b392c6d",
+    "standard_capacity": 38,
+    "exam_capacity": 21,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "a2f701bb-1d63-51d9-97ca-c498c4ccc7b6",
+    "capacity_code": "CAP-000074",
+    "room_id": "0a7b2a09-f09c-5bc5-b504-e64eeaea40fa",
+    "standard_capacity": 26,
+    "exam_capacity": 16,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "87d172a5-4bc0-51e5-bc8f-974993805074",
+    "capacity_code": "CAP-000075",
+    "room_id": "35209327-b1e5-5946-b0a4-4cb9b49e1154",
+    "standard_capacity": 36,
+    "exam_capacity": 20,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "02e1354d-3cb2-5e32-b21f-c9596a6c97f6",
+    "capacity_code": "CAP-000076",
+    "room_id": "6d7ffe28-1267-5844-9732-6b777000fe3e",
+    "standard_capacity": 36,
+    "exam_capacity": 24,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "4ac256d2-4d99-57c5-b365-b7ae086410ff",
+    "capacity_code": "CAP-000077",
+    "room_id": "35bb6315-9137-5fd9-a56c-6dcb6c48caca",
+    "standard_capacity": 33,
+    "exam_capacity": 21,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "515db291-651a-56bf-9b51-3348a2ee7856",
+    "capacity_code": "CAP-000078",
+    "room_id": "3a20a322-b715-544f-9a91-ffc243cd89e1",
+    "standard_capacity": 49,
+    "exam_capacity": 32,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "e50f44ea-1312-516a-af26-323780bc2028",
+    "capacity_code": "CAP-000079",
+    "room_id": "37a88fbc-c091-5e06-9e4f-8de47dbdc182",
+    "standard_capacity": 25,
+    "exam_capacity": 17,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "0118d24c-9d0d-5e27-9c1b-457c5548a5e4",
+    "capacity_code": "CAP-000080",
+    "room_id": "c62f8c5a-9b17-53a3-bf7b-aac091209db3",
+    "standard_capacity": 34,
+    "exam_capacity": 19,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "c630fe39-e074-5458-9c37-e39ef3575d48",
+    "capacity_code": "CAP-000081",
+    "room_id": "ba25afe8-4141-5fab-b38f-92ac56ae83b7",
+    "standard_capacity": 44,
+    "exam_capacity": 25,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "68b2d7cf-9af6-592c-afa0-adea270868c2",
+    "capacity_code": "CAP-000082",
+    "room_id": "4a138b60-79bf-5775-80ac-86a3d56388b8",
+    "standard_capacity": 31,
+    "exam_capacity": 18,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "1ea377d1-a060-509a-8149-8db7dd7667c5",
+    "capacity_code": "CAP-000083",
+    "room_id": "30de6473-3588-5251-9aac-00ad82de2260",
+    "standard_capacity": 31,
+    "exam_capacity": 20,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "3dd92e45-ef31-5c4e-b62c-01be1af677ca",
+    "capacity_code": "CAP-000084",
+    "room_id": "82cb878d-7c65-5ba9-909b-70eb90b4e19d",
+    "standard_capacity": 41,
+    "exam_capacity": 24,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "8ff98d09-b7fb-5aa0-a64a-736ee086b796",
+    "capacity_code": "CAP-000085",
+    "room_id": "7d42e7ac-837f-5970-b908-d9381d455ff2",
+    "standard_capacity": 44,
+    "exam_capacity": 22,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "bf4a8af0-de84-5b50-bf89-3afb4a2040d1",
+    "capacity_code": "CAP-000086",
+    "room_id": "8d6f7f3e-feb1-5226-90c1-414da3debdc0",
+    "standard_capacity": 26,
+    "exam_capacity": 14,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "dba7e23a-b6b0-5e8a-9273-faf039cfc0c4",
+    "capacity_code": "CAP-000087",
+    "room_id": "39ccd046-57eb-5fab-879a-6155b8cdd194",
+    "standard_capacity": 40,
+    "exam_capacity": 20,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "50f72c51-4038-5efb-a5b8-49c8bdfbf331",
+    "capacity_code": "CAP-000088",
+    "room_id": "bd7e82ef-9b21-5925-bdb3-877cdad5270f",
+    "standard_capacity": 31,
+    "exam_capacity": 20,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "09c87dae-08be-5904-80df-ee0f8b8a0613",
+    "capacity_code": "CAP-000089",
+    "room_id": "dc10a287-c902-5c28-9d76-f879a7fdc76a",
+    "standard_capacity": 27,
+    "exam_capacity": 16,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "fcfd684d-42d5-55ff-b4a3-45b221992ad8",
+    "capacity_code": "CAP-000090",
+    "room_id": "d843cb45-4a0c-52c7-afa9-4e41da364ac0",
+    "standard_capacity": 43,
+    "exam_capacity": 26,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "dd177b04-6cee-535a-8a6e-1aaec42380c8",
+    "capacity_code": "CAP-000091",
+    "room_id": "7e80ad3f-5dc3-5438-b975-6223e3460c15",
+    "standard_capacity": 36,
+    "exam_capacity": 20,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "e3510199-5278-5833-985d-c673762537fa",
+    "capacity_code": "CAP-000092",
+    "room_id": "02cfb20e-c39a-5032-b28c-75c6b9317b75",
+    "standard_capacity": 46,
+    "exam_capacity": 23,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "4da4fac6-6a7c-593f-8df2-5cdd63b3ee43",
+    "capacity_code": "CAP-000093",
+    "room_id": "b448b126-e9d2-589a-b32a-10b4d5ec7fac",
+    "standard_capacity": 45,
+    "exam_capacity": 28,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "4fa5307f-eae3-589d-80bb-470ae16b9731",
+    "capacity_code": "CAP-000094",
+    "room_id": "e95cc3ee-e94f-5b23-93a2-d84a61dae64d",
+    "standard_capacity": 48,
+    "exam_capacity": 32,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "430c0f44-7c63-55a3-9934-0ed1c09b8c5f",
+    "capacity_code": "CAP-000095",
+    "room_id": "0d485e6e-e730-5bab-a74d-7b13143d07dc",
+    "standard_capacity": 47,
+    "exam_capacity": 26,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "10f64c50-8935-5b90-bbff-9354b88b90ec",
+    "capacity_code": "CAP-000096",
+    "room_id": "8ecb698d-7d11-5fd7-a712-1c0ec04eb695",
+    "standard_capacity": 40,
+    "exam_capacity": 20,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "f8c19ee2-e383-5fdd-83f9-d8c9cabffe27",
+    "capacity_code": "CAP-000097",
+    "room_id": "304558c7-afbf-5122-b69d-ad54c7eea549",
+    "standard_capacity": 48,
+    "exam_capacity": 32,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "94fcf04f-2c90-5e3a-b06a-c00056bb1c7a",
+    "capacity_code": "CAP-000098",
+    "room_id": "87663441-1611-532a-b648-bb9e14c045ff",
+    "standard_capacity": 26,
+    "exam_capacity": 16,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "b42e2932-a57f-56fd-918b-1a2d769ee69a",
+    "capacity_code": "CAP-000099",
+    "room_id": "60bd7547-e0c5-51de-8d88-0d2f093d99da",
+    "standard_capacity": 45,
+    "exam_capacity": 30,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  },
+  {
+    "id": "05849a14-e347-5315-a1d7-17327b5a71d9",
+    "capacity_code": "CAP-000100",
+    "room_id": "7f76ca8d-3eb2-5ad5-a7b3-710ffecdc141",
+    "standard_capacity": 40,
+    "exam_capacity": 25,
+    "effective_start": "2026-09-01",
+    "effective_end": "2026-12-31"
+  }
+]

@@ -1,0 +1,101 @@
+id,room_code,name,building,floor,is_accessible,status
+1b902b80-79ae-58eb-9fd4-90d6ba099c87,ROOM-000001,Galileo Hall 101,Galileo Science Center,1,False,AVAILABLE
+4a0b67b5-ff77-5718-a924-595387899bc2,ROOM-000002,Turing Hall 202,Turing Computing Block,2,False,AVAILABLE
+ac11eb25-686a-5db1-8708-e69ff5b8e2b3,ROOM-000003,Newton Hall 303,Newton Hall of Physics,3,False,AVAILABLE
+44dcfb01-2408-591a-a5de-1cc80a66d374,ROOM-000004,Franklin Hall 404,Franklin Engineering Tower,4,False,AVAILABLE
+ab0e4245-2c20-5643-998a-748f0c63fcdf,ROOM-000005,Curie Hall 105,Curie Chemistry Pavilion,1,False,AVAILABLE
+1c04edd9-9b00-511a-a515-0201719b5049,ROOM-000006,Aristotle Hall 206,Aristotle Arts & Humanities,2,False,AVAILABLE
+4ac215f2-49c5-5be6-9d59-8ffa943e65f3,ROOM-000007,Galileo Hall 307,Galileo Science Center,3,False,AVAILABLE
+e85e67d4-4d10-500e-a0ab-f6d6fae281da,ROOM-000008,Turing Hall 408,Turing Computing Block,4,False,AVAILABLE
+d131597a-fa59-5459-95fe-d9e47370ae27,ROOM-000009,Newton Hall 109,Newton Hall of Physics,1,False,AVAILABLE
+cacc58d2-3225-5761-a2e2-7fb91b8a17ac,ROOM-000010,Franklin Hall 210,Franklin Engineering Tower,2,False,AVAILABLE
+514e4db2-31f1-56ab-a83e-9a63f9c27f1e,ROOM-000011,Curie Hall 311,Curie Chemistry Pavilion,3,True,AVAILABLE
+036c8876-0380-59d1-9462-8cd2c96667f0,ROOM-000012,Aristotle Hall 412,Aristotle Arts & Humanities,4,False,AVAILABLE
+8a287dd2-6248-5fe6-af65-8b3100e234da,ROOM-000013,Galileo Hall 113,Galileo Science Center,1,False,AVAILABLE
+e1126a16-9fc6-5b5a-bdae-3dd343ad4e01,ROOM-000014,Turing Hall 214,Turing Computing Block,2,False,AVAILABLE
+a3c44fb9-24ce-58a1-8c9c-bdb66ac5afdf,ROOM-000015,Newton Hall 315,Newton Hall of Physics,3,False,AVAILABLE
+5aac6384-5f29-5df5-9a56-f4699551d48b,ROOM-000016,Franklin Hall 416,Franklin Engineering Tower,4,False,AVAILABLE
+9f89d8b1-599a-5d7b-b54f-dd18d9891a90,ROOM-000017,Curie Hall 117,Curie Chemistry Pavilion,1,False,AVAILABLE
+a063dfa4-4aba-51eb-b9db-1f982d62e1f1,ROOM-000018,Aristotle Hall 218,Aristotle Arts & Humanities,2,False,AVAILABLE
+4806cfba-75c3-55c7-adc3-939e2859fa87,ROOM-000019,Galileo Hall 319,Galileo Science Center,3,False,AVAILABLE
+62b447e4-2327-5649-b85d-01037388eb38,ROOM-000020,Turing Hall 420,Turing Computing Block,4,False,AVAILABLE
+2e3a6c82-97e8-5e84-81bd-104e2edfe454,ROOM-000021,Newton Hall 121,Newton Hall of Physics,1,False,AVAILABLE
+251478e3-c4ad-562c-8146-d9a762044e95,ROOM-000022,Franklin Hall 222,Franklin Engineering Tower,2,False,AVAILABLE
+25e0d636-8491-5f8a-a8e9-005fe036116b,ROOM-000023,Curie Hall 323,Curie Chemistry Pavilion,3,False,AVAILABLE
+c9d5a9da-c915-5a62-8e5c-e7ed12880741,ROOM-000024,Aristotle Hall 424,Aristotle Arts & Humanities,4,True,AVAILABLE
+021f6062-ad99-5eea-9c95-4819df73545b,ROOM-000025,Galileo Hall 125,Galileo Science Center,1,False,AVAILABLE
+991c4289-3ef8-5581-b679-86af9ca9a43a,ROOM-000026,Turing Hall 226,Turing Computing Block,2,False,AVAILABLE
+7216a507-ba52-500a-8b32-52428fa7c24f,ROOM-000027,Newton Hall 327,Newton Hall of Physics,3,True,AVAILABLE
+b141a0a6-7c06-5ef2-ab2f-41a155550021,ROOM-000028,Franklin Hall 428,Franklin Engineering Tower,4,False,AVAILABLE
+e8be9e30-ed98-5e4e-9451-f6bc4f234162,ROOM-000029,Curie Hall 129,Curie Chemistry Pavilion,1,True,AVAILABLE
+2dc4496a-76ca-58bc-bbc7-d58fd1ee4f22,ROOM-000030,Aristotle Hall 230,Aristotle Arts & Humanities,2,False,AVAILABLE
+6c93460c-92ed-5eca-b4e8-98b0ba8baf64,ROOM-000031,Galileo Hall 331,Galileo Science Center,3,False,AVAILABLE
+63283e57-7e8e-565e-b185-1df13dd68f84,ROOM-000032,Turing Hall 432,Turing Computing Block,4,False,AVAILABLE
+c4f78997-71cf-5ac2-ab39-cfff8832e7ec,ROOM-000033,Newton Hall 133,Newton Hall of Physics,1,False,AVAILABLE
+95dfba0e-b8f4-5242-b3b6-af63c6e308cf,ROOM-000034,Franklin Hall 234,Franklin Engineering Tower,2,True,AVAILABLE
+5d9a1414-76f6-568c-85c2-e90fc96a9201,ROOM-000035,Curie Hall 335,Curie Chemistry Pavilion,3,False,AVAILABLE
+5dc39b14-f258-52fc-923a-34acfab23855,ROOM-000036,Aristotle Hall 436,Aristotle Arts & Humanities,4,False,AVAILABLE
+440504cd-38d7-5c6e-ba70-ae37e5e59a6d,ROOM-000037,Galileo Hall 137,Galileo Science Center,1,False,AVAILABLE
+304e83dd-2fc8-591f-a4b8-7cee1496c976,ROOM-000038,Turing Hall 238,Turing Computing Block,2,False,AVAILABLE
+af434bd0-4c82-5d58-a15b-a8836901230b,ROOM-000039,Newton Hall 339,Newton Hall of Physics,3,True,AVAILABLE
+0c01aab5-e167-5004-9ed0-7ec19136e40f,ROOM-000040,Franklin Hall 440,Franklin Engineering Tower,4,False,AVAILABLE
+6dcbc680-835a-570e-bd49-df899e9d4c87,ROOM-000041,Curie Hall 141,Curie Chemistry Pavilion,1,False,AVAILABLE
+79c1bd3c-f6b5-5759-8b72-cce58c1fecd7,ROOM-000042,Aristotle Hall 242,Aristotle Arts & Humanities,2,True,AVAILABLE
+56c51624-7783-5cd5-9763-da4064f3352b,ROOM-000043,Galileo Hall 343,Galileo Science Center,3,False,AVAILABLE
+9042fa04-3460-5aae-ac9f-0a5005de0fab,ROOM-000044,Turing Hall 444,Turing Computing Block,4,False,AVAILABLE
+df9aaa64-a90a-5b2f-9131-e6316ba02f0d,ROOM-000045,Newton Hall 145,Newton Hall of Physics,1,False,AVAILABLE
+1a5be797-aece-5778-acbb-ca4185926707,ROOM-000046,Franklin Hall 246,Franklin Engineering Tower,2,False,AVAILABLE
+854c1840-950b-5dc3-95ca-715018ec389e,ROOM-000047,Curie Hall 347,Curie Chemistry Pavilion,3,False,AVAILABLE
+6c59b65b-43c1-54e0-bcb9-b265c432ca21,ROOM-000048,Aristotle Hall 448,Aristotle Arts & Humanities,4,False,AVAILABLE
+2e673021-2885-555d-b706-9eaa50fde951,ROOM-000049,Galileo Hall 149,Galileo Science Center,1,False,AVAILABLE
+c4ab0b65-4f58-5df4-9017-3d99425e1b1c,ROOM-000050,Turing Hall 250,Turing Computing Block,2,False,AVAILABLE
+2d7bd5ed-1be4-50a0-bb2a-083cec66b0f7,ROOM-000051,Newton Hall 351,Newton Hall of Physics,3,False,AVAILABLE
+da431c74-df21-552e-a7cd-e08477579f05,ROOM-000052,Franklin Hall 452,Franklin Engineering Tower,4,True,AVAILABLE
+d2e7ab55-11ee-50f7-8e87-02d6ba8ad312,ROOM-000053,Curie Hall 153,Curie Chemistry Pavilion,1,False,AVAILABLE
+261c99c1-d39d-5990-847d-966c73cbdf13,ROOM-000054,Aristotle Hall 254,Aristotle Arts & Humanities,2,False,AVAILABLE
+e88c27be-627a-5c0c-981e-4362fc1a5227,ROOM-000055,Galileo Hall 355,Galileo Science Center,3,False,AVAILABLE
+604f207e-b26d-5635-878a-c963ab303e2e,ROOM-000056,Turing Hall 456,Turing Computing Block,4,False,AVAILABLE
+226970d1-336e-5617-9bf8-ff5206222ea5,ROOM-000057,Newton Hall 157,Newton Hall of Physics,1,False,AVAILABLE
+470c349e-70dc-5699-9adc-9a7e12e83767,ROOM-000058,Franklin Hall 258,Franklin Engineering Tower,2,True,AVAILABLE
+a8d8f63a-b534-5373-91ad-bee9c562334f,ROOM-000059,Curie Hall 359,Curie Chemistry Pavilion,3,True,AVAILABLE
+0f388057-7ffe-5d2c-b7f0-5d1f79eb7490,ROOM-000060,Aristotle Hall 460,Aristotle Arts & Humanities,4,False,AVAILABLE
+0781ff42-9a87-5881-b0a4-491c18a6df6d,ROOM-000061,Galileo Hall 161,Galileo Science Center,1,False,AVAILABLE
+18076728-55e6-5883-8870-95e2ee582751,ROOM-000062,Turing Hall 262,Turing Computing Block,2,False,AVAILABLE
+f9acde6d-e94b-5e9d-8910-5040a24dde40,ROOM-000063,Newton Hall 363,Newton Hall of Physics,3,False,AVAILABLE
+f999d51b-3b86-51a0-b523-e2d2b0b106be,ROOM-000064,Franklin Hall 464,Franklin Engineering Tower,4,False,AVAILABLE
+2ac2b1d5-c576-5d72-aef9-4459a6ddc73a,ROOM-000065,Curie Hall 165,Curie Chemistry Pavilion,1,False,AVAILABLE
+c50ecc56-c6b4-5cd8-9cc7-a581790316be,ROOM-000066,Aristotle Hall 266,Aristotle Arts & Humanities,2,False,AVAILABLE
+13e7eb2b-4a5e-51ee-b7cb-edd193a65590,ROOM-000067,Galileo Hall 367,Galileo Science Center,3,True,AVAILABLE
+1e723070-29a1-553b-ab4f-327e7390f096,ROOM-000068,Turing Hall 468,Turing Computing Block,4,False,AVAILABLE
+7b27d8ca-35ac-534a-81d8-ac7c246536ec,ROOM-000069,Newton Hall 169,Newton Hall of Physics,1,True,AVAILABLE
+a33aab1a-6b8a-5983-9071-84e4469bb48b,ROOM-000070,Franklin Hall 270,Franklin Engineering Tower,2,False,AVAILABLE
+3c10e302-35d2-57b0-96d4-e155e0f0fdf3,ROOM-000071,Curie Hall 371,Curie Chemistry Pavilion,3,False,AVAILABLE
+b48bee34-313e-5530-a59e-1fb604216286,ROOM-000072,Aristotle Hall 472,Aristotle Arts & Humanities,4,True,AVAILABLE
+2056e6c6-31c7-5f86-b1cd-685b7b392c6d,ROOM-000073,Galileo Hall 173,Galileo Science Center,1,False,AVAILABLE
+0a7b2a09-f09c-5bc5-b504-e64eeaea40fa,ROOM-000074,Turing Hall 274,Turing Computing Block,2,False,AVAILABLE
+35209327-b1e5-5946-b0a4-4cb9b49e1154,ROOM-000075,Newton Hall 375,Newton Hall of Physics,3,False,AVAILABLE
+6d7ffe28-1267-5844-9732-6b777000fe3e,ROOM-000076,Franklin Hall 476,Franklin Engineering Tower,4,False,AVAILABLE
+35bb6315-9137-5fd9-a56c-6dcb6c48caca,ROOM-000077,Curie Hall 177,Curie Chemistry Pavilion,1,True,AVAILABLE
+3a20a322-b715-544f-9a91-ffc243cd89e1,ROOM-000078,Aristotle Hall 278,Aristotle Arts & Humanities,2,False,AVAILABLE
+37a88fbc-c091-5e06-9e4f-8de47dbdc182,ROOM-000079,Galileo Hall 379,Galileo Science Center,3,False,AVAILABLE
+c62f8c5a-9b17-53a3-bf7b-aac091209db3,ROOM-000080,Turing Hall 480,Turing Computing Block,4,False,AVAILABLE
+ba25afe8-4141-5fab-b38f-92ac56ae83b7,ROOM-000081,Newton Hall 181,Newton Hall of Physics,1,False,AVAILABLE
+4a138b60-79bf-5775-80ac-86a3d56388b8,ROOM-000082,Franklin Hall 282,Franklin Engineering Tower,2,False,AVAILABLE
+30de6473-3588-5251-9aac-00ad82de2260,ROOM-000083,Curie Hall 383,Curie Chemistry Pavilion,3,True,AVAILABLE
+82cb878d-7c65-5ba9-909b-70eb90b4e19d,ROOM-000084,Aristotle Hall 484,Aristotle Arts & Humanities,4,False,AVAILABLE
+7d42e7ac-837f-5970-b908-d9381d455ff2,ROOM-000085,Galileo Hall 185,Galileo Science Center,1,True,AVAILABLE
+8d6f7f3e-feb1-5226-90c1-414da3debdc0,ROOM-000086,Turing Hall 286,Turing Computing Block,2,True,AVAILABLE
+39ccd046-57eb-5fab-879a-6155b8cdd194,ROOM-000087,Newton Hall 387,Newton Hall of Physics,3,False,AVAILABLE
+bd7e82ef-9b21-5925-bdb3-877cdad5270f,ROOM-000088,Franklin Hall 488,Franklin Engineering Tower,4,False,AVAILABLE
+dc10a287-c902-5c28-9d76-f879a7fdc76a,ROOM-000089,Curie Hall 189,Curie Chemistry Pavilion,1,False,AVAILABLE
+d843cb45-4a0c-52c7-afa9-4e41da364ac0,ROOM-000090,Aristotle Hall 290,Aristotle Arts & Humanities,2,True,AVAILABLE
+7e80ad3f-5dc3-5438-b975-6223e3460c15,ROOM-000091,Galileo Hall 391,Galileo Science Center,3,False,AVAILABLE
+02cfb20e-c39a-5032-b28c-75c6b9317b75,ROOM-000092,Turing Hall 492,Turing Computing Block,4,False,AVAILABLE
+b448b126-e9d2-589a-b32a-10b4d5ec7fac,ROOM-000093,Newton Hall 193,Newton Hall of Physics,1,False,AVAILABLE
+e95cc3ee-e94f-5b23-93a2-d84a61dae64d,ROOM-000094,Franklin Hall 294,Franklin Engineering Tower,2,True,AVAILABLE
+0d485e6e-e730-5bab-a74d-7b13143d07dc,ROOM-000095,Curie Hall 395,Curie Chemistry Pavilion,3,False,AVAILABLE
+8ecb698d-7d11-5fd7-a712-1c0ec04eb695,ROOM-000096,Aristotle Hall 496,Aristotle Arts & Humanities,4,False,AVAILABLE
+304558c7-afbf-5122-b69d-ad54c7eea549,ROOM-000097,Galileo Hall 197,Galileo Science Center,1,False,AVAILABLE
+87663441-1611-532a-b648-bb9e14c045ff,ROOM-000098,Turing Hall 298,Turing Computing Block,2,False,AVAILABLE
+60bd7547-e0c5-51de-8d88-0d2f093d99da,ROOM-000099,Newton Hall 399,Newton Hall of Physics,3,False,AVAILABLE
+7f76ca8d-3eb2-5ad5-a7b3-710ffecdc141,ROOM-000100,Franklin Hall 4100,Franklin Engineering Tower,4,False,AVAILABLE

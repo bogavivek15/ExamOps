@@ -1,0 +1,73 @@
+[
+  {
+    "scenario_id": "NEG-001",
+    "scenario_name": "Student Overlapping Exams",
+    "description": "Student is placed in two concurrent examinations simultaneously.",
+    "target_student_code": "STU-000001",
+    "target_student_id": "fb233d58-8494-562b-852b-afa00adddac6",
+    "target_exam_codes": [
+      "EXAM-2026-000001",
+      "EXAM-2026-000002"
+    ],
+    "injected_anomaly": "Simultaneous assignment of both exams at 2026-12-02 09:00:00+00",
+    "expected_constraint_violated": "STUDENT_NON_OVERLAP",
+    "expected_reason_code": "STUDENT_CONFLICT",
+    "expected_outcome": "REJECTED_OR_FLAGGED_AS_CRITICAL"
+  },
+  {
+    "scenario_id": "NEG-002",
+    "scenario_name": "Room Capacity Exceeded",
+    "description": "Examination cohort assigned to a room whose exam capacity is lower than student count.",
+    "target_room_code": "ROOM-000086",
+    "target_room_id": "8d6f7f3e-feb1-5226-90c1-414da3debdc0",
+    "room_capacity": 14,
+    "target_exam_code": "EXAM-2026-000030",
+    "target_exam_id": "19d120e4-3a66-5bec-98de-7414c443a503",
+    "exam_student_count": 205,
+    "injected_anomaly": "Seating 205 students in room with capacity 14",
+    "expected_constraint_violated": "ROOM_CAPACITY_EXCEEDED",
+    "expected_reason_code": "CAPACITY_DEFICIT",
+    "expected_outcome": "REJECTED_OR_FLAGGED_AS_CRITICAL"
+  },
+  {
+    "scenario_id": "NEG-003",
+    "scenario_name": "Invigilator Double-Booked",
+    "description": "Same invigilator assigned to supervise two concurrent exams in different rooms.",
+    "target_invigilator_code": "INV-000001",
+    "target_invigilator_id": "2f7079a1-1400-54ff-aa06-87490d40db0c",
+    "target_room_codes": [
+      "ROOM-000001",
+      "ROOM-000002"
+    ],
+    "injected_anomaly": "Simultaneous staffing of INV-000001 to Room 101 and Room 102 at 09:00-11:00",
+    "expected_constraint_violated": "INVIGILATOR_DOUBLE_BOOKED",
+    "expected_reason_code": "NO_INVIGILATOR_AVAILABLE",
+    "expected_outcome": "REJECTED_OR_FLAGGED_AS_CRITICAL"
+  },
+  {
+    "scenario_id": "NEG-004",
+    "scenario_name": "Accommodation Ignored",
+    "description": "Student with accessibility requirement seated in non-compliant venue or extended time ignored.",
+    "target_student_id": "55eba84d-baf1-53e2-902f-9edd49937dff",
+    "accommodation_type": "ACCESSIBLE_ROOM",
+    "target_room_code": "ROOM-000001",
+    "room_is_accessible": false,
+    "injected_anomaly": "Seating student requiring accessible desk in non-accessible venue",
+    "expected_constraint_violated": "ACCOMMODATION_BREACH",
+    "expected_reason_code": "ACCESSIBILITY_MISMATCH",
+    "expected_outcome": "REJECTED_OR_FLAGGED_AS_CRITICAL"
+  },
+  {
+    "scenario_id": "NEG-005",
+    "scenario_name": "Exam Outside Room Availability",
+    "description": "Examination scheduled during facility maintenance closure window.",
+    "target_room_code": "ROOM-000001",
+    "target_room_id": "1b902b80-79ae-58eb-9fd4-90d6ba099c87",
+    "closure_date": "2026-12-05",
+    "closure_time": "08:00:00 to 18:00:00",
+    "injected_anomaly": "Scheduling exam in ROOM-000001 on 2026-12-05 during facility shutdown",
+    "expected_constraint_violated": "ROOM_UNAVAILABLE",
+    "expected_reason_code": "ROOM_CLOSED_FOR_MAINTENANCE",
+    "expected_outcome": "REJECTED_OR_FLAGGED_AS_CRITICAL"
+  }
+]

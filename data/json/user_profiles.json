@@ -1,0 +1,452 @@
+[
+  {
+    "id": "adb5e511-f32a-51e5-8006-38eda2aa3d52",
+    "email": "admin@examops.institution.edu",
+    "display_name": "Chief Platform Administrator",
+    "role": "PLATFORM_ADMINISTRATOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Information Technology",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "d082c415-67b4-5c33-bc25-62e65c25241a",
+    "email": "exam.director.1@examops.institution.edu",
+    "display_name": "Operations Officer 1",
+    "role": "ACADEMIC_ADMINISTRATOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Examinations Office",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "2492c851-bca4-51d1-b255-a618166f96b3",
+    "email": "exam.director.2@examops.institution.edu",
+    "display_name": "Operations Officer 2",
+    "role": "ACADEMIC_ADMINISTRATOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Examinations Office",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c96757ef-3328-5414-9a98-62c98e292d19",
+    "email": "facilities.lead.1@examops.institution.edu",
+    "display_name": "Disability & Facilities Lead 1",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Campus Facilities & Accessibility",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0c04cec5-0fc0-5313-8fea-d618b336e3fc",
+    "email": "facilities.lead.2@examops.institution.edu",
+    "display_name": "Disability & Facilities Lead 2",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Campus Facilities & Accessibility",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "d5695714-f459-5c51-b0e3-7c6cbe86b76e",
+    "email": "head.computer@faculty.institution.edu",
+    "display_name": "Prof. Kapoor (Computer Science)",
+    "role": "INSTRUCTOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Computer Science",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "830d2f35-a2ab-5bb3-9347-427a064e99db",
+    "email": "head.electrical@faculty.institution.edu",
+    "display_name": "Prof. Muller (Electrical Engineering)",
+    "role": "INSTRUCTOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Electrical Engineering",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "1e776060-1417-5d94-9814-6cc54ac86340",
+    "email": "head.mechanical@faculty.institution.edu",
+    "display_name": "Prof. Al-Mansoor (Mechanical Engineering)",
+    "role": "INSTRUCTOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Mechanical Engineering",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "fe6c8ef3-c7a8-5dd3-b0ef-aa3611e3f5b3",
+    "email": "head.mathematics@faculty.institution.edu",
+    "display_name": "Prof. Kumar (Mathematics & Statistics)",
+    "role": "INSTRUCTOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Mathematics & Statistics",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "0fec67be-57fe-59c1-a482-30668ba77709",
+    "email": "head.physics@faculty.institution.edu",
+    "display_name": "Prof. Smith (Physics)",
+    "role": "INSTRUCTOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Physics",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "1555d476-188c-5d18-878b-cb00fa2cd765",
+    "email": "head.chemistry@faculty.institution.edu",
+    "display_name": "Prof. Chen (Chemistry)",
+    "role": "INSTRUCTOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Chemistry",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "2cc6fa64-36ec-5ce9-a7b0-55be3e4f8e34",
+    "email": "head.biological@faculty.institution.edu",
+    "display_name": "Prof. Wright (Biological Sciences)",
+    "role": "INSTRUCTOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Biological Sciences",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "d6ce7210-ac18-5acb-8918-709e7f9faacc",
+    "email": "head.economics@faculty.institution.edu",
+    "display_name": "Prof. Hernandez (Economics & Finance)",
+    "role": "INSTRUCTOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Economics & Finance",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "4894d4c9-210a-54cb-a984-d620d4a18b86",
+    "email": "head.business@faculty.institution.edu",
+    "display_name": "Prof. Nair (Business Administration)",
+    "role": "INSTRUCTOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Business Administration",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "fa3af712-4ba7-59a8-9151-d59c9897df1e",
+    "email": "head.humanities@faculty.institution.edu",
+    "display_name": "Prof. Sato (Humanities & Social Sciences)",
+    "role": "INSTRUCTOR",
+    "student_id": null,
+    "invigilator_id": null,
+    "department": "Humanities & Social Sciences",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "1fc0d2d5-ed79-5dfd-b250-1a5b548d9188",
+    "email": "inv.liam.chen.001@staff.institution.edu",
+    "display_name": "Liam Chen",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": "2f7079a1-1400-54ff-aa06-87490d40db0c",
+    "department": "Computer Science",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "76f430f8-4b07-578c-afcf-aeb6cac5eecc",
+    "email": "inv.ishaan.jones.002@staff.institution.edu",
+    "display_name": "Ishaan Jones",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": "a92f5e87-ef75-5083-95f5-7fcb77058c6d",
+    "department": "Humanities & Social Sciences",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "511d0327-51d6-570b-81f0-93550c5e4654",
+    "email": "inv.michael.yamamoto.003@staff.institution.edu",
+    "display_name": "Michael Yamamoto",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": "9d7d1143-cbe7-5421-953f-fc71320df8d6",
+    "department": "Computer Science",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "f3955031-d98e-5331-b8f7-0b6c343bb46c",
+    "email": "inv.william.garcia.004@staff.institution.edu",
+    "display_name": "William Garcia",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": "298cfc40-9982-5210-afd2-76c127748cd4",
+    "department": "Biological Sciences",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "a5d650b5-4c19-5946-acb6-aa6b4ac297d2",
+    "email": "inv.mei.hernandez.005@staff.institution.edu",
+    "display_name": "Mei Hernandez",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": "a1e97659-b8a7-5bba-9346-c0bb8bda8e9f",
+    "department": "Economics & Finance",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "bfd984e7-8f01-5729-a271-a67ab759e86d",
+    "email": "inv.isabella.hernandez.006@staff.institution.edu",
+    "display_name": "Isabella Hernandez",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": "f4948fb0-e18d-59ca-8a4e-fb057a725a00",
+    "department": "Mathematics & Statistics",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c85162d7-07a6-562e-b919-ee06977175e9",
+    "email": "inv.gabriel.zhang.007@staff.institution.edu",
+    "display_name": "Gabriel Zhang",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": "42982f39-9931-5a6d-92d2-d5f2923307ef",
+    "department": "Economics & Finance",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "479672bd-651b-5af8-9271-a45252202cf9",
+    "email": "inv.liam.singh.008@staff.institution.edu",
+    "display_name": "Liam Singh",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": "c0b5e91a-f71e-5b4b-a30a-1d3ad9b31fe1",
+    "department": "Mechanical Engineering",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "09f72b7f-7b95-59d4-9e9b-213fc0c66aa9",
+    "email": "inv.lucas.verma.009@staff.institution.edu",
+    "display_name": "Lucas Verma",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": "6ca0a020-a362-5f65-b8e6-fefce0660e8d",
+    "department": "Computer Science",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "3a14c37a-d662-5ab9-975b-a344f5a0888b",
+    "email": "inv.ishaan.tanaka.010@staff.institution.edu",
+    "display_name": "Ishaan Tanaka",
+    "role": "SUPPORT_STAFF",
+    "student_id": null,
+    "invigilator_id": "4a3007cd-2f6d-520c-8a70-a86acda51db2",
+    "department": "Physics",
+    "status": "ACTIVE"
+  },
+  {
+    "id": "ac84b8fd-df82-5a32-bc00-ab6fbf5e0475",
+    "email": "maya.muller.0001@student.institution.edu",
+    "display_name": "Maya Muller",
+    "role": "LEARNER",
+    "student_id": "fb233d58-8494-562b-852b-afa00adddac6",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "ade22bec-e687-5bd8-8077-8cc49ab5a66c",
+    "email": "isabella.kumar.0002@student.institution.edu",
+    "display_name": "Isabella Kumar",
+    "role": "LEARNER",
+    "student_id": "971396a9-e9f9-54c2-9e06-252784d6f7ce",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "3f5d663f-a16b-59f9-b7d2-bccee0930db7",
+    "email": "amara.kapoor.0003@student.institution.edu",
+    "display_name": "Amara Kapoor",
+    "role": "LEARNER",
+    "student_id": "2c5f3c3c-e12c-5946-a809-867532884245",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "6b584379-9167-5538-a01e-23a968894a73",
+    "email": "hannah.iyer.0004@student.institution.edu",
+    "display_name": "Hannah Iyer",
+    "role": "LEARNER",
+    "student_id": "9b530bce-6d8f-537a-b8a2-a4ed412007fa",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "464549ed-a346-5531-8d57-582a59671ba4",
+    "email": "zara.wang.0005@student.institution.edu",
+    "display_name": "Zara Wang",
+    "role": "LEARNER",
+    "student_id": "041041e8-0e1f-593d-bcb7-8eaff2078b72",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "83b9f8fb-a41e-526b-bfc4-4b21c92208bc",
+    "email": "mei.iyer.0006@student.institution.edu",
+    "display_name": "Mei Iyer",
+    "role": "LEARNER",
+    "student_id": "782c6792-bd16-5748-9cfe-0880744e613d",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "6dab249c-1886-5f91-a09d-c6d613cfab60",
+    "email": "amara.chen.0007@student.institution.edu",
+    "display_name": "Amara Chen",
+    "role": "LEARNER",
+    "student_id": "71e5b5fd-02bf-5bac-9ec9-e3a969ffbddf",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "bf494ca1-4ca9-5052-a065-f2d610a7784b",
+    "email": "carlos.garcia.0008@student.institution.edu",
+    "display_name": "Carlos Garcia",
+    "role": "LEARNER",
+    "student_id": "7ac16901-2aa4-5ba0-9232-9576759882f7",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "5e2cda51-9fe4-5241-b4ec-15dfa840188e",
+    "email": "david.jones.0009@student.institution.edu",
+    "display_name": "David Jones",
+    "role": "LEARNER",
+    "student_id": "a6abfe15-a402-55ad-81b3-c1bb2b6ce6a5",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "8bf0ac72-f4ed-5b42-8714-99898e0e32c8",
+    "email": "chloe.verma.0010@student.institution.edu",
+    "display_name": "Chloe Verma",
+    "role": "LEARNER",
+    "student_id": "251b35d8-7dab-5cb2-bee2-223d52e8abd6",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "a2394dd2-2b5d-5535-b694-aca12d062698",
+    "email": "michael.zhang.0011@student.institution.edu",
+    "display_name": "Michael Zhang",
+    "role": "LEARNER",
+    "student_id": "211d9b54-1900-5a86-8f12-67c983d1c356",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "9a010146-bf80-566e-9b34-312a623e8f44",
+    "email": "mei.garcia.0012@student.institution.edu",
+    "display_name": "Mei Garcia",
+    "role": "LEARNER",
+    "student_id": "243e348e-f0d4-58a8-931f-2e297b6b6a24",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c2f1c716-337c-5bfe-ae2a-a63828a2a226",
+    "email": "aarav.garcia.0013@student.institution.edu",
+    "display_name": "Aarav Garcia",
+    "role": "LEARNER",
+    "student_id": "a29b5255-56af-531f-ad7b-0d7739d1f9d7",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "4e2f1162-aefb-5ab7-bffa-b67db01a161f",
+    "email": "yuki.wright.0014@student.institution.edu",
+    "display_name": "Yuki Wright",
+    "role": "LEARNER",
+    "student_id": "902610d7-6715-5422-83b9-d1721ae9414f",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "b22b446e-64a5-5bdc-ab87-24b361cc62e2",
+    "email": "mei.brown.0015@student.institution.edu",
+    "display_name": "Mei Brown",
+    "role": "LEARNER",
+    "student_id": "bfc52772-c9c9-5765-867b-4c82b56c8b44",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "c83c5bbc-d2fd-5dbb-b475-cb5fc681c304",
+    "email": "samuel.brown.0016@student.institution.edu",
+    "display_name": "Samuel Brown",
+    "role": "LEARNER",
+    "student_id": "41b1859a-abe9-5f71-9863-9cda4bf73aab",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "add5e76a-f5f8-5c9f-add3-9a761ff2a195",
+    "email": "kavita.zhang.0017@student.institution.edu",
+    "display_name": "Kavita Zhang",
+    "role": "LEARNER",
+    "student_id": "86eb2873-c16c-54b1-8f94-73f38bc93ed2",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "b49047dc-c11f-5ef0-8722-0807389b5115",
+    "email": "alexander.patel.0018@student.institution.edu",
+    "display_name": "Alexander Patel",
+    "role": "LEARNER",
+    "student_id": "d6607b7d-df0f-54d6-8307-1837bf44eda2",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "f252779e-9d6d-55b9-93dd-b5579531e324",
+    "email": "aditi.nair.0019@student.institution.edu",
+    "display_name": "Aditi Nair",
+    "role": "LEARNER",
+    "student_id": "78d820ec-119a-52ba-87c5-f8f08c292510",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  },
+  {
+    "id": "990f36c0-126f-512f-a2db-778674d86bb6",
+    "email": "alexander.yamamoto.0020@student.institution.edu",
+    "display_name": "Alexander Yamamoto",
+    "role": "LEARNER",
+    "student_id": "77eb9913-6295-53a3-9e8c-cb0a50c69118",
+    "invigilator_id": null,
+    "department": null,
+    "status": "ACTIVE"
+  }
+]

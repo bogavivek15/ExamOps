@@ -1,0 +1,12 @@
+[
+  {
+    "id": "11111111-1111-1111-1111-111111111111",
+    "code": "TERM-2026-02",
+    "name": "Fall 2026 Examination Period",
+    "start_date": "2026-09-01",
+    "end_date": "2026-12-31",
+    "exam_start_date": "2026-12-01",
+    "exam_end_date": "2026-12-14",
+    "is_active": true
+  }
+]

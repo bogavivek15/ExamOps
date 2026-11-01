@@ -1,0 +1,151 @@
+id,course_code,name,department,credits,academic_period_id,status
+065a79b5-d21a-5ec8-8cfd-88f38452d274,CRS-000001,Computer Science Foundation & Applied Topics 1,Computer Science,5,11111111-1111-1111-1111-111111111111,ACTIVE
+394b1035-e509-5659-81e1-7f6da0123f79,CRS-000002,Computer Science Foundation & Applied Topics 2,Computer Science,3,11111111-1111-1111-1111-111111111111,ACTIVE
+92afd497-7d2c-5e5b-9819-bed4bc731824,CRS-000003,Computer Science Foundation & Applied Topics 3,Computer Science,3,11111111-1111-1111-1111-111111111111,ACTIVE
+1924a428-23c0-5207-9891-8ddab2ad4a70,CRS-000004,Computer Science Foundation & Applied Topics 4,Computer Science,4,11111111-1111-1111-1111-111111111111,ACTIVE
+1d7c4852-83db-5a8c-8d46-8eaa0e7c0916,CRS-000005,Computer Science Foundation & Applied Topics 5,Computer Science,4,11111111-1111-1111-1111-111111111111,ACTIVE
+a5b568f6-483d-5ff2-b733-9e56d90dc24d,CRS-000006,Computer Science Foundation & Applied Topics 6,Computer Science,5,11111111-1111-1111-1111-111111111111,ACTIVE
+0da025c6-1e22-57ea-8c44-905c020c16a2,CRS-000007,Computer Science Foundation & Applied Topics 7,Computer Science,5,11111111-1111-1111-1111-111111111111,ACTIVE
+0478f796-ffbb-5ee9-8bd0-2af567243f7e,CRS-000008,Computer Science Foundation & Applied Topics 8,Computer Science,4,11111111-1111-1111-1111-111111111111,ACTIVE
+4bae5058-5820-5c1e-b338-0d3afd5ea3b4,CRS-000009,Computer Science Foundation & Applied Topics 9,Computer Science,4,11111111-1111-1111-1111-111111111111,ACTIVE
+5e419eb0-6250-5910-a6c1-a3a4572ec875,CRS-000010,Computer Science Foundation & Applied Topics 10,Computer Science,4,11111111-1111-1111-1111-111111111111,ACTIVE
+50cfe515-e579-5107-8594-cd796402ce9a,CRS-000011,Computer Science Foundation & Applied Topics 11,Computer Science,4,11111111-1111-1111-1111-111111111111,ACTIVE
+d837a46b-fb5e-500b-b403-0f80503e665d,CRS-000012,Computer Science Foundation & Applied Topics 12,Computer Science,5,11111111-1111-1111-1111-111111111111,ACTIVE
+a97b2d63-6ebc-5f53-8f65-07cf5483b639,CRS-000013,Computer Science Foundation & Applied Topics 13,Computer Science,3,11111111-1111-1111-1111-111111111111,ACTIVE
+65f9fc92-b5cd-5438-a9c9-da263b356f5b,CRS-000014,Computer Science Foundation & Applied Topics 14,Computer Science,4,11111111-1111-1111-1111-111111111111,ACTIVE
+2b1ff743-c848-54d3-8b25-37f0d7121792,CRS-000015,Computer Science Foundation & Applied Topics 15,Computer Science,4,11111111-1111-1111-1111-111111111111,ACTIVE
+57f52e0c-5463-52e8-9903-c383a007d33f,CRS-000016,Electrical Engineering Foundation & Applied Topics 1,Electrical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+3231885b-16c6-5cd0-b64b-fe377197e341,CRS-000017,Electrical Engineering Foundation & Applied Topics 2,Electrical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+89ddb105-1582-510f-acb2-ab4ae66bc775,CRS-000018,Electrical Engineering Foundation & Applied Topics 3,Electrical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+181dcfa3-c4ce-5070-b7b4-85aad53c9140,CRS-000019,Electrical Engineering Foundation & Applied Topics 4,Electrical Engineering,5,11111111-1111-1111-1111-111111111111,ACTIVE
+298c02ac-69cb-5713-a2c5-d7b0c3dcf19d,CRS-000020,Electrical Engineering Foundation & Applied Topics 5,Electrical Engineering,5,11111111-1111-1111-1111-111111111111,ACTIVE
+7cbe69c9-5357-5ed0-982c-e559ad09f05c,CRS-000021,Electrical Engineering Foundation & Applied Topics 6,Electrical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+722bc840-b635-56c3-9e9c-80d141ae6a4a,CRS-000022,Electrical Engineering Foundation & Applied Topics 7,Electrical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+b4a9a49b-9bcc-5b3f-9e3f-10318e91c67a,CRS-000023,Electrical Engineering Foundation & Applied Topics 8,Electrical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+a6600eba-556c-52c1-958b-68dc5a6f0c35,CRS-000024,Electrical Engineering Foundation & Applied Topics 9,Electrical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+7c82fe33-9dcd-5099-ade8-0aea319aea93,CRS-000025,Electrical Engineering Foundation & Applied Topics 10,Electrical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+9d3065d1-2273-551f-b25f-fe5cebca2737,CRS-000026,Electrical Engineering Foundation & Applied Topics 11,Electrical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+c99e0e9c-edbd-5f19-a120-c4280fb42d35,CRS-000027,Electrical Engineering Foundation & Applied Topics 12,Electrical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+0e732df9-656c-5953-89d5-89a400123fb3,CRS-000028,Electrical Engineering Foundation & Applied Topics 13,Electrical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+e20ae64b-4bb7-55e9-8813-03b23863efdf,CRS-000029,Electrical Engineering Foundation & Applied Topics 14,Electrical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+da0610f4-0ecc-5549-bb65-96a3ad55bce0,CRS-000030,Electrical Engineering Foundation & Applied Topics 15,Electrical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+55e0959e-0c18-511e-a787-7510f71d6f25,CRS-000031,Mechanical Engineering Foundation & Applied Topics 1,Mechanical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+cceed700-1eb5-5b5d-8c34-95ec26d27488,CRS-000032,Mechanical Engineering Foundation & Applied Topics 2,Mechanical Engineering,5,11111111-1111-1111-1111-111111111111,ACTIVE
+5d39f5f0-e706-5e3f-bcd5-a2911ed73de8,CRS-000033,Mechanical Engineering Foundation & Applied Topics 3,Mechanical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+869b42dd-c8a0-52e7-b095-20f41195edd8,CRS-000034,Mechanical Engineering Foundation & Applied Topics 4,Mechanical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+421bc338-40fc-505a-b4e3-cd92b7d56597,CRS-000035,Mechanical Engineering Foundation & Applied Topics 5,Mechanical Engineering,5,11111111-1111-1111-1111-111111111111,ACTIVE
+743a1509-d490-57a0-a0d5-2cd6b00f01aa,CRS-000036,Mechanical Engineering Foundation & Applied Topics 6,Mechanical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+18f3b9e1-05b4-5056-b2d9-32e5687d1569,CRS-000037,Mechanical Engineering Foundation & Applied Topics 7,Mechanical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+8bd3fec8-8fe8-5ed3-b879-29033e40bda4,CRS-000038,Mechanical Engineering Foundation & Applied Topics 8,Mechanical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+db00d8a1-f3c6-50ea-ac62-d077067ec845,CRS-000039,Mechanical Engineering Foundation & Applied Topics 9,Mechanical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+b8f59469-a2af-59f2-aefc-71316d335cb1,CRS-000040,Mechanical Engineering Foundation & Applied Topics 10,Mechanical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+ce5bb40f-abac-5ef4-aa4a-3fa3018d7a43,CRS-000041,Mechanical Engineering Foundation & Applied Topics 11,Mechanical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+056b8cbe-36fc-53ac-a096-b6e9d3ad3713,CRS-000042,Mechanical Engineering Foundation & Applied Topics 12,Mechanical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+d4860c01-881d-5496-a21b-db9aabdcd6db,CRS-000043,Mechanical Engineering Foundation & Applied Topics 13,Mechanical Engineering,4,11111111-1111-1111-1111-111111111111,ACTIVE
+8a1ca77f-875b-5f51-9be8-ce16493d07ca,CRS-000044,Mechanical Engineering Foundation & Applied Topics 14,Mechanical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+326fd487-a577-5afa-8ff9-4f85bf6673a7,CRS-000045,Mechanical Engineering Foundation & Applied Topics 15,Mechanical Engineering,3,11111111-1111-1111-1111-111111111111,ACTIVE
+2b74f7c6-5c2f-53d5-a79a-9369d2094b9e,CRS-000046,Mathematics & Statistics Foundation & Applied Topics 1,Mathematics & Statistics,3,11111111-1111-1111-1111-111111111111,ACTIVE
+e10f5d42-231a-5126-be4d-3f89c0d58b2b,CRS-000047,Mathematics & Statistics Foundation & Applied Topics 2,Mathematics & Statistics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+a7f85a07-4f75-5c01-bff6-4f5ffc5a9bcd,CRS-000048,Mathematics & Statistics Foundation & Applied Topics 3,Mathematics & Statistics,5,11111111-1111-1111-1111-111111111111,ACTIVE
+94c59fe8-dd50-5373-92cc-f9d8875b9068,CRS-000049,Mathematics & Statistics Foundation & Applied Topics 4,Mathematics & Statistics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+1b69d918-9ea7-5510-9d1f-18f61ebf3367,CRS-000050,Mathematics & Statistics Foundation & Applied Topics 5,Mathematics & Statistics,3,11111111-1111-1111-1111-111111111111,ACTIVE
+0be1634d-ce7c-5e5c-9d5c-707aec5b4ec0,CRS-000051,Mathematics & Statistics Foundation & Applied Topics 6,Mathematics & Statistics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+c3ebab2a-74ed-5cbe-9b0b-6960644ac7e2,CRS-000052,Mathematics & Statistics Foundation & Applied Topics 7,Mathematics & Statistics,3,11111111-1111-1111-1111-111111111111,ACTIVE
+40f3ab60-90c4-57fa-bdda-bb96f67a8290,CRS-000053,Mathematics & Statistics Foundation & Applied Topics 8,Mathematics & Statistics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+f5acbce2-062e-5521-bb7c-9b45d455a55e,CRS-000054,Mathematics & Statistics Foundation & Applied Topics 9,Mathematics & Statistics,5,11111111-1111-1111-1111-111111111111,ACTIVE
+de4f7e5e-2bf0-5d1e-bba1-3405d9bcc6a2,CRS-000055,Mathematics & Statistics Foundation & Applied Topics 10,Mathematics & Statistics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+fc8bf89f-27b0-580f-a7ac-2bf67dffb37c,CRS-000056,Mathematics & Statistics Foundation & Applied Topics 11,Mathematics & Statistics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+202e63b7-2193-530f-aae0-996e795e1933,CRS-000057,Mathematics & Statistics Foundation & Applied Topics 12,Mathematics & Statistics,3,11111111-1111-1111-1111-111111111111,ACTIVE
+daaa873e-e56a-50fa-a7a0-1620b10d3ba3,CRS-000058,Mathematics & Statistics Foundation & Applied Topics 13,Mathematics & Statistics,3,11111111-1111-1111-1111-111111111111,ACTIVE
+c17e731a-6880-5ed5-b078-b014bf2dfe01,CRS-000059,Mathematics & Statistics Foundation & Applied Topics 14,Mathematics & Statistics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+780aae5b-bdcf-5a5f-8d56-8af5daaf17d2,CRS-000060,Mathematics & Statistics Foundation & Applied Topics 15,Mathematics & Statistics,5,11111111-1111-1111-1111-111111111111,ACTIVE
+f0f096af-3c72-51a5-bfaa-9b0ce781ae4f,CRS-000061,Physics Foundation & Applied Topics 1,Physics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+fa36d0f3-da3b-53f7-b018-f2caa7310e40,CRS-000062,Physics Foundation & Applied Topics 2,Physics,5,11111111-1111-1111-1111-111111111111,ACTIVE
+e6cd0d3e-8dab-592a-bf23-1f3b9a1a3380,CRS-000063,Physics Foundation & Applied Topics 3,Physics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+0962640d-8e14-5713-a7ea-19c2e4bc98e3,CRS-000064,Physics Foundation & Applied Topics 4,Physics,5,11111111-1111-1111-1111-111111111111,ACTIVE
+1b4350ad-b20a-5444-bf32-47b828d79cec,CRS-000065,Physics Foundation & Applied Topics 5,Physics,5,11111111-1111-1111-1111-111111111111,ACTIVE
+c48b357c-cbb7-5f2d-9f5f-4631f8c754b3,CRS-000066,Physics Foundation & Applied Topics 6,Physics,5,11111111-1111-1111-1111-111111111111,ACTIVE
+d3e9a617-5598-5157-96e9-439f7a75cf36,CRS-000067,Physics Foundation & Applied Topics 7,Physics,5,11111111-1111-1111-1111-111111111111,ACTIVE
+361ca025-f97b-555f-8e0f-405c67e25c12,CRS-000068,Physics Foundation & Applied Topics 8,Physics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+b95be3c7-e8ad-554a-8d0b-96bbe07f028c,CRS-000069,Physics Foundation & Applied Topics 9,Physics,3,11111111-1111-1111-1111-111111111111,ACTIVE
+ed7ecb52-9418-56e5-8653-0ea083d1ac4e,CRS-000070,Physics Foundation & Applied Topics 10,Physics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+58545143-2654-5228-a6a6-b4a491e07ebe,CRS-000071,Physics Foundation & Applied Topics 11,Physics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+227b936d-0e75-5660-bf8a-dde6ca2c8cf4,CRS-000072,Physics Foundation & Applied Topics 12,Physics,5,11111111-1111-1111-1111-111111111111,ACTIVE
+1074b5d3-dfe2-51e7-92e7-74c35ecf5fe4,CRS-000073,Physics Foundation & Applied Topics 13,Physics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+825470e5-90f1-53fd-b01c-9967eba23160,CRS-000074,Physics Foundation & Applied Topics 14,Physics,4,11111111-1111-1111-1111-111111111111,ACTIVE
+55ac4298-f1b1-56bd-9f66-f19a8559a9e3,CRS-000075,Physics Foundation & Applied Topics 15,Physics,5,11111111-1111-1111-1111-111111111111,ACTIVE
+2e2ebce3-f761-5bc4-b6fd-75c5d3805b56,CRS-000076,Chemistry Foundation & Applied Topics 1,Chemistry,4,11111111-1111-1111-1111-111111111111,ACTIVE
+081520fe-88a8-5867-892c-705738b0990f,CRS-000077,Chemistry Foundation & Applied Topics 2,Chemistry,4,11111111-1111-1111-1111-111111111111,ACTIVE
+61cd25d4-b5bb-515d-bcfa-52b5de5d4d0c,CRS-000078,Chemistry Foundation & Applied Topics 3,Chemistry,4,11111111-1111-1111-1111-111111111111,ACTIVE
+ac1cb3bb-7f27-57a6-a2bc-6d0522f3e01f,CRS-000079,Chemistry Foundation & Applied Topics 4,Chemistry,4,11111111-1111-1111-1111-111111111111,ACTIVE
+8ad736c0-d60d-598e-a0d2-98a37a799e05,CRS-000080,Chemistry Foundation & Applied Topics 5,Chemistry,5,11111111-1111-1111-1111-111111111111,ACTIVE
+536ec00a-5c88-5619-a4e1-351a6c781dd8,CRS-000081,Chemistry Foundation & Applied Topics 6,Chemistry,3,11111111-1111-1111-1111-111111111111,ACTIVE
+e2e8676b-7526-5c00-862d-84f60533572e,CRS-000082,Chemistry Foundation & Applied Topics 7,Chemistry,4,11111111-1111-1111-1111-111111111111,ACTIVE
+d91b2bde-04ac-5b59-a14c-43604d696ad8,CRS-000083,Chemistry Foundation & Applied Topics 8,Chemistry,5,11111111-1111-1111-1111-111111111111,ACTIVE
+f3963bd7-8102-56fb-94a4-83854d186c4f,CRS-000084,Chemistry Foundation & Applied Topics 9,Chemistry,5,11111111-1111-1111-1111-111111111111,ACTIVE
+d117706e-e4c6-5052-961c-985d7b783f4d,CRS-000085,Chemistry Foundation & Applied Topics 10,Chemistry,5,11111111-1111-1111-1111-111111111111,ACTIVE
+308fd19a-9bc8-5b1c-a96c-14bebfb6e190,CRS-000086,Chemistry Foundation & Applied Topics 11,Chemistry,4,11111111-1111-1111-1111-111111111111,ACTIVE
+adf804af-5c30-59da-bb98-450357008c8e,CRS-000087,Chemistry Foundation & Applied Topics 12,Chemistry,3,11111111-1111-1111-1111-111111111111,ACTIVE
+2a8d9b11-3057-5a23-9cc4-b18910f37013,CRS-000088,Chemistry Foundation & Applied Topics 13,Chemistry,5,11111111-1111-1111-1111-111111111111,ACTIVE
+03a782fa-fb59-59cb-b83c-503e87b7fe2a,CRS-000089,Chemistry Foundation & Applied Topics 14,Chemistry,4,11111111-1111-1111-1111-111111111111,ACTIVE
+b6549791-be13-5a29-90db-e5b8bb4143c8,CRS-000090,Chemistry Foundation & Applied Topics 15,Chemistry,3,11111111-1111-1111-1111-111111111111,ACTIVE
+77c1cd07-22e4-5e2d-bf7a-77be4e741bf0,CRS-000091,Biological Sciences Foundation & Applied Topics 1,Biological Sciences,5,11111111-1111-1111-1111-111111111111,ACTIVE
+56807c46-1fba-583a-84b0-a88c33ae7375,CRS-000092,Biological Sciences Foundation & Applied Topics 2,Biological Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+dc9b061f-b792-5c23-82f0-e0b052fbae28,CRS-000093,Biological Sciences Foundation & Applied Topics 3,Biological Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+eb1a723e-1094-5917-91cd-370885825f55,CRS-000094,Biological Sciences Foundation & Applied Topics 4,Biological Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+9f043505-d900-5813-861e-793d19a5dbba,CRS-000095,Biological Sciences Foundation & Applied Topics 5,Biological Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+f018d0fc-22ed-53bf-999a-f40b6c28b764,CRS-000096,Biological Sciences Foundation & Applied Topics 6,Biological Sciences,5,11111111-1111-1111-1111-111111111111,ACTIVE
+0c44c9b4-e94f-5616-89e9-e074debd088f,CRS-000097,Biological Sciences Foundation & Applied Topics 7,Biological Sciences,3,11111111-1111-1111-1111-111111111111,ACTIVE
+45be5e90-2221-548f-bc6b-0b92613367e3,CRS-000098,Biological Sciences Foundation & Applied Topics 8,Biological Sciences,3,11111111-1111-1111-1111-111111111111,ACTIVE
+fffac953-4104-5149-810c-c1ad54bc7ed8,CRS-000099,Biological Sciences Foundation & Applied Topics 9,Biological Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+311c4034-f522-5f67-b85c-c0798e6c9d87,CRS-000100,Biological Sciences Foundation & Applied Topics 10,Biological Sciences,3,11111111-1111-1111-1111-111111111111,ACTIVE
+c88103cd-1b01-5484-b24b-9dc4a7b97877,CRS-000101,Biological Sciences Foundation & Applied Topics 11,Biological Sciences,3,11111111-1111-1111-1111-111111111111,ACTIVE
+43f66d7a-d841-588e-8f5f-f24f563c22f6,CRS-000102,Biological Sciences Foundation & Applied Topics 12,Biological Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+9f503d49-0cfa-531e-8542-49a0e4add548,CRS-000103,Biological Sciences Foundation & Applied Topics 13,Biological Sciences,5,11111111-1111-1111-1111-111111111111,ACTIVE
+f2e43652-aa68-553b-8219-8e448d7c967d,CRS-000104,Biological Sciences Foundation & Applied Topics 14,Biological Sciences,3,11111111-1111-1111-1111-111111111111,ACTIVE
+e46efc25-b29f-548e-80d7-bc8c9e3030df,CRS-000105,Biological Sciences Foundation & Applied Topics 15,Biological Sciences,3,11111111-1111-1111-1111-111111111111,ACTIVE
+32d4daa8-2599-5ea3-960a-58167e5ea647,CRS-000106,Economics & Finance Foundation & Applied Topics 1,Economics & Finance,4,11111111-1111-1111-1111-111111111111,ACTIVE
+8cd11a36-f430-52e8-b1ea-e5901b9b0f99,CRS-000107,Economics & Finance Foundation & Applied Topics 2,Economics & Finance,3,11111111-1111-1111-1111-111111111111,ACTIVE
+38a86c63-7201-5b4d-8139-a61cbf5d5476,CRS-000108,Economics & Finance Foundation & Applied Topics 3,Economics & Finance,3,11111111-1111-1111-1111-111111111111,ACTIVE
+ba7e52a7-a614-50af-b28a-5231fd699d89,CRS-000109,Economics & Finance Foundation & Applied Topics 4,Economics & Finance,3,11111111-1111-1111-1111-111111111111,ACTIVE
+8fd918bb-97cb-5b97-868a-8f5b0f8c537b,CRS-000110,Economics & Finance Foundation & Applied Topics 5,Economics & Finance,4,11111111-1111-1111-1111-111111111111,ACTIVE
+e399d0ef-ac7e-58dd-ae83-54fe28277f7a,CRS-000111,Economics & Finance Foundation & Applied Topics 6,Economics & Finance,3,11111111-1111-1111-1111-111111111111,ACTIVE
+83d5f40e-e591-5dcd-847a-60ef9f260e75,CRS-000112,Economics & Finance Foundation & Applied Topics 7,Economics & Finance,3,11111111-1111-1111-1111-111111111111,ACTIVE
+f08f676e-a3bd-51cd-afa9-cbcb701d5108,CRS-000113,Economics & Finance Foundation & Applied Topics 8,Economics & Finance,4,11111111-1111-1111-1111-111111111111,ACTIVE
+2ba05c66-3b5e-5ada-a618-af7a01eb1005,CRS-000114,Economics & Finance Foundation & Applied Topics 9,Economics & Finance,3,11111111-1111-1111-1111-111111111111,ACTIVE
+f87316be-bf22-58a8-8d31-f084d9c81323,CRS-000115,Economics & Finance Foundation & Applied Topics 10,Economics & Finance,5,11111111-1111-1111-1111-111111111111,ACTIVE
+1fe13230-d635-5312-9cf7-c5f9c8efe3e0,CRS-000116,Economics & Finance Foundation & Applied Topics 11,Economics & Finance,4,11111111-1111-1111-1111-111111111111,ACTIVE
+d5b0a9ac-f244-5ec6-921d-a9a38dc830de,CRS-000117,Economics & Finance Foundation & Applied Topics 12,Economics & Finance,3,11111111-1111-1111-1111-111111111111,ACTIVE
+0d87fcdf-e0e7-5a5f-9744-b78364e4a778,CRS-000118,Economics & Finance Foundation & Applied Topics 13,Economics & Finance,4,11111111-1111-1111-1111-111111111111,ACTIVE
+5da3224f-c25e-538a-b888-32e4bcc0cfb2,CRS-000119,Economics & Finance Foundation & Applied Topics 14,Economics & Finance,4,11111111-1111-1111-1111-111111111111,ACTIVE
+0bde00a4-feed-5b89-ac9d-6c990c02eaf6,CRS-000120,Economics & Finance Foundation & Applied Topics 15,Economics & Finance,3,11111111-1111-1111-1111-111111111111,ACTIVE
+546563dc-85c6-545a-9224-9bdf977f04c1,CRS-000121,Business Administration Foundation & Applied Topics 1,Business Administration,4,11111111-1111-1111-1111-111111111111,ACTIVE
+ad8ca45f-525b-59aa-b85f-263722cd4d74,CRS-000122,Business Administration Foundation & Applied Topics 2,Business Administration,3,11111111-1111-1111-1111-111111111111,ACTIVE
+215e5394-2bc7-5f40-a2d7-2c33215e47fa,CRS-000123,Business Administration Foundation & Applied Topics 3,Business Administration,4,11111111-1111-1111-1111-111111111111,ACTIVE
+5557dfa1-50e1-539b-99ac-94493544c328,CRS-000124,Business Administration Foundation & Applied Topics 4,Business Administration,4,11111111-1111-1111-1111-111111111111,ACTIVE
+be6af672-c560-54db-9261-9fda29e842a0,CRS-000125,Business Administration Foundation & Applied Topics 5,Business Administration,3,11111111-1111-1111-1111-111111111111,ACTIVE
+af7af9ce-05fa-5fbe-ac83-af1d60bd96b3,CRS-000126,Business Administration Foundation & Applied Topics 6,Business Administration,5,11111111-1111-1111-1111-111111111111,ACTIVE
+525af3df-580c-59f8-a594-5310c4af64ac,CRS-000127,Business Administration Foundation & Applied Topics 7,Business Administration,5,11111111-1111-1111-1111-111111111111,ACTIVE
+d68f6852-d28a-5365-a677-1e0d0ef0e71b,CRS-000128,Business Administration Foundation & Applied Topics 8,Business Administration,3,11111111-1111-1111-1111-111111111111,ACTIVE
+0e4537af-22c1-581d-a961-732c54eec3f7,CRS-000129,Business Administration Foundation & Applied Topics 9,Business Administration,4,11111111-1111-1111-1111-111111111111,ACTIVE
+c118dd03-a8cd-5bc8-afca-f901eeb450ed,CRS-000130,Business Administration Foundation & Applied Topics 10,Business Administration,4,11111111-1111-1111-1111-111111111111,ACTIVE
+6cbc640f-3933-5465-88b7-749a7bc5b911,CRS-000131,Business Administration Foundation & Applied Topics 11,Business Administration,3,11111111-1111-1111-1111-111111111111,ACTIVE
+afd891cf-661a-526c-8a28-9f49cfd3dda9,CRS-000132,Business Administration Foundation & Applied Topics 12,Business Administration,4,11111111-1111-1111-1111-111111111111,ACTIVE
+615fa5a3-fc52-5527-aa2a-8f7115ab718b,CRS-000133,Business Administration Foundation & Applied Topics 13,Business Administration,3,11111111-1111-1111-1111-111111111111,ACTIVE
+c71e7ba1-ac70-5568-9054-cdfdc60d5065,CRS-000134,Business Administration Foundation & Applied Topics 14,Business Administration,4,11111111-1111-1111-1111-111111111111,ACTIVE
+28601275-0c3d-5967-8a1a-f48728729fc5,CRS-000135,Business Administration Foundation & Applied Topics 15,Business Administration,4,11111111-1111-1111-1111-111111111111,ACTIVE
+618deb5a-09e8-5e4f-b0a2-976d777d802a,CRS-000136,Humanities & Social Sciences Foundation & Applied Topics 1,Humanities & Social Sciences,5,11111111-1111-1111-1111-111111111111,ACTIVE
+4d216dcb-e8b5-5a65-b7f8-c3ac716197ef,CRS-000137,Humanities & Social Sciences Foundation & Applied Topics 2,Humanities & Social Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+1582fd9b-2cfb-5a4c-af3f-bba93c074683,CRS-000138,Humanities & Social Sciences Foundation & Applied Topics 3,Humanities & Social Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+99e4fd9d-5879-5689-bbbd-fd9f313c2f17,CRS-000139,Humanities & Social Sciences Foundation & Applied Topics 4,Humanities & Social Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+694ab9f4-f057-52dd-aafd-dfb6c8a56391,CRS-000140,Humanities & Social Sciences Foundation & Applied Topics 5,Humanities & Social Sciences,3,11111111-1111-1111-1111-111111111111,ACTIVE
+45656881-7813-5686-8953-8825f4493d0b,CRS-000141,Humanities & Social Sciences Foundation & Applied Topics 6,Humanities & Social Sciences,3,11111111-1111-1111-1111-111111111111,ACTIVE
+e935c168-b938-5356-a893-f25687a63092,CRS-000142,Humanities & Social Sciences Foundation & Applied Topics 7,Humanities & Social Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+5fe70632-ff0c-5dea-947d-3aae2303bb0a,CRS-000143,Humanities & Social Sciences Foundation & Applied Topics 8,Humanities & Social Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+aa173e10-6ce0-50af-a544-9aec53494383,CRS-000144,Humanities & Social Sciences Foundation & Applied Topics 9,Humanities & Social Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+5beaf5c0-2d69-53df-a149-40fbaecd721a,CRS-000145,Humanities & Social Sciences Foundation & Applied Topics 10,Humanities & Social Sciences,5,11111111-1111-1111-1111-111111111111,ACTIVE
+8cb9ede3-2183-5625-b18d-0ca0b59a504f,CRS-000146,Humanities & Social Sciences Foundation & Applied Topics 11,Humanities & Social Sciences,5,11111111-1111-1111-1111-111111111111,ACTIVE
+fb8877df-037e-5854-bd1d-2124327b6a32,CRS-000147,Humanities & Social Sciences Foundation & Applied Topics 12,Humanities & Social Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+9b682dad-22de-5d9d-8bf9-682c1e1944ad,CRS-000148,Humanities & Social Sciences Foundation & Applied Topics 13,Humanities & Social Sciences,3,11111111-1111-1111-1111-111111111111,ACTIVE
+779da1a4-1de8-5744-a4a4-f31a6863c74a,CRS-000149,Humanities & Social Sciences Foundation & Applied Topics 14,Humanities & Social Sciences,4,11111111-1111-1111-1111-111111111111,ACTIVE
+4ccc081f-58d4-5906-a78b-9434c54776c8,CRS-000150,Humanities & Social Sciences Foundation & Applied Topics 15,Humanities & Social Sciences,3,11111111-1111-1111-1111-111111111111,ACTIVE

@@ -1,0 +1,2 @@
+id,code,name,start_date,end_date,exam_start_date,exam_end_date,is_active
+11111111-1111-1111-1111-111111111111,TERM-2026-02,Fall 2026 Examination Period,2026-09-01,2026-12-31,2026-12-01,2026-12-14,True
