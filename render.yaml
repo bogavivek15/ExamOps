@@ -1,0 +1,28 @@
+services:
+  # Render Web Service for ExamOps FastAPI Backend
+  - type: web
+    name: examops-backend
+    env: python
+    region: oregon
+    plan: standard
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT --workers 4
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: SUPABASE_DB_URL
+        sync: false
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "480"
+      - key: CORS_ORIGINS
+        value: '["https://examops.vercel.app","http://localhost:5173","http://localhost:3000"]'
+      - key: DB_POOL_MIN_CONN
+        value: "2"
+      - key: DB_POOL_MAX_CONN
+        value: "20"

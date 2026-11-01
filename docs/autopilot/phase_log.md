@@ -152,3 +152,32 @@
     - Negative Scenario 5: Night closure scheduling flagged with `ROOM_UNAVAILABLE`.
 - **Acceptance Result**: ACCEPTED
 - **Git Commit**: PENDING commit before advancing to Phase 10.
+
+
+---
+
+## Phase 10: Deployment Preparation (Vercel, Render, Supabase)
+
+- **Start**: 2026-11-01T19:10:00+05:30
+- **Implementation**:
+  - Implemented `frontend/vercel.json` with SPA catch-all rewrites (`/(.*) -> /index.html`) and OWASP HTTP response security headers.
+  - Authored `frontend/.env.example` with API base URL and Supabase credentials.
+  - Implemented `render.yaml` infrastructure-as-code for FastAPI web service on Render with Uvicorn workers and health checks.
+  - Implemented multi-stage `Dockerfile` and `.dockerignore` for containerized runtime.
+  - Pinned all production dependencies in root `requirements.txt`.
+  - Updated root `.env.example` with database connection strings, JWT secret configuration, and connection pool parameters.
+- **First Verification (Pass A)**:
+  - Verified valid JSON syntax and rules in `frontend/vercel.json`.
+  - Verified presence of `render.yaml` with web service specs and environment variables.
+  - Verified `Dockerfile` base image (`python:3.12-slim`), healthcheck, and uvicorn command.
+  - Verified sequential migrations `001`, `002`, `003` in `supabase/migrations/`.
+- **Defects Discovered**:
+  - `verify_phase10.py` lacked `sys.path.insert(0, str(ROOT_DIR))` prior to importing `backend.main`.
+- **Corrections**:
+  - Added root directory path resolution in test script.
+- **Second Verification (Pass B)**:
+  - Executed `python scripts/verify_phase10.py`:
+    - Ran Vite dry-run production build (`npm.cmd run build`): produced valid production assets in `frontend/dist/`.
+    - Validated Python backend dependency import and instantiation cleanly.
+- **Acceptance Result**: ACCEPTED
+- **Git Commit**: PENDING commit before advancing to Phase 11.
