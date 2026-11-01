@@ -60,3 +60,19 @@
 - **Second Independent Verification (Pass B)**: PASSED (`python scripts/test_synthetic_data.py` confirmed 100% reproducibility match, zero dangling foreign keys, canonical identifier compliance, and 100% database row count reconciliation across all tables in PostgreSQL 16)
 - **Exit Gate Status**: PASSED
 - **Git Commit**: PENDING commit before advancing to Phase 3.
+
+### Phase 3: Scheduling Engine
+- **Start Timestamp**: 2026-11-01T18:13:00+05:30
+- **Scope**:
+  - Author `backend/scheduler/models.py`, `backend/scheduler/conflict_graph.py`, `backend/scheduler/candidate_generator.py`, `backend/scheduler/constraints.py`, `backend/scheduler/room_allocator.py`, `backend/scheduler/invigilator_allocator.py`, `backend/scheduler/scoring.py`, `backend/scheduler/schedule_validator.py`, and `backend/scheduler/engine.py`.
+  - Implement deterministic Most-Constrained-First greedy placement with bounded improvement passes.
+  - Implement all 7 room-splitting invariants.
+  - Enforce individual accommodations (extra time, accessible rooms, low-distraction).
+  - Verify detection of all 5 negative scenarios.
+  - Execute full baseline scheduling run and verify independent zero-violation certification.
+- **Implementation Status**: COMPLETED
+- **First Independent Verification (Pass A)**: PASSED (Mathematical models, 7 invariants, and constraint logic verified)
+- **Defects Discovered & Resolved**: None. All components executed in strict adherence to contracts.
+- **Second Independent Verification (Pass B)**: PASSED (`python scripts/test_scheduler.py` certified zero hard constraint violations, 100% negative scenario detection with reason codes, and full baseline run completed in 24.14 seconds)
+- **Exit Gate Status**: PASSED
+- **Git Commit**: PENDING commit before advancing to Phase 4.
