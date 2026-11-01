@@ -1,0 +1,163 @@
+/**
+ * ExamOps Centralized Design System: Outskill Visual Identity
+ * Derived from live reference inspection of Outskill (https://www.outskill.com/ & /outs.svg)
+ */
+
+:root {
+  /* ==========================================================================
+     A. Brand Core Colors (Direct Outskill Source Extraction)
+     ========================================================================== */
+  --brand-primary: #B8EF43;              /* Outskill Signature Electric Lime */
+  --brand-primary-hover: #BEF264;        /* Outskill Lime 300 hover */
+  --brand-primary-active: #A6DF30;       /* Outskill Active press */
+  --brand-primary-subtle: rgba(184, 239, 67, 0.12); /* Subtle pill highlight */
+  --brand-primary-muted: rgba(184, 239, 67, 0.24);  /* Focus outline / border */
+  
+  --brand-cream: #FCF7F3;                /* Outskill Warm Cream (from /outs.svg) */
+  --brand-white: #FFFFFF;                /* Outskill Crisp Pure White */
+  --brand-black: #000000;                /* Outskill Deep Black */
+
+  /* ==========================================================================
+     B. Surface & Canvas Colors (Outskill Obsidian Progression)
+     ========================================================================== */
+  --surface-bg: #08090A;                 /* Deep Obsidian Canvas */
+  --surface-sidebar: #0D0E10;            /* Dark Structural Sidebar */
+  --surface-card: #121212;               /* Primary Charcoal Card Surface */
+  --surface-panel: #141414;              /* Intermediate Container Surface */
+  --surface-elevated: #1C1C1C;           /* Elevated Modal & Header Surface */
+  --surface-iconbox: #343535;            /* Slate Icon Box Badge */
+  --surface-hover: rgba(255, 255, 255, 0.05); /* Hover highlight */
+  --surface-nav-active: rgba(184, 239, 67, 0.10); /* Selected sidebar navigation */
+
+  /* ==========================================================================
+     C. Typography Colors
+     ========================================================================== */
+  --text-primary: #FFFFFF;               /* Primary Headings & Bold Metrics */
+  --text-secondary: rgba(255, 255, 255, 0.82); /* Secondary text & body descriptions */
+  --text-muted: #9CA3AF;                 /* Gray-400 / metadata / placeholder */
+  --text-nav: rgba(255, 255, 255, 0.50); /* Nav links / dividers / timestamps */
+  --text-accent: #B8EF43;                /* Lime Accent text */
+  --text-inverse: #000000;               /* Dark text inside bright buttons */
+
+  /* ==========================================================================
+     D. Borders & Dividers
+     ========================================================================== */
+  --border-subtle: rgba(255, 255, 255, 0.12); /* Inner row dividers */
+  --border-default: rgba(255, 255, 255, 0.18);/* Standard card & container borders */
+  --border-strong: rgba(255, 255, 255, 0.28); /* Dialog & input active borders */
+  --border-accent: #B8EF43;              /* Selected tab & active card border */
+  --focus-ring: 0 0 0 2px rgba(184, 239, 67, 0.40);
+
+  /* ==========================================================================
+     E. Semantic Status Tokens (Product-Derived & Brand-Harmonized)
+     ========================================================================== */
+  --status-scheduled-bg: rgba(184, 239, 67, 0.12);
+  --status-scheduled-fg: #B8EF43;
+  --status-published-bg: rgba(184, 239, 67, 0.16);
+  --status-published-fg: #B8EF43;
+  --status-draft-bg: rgba(255, 255, 255, 0.08);
+  --status-draft-fg: #D1D5DB;
+  --status-warning-bg: rgba(232, 182, 109, 0.12);
+  --status-warning-fg: #E8B66D;
+  --status-danger-bg: rgba(255, 107, 107, 0.12);
+  --status-danger-fg: #FF6B6B;
+  --status-info-bg: rgba(124, 170, 229, 0.12);
+  --status-info-fg: #7CAAE5;
+
+  /* ==========================================================================
+     F. Visualization Colors (Recharts)
+     ========================================================================== */
+  --chart-lime: #B8EF43;
+  --chart-cream: #FCF7F3;
+  --chart-slate: #9CA3AF;
+  --chart-amber: #E8B66D;
+  --chart-rose: #FF6B6B;
+  --chart-blue: #7CAAE5;
+  --chart-grid: rgba(255, 255, 255, 0.08);
+
+  /* ==========================================================================
+     G. Geometric & Elevation Standards
+     ========================================================================== */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+}
+
+/* Custom Outskill utility classes */
+.bg-outskill-lime {
+  background-color: var(--brand-primary);
+  color: var(--brand-black);
+}
+
+.bg-outskill-lime:hover {
+  background-color: var(--brand-primary-hover);
+}
+
+.text-outskill-lime {
+  color: var(--brand-primary);
+}
+
+.border-outskill-lime {
+  border-color: var(--brand-primary);
+}
+
+.btn-outskill-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #B8EF43;
+  color: #000000;
+  font-weight: 500;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease-in-out;
+  border: 1px solid rgba(98, 98, 98, 0.40);
+}
+
+.btn-outskill-primary:hover {
+  background-color: #BEF264;
+  color: #000000;
+  box-shadow: 0 4px 12px rgba(184, 239, 67, 0.25);
+}
+
+.btn-outskill-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #FFFFFF;
+  color: #000000;
+  font-weight: 500;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-outskill-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+.btn-outskill-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: transparent;
+  color: #FFFFFF;
+  font-weight: 400;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-outskill-outline:hover {
+  background-color: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.40);
+}
+

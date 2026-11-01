@@ -4,7 +4,7 @@ FastAPI + Pydantic + Supabase PostgreSQL
 """
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 import time
 
 from backend.config import settings
@@ -27,9 +27,23 @@ app = FastAPI(
     title="ExamOps API",
     description="Examination Operations & Intelligent Scheduling Platform API",
     version="1.0.0",
-    docs_url="/api/docs",
-    openapi_url="/api/openapi.json",
+    docs_url="/docs",
+    redoc_url="/redoc",
+    openapi_url="/openapi.json",
 )
+
+# Convenient redirects for /api/docs, /api/openapi.json, and /api/redoc
+@app.get("/api/docs", include_in_schema=False)
+def redirect_api_docs():
+    return RedirectResponse(url="/docs")
+
+@app.get("/api/openapi.json", include_in_schema=False)
+def redirect_api_openapi():
+    return RedirectResponse(url="/openapi.json")
+
+@app.get("/api/redoc", include_in_schema=False)
+def redirect_api_redoc():
+    return RedirectResponse(url="/redoc")
 
 # CORS Configuration
 app.add_middleware(

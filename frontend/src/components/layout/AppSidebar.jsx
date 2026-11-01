@@ -15,7 +15,6 @@ import {
   Settings,
   ChevronLeft,
   ChevronRight,
-  Layers,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -64,22 +63,49 @@ export default function AppSidebar({ collapsed, onToggle }) {
         collapsed ? 'w-16' : 'w-64'
       }`}
     >
-      {/* Brand Header */}
+      {/* Brand Header with Bespoke ExamOps Operational Timetable Icon */}
       <div>
         <div className="h-16 flex items-center justify-between px-4 border-b border-brand-border">
           <div className="flex items-center gap-3 overflow-hidden">
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-accent to-emerald-600 flex items-center justify-center text-slate-950 font-bold shadow-md shadow-brand-accent/20 shrink-0">
-              <Layers size={20} />
+            {/* Bespoke ExamOps Icon: Intelligent Examination Timetable & Chrono-Matrix */}
+            <div
+              className="w-9 h-9 rounded-[4px] bg-[#141414] border border-white/20 flex items-center justify-center shrink-0 shadow-sm p-1"
+              title="ExamOps — Examination Operations & Scheduling Platform"
+            >
+              <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                {/* Calendar Binding Tabs */}
+                <rect x="7" y="2.5" width="3.5" height="4.5" rx="1.5" fill="#B8EF43"/>
+                <rect x="21.5" y="2.5" width="3.5" height="4.5" rx="1.5" fill="#B8EF43"/>
+                
+                {/* Timetable Base Card */}
+                <rect x="3" y="4.5" width="26" height="24.5" rx="4.5" fill="#141414" stroke="rgba(255, 255, 255, 0.24)" stroke-width="1.2"/>
+                <line x1="3" y1="10.5" x2="29" y2="10.5" stroke="rgba(255, 255, 255, 0.16)" stroke-width="1"/>
+                
+                {/* Operational Spine (Vertical Timeline) */}
+                <rect x="6.5" y="13" width="2.5" height="13" rx="1.25" fill="#FFFFFF"/>
+                
+                {/* Scheduled Exam Session 1 (Morning Cohort) */}
+                <rect x="11" y="13" width="9.5" height="3" rx="1.5" fill="#FFFFFF"/>
+                <circle cx="23.5" cy="14.5" r="1.5" fill="#FCF7F3" fillOpacity="0.8"/>
+                
+                {/* Scheduled Exam Session 2 (Active Midday Optimization - Electric Lime) */}
+                <rect x="11" y="18" width="14" height="3" rx="1.5" fill="#B8EF43"/>
+                <circle cx="21.5" cy="19.5" r="0.75" fill="#000000"/>
+                
+                {/* Scheduled Exam Session 3 (Afternoon Cohort) */}
+                <rect x="11" y="23" width="10.5" height="3" rx="1.5" fill="#FFFFFF" fillOpacity="0.85"/>
+                <circle cx="24.5" cy="24.5" r="1.5" fill="#FCF7F3" fillOpacity="0.8"/>
+              </svg>
             </div>
             {!collapsed && (
               <div className="flex flex-col">
                 <span className="font-bold text-sm tracking-wider text-brand-text flex items-center gap-1.5">
                   ExamOps
-                  <span className="text-[10px] px-1.5 py-0.2 bg-brand-accent/10 text-brand-accent rounded font-mono font-normal">
+                  <span className="text-[10px] px-1.5 py-0.5 bg-brand-accent/20 text-brand-accent border border-brand-accent/40 rounded-[2px] font-mono font-medium">
                     v1.0
                   </span>
                 </span>
-                <span className="text-[10px] text-brand-muted tracking-tight truncate">
+                <span className="text-[10px] text-brand-muted tracking-tight truncate uppercase font-semibold">
                   Intelligent Operations
                 </span>
               </div>
@@ -87,7 +113,7 @@ export default function AppSidebar({ collapsed, onToggle }) {
           </div>
           <button
             onClick={onToggle}
-            className="p-1 rounded text-brand-muted hover:text-brand-text hover:bg-brand-elevated transition-colors"
+            className="p-1 rounded-[4px] text-brand-muted hover:text-brand-text hover:bg-brand-elevated border border-transparent hover:border-brand-border transition-colors"
           >
             {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
           </button>
@@ -98,7 +124,7 @@ export default function AppSidebar({ collapsed, onToggle }) {
           {NAV_GROUPS.map((group) => (
             <div key={group.title} className="space-y-1">
               {!collapsed && (
-                <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 mb-2">
+                <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">
                   {group.title}
                 </div>
               )}
@@ -110,10 +136,10 @@ export default function AppSidebar({ collapsed, onToggle }) {
                     to={item.to}
                     end={item.to === '/'}
                     className={({ isActive }) =>
-                      `flex items-center gap-3 px-3 py-2 rounded-md text-xs font-medium transition-colors relative ${
+                      `flex items-center gap-3 px-3 py-2 rounded-[4px] text-xs font-medium transition-colors relative ${
                         isActive
-                          ? 'bg-brand-elevated text-brand-accent border-l-2 border-brand-accent font-semibold'
-                          : 'text-brand-muted hover:text-brand-text hover:bg-brand-surface'
+                          ? 'bg-brand-accent/15 text-brand-accent border-l-2 border-brand-accent font-semibold shadow-sm'
+                          : 'text-brand-muted hover:text-white hover:bg-white/5'
                       } ${collapsed ? 'justify-center px-0' : ''}`
                     }
                     title={collapsed ? item.label : undefined}
@@ -129,25 +155,24 @@ export default function AppSidebar({ collapsed, onToggle }) {
       </div>
 
       {/* Role Context Indicator Footer */}
-      <div className="p-3 border-t border-brand-border bg-brand-sidebar/80">
+      <div className="p-3 border-t border-brand-border bg-brand-sidebar">
         {!collapsed ? (
           <div className="flex flex-col gap-1 text-[11px]">
-            <span className="text-slate-500 uppercase tracking-wider text-[9px] font-semibold">
+            <span className="text-slate-400 uppercase tracking-wider text-[9px] font-semibold">
               Current Perspective
             </span>
             <div
-              className={`px-2 py-1 rounded text-[11px] font-medium border ${roleObj.badge} truncate`}
+              className={`px-2.5 py-1 rounded-[4px] text-[11px] font-medium border ${roleObj.badge} truncate`}
             >
               {roleObj.label}
             </div>
           </div>
         ) : (
           <div className="flex justify-center" title={`Active: ${roleObj.label}`}>
-            <span className="w-2.5 h-2.5 rounded-full bg-brand-accent animate-pulse" />
+            <span className="w-2.5 h-2.5 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(184,239,67,0.6)]" />
           </div>
         )}
       </div>
     </aside>
   );
 }
-

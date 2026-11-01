@@ -4,11 +4,11 @@ import { api } from '../services/api';
 const AuthContext = createContext();
 
 export const ROLES = [
-  { id: 'ACADEMIC_ADMINISTRATOR', label: 'Academic Administrator (Exam Officer)', badge: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30' },
-  { id: 'PLATFORM_ADMINISTRATOR', label: 'Platform Administrator', badge: 'bg-purple-500/20 text-purple-400 border-purple-500/30' },
-  { id: 'INSTRUCTOR', label: 'Course Instructor', badge: 'bg-blue-500/20 text-blue-400 border-blue-500/30' },
-  { id: 'SUPPORT_STAFF', label: 'Support / Invigilator', badge: 'bg-amber-500/20 text-amber-400 border-amber-500/30' },
-  { id: 'LEARNER', label: 'Student / Learner', badge: 'bg-teal-500/20 text-teal-400 border-teal-500/30' },
+  { id: 'ACADEMIC_ADMINISTRATOR', label: 'Academic Administrator (Exam Officer)', badge: 'bg-brand-accent/20 text-brand-accent border-brand-accent/40' },
+  { id: 'PLATFORM_ADMINISTRATOR', label: 'Platform Administrator', badge: 'bg-purple-500/20 text-purple-300 border-purple-500/30' },
+  { id: 'INSTRUCTOR', label: 'Course Instructor', badge: 'bg-sky-500/20 text-sky-300 border-sky-500/30' },
+  { id: 'SUPPORT_STAFF', label: 'Support / Invigilator', badge: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
+  { id: 'LEARNER', label: 'Student / Learner', badge: 'bg-brand-accent/15 text-brand-accent border-brand-accent/30' },
 ];
 
 export function AuthProvider({ children }) {

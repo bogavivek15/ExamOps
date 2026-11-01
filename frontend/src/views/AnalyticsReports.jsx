@@ -100,15 +100,15 @@ export default function AnalyticsReports() {
 
   // Chart datasets
   const roomUtilizationData = [
-    { name: 'Lecture Halls', utilization: 88, fill: '#56D6C2' },
-    { name: 'Computer Labs', utilization: 94, fill: '#57BE93' },
+    { name: 'Lecture Halls', utilization: 88, fill: '#B8EF43' },
+    { name: 'Computer Labs', utilization: 94, fill: '#BEF264' },
     { name: 'Standard Rooms', utilization: 76, fill: '#7CAAE5' },
     { name: 'Accessible Venues', utilization: 82, fill: '#E8B66D' },
   ];
 
   const invigilatorDistribution = [
-    { name: '1-3 Shifts', value: 45, fill: '#57BE93' },
-    { name: '4-6 Shifts', value: 38, fill: '#56D6C2' },
+    { name: '1-3 Shifts', value: 45, fill: '#B8EF43' },
+    { name: '4-6 Shifts', value: 38, fill: '#BEF264' },
     { name: '7-9 Shifts', value: 14, fill: '#7CAAE5' },
     { name: 'Max (10+)', value: 3, fill: '#E8B66D' },
   ];
@@ -218,10 +218,10 @@ export default function AnalyticsReports() {
               <div className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={roomUtilizationData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <XAxis dataKey="name" stroke="#9AAABA" fontSize={11} tickLine={false} />
-                    <YAxis stroke="#9AAABA" fontSize={11} tickLine={false} domain={[0, 100]} unit="%" />
+                    <XAxis dataKey="name" stroke="#9CA3AF" fontSize={11} tickLine={false} />
+                    <YAxis stroke="#9CA3AF" fontSize={11} tickLine={false} domain={[0, 100]} unit="%" />
                     <Tooltip
-                      contentStyle={{ backgroundColor: '#172330', borderColor: '#263442', color: '#E8EEF5', fontSize: '12px' }}
+                      contentStyle={{ backgroundColor: '#1C1C1C', borderColor: 'rgba(255, 255, 255, 0.20)', color: '#FFFFFF', borderRadius: '4px', fontSize: '12px' }}
                       formatter={(val) => [`${val}%`, 'Utilization']}
                     />
                     <Bar dataKey="utilization" radius={[4, 4, 0, 0]}>
@@ -265,7 +265,7 @@ export default function AnalyticsReports() {
                       ))}
                     </Pie>
                     <Tooltip
-                      contentStyle={{ backgroundColor: '#172330', borderColor: '#263442', color: '#E8EEF5', fontSize: '12px' }}
+                      contentStyle={{ backgroundColor: '#1C1C1C', borderColor: 'rgba(255, 255, 255, 0.20)', color: '#FFFFFF', borderRadius: '4px', fontSize: '12px' }}
                     />
                   </PieChart>
                 </ResponsiveContainer>

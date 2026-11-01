@@ -2,20 +2,20 @@ import React from 'react';
 
 const STATUS_STYLES = {
   // Scheduling Runs
-  DRAFT: 'bg-slate-800 text-slate-300 border-slate-700',
-  SCHEDULING: 'bg-amber-500/10 text-amber-400 border-amber-500/20 animate-pulse',
+  DRAFT: 'bg-white/10 text-slate-300 border-white/20',
+  SCHEDULING: 'bg-brand-accent/20 text-brand-accent border-brand-accent/40 animate-pulse',
   REVIEW_REQUIRED: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
-  APPROVED: 'bg-blue-500/15 text-blue-300 border-blue-500/30',
-  PUBLISHED: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-  SUPERSEDED: 'bg-slate-800/80 text-slate-400 border-slate-700',
+  APPROVED: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
+  PUBLISHED: 'bg-brand-accent/15 text-brand-accent border-brand-accent/30',
+  SUPERSEDED: 'bg-white/5 text-slate-400 border-white/10',
   CANCELLED: 'bg-rose-500/15 text-rose-400 border-rose-500/30',
 
   // Master Data
-  ACTIVE: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-  AVAILABLE: 'bg-teal-500/15 text-teal-300 border-teal-500/30',
-  CONFIRMED: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
+  ACTIVE: 'bg-brand-accent/15 text-brand-accent border-brand-accent/30',
+  AVAILABLE: 'bg-brand-accent/15 text-brand-accent border-brand-accent/30',
+  CONFIRMED: 'bg-brand-accent/15 text-brand-accent border-brand-accent/30',
   READY: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
-  INACTIVE: 'bg-slate-800 text-slate-400 border-slate-700',
+  INACTIVE: 'bg-white/5 text-slate-400 border-white/10',
   SUSPENDED: 'bg-rose-500/15 text-rose-400 border-rose-500/30',
 
   // Severity
@@ -27,7 +27,7 @@ const STATUS_STYLES = {
 
 export default function StatusBadge({ status, size = 'sm', className = '' }) {
   const normalized = (status || '').toUpperCase().trim();
-  const style = STATUS_STYLES[normalized] || 'bg-slate-800 text-slate-400 border-slate-700';
+  const style = STATUS_STYLES[normalized] || 'bg-white/10 text-slate-400 border-white/15';
 
   const sizeClasses = size === 'xs' 
     ? 'px-1.5 py-0.5 text-[10px]' 
@@ -35,11 +35,10 @@ export default function StatusBadge({ status, size = 'sm', className = '' }) {
 
   return (
     <span
-      className={`inline-flex items-center font-medium rounded-full border ${sizeClasses} ${style} ${className}`}
+      className={`inline-flex items-center font-medium rounded-[4px] border ${sizeClasses} ${style} ${className}`}
     >
-      <span className="w-1.5 h-1.5 rounded-full mr-1.5 bg-current opacity-80" />
+      <span className="w-1.5 h-1.5 rounded-full mr-1.5 bg-current opacity-90" />
       {normalized}
     </span>
   );
 }
-

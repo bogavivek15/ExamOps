@@ -13,10 +13,11 @@ def list_exams(
     limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
     status: Optional[str] = None,
+    search: Optional[str] = None,
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Lists examinations with enrolled student counts."""
-    return ExamService.list_exams(limit=limit, offset=offset, status=status)
+    return ExamService.list_exams(limit=limit, offset=offset, status=status, search=search)
 
 @router.get("/{exam_id}")
 def get_exam(

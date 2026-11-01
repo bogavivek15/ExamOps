@@ -334,7 +334,7 @@ export default function SchedulingWorkspace() {
             <button
               onClick={handlePublish}
               disabled={!activeRun || activeRun.status === 'PUBLISHED' || !isAdmin}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-600/20 hover:bg-emerald-600/30 border border-emerald-500/40 text-emerald-400 font-semibold text-xs rounded transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-accent hover:bg-brand-accent-hover border border-[#62626266]/40 text-black font-semibold text-xs rounded-[4px] transition-colors disabled:opacity-50"
             >
               <UploadCloud size={14} />
               Publish Schedule
@@ -380,7 +380,7 @@ export default function SchedulingWorkspace() {
                 ? 'bg-rose-500/15 border border-rose-500/30 text-rose-300'
                 : actionMessage.type === 'info'
                 ? 'bg-sky-500/15 border border-sky-500/30 text-sky-300'
-                : 'bg-emerald-500/15 border border-emerald-500/30 text-emerald-300'
+                : 'bg-brand-accent/15 border border-brand-accent/30 text-brand-accent'
             }`}
           >
             <span>{actionMessage.text}</span>
@@ -399,14 +399,14 @@ export default function SchedulingWorkspace() {
             <div className="flex items-center gap-3">
               <span>Status: <StatusBadge status={activeRun.status} size="xs" /></span>
               <span>•</span>
-              <span>Scheduled: <strong className="text-emerald-400 font-mono">{activeRun.scheduled_count}</strong></span>
+              <span>Scheduled: <strong className="text-brand-accent font-mono">{activeRun.scheduled_count}</strong></span>
               <span>•</span>
               <span>Unassigned: <strong className="text-amber-400 font-mono">{activeRun.unassigned_count}</strong></span>
               <span>•</span>
               <span>Total Exams: <strong className="text-slate-300 font-mono">{activeRun.total_exams}</strong></span>
             </div>
 
-            <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
+            <div className="flex items-center gap-1.5 text-brand-accent font-medium">
               <ShieldCheck size={14} />
               <span>Independent Certification: Zero Hard Constraints Violated</span>
             </div>
@@ -476,7 +476,7 @@ export default function SchedulingWorkspace() {
                   <div>Date: <span className="text-brand-text">{inspectingDecision.selected_candidate.date}</span></div>
                   <div>Interval: <span className="text-brand-text">{new Date(inspectingDecision.selected_candidate.start_time).toLocaleTimeString()} - {new Date(inspectingDecision.selected_candidate.end_time).toLocaleTimeString()}</span></div>
                   <div>Allocated Rooms: <span className="text-brand-accent">{inspectingDecision.selected_candidate.room_codes?.join(', ')}</span></div>
-                  <div>Total Students Seated: <span className="text-emerald-400">{inspectingDecision.selected_candidate.total_seated}</span></div>
+                  <div>Total Students Seated: <span className="text-brand-accent">{inspectingDecision.selected_candidate.total_seated}</span></div>
                 </div>
               </div>
             )}

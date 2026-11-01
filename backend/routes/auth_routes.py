@@ -4,6 +4,7 @@ ExamOps Authentication & User Profile Routes
 from fastapi import APIRouter, Depends, HTTPException, Body
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel
+from backend.config import settings
 from backend.auth import get_current_user, CurrentUser, require_roles, create_access_token, ROLE_ALIASES
 from backend.database import execute_query
 
@@ -70,8 +71,18 @@ def dev_switch_role(req: DevSwitchRoleRequest):
     Local development role switcher.
     Issues a verified, signed JWT for a real PostgreSQL user record possessing the requested role.
     This guarantees the frontend never supplies an unverified role string directly.
+    In production environments, granting administrator privileges via dev-switch-role is strictly forbidden.
     """
     canonical_role = ROLE_ALIASES.get(req.role.upper(), req.role.upper())
+    
+    # Enforce production security restriction
+    if settings.ENVIRONMENT == "production":
+        admin_roles = {"ACADEMIC_ADMINISTRATOR", "PLATFORM_ADMINISTRATOR", "SUPER_ADMIN", "EXAM_OFFICER"}
+        if canonical_role in admin_roles or req.role.upper() in admin_roles:
+            raise HTTPException(
+                status_code=403,
+                detail="Forbidden: Development role switcher cannot grant administrator privileges in production.",
+            )
     
     # Query database for active profile with this role
     prof = execute_query(

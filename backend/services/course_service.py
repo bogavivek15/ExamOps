@@ -28,18 +28,25 @@ class CourseService:
 
 class ExamService:
     @staticmethod
-    def list_exams(limit: int = 100, offset: int = 0, status: Optional[str] = None) -> List[Dict[str, Any]]:
+    def list_exams(limit: int = 100, offset: int = 0, status: Optional[str] = None, search: Optional[str] = None) -> List[Dict[str, Any]]:
         sql = """
         SELECT ex.*, c.name as course_name, c.course_code,
                (SELECT count(*) FROM enrollments enr WHERE enr.course_id = ex.course_id AND enr.status = 'ACTIVE') as enrolled_student_count
         FROM exams ex
         JOIN courses c ON c.id = ex.course_id
+        WHERE 1=1
         """
+        params = []
         if status:
-            sql += " WHERE ex.status = %s ORDER BY ex.exam_code ASC LIMIT %s OFFSET %s;"
-            return execute_query(sql, (status, limit, offset))
+            sql += " AND ex.status = %s"
+            params.append(status)
+        if search:
+            sql += " AND (ex.exam_code ILIKE %s OR ex.title ILIKE %s OR c.course_code ILIKE %s)"
+            s = f"%{search}%"
+            params.extend([s, s, s])
         sql += " ORDER BY ex.exam_code ASC LIMIT %s OFFSET %s;"
-        return execute_query(sql, (limit, offset))
+        params.extend([limit, offset])
+        return execute_query(sql, tuple(params))
 
     @staticmethod
     def get_exam_by_id(exam_id: str) -> Optional[Dict[str, Any]]:

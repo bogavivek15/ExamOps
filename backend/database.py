@@ -1,7 +1,8 @@
 """
 ExamOps Database Connection & Query Layer
-Provides direct PostgreSQL pooling via psycopg2 and Supabase client integration.
+Provides direct PostgreSQL pooling via psycopg2 and Supabase PostgreSQL integration.
 """
+import re
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from psycopg2.pool import ThreadedConnectionPool
@@ -9,20 +10,34 @@ from contextlib import contextmanager
 from typing import Generator, Any, List, Dict, Optional, Tuple
 from backend.config import settings
 
+def mask_connection_url(url: str) -> str:
+    """Masks database credentials in connection URIs for safe diagnostic logging."""
+    if not url:
+        return "<EMPTY_DATABASE_URL>"
+    # Use robust regex matching from :// after scheme up to the last @ before host
+    # e.g., postgresql://user:pass@word@host:5432/db -> postgresql://user:***@host:5432/db
+    return re.sub(r"://([^:]+):.*@([^@/:]+)(:\d+)?(/.*)?$", r"://\1:***@\2\3\4", url)
+
 # Threaded connection pool for PostgreSQL
 _pool: Optional[ThreadedConnectionPool] = None
 
-def init_db_pool(minconn: int = 1, maxconn: int = 20):
+def init_db_pool(minconn: Optional[int] = None, maxconn: Optional[int] = None):
     global _pool
     if _pool is None:
+        minconn = minconn or settings.DB_POOL_MIN_CONN
+        maxconn = maxconn or settings.DB_POOL_MAX_CONN
         try:
+            # Append connect_timeout if not already specified
+            dsn = settings.DATABASE_URL
             _pool = ThreadedConnectionPool(
                 minconn=minconn,
                 maxconn=maxconn,
-                dsn=settings.DATABASE_URL,
+                dsn=dsn,
+                connect_timeout=10,
             )
         except Exception as e:
-            print(f"Warning: Could not connect to PostgreSQL pool at {settings.DATABASE_URL}: {e}")
+            masked = mask_connection_url(settings.DATABASE_URL)
+            print(f"Warning: Could not initialize PostgreSQL pool [{masked}]: {e}")
 
 @contextmanager
 def get_db_connection() -> Generator[psycopg2.extensions.connection, None, None]:
@@ -39,11 +54,15 @@ def get_db_connection() -> Generator[psycopg2.extensions.connection, None, None]
             _pool.putconn(conn)
     else:
         # Direct fallback connection
-        conn = psycopg2.connect(settings.DATABASE_URL)
         try:
-            yield conn
-        finally:
-            conn.close()
+            conn = psycopg2.connect(settings.DATABASE_URL, connect_timeout=10)
+            try:
+                yield conn
+            finally:
+                conn.close()
+        except Exception as e:
+            masked = mask_connection_url(settings.DATABASE_URL)
+            raise ConnectionError(f"Database connection failed [{masked}]: {e}") from None
 
 @contextmanager
 def get_db_cursor(commit: bool = False) -> Generator[RealDictCursor, None, None]:

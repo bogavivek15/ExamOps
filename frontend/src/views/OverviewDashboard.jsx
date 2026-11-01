@@ -11,8 +11,6 @@ import {
   AlertTriangle,
   Play,
   ArrowRight,
-  TrendingUp,
-  Download,
 } from 'lucide-react';
 import { api } from '../services/api';
 import MetricDisplay from '../components/common/MetricDisplay';
@@ -45,12 +43,12 @@ export default function OverviewDashboard() {
   if (loading) return <LoadingState message="Loading institutional overview..." />;
   if (error) {
     return (
-      <div className="p-6 bg-brand-surface border border-rose-500/30 rounded-lg text-center text-rose-400">
+      <div className="p-6 bg-brand-surface border border-brand-danger/30 rounded-[4px] text-center text-brand-danger">
         <AlertTriangle className="mx-auto mb-2" size={24} />
         <p className="text-sm font-semibold">{error}</p>
         <button
           onClick={loadOverview}
-          className="mt-4 px-4 py-1.5 bg-brand-elevated border border-brand-border rounded text-xs text-brand-text hover:border-brand-accent"
+          className="mt-4 px-4 py-1.5 bg-brand-elevated border border-brand-border rounded-[4px] text-xs text-white hover:border-brand-accent"
         >
           Retry
         </button>
@@ -63,16 +61,16 @@ export default function OverviewDashboard() {
   return (
     <div className="space-y-6">
       {/* Top Banner: Academic Period & Run Status */}
-      <div className="bg-gradient-to-r from-brand-surface via-brand-elevated to-brand-surface border border-brand-border rounded-lg p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#121212] border border-brand-border rounded-[4px] p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs uppercase font-mono tracking-wider text-brand-accent">
+            <span className="text-xs uppercase font-mono tracking-wider text-brand-accent font-semibold">
               Operational Period
             </span>
             <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
             <span className="text-xs text-brand-muted">Active Semester</span>
           </div>
-          <h2 className="text-xl font-bold text-brand-text tracking-tight">
+          <h2 className="text-xl font-bold text-white tracking-tight">
             {overview?.active_period?.name || 'Fall 2026 Examination Period'}
           </h2>
           <p className="text-xs text-brand-muted mt-1">
@@ -85,7 +83,7 @@ export default function OverviewDashboard() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/scheduling')}
-            className="flex items-center gap-2 px-4 py-2 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold rounded-md text-xs shadow-lg shadow-brand-accent/20 transition-all"
+            className="flex items-center gap-2 px-4 py-2.5 bg-brand-accent hover:bg-brand-accent-hover text-black font-semibold rounded-[4px] text-xs transition-all border border-[#62626266]/40 shadow-sm"
           >
             <Play size={14} className="fill-current" />
             Launch Scheduling Workspace
@@ -135,10 +133,10 @@ export default function OverviewDashboard() {
 
       {/* Schedule Execution Condition Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-brand-surface border border-brand-border rounded-lg p-6">
+        <div className="lg:col-span-2 bg-brand-surface border border-brand-border rounded-[4px] p-6">
           <div className="flex items-center justify-between pb-4 border-b border-brand-border mb-5">
             <div>
-              <h3 className="text-sm font-bold uppercase tracking-wider text-brand-text">
+              <h3 className="text-sm font-bold uppercase tracking-wider text-white">
                 Current Operational Schedule State
               </h3>
               <p className="text-xs text-brand-muted mt-0.5">
@@ -155,9 +153,9 @@ export default function OverviewDashboard() {
           {latestRun ? (
             <div className="space-y-6">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                <div className="p-3 bg-brand-elevated rounded border border-brand-border/60">
+                <div className="p-3 bg-brand-elevated rounded-[4px] border border-brand-border">
                   <span className="text-[11px] text-brand-muted block mb-1">Scheduled Exams</span>
-                  <span className="text-xl font-bold font-mono text-emerald-400">
+                  <span className="text-xl font-bold font-mono text-brand-accent">
                     {latestRun.scheduled_count}
                   </span>
                   <span className="text-[10px] text-brand-muted block mt-1">
@@ -165,15 +163,15 @@ export default function OverviewDashboard() {
                   </span>
                 </div>
 
-                <div className="p-3 bg-brand-elevated rounded border border-brand-border/60">
+                <div className="p-3 bg-brand-elevated rounded-[4px] border border-brand-border">
                   <span className="text-[11px] text-brand-muted block mb-1">Unassigned Exams</span>
-                  <span className="text-xl font-bold font-mono text-amber-400">
+                  <span className="text-xl font-bold font-mono text-brand-warning">
                     {latestRun.unassigned_count}
                   </span>
                   <span className="text-[10px] text-brand-muted block mt-1">Documented reasons</span>
                 </div>
 
-                <div className="p-3 bg-brand-elevated rounded border border-brand-border/60">
+                <div className="p-3 bg-brand-elevated rounded-[4px] border border-brand-border">
                   <span className="text-[11px] text-brand-muted block mb-1">Completion Rate</span>
                   <span className="text-xl font-bold font-mono text-brand-accent">
                     {overview?.completion_rate_pct}%
@@ -181,9 +179,9 @@ export default function OverviewDashboard() {
                   <span className="text-[10px] text-brand-muted block mt-1">Feasibility yield</span>
                 </div>
 
-                <div className="p-3 bg-brand-elevated rounded border border-brand-border/60">
+                <div className="p-3 bg-brand-elevated rounded-[4px] border border-brand-border">
                   <span className="text-[11px] text-brand-muted block mb-1">Seated Registrations</span>
-                  <span className="text-xl font-bold font-mono text-sky-400">
+                  <span className="text-xl font-bold font-mono text-white">
                     {overview?.total_seated_registrations?.toLocaleString()}
                   </span>
                   <span className="text-[10px] text-brand-muted block mt-1">Students placed</span>
@@ -194,11 +192,11 @@ export default function OverviewDashboard() {
               <div>
                 <div className="flex justify-between text-xs text-brand-muted mb-2 font-mono">
                   <span>Schedule Completion Yield</span>
-                  <span className="text-brand-text font-bold">{overview?.completion_rate_pct}%</span>
+                  <span className="text-white font-bold">{overview?.completion_rate_pct}%</span>
                 </div>
-                <div className="h-2.5 w-full bg-brand-elevated rounded-full overflow-hidden border border-brand-border">
+                <div className="h-2.5 w-full bg-brand-elevated rounded-[2px] overflow-hidden border border-brand-border">
                   <div
-                    className="h-full bg-gradient-to-r from-brand-accent to-emerald-400 rounded-full transition-all duration-500"
+                    className="h-full bg-brand-accent rounded-[2px] transition-all duration-500 shadow-[0_0_8px_rgba(184,239,67,0.5)]"
                     style={{ width: `${overview?.completion_rate_pct || 0}%` }}
                   />
                 </div>
@@ -230,19 +228,19 @@ export default function OverviewDashboard() {
         </div>
 
         {/* Quick Operations & Resource Insights */}
-        <div className="bg-brand-surface border border-brand-border rounded-lg p-6 flex flex-col justify-between">
+        <div className="bg-brand-surface border border-brand-border rounded-[4px] p-6 flex flex-col justify-between">
           <div>
-            <h3 className="text-sm font-bold uppercase tracking-wider text-brand-text pb-4 border-b border-brand-border mb-4">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white pb-4 border-b border-brand-border mb-4">
               Operational Actions
             </h3>
 
             <div className="space-y-3">
               <button
                 onClick={() => navigate('/scheduling')}
-                className="w-full text-left p-3 rounded bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group"
+                className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group"
               >
                 <div>
-                  <div className="text-xs font-semibold text-brand-text group-hover:text-brand-accent transition-colors">
+                  <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
                     Examination Workspace
                   </div>
                   <div className="text-[11px] text-brand-muted">
@@ -254,10 +252,10 @@ export default function OverviewDashboard() {
 
               <button
                 onClick={() => navigate('/exceptions')}
-                className="w-full text-left p-3 rounded bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group"
+                className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group"
               >
                 <div>
-                  <div className="text-xs font-semibold text-brand-text group-hover:text-brand-accent transition-colors">
+                  <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
                     Exception Center
                   </div>
                   <div className="text-[11px] text-brand-muted">
@@ -269,10 +267,10 @@ export default function OverviewDashboard() {
 
               <button
                 onClick={() => navigate('/analytics')}
-                className="w-full text-left p-3 rounded bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group"
+                className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group"
               >
                 <div>
-                  <div className="text-xs font-semibold text-brand-text group-hover:text-brand-accent transition-colors">
+                  <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
                     Analytics & Reconciliation
                   </div>
                   <div className="text-[11px] text-brand-muted">
@@ -285,7 +283,7 @@ export default function OverviewDashboard() {
           </div>
 
           <div className="mt-6 pt-4 border-t border-brand-border text-[11px] text-brand-muted">
-            <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
+            <div className="flex items-center gap-1.5 text-brand-accent font-medium">
               <CheckCircle2 size={13} />
               Zero Hard Constraint Breaches Certified
             </div>
@@ -298,4 +296,3 @@ export default function OverviewDashboard() {
     </div>
   );
 }
-
