@@ -132,17 +132,17 @@ def test_negative_room_capacity_exceeded(scheduler_engine, sample_state):
 # -------------------------------------------------------------
 def test_negative_invigilator_double_booked(scheduler_engine, sample_state):
     """
-    Scenario: Proctor INV-000001 is assigned to Hall A from 09:00-11:00.
+    Scenario: Invigilator INV-000001 is assigned to Hall A from 09:00-11:00.
     A candidate for Hall B assigns INV-000001 from 10:00-12:00.
     Expected: Rejected with INVIGILATOR_DOUBLE_BOOKED and reason NO_INVIGILATOR_AVAILABLE.
     """
-    proctor = sample_state.get_invigilator("INV-000001")
+    invigilator = sample_state.get_invigilator("INV-000001")
     exam_a = sample_state.get_exam("EXAM-2026-000001")
     exam_b = sample_state.get_exam("EXAM-2026-000002")
     
-    commit_assignment_with_proctor(sample_state, exam_a, proctor, start="09:00", end="11:00")
+    commit_assignment_with_invigilator(sample_state, exam_a, invigilator, start="09:00", end="11:00")
     
-    candidate = create_candidate_with_proctor(exam_b, proctor, start="10:00", end="12:00")
+    candidate = create_candidate_with_invigilator(exam_b, invigilator, start="10:00", end="12:00")
     result = scheduler_engine.validate_candidate(candidate, sample_state)
     
     assert result.is_valid is False
@@ -174,15 +174,15 @@ def test_negative_accommodation_ignored(scheduler_engine, sample_state):
 # -------------------------------------------------------------
 def test_negative_room_outside_availability(scheduler_engine, sample_state):
     """
-    Scenario: ROOM-000004 has MAINTENANCE closure recorded on June 18 from 12:00-18:00.
-    A candidate attempts to schedule an exam from 13:00-15:00 in ROOM-000004.
+    Scenario: ROOM-000004 has MAINTENANCE closure recorded on Dec 04 from 12:00-18:00 IST.
+    A candidate attempts to schedule an exam from 13:00-15:00 IST in ROOM-000004.
     Expected: Rejected with ROOM_UNAVAILABLE.
     """
     room = sample_state.get_room("ROOM-000004")
-    sample_state.add_room_closure(room, date="2026-06-18", start="12:00", end="18:00")
+    sample_state.add_room_closure(room, date="2026-12-04", start="12:00", end="18:00")
     exam = sample_state.get_exam("EXAM-2026-000005")
     
-    candidate = create_candidate_at_time(exam, room, date="2026-06-18", start="13:00", end="15:00")
+    candidate = create_candidate_at_time(exam, room, date="2026-12-04", start="13:00", end="15:00")
     result = scheduler_engine.validate_candidate(candidate, sample_state)
     
     assert result.is_valid is False
@@ -212,6 +212,95 @@ def test_dual_generation_canonical_checksums():
 
 ---
 
+### 3.5 Security & RLS Allow/Deny Tests (`test_rls_policies.py`)
+
+```python
+def test_learner_cannot_read_peer_schedule(learner_auth_client, peer_student_id):
+    """
+    Verifies that a Learner querying assignment_students receives 0 rows
+    for assignments belonging to other students.
+    """
+    response = learner_auth_client.from_("assignment_students").select("*").eq("student_id", peer_student_id).execute()
+    assert len(response.data) == 0
+
+def test_support_staff_cannot_read_clinical_notes(support_staff_auth_client):
+    """
+    Verifies that Support Staff are blocked from selecting rows from accommodation_notes.
+    """
+    response = support_staff_auth_client.from_("accommodation_notes").select("*").execute()
+    assert len(response.data) == 0  # Blocked by RLS
+
+def test_user_cannot_elevate_own_role(learner_auth_client, learner_user_id):
+    """
+    Verifies that an attempt by a user to alter their own role via UPDATE is blocked by RLS with check.
+    """
+    with pytest.raises(Exception):
+        learner_auth_client.from_("user_profiles").update({"role": "PLATFORM_ADMINISTRATOR"}).eq("id", learner_user_id).execute()
+
+def test_instructor_sees_only_assigned_courses(instructor_auth_client, unassigned_course_id):
+    """
+    Verifies that an Instructor cannot view exams for courses they are not assigned to via course_instructors.
+    """
+    response = instructor_auth_client.from_("exams").select("*").eq("course_id", unassigned_course_id).eq("status", "DRAFT").execute()
+    assert len(response.data) == 0
+```
+
+---
+
+### 3.6 Allocation Uniqueness & Historical Immutability Tests (`test_database_integrity.py`)
+
+```python
+def test_student_cannot_be_allocated_to_two_rooms_in_same_exam(db_session, run_exam_student_record, assignment_1, assignment_2):
+    """
+    Verifies that attempting to insert two assignment_students rows referencing
+    the same run_exam_student_id violates the UNIQUE constraint.
+    """
+    # 1. First room allocation succeeds
+    db_session.execute(
+        "INSERT INTO assignment_students (assignment_id, run_exam_student_id, student_id, effective_duration_minutes, room_id) "
+        "VALUES (:asgn1, :res_id, :stu_id, 90, :room1)",
+        {"asgn1": assignment_1.id, "res_id": run_exam_student_record.id, "stu_id": run_exam_student_record.student_id, "room1": assignment_1.room_id}
+    )
+    
+    # 2. Second room allocation for the same student-exam pair MUST fail
+    with pytest.raises(Exception) as exc_info:
+        db_session.execute(
+            "INSERT INTO assignment_students (assignment_id, run_exam_student_id, student_id, effective_duration_minutes, room_id) "
+            "VALUES (:asgn2, :res_id, :stu_id, 90, :room2)",
+            {"asgn2": assignment_2.id, "res_id": run_exam_student_record.id, "stu_id": run_exam_student_record.student_id, "room2": assignment_2.room_id}
+        )
+    assert "uq_asgn_run_student" in str(exc_info.value).lower() or "unique constraint" in str(exc_info.value).lower()
+
+def test_historical_run_hard_delete_is_blocked(db_session, run_with_assignments):
+    """
+    Verifies that DELETE on a scheduling_runs row with existing assignments is blocked by ON DELETE RESTRICT.
+    """
+    with pytest.raises(Exception) as exc_info:
+        db_session.execute("DELETE FROM scheduling_runs WHERE id = :id", {"id": run_with_assignments.id})
+    assert "violates foreign key constraint" in str(exc_info.value).lower()
+```
+
+---
+
+### 3.7 Concurrency & Atomic Publication Tests (`test_concurrency.py`)
+
+```python
+def test_cannot_publish_two_schedules_for_same_period(db_session, period_id, run_1_id, run_2_id):
+    """
+    Verifies that the partial unique index uq_one_published_run_per_period blocks
+    having two runs with status = 'PUBLISHED' for the same academic_period_id.
+    """
+    # 1. Publish Run 1
+    db_session.execute("UPDATE scheduling_runs SET status = 'PUBLISHED' WHERE id = :id", {"id": run_1_id})
+    
+    # 2. Attempt to publish Run 2 without superseding Run 1 MUST fail
+    with pytest.raises(Exception) as exc_info:
+        db_session.execute("UPDATE scheduling_runs SET status = 'PUBLISHED' WHERE id = :id", {"id": run_2_id})
+    assert "uq_one_published_run_per_period" in str(exc_info.value).lower()
+```
+
+---
+
 ## 4. Quality Gate & Acceptance Matrix
 
 | Verification Area | Target Standard | Automated Test Command | Pass Condition |
@@ -219,7 +308,11 @@ def test_dual_generation_canonical_checksums():
 | Synthetic Dataset | Exact baseline counts | `pytest tests/test_generator.py` | 100% pass; 0 count mismatches |
 | Referential Integrity | Zero orphan foreign keys | `pytest tests/test_relationships.py` | 100% pass; 0 dangling FKs |
 | Hard Constraints | Zero confirmed violations | `pytest tests/test_constraints.py` | 100% pass; 0 critical issues |
+| Allocation Uniqueness | At most 1 room per student | `pytest tests/test_database_integrity.py` | 100% pass; unique constraint verified |
+| Historical Preservation | DELETE blocked on historical runs | `pytest tests/test_database_integrity.py` | 100% pass; RESTRICT rules verified |
+| Concurrency & Locks | 1 published schedule per term | `pytest tests/test_concurrency.py` | 100% pass; atomic transactions pass |
 | Negative Scenarios | 5/5 detected and reason-coded | `pytest tests/test_edge_cases.py` | 100% pass; 5/5 rejected |
 | Reproducibility | 100% SHA-256 match | `pytest tests/test_reproducibility.py` | Dual run hashes identical |
-| API & Security | Strict RBAC & 401/403 guards | `pytest tests/test_api.py` | 100% pass; 0 auth leaks |
+| API & Security | Strict RBAC & RLS deny rules | `pytest tests/test_api.py tests/test_rls_policies.py` | 100% pass; 0 auth leaks |
 | Overall Coverage | $\ge 85\%$ backend test coverage | `pytest --cov=backend` | Statement coverage $\ge 85\%$ |
+

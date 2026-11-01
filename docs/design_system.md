@@ -190,3 +190,4 @@ Desktop is the primary operational experience for ExamOps:
   - `lg`: $\ge 1024\text{px}$ (Full multi-column operational command center).
   - `md`: $768\text{px} - 1023\text{px}$ (Collapsed sidebar, stackable metric cards).
   - `sm`: $< 768\text{px}$ (Mobile view: drawer navigation, card lists instead of complex timetable grid).
+

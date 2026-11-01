@@ -30,7 +30,7 @@ graph TD
 |---|---|---|
 | `LEARNER` | Student / Candidate | View personal examination timetable, room locations, seat numbers, approved accommodations, and institutional notifications. Zero write access to operations. |
 | `INSTRUCTOR` | Academic Faculty | View examinations, syllabi, enrollments, and confirmed schedules for courses they instruct. Submit exam requirements (duration, equipment). |
-| `ACADEMIC_ADMINISTRATOR` | Operations Officer | Primary operational actor: manages exams, rooms, proctors; triggers scheduling runs; inspects candidate decisions; resolves exceptions; approves and publishes final schedules. |
+| `ACADEMIC_ADMINISTRATOR` | Operations Officer | Primary operational actor: manages exams, rooms, invigilators; triggers scheduling runs; inspects candidate decisions; resolves exceptions; approves and publishes final schedules. |
 | `SUPPORT_STAFF` | Facilities & Disability Services | Manage room facilities, hardware inventory, disability room setups, and on-the-day operational issue triage. Access to sensitive accommodation medical details is masked. |
 | `PLATFORM_ADMINISTRATOR` | System Administrator | Platform governance: user provisioning, role assignments, system-wide configuration, audit log inspection, and database migration telemetry. |
 
@@ -53,6 +53,7 @@ graph TD
 |---|---|---|---|---|---|---|
 | `students` | `R_OWN` | `R_DEPT` | `R` | `CRUD` | `CRUD` | Student directory with PII protections |
 | `courses` | `R` | `R` | `R` | `CRUD` | `CRUD` | Master course catalog |
+| `course_instructors` | `R` | `R_OWN` | `R` | `CRUD` | `CRUD` | Faculty course teaching assignments |
 | `enrollments` | `R_OWN` | `R_DEPT` | `R` | `CRUD` | `CRUD` | Student registrations |
 | `exams` | `R_PUB` | `R_DEPT` | `R` | `CRUD` | `CRUD` | Unscheduled drafts hidden from learners |
 | `exam_requirements` | `—` | `CR_DEPT` | `R` | `CRUD` | `CRUD` | Hardware & duration specifications |
@@ -60,15 +61,16 @@ graph TD
 | `room_capacities` | `—` | `R` | `CRUD` | `CRUD` | `CRUD` | Seating limits and effective dates |
 | `equipment_types` | `—` | `R` | `CRUD` | `CRUD` | `CRUD` | Hardware catalog |
 | `room_equipment` | `—` | `R` | `CRUD` | `CRUD` | `CRUD` | Physical inventory assignments |
-| `invigilators` | `—` | `R_DEPT` | `R` | `CRUD` | `CRUD` | Proctor staffing directory |
+| `invigilators` | `—` | `R_DEPT` | `R` | `CRUD` | `CRUD` | Invigilator staffing directory |
 | `availabilities` | `—` | `—` | `R` | `CRUD` | `CRUD` | Invigilator work shift windows |
 | `room_availabilities` | `—` | `R` | `CRUD` | `CRUD` | `CRUD` | Operating hours and maintenance closures |
 | `accommodations` | `R_OWN` | `—` | `R_MASKED` | `CRUD` | `CRUD` | Strict disability privacy: notes masked for staff |
+| `accommodation_notes` | `—` | `—` | `—` | `CRUD` | `CRUD` | Highly confidential clinical medical notes |
 | `academic_periods` | `R` | `R` | `R` | `CRUD` | `CRUD` | Semester calendars |
 | `scheduling_runs` | `R_PUB` | `R_PUB` | `R` | `CRUD` | `CRUD` | Draft runs restricted to staff & admins |
 | `schedule_assignments`| `R_OWN_PUB`| `R_PUB` | `R` | `CRUD` | `CRUD` | Learners see only their published assignments |
 | `assignment_students` | `R_OWN_PUB`| `R_DEPT_PUB`| `R` | `CRUD` | `CRUD` | Individual seat mappings |
-| `assignment_invigilators`| `—` | `—` | `R` | `CRUD` | `CRUD` | Proctor duty schedules |
+| `assignment_invigilators`| `—` | `—` | `R` | `CRUD` | `CRUD` | Invigilator duty schedules |
 | `run_exam_students` | `—` | `—` | `—` | `R` | `R` | Immutable frozen snapshots |
 | `scheduling_decisions`| `—` | `—` | `—` | `R` | `R` | Telemetry logs (Read-only) |
 | `validation_issues` | `—` | `—` | `R` | `CRUD` | `CRUD` | Diagnostic exception logs |
@@ -193,3 +195,4 @@ TO authenticated
 USING (auth.get_user_role() IN ('ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR'))
 WITH CHECK (auth.get_user_role() IN ('ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR'));
 ```
+

@@ -53,13 +53,13 @@ flowchart TD
 ---
 
 ### Phase 1: Database Schema & SQL Migrations
-- **Objective:** Author production-ready PostgreSQL migrations for all 24 entities with primary keys, foreign keys, check constraints, composite uniqueness, and Row Level Security (RLS) policies.
+- **Objective:** Author production-ready PostgreSQL migrations for all 26 entities with primary keys, foreign keys, check constraints, composite uniqueness, and Row Level Security (RLS) policies.
 - **Tasks:**
-  1. Author `supabase/migrations/001_initial_schema.sql` (Tables, constraints, foreign keys, triggers).
-  2. Author `supabase/migrations/002_rls_policies.sql` (Role-based access control policies for all 5 roles).
-  3. Author `supabase/migrations/003_indexes.sql` (Performance B-tree indexes for foreign keys, overlaps, and audits).
-  4. Test schema execution against local or remote Supabase PostgreSQL instance.
-- **Verification Gate:** SQL schema applies cleanly without warnings; all foreign keys, uniqueness constraints, and RLS policies active.
+  1. Author `supabase/migrations/001_core_master_and_security.sql` (Master reference tables, user_profiles defined upfront with non-recursive SECURITY DEFINER helpers, courses, course_instructors, resources, invigilators, accommodations, accommodation_notes).
+  2. Author `supabase/migrations/002_scheduling_engine.sql` (Scheduling runs, frozen snapshots, assignments, multi-room student allocations with composite keys guaranteeing run/exam integrity, decisions, events, validation issues, audit logs, partial unique index for published runs).
+  3. Author `supabase/migrations/003_rls_and_policies.sql` (Comprehensive Row Level Security policies for all 5 roles across all 26 entities, immutable column update triggers, publication concurrency locking).
+  4. Test schema execution against local PostgreSQL / Supabase instance.
+- **Verification Gate:** SQL schema applies cleanly without warnings; all foreign keys, composite uniqueness constraints, and RLS policies active.
 
 ---
 
@@ -87,7 +87,7 @@ flowchart TD
   6. Author `backend/scheduler/scoring.py`: Deterministic score tuple minimizing room counts and wasted seats.
   7. Author `backend/scheduler/engine.py`: Sequential greedy loop + 3-pass bounded improvement pass.
   8. Author `backend/validation/schedule_validation.py`: Independent `validate_complete_schedule()` sweep.
-- **Verification Gate:** Unit tests in `tests/test_scheduler.py` pass. Five negative scenarios in `tests/test_edge_cases.py` are 100% detected and rejected with standard reason codes. Full 300-exam schedule runs in under 15 seconds with zero hard constraint violations.
+- **Verification Gate:** Unit tests in `tests/test_scheduler.py` pass. Five negative scenarios in `tests/test_edge_cases.py` are 100% detected and rejected with standard reason codes. Full 300-exam schedule completes with zero hard constraint violations and measured runtime documented in benchmarks.
 
 ---
 
@@ -178,3 +178,4 @@ flowchart TD
   6. Scan Git history for accidental secrets or confidential data.
   7. Push to public GitHub repository within the 72-hour window.
 - **Verification Gate:** Candidate reviews and accepts final submission repository.
+

@@ -252,20 +252,11 @@ examops/
 │       ├── data_validation.py        # Input data relationship validation
 │       └── schedule_validation.py    # Full-schedule constraint verification
 │
-├── supabase/                          # Supabase configuration
-│   └── migrations/                    # SQL migration files (chronological)
-│       ├── 001_academic_periods.sql  # Academic period table
-│       ├── 002_students.sql          # Student table
-│       ├── 003_courses.sql           # Course table
-│       ├── 004_enrollments.sql       # Enrollment join table
-│       ├── 005_exams.sql             # Exam and ExamRequirement tables
-│       ├── 006_rooms.sql             # Room, RoomCapacity, RoomEquipment
-│       ├── 007_invigilators.sql      # Invigilator and Availability tables
-│       ├── 008_accommodations.sql    # Student accommodation table
-│       ├── 009_scheduling.sql        # SchedulingRun, ScheduleAssignment, etc.
-│       ├── 010_audit.sql             # AuditLog table
-│       ├── 011_user_profiles.sql     # UserProfile and role management
-│       └── 012_rls_policies.sql      # Row Level Security policies
+├── supabase/                          # Supabase configuration & migrations
+│   └── migrations/                    # Authoritative SQL migration files
+│       ├── 001_core_master_data.sql   # Core master data, facilities, invigilators, accommodations
+│       ├── 002_scheduling_engine.sql  # Scheduling runs, snapshots, assignments, multi-room splits
+│       └── 003_security_and_rls.sql   # User profiles, RBAC, partial unique index, RLS policies, audit
 │
 ├── generator/                         # Synthetic data generator
 │   ├── generate.py                   # Main generation entry point
@@ -341,13 +332,16 @@ sequenceDiagram
     Note over React,FastAPI: Subsequent API requests
 
     React->>FastAPI: API request + Authorization: Bearer {JWT}
-    FastAPI->>SupabaseAuth: Verify JWT signature and expiry
-    SupabaseAuth-->>FastAPI: User identity (user_id, email)
-    FastAPI->>PostgreSQL: Query UserProfile for role
-    PostgreSQL-->>FastAPI: UserProfile with role
-    FastAPI->>FastAPI: Enforce role-based authorization
-    FastAPI->>PostgreSQL: Execute query with user context (RLS)
-    PostgreSQL-->>FastAPI: Results (RLS-filtered)
+    FastAPI->>FastAPI: Validate access token via Supabase client auth.get_user(jwt)
+    FastAPI->>PostgreSQL: Query UserProfile for role, status, student_id, invigilator_id (id = user.id)
+    PostgreSQL-->>FastAPI: UserProfile (role, status, student_id, invigilator_id)
+    FastAPI->>FastAPI: Enforce declarative role-based authorization (RBAC)
+    alt User-Scoped Operation
+        FastAPI->>PostgreSQL: Execute query under user context (RLS filtered by student_id or course_instructors)
+    else Privileged System Operation (Scheduler / Validator / Bulk Seeder)
+        FastAPI->>PostgreSQL: Execute via guarded service-role client with transactional row locks + audit_logs
+    end
+    PostgreSQL-->>FastAPI: Results
     FastAPI-->>React: JSON response
 
     Note over React,SupabaseAuth: Token refresh (automatic)
@@ -364,10 +358,10 @@ sequenceDiagram
 | **Token format** | JWT (JSON Web Token) |
 | **Token storage** | Managed by Supabase JS client (browser storage) |
 | **Token lifetime** | Configurable via Supabase dashboard (default: 1 hour access, 1 week refresh) |
-| **Token refresh** | Automatic via `onAuthStateChange` listener in AuthContext |
+| **Token validation** | Server-side validation via `supabase.auth.get_user(jwt)` (no HS256 assumption); optional cached asymmetric JWKS |
 | **Session restoration** | On page load, AuthContext calls `supabase.auth.getSession()` to restore existing session |
 | **Logout** | `supabase.auth.signOut()` clears all tokens; React Router redirects to login |
-| **Role resolution** | Backend queries `UserProfile` table using verified `user_id` from JWT — never from request body |
+| **Immutable identity mapping** | Backend maps verified `user.id` to `UserProfile`: `student_id` for learners, `invigilator_id` for invigilators, `course_instructors` for faculty |
 | **Protected routes** | React Router wrapper checks AuthContext; redirects unauthenticated users to `/login` |
 
 ### Token Verification Flow (Backend Detail)
@@ -377,15 +371,15 @@ flowchart TD
     A["Incoming request with Authorization header"] --> B{"Header present?"}
     B -->|No| C["Return 401 Unauthorized"]
     B -->|Yes| D["Extract Bearer token"]
-    D --> E["Verify JWT via Supabase Auth"]
-    E --> F{"Token valid?"}
-    F -->|No| G["Return 401 Invalid Token"]
-    F -->|Yes| H["Extract user_id from claims"]
-    H --> I["Query UserProfile table"]
-    I --> J{"Profile exists?"}
-    J -->|No| K["Return 403 No Profile"]
-    J -->|Yes| L["Attach user + role to request context"]
-    L --> M{"Role authorized for endpoint?"}
+    D --> E["Validate token via supabase.auth.get_user(jwt)"]
+    E --> F{"Token valid & active?"}
+    F -->|No| G["Return 401 Invalid or Expired Token"]
+    F -->|Yes| H["Extract verified user.id"]
+    H --> I["Query UserProfile table (id = user.id)"]
+    I --> J{"Active Profile exists?"}
+    J -->|No| K["Return 403 Forbidden / Inactive Profile"]
+    J -->|Yes| L["Attach AuthenticatedUser(id, role, student_id, invigilator_id)"]
+    L --> M{"Role authorized by RBAC guard?"}
     M -->|No| N["Return 403 Forbidden"]
     M -->|Yes| O["Execute endpoint handler"]
 ```
@@ -431,16 +425,19 @@ sequenceDiagram
     React->>API: POST /api/v1/scheduling/runs
     API->>API: Verify JWT + ACADEMIC_ADMINISTRATOR role
 
-    Note over API,DB: Phase 1: Run Initialization
+    Note over API,DB: Phase 1: Run Initialization & Input Freezing
     API->>Service: create_scheduling_run()
     Service->>DB: Insert SchedulingRun (status=DRAFT)
     DB-->>Service: run_id
-    Service->>DB: Snapshot enrollments → RunExamStudent
-    Service->>DB: Record input hash
+    Service->>DB: Snapshot eligible participations → run_exam_students
+    Service->>DB: Capture frozen input state (calendar, rooms, capacities, invigilators) → input_snapshot JSONB
+    Service->>DB: Compute canonical SHA-256 digest of frozen inputs
     Service-->>API: Run created
 
-    Note over API,Engine: Phase 2: Scheduling Execution
+    Note over API,Engine: Phase 2: Concurrent-Safe Scheduling Execution
     API->>Service: execute_scheduling_run(run_id)
+    Service->>DB: BEGIN TRANSACTION & SELECT id FROM scheduling_runs WHERE id = run_id FOR UPDATE
+    Note over Service,DB: Prevents duplicate concurrent executions of the same run
     Service->>DB: Update status → SCHEDULING
     Service->>Engine: run(scheduling_inputs)
 
@@ -473,7 +470,7 @@ sequenceDiagram
         end
         alt Best valid candidate found
             Engine->>DB: Insert ScheduleAssignment
-            Engine->>DB: Insert AssignmentStudent records
+            Engine->>DB: Insert AssignmentStudent records (enforces UNIQUE run_exam_student_id)
             Engine->>DB: Insert AssignmentInvigilator records
             Engine->>DB: Insert SchedulingDecision (ASSIGNED)
             Engine->>DB: Insert ScheduleEvent
@@ -499,7 +496,7 @@ sequenceDiagram
     Validator->>Validator: Check invigilator availability
     Validator->>Validator: Check invigilator overlaps
     Validator->>Validator: Check staffing ratios
-    Validator->>Validator: Reconcile enrollment counts
+    Validator->>Validator: Reconcile enrollment counts & allocation uniqueness
     Validator->>DB: Insert ValidationIssue records (if any)
     Validator-->>Service: ValidationResult
 
@@ -516,12 +513,16 @@ sequenceDiagram
     API->>DB: Update status → APPROVED
     API->>DB: Insert AuditLog entry
 
-    Note over Admin,DB: Phase 5: Publication
+    Note over Admin,DB: Phase 5: Atomic Publication Transaction
     Admin->>React: Click "Publish"
     React->>API: POST /api/v1/scheduling/runs/{run_id}/publish
-    API->>DB: Update status → PUBLISHED
-    API->>DB: Mark previous published run → SUPERSEDED
-    API->>DB: Insert AuditLog entry
+    API->>DB: BEGIN TRANSACTION
+    API->>DB: SELECT id FROM academic_periods WHERE id = period_id FOR UPDATE (Pessimistic Period Lock)
+    API->>DB: SELECT id FROM scheduling_runs WHERE academic_period_id = period_id AND status = 'PUBLISHED' FOR UPDATE
+    API->>DB: UPDATE scheduling_runs SET status = 'SUPERSEDED' WHERE academic_period_id = period_id AND status = 'PUBLISHED'
+    API->>DB: UPDATE scheduling_runs SET status = 'PUBLISHED' WHERE id = run_id (Guaranteed by uq_published_run_per_period)
+    API->>DB: Insert ScheduleEvent & AuditLog entry
+    API->>DB: COMMIT TRANSACTION
     API-->>React: Published confirmation
 ```
 

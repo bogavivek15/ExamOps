@@ -65,13 +65,13 @@ graph TD
   2. **Center Panel — Master Timetable Matrix:**
      - Toggleable views: *Room Grid View* (Rooms as rows, 30-min time slots as columns) and *Calendar View* (Day/Week view).
      - Color-coded assignment blocks indicating exam title, room code, and student count.
-     - Special icons: Accessibility badge ($\pmb{\dot{\cap}}$) on rooms with wheelchair access; proctor badge showing staffing count.
+     - Special icons: Accessibility badge ($\pmb{\dot{\cap}}$) on rooms with wheelchair access; invigilator badge showing staffing count.
      - Zoom controls (15m, 30m, 60m slot width).
   3. **Right Panel / Slide-Over Drawer — Decision & Telemetry Inspector (Width: 460px):**
      - Opens on selecting any assignment or unassigned exam.
      - **Decision Rationale Tab:**
        - Shows evaluated candidate times and room combinations.
-       - Candidate evaluation checklist: $\checkmark$ Student Non-Overlap, $\checkmark$ Room Availability, $\checkmark$ Capacity, $\checkmark$ Proctors.
+       - Candidate evaluation checklist: $\checkmark$ Student Non-Overlap, $\checkmark$ Room Availability, $\checkmark$ Capacity, $\checkmark$ Invigilators.
        - If rejected: Explicitly highlights failing constraint and reason code.
        - Winning score tuple values ($N_{\text{rooms}}, S_{\text{wasted}}, W_{\text{inv}}$).
      - **Participant Roster Tab:**
@@ -131,9 +131,9 @@ graph TD
 ---
 
 ### Module 7: Invigilator Management (`/invigilators`)
-- **Purpose:** Proctor directory, shift availability, and workload management.
+- **Purpose:** Invigilator directory, shift availability, and workload management.
 - **Features:**
-  - Proctor Directory with department tags and contact info.
+  - Invigilator Directory with department tags and contact info.
   - Weekly Availability Calendar: Visual matrix of available shift windows.
   - Workload Dashboard:
     - Daily Workload Progress Bar (Current hours / Max 8.0h cap).
@@ -157,7 +157,7 @@ graph TD
     - Failing Constraint Name.
     - Affected Resources (e.g. Student ID, Room Code).
     - Plain-English diagnostic explanation.
-    - Actionable recommendation (e.g. "Increase room availability on June 18" or "Add proctor shift").
+    - Actionable recommendation (e.g. "Increase room availability on June 18" or "Add invigilator shift").
     - Audit Trail: Resolution history and notes entered by administrators.
 
 ---
@@ -186,4 +186,5 @@ graph TD
 - **Sub-sections:**
   - *User Management:* Provision users, assign roles (`LEARNER`, `INSTRUCTOR`, `ACADEMIC_ADMINISTRATOR`, `SUPPORT_STAFF`, `PLATFORM_ADMINISTRATOR`), toggle active status.
   - *Academic Periods:* Create term dates, exam window boundaries.
-  - *Institutional Settings Form:* Edit default proctor ratios, shift caps, slot granularity, and timezone.
+  - *Institutional Settings Form:* Edit default invigilator ratios, shift caps, slot granularity, and timezone.
+
