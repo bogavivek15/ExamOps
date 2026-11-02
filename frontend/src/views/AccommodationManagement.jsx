@@ -56,7 +56,8 @@ export default function AccommodationManagement() {
     setLoadingNotes(true);
     try {
       const notesData = await api.getAccommodationNotes(acc.id);
-      setClinicalNotes(notesData);
+      const noteItem = Array.isArray(notesData) ? (notesData[0] || {}) : (notesData || {});
+      setClinicalNotes(noteItem);
     } catch (err) {
       console.error('Failed to load notes:', err);
       setClinicalNotes({ documentation: 'Unable to retrieve notes or unauthorized.' });

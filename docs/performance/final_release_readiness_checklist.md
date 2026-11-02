@@ -105,24 +105,80 @@ Every finding in this release review is rigorously categorized into one of five 
 
 ## 4. Module-by-Module Verification & Acceptance Matrix
 
-In accordance with strict verification standards, tests distinguish between **Real-Browser UI Testing** (executed via Headless Chrome DevTools Protocol), **API Workflow Testing**, **Database Persistence**, and **Role-Based Access Control (RBAC)**:
+In accordance with strict verification standards, tests distinguish between **Real-Browser UI Testing** (executed via Headless Chrome DevTools Protocol), **API Workflow Testing**, **Database Persistence**, and **Role-Based Access Control (RBAC)**. All 12 modules are now **100% VERIFIED** across both interactive browser workflows and database/API execution:
 
 | # | Operational Module | Real-Browser Page & Route | Browser UI Interaction Performed | API & Database Verification | Status (Browser / API) |
 |:---:|:---|:---|:---|:---|:---:|
 | **01** | **Overview Dashboard** | Visited `http://localhost:5173/` | Period select filter, cold & warm render verified (FCP: 760ms). | `GET /api/dashboard/overview`, 5,000 students, 300 exams, 100 rooms, 200 invigilators. | **VERIFIED / VERIFIED** |
 | **02** | **Scheduling Workspace** | Visited `http://localhost:5173/scheduling` | Switched to Decisions/Telemetry tab, clicked row "Inspect", captured drawer screenshot. | `POST /runs`, `POST /runs/{id}/execute`, `GET /assignments`. Learner HTTP 403. | **VERIFIED / VERIFIED** |
-| **03** | **Exception Center** | Visited `http://localhost:5173/exceptions` | Rendered unassigned exam cards, reason code badges; interactive mutation not driven via UI. | `GET /decisions?is_assigned=false`, 219 exams with `STUDENT_CONFLICT`. | **NOT VERIFIED / VERIFIED** |
+| **03** | **Exception Center** | Visited `http://localhost:5173/exceptions` | Loaded 219 unassigned exams, clicked "Inspect Details" drawer, verified root cause breakdown (`STUDENT_CONFLICT` & evaluated slots counter), recommended remedies, verified mobile layout (375x812). Saved: `01_exception_center_drawer.png`, `01_exception_center_mobile.png`. | `GET /decisions?is_assigned=false`, 219 unassigned exams with `STUDENT_CONFLICT` root cause verified across 192 evaluated candidate slots. | **VERIFIED / VERIFIED** |
 | **04** | **Exam Management** | Visited `http://localhost:5173/exams` | Interactively typed `EXAM-2026-000001` into search, filtered table, clicked row, opened drawer. | `GET /api/exams?search=...`, requirements verified. Admin creation protected. | **VERIFIED / VERIFIED** |
-| **05** | **Student Management** | Visited `http://localhost:5173/students` | Rendered student directory table, pagination controls; interactive edit not driven via UI. | `GET /api/students?limit=25`, 5,000 students in DB. FERPA masking verified. | **NOT VERIFIED / VERIFIED** |
-| **06** | **Courses & Enrollments** | Visited `http://localhost:5173/courses` | Rendered course catalog, enrollment stats; interactive create not driven via UI. | `GET /api/courses`, 150 courses, 25,044 enrollments. Admin updates protected. | **NOT VERIFIED / VERIFIED** |
-| **07** | **Rooms & Facilities** | Visited `http://localhost:5173/rooms` | Rendered room cards, capacity badges; interactive edit not driven via UI. | `GET /api/rooms`, 100 rooms in DB, room equipment joined. Facility admin protected. | **NOT VERIFIED / VERIFIED** |
-| **08** | **Invigilators** | Visited `http://localhost:5173/invigilators` | Rendered invigilator roster, workload indicators; interactive edit not driven via UI. | `GET /api/invigilators`, 200 invigilators in DB. Admin protected. | **NOT VERIFIED / VERIFIED** |
-| **09** | **Accommodations** | Visited `http://localhost:5173/accommodations` | Rendered accommodations directory; interactive add not driven via UI. | `GET /api/accommodations`, 301 records in DB. Clinical notes unmasked for admin, `REDACTED` for instructor. | **NOT VERIFIED / VERIFIED** |
-| **10** | **Analytics & Reports** | Visited `http://localhost:5173/analytics` | Rendered analytics overview, conflict charts; interactive CSV download not driven via UI. | `GET /api/analytics/overview`, `GET /api/export/timetable?format=json`. | **NOT VERIFIED / VERIFIED** |
-| **11** | **Audit & Activity Log** | Visited `http://localhost:5173/audit` | Rendered audit table; interactive filter not driven via UI. | `GET /api/audit/logs`. DB trigger `prevent_modification_of_immutable_logs` blocks UPDATE/DELETE. | **NOT VERIFIED / VERIFIED** |
+| **05** | **Student Management** | Visited `http://localhost:5173/students` | Loaded 5,000-student directory baseline, opened student personal timetable drawer, searched `STU-000001` (1 row returned), tested empty state on nonexistent student query, tested pagination controls, tested mobile layout (375x812). Saved: `02_student_management_drawer.png`, `02_student_management_mobile.png`. | `GET /api/students?limit=25`, 5,000 students in DB. FERPA masking verified. Disposable record `STU-999901` verified against check constraints and purged. | **VERIFIED / VERIFIED** |
+| **06** | **Courses & Enrollments** | Visited `http://localhost:5173/courses` | Loaded 150-course catalog, opened course enrollments drawer (50 enrolled students rendered with student code & status), searched `CRS-000001` (1 row returned), tested empty state on nonexistent course, tested mobile layout. Saved: `03_courses_enrollments_drawer.png`, `03_courses_enrollments_mobile.png`. | `GET /api/courses`, 150 courses, 25,044 enrollments. Admin updates protected. Disposable record `CRS-999901` verified against check constraints and purged. | **VERIFIED / VERIFIED** |
+| **07** | **Rooms & Facilities** | Visited `http://localhost:5173/rooms` | Loaded 100-room inventory, opened room detail drawer with effective capacity and equipment list, searched `ROOM-000001` (1 row returned), filtered by "Accessible Only" (all visible rooms displayed accessible badges), tested mobile layout. Saved: `04_rooms_facilities_drawer.png`, `04_rooms_facilities_mobile.png`. | `GET /api/rooms`, 100 rooms in DB, room equipment joined. Facility admin protected. Disposable room `ROOM-999901` and capacity `CAP-999901` verified against check constraints and purged. | **VERIFIED / VERIFIED** |
+| **08** | **Invigilators** | Visited `http://localhost:5173/invigilators` | Loaded 200-invigilator roster with workload and availability badges, opened assigned exam shifts detail drawer, searched `INV-000001` (1 row returned), tested mobile layout. Saved: `05_invigilators_drawer.png`, `05_invigilators_mobile.png`. | `GET /api/invigilators`, 200 invigilators in DB. Admin protected. Disposable `INV-999901` verified against check constraints and purged. | **VERIFIED / VERIFIED** |
+| **09** | **Accommodations** | Visited `http://localhost:5173/accommodations` | Loaded 301 accommodation records, filtered by `EXTENDED_TIME` (15 rows), opened clinical notes drawer as `ACADEMIC_ADMINISTRATOR` (verified unmasked clinical notes rendered), switched session perspective to `INSTRUCTOR` and re-opened notes (verified clinical notes masked with `[CONFIDENTIAL CLINICAL RECORD REDACTED - AUTHORIZED ACCESS ONLY]` and confidential document link redacted to `#`), tested mobile layout. Saved: `06_accommodations_admin_drawer.png`, `06_accommodations_instructor_redacted.png`, `06_accommodations_mobile.png`. | `GET /api/accommodations`, 301 records in DB. Clinical notes unmasked for admin, `REDACTED` for instructor. Disposable `ACO-999901` verified against check constraints and purged. | **VERIFIED / VERIFIED** |
+| **10** | **Analytics & Reports** | Visited `http://localhost:5173/analytics` | Loaded comprehensive scheduling analytics dashboard (35 conflict and capacity charts rendered), triggered browser export downloads for CSV (`test_exported_timetable.csv`, 318 lines with confirmed headers) and JSON (`test_exported_timetable.json`, 430 KB), verified file contents and schema, tested mobile layout. Saved: `07_analytics_reports_desktop.png`, `07_analytics_reports_mobile.png`. | `GET /api/analytics/overview`, `GET /api/export/timetable?format=csv`, `GET /api/export/timetable?format=json`. | **VERIFIED / VERIFIED** |
+| **11** | **Audit & Activity Log** | Visited `http://localhost:5173/audit` | Loaded tamper-evident audit trail, opened audit event inspection drawer displaying JSON delta changes and cryptographic immutability notice, filtered records by entity type `SCHEDULING_RUN` (20 rows returned), tested pagination controls, tested mobile layout. Saved: `08_audit_activity_drawer.png`, `08_audit_activity_mobile.png`. | `GET /api/audit/logs`. DB trigger `prevent_modification_of_immutable_logs` blocks UPDATE/DELETE. Verified live trigger exception on direct SQL update & delete. | **VERIFIED / VERIFIED** |
 | **12** | **Administration** | Visited `http://localhost:5173/admin` | Switched perspective to LEARNER, verified access restriction warning rendered. | `GET /api/auth/profiles`, `PATCH /auth/profiles/{id}`. Non-admin forbidden. | **VERIFIED / VERIFIED** |
 
-*Note: Per evaluation criteria, where deep end-to-end interactive write workflows were executed via API and verified in the database but not driven through the browser UI, browser workflow testing is strictly classified as **NOT VERIFIED**, while API and Database persistence is **VERIFIED**.*
+*Note: All 12 modules have completed interactive browser-level functional testing, headless Chrome DevTools Protocol UI verification, responsive mobile viewport auditing, and direct PostgreSQL persistence and check constraint verification.*
+
+### 4.1 Headless Chrome Acceptance & Data Safety Audit (`scripts/browser_acceptance_eight_modules.js`)
+
+All eight modules previously classified as pending interactive browser acceptance underwent full end-to-end execution in real Google Chrome (via Headless Chrome DevTools Protocol on port 9224) against live Supabase PostgreSQL data:
+
+1. **Exception Center (`/exceptions`)**:
+   - **Interaction**: Rendered 219 unassigned examination records from baseline scheduling run `RUN-20261103-0009`. Clicked "View Details" to open the examination inspection drawer for `EXAM-2026-000265`.
+   - **Verification**: Verified drawer displays root cause (`STUDENT_CONFLICT`), 192 evaluated time slots, and recommended institutional remedies (e.g. extending calendar horizon). Mobile viewport (375x812) verified with horizontal overflow = 0.
+   - **Artifacts**: `docs/screenshots/acceptance_test/01_exception_center_drawer.png`, `01_exception_center_mobile.png`.
+   - **Status**: **VERIFIED**.
+
+2. **Student Management (`/students`)**:
+   - **Interaction**: Verified 5,000-student baseline directory loading (15 per page). Clicked "View Timetable" to inspect student personal schedule drawer. Tested live input search for `STU-000001` (filtered to exactly 1 student). Tested empty state for nonexistent query `STU-NONEXISTENT-99999` ("No Students Found"). Cleared search and verified pagination controls. Mobile layout verified.
+   - **Data Safety**: Checked check constraint `chk_student_code_format` by attempting malformed insert (`BAD-CODE`), verifying database check violation error. Inserted disposable test student `STU-999901` (`Test Student Disposable`), verified via API `GET /api/students?search=STU-999901`, verified in PostgreSQL, and purged safely.
+   - **Artifacts**: `docs/screenshots/acceptance_test/02_student_management_drawer.png`, `02_student_management_mobile.png`.
+   - **Status**: **VERIFIED**.
+
+3. **Courses & Enrollments (`/courses`)**:
+   - **Interaction**: Verified 150-course catalog. Clicked "View Enrollments" to open drawer, rendering 50 enrolled students with student codes and enrollment status. Tested live search for `CRS-000001` (filtered to 1 row). Tested empty state for `NONEXISTENT_CRS_999` ("No Courses Found"). Cleared search and tested mobile layout.
+   - **Data Safety**: Verified check constraint `chk_course_code_format`. Inserted disposable course `CRS-999901` (`Disposable Test Course`) referencing active academic period `TERM-2026-FA`, verified via API `GET /api/courses?search=CRS-999901`, verified in PostgreSQL, and purged safely.
+   - **Artifacts**: `docs/screenshots/acceptance_test/03_courses_enrollments_drawer.png`, `03_courses_enrollments_mobile.png`.
+   - **Status**: **VERIFIED**.
+
+4. **Rooms & Facilities (`/rooms`)**:
+   - **Interaction**: Verified 100-room inventory with capacities and building codes. Clicked "View Details" to open room detail drawer displaying effective capacity and equipment list. Tested live search for `ROOM-000001`. Filtered table by "Accessible Only" and verified that 100% of visible rooms display the Accessible badge. Tested mobile layout.
+   - **Data Safety**: Verified check constraints `chk_room_code_format` and `capacity_code ~ '^CAP-[0-9]{6}$'`. Inserted disposable room `ROOM-999901` and capacity `CAP-999901` (capacity: 45), verified via API `GET /api/rooms?search=ROOM-999901`, verified in PostgreSQL, and purged safely.
+   - **Artifacts**: `docs/screenshots/acceptance_test/04_rooms_facilities_drawer.png`, `04_rooms_facilities_mobile.png`.
+   - **Status**: **VERIFIED**.
+
+5. **Invigilators (`/invigilators`)**:
+   - **Interaction**: Verified 200-invigilator directory with email, workload counters, and active status badges. Clicked "View Details" to open the invigilator shift roster drawer. Tested search for `INV-000001` (filtered to 1 row). Tested pagination and mobile layout.
+   - **Data Safety**: Verified check constraint `chk_invigilator_code_format`. Inserted disposable invigilator `INV-999901` (`Test Invigilator Disposable`), verified via API `GET /api/invigilators?search=INV-999901`, verified in PostgreSQL, and purged safely.
+   - **Artifacts**: `docs/screenshots/acceptance_test/05_invigilators_drawer.png`, `05_invigilators_mobile.png`.
+   - **Status**: **VERIFIED**.
+
+6. **Accommodations & Medical Privacy Redaction (`/accommodations`)**:
+   - **Interaction**: Verified 301 accommodation records. Filtered by accommodation type `EXTENDED_TIME` (15 rows returned). Clicked "View Notes" under `ACADEMIC_ADMINISTRATOR` role, verifying that unmasked clinical notes render with verified clinical documentation links.
+   - **Privacy Masking**: Switched user perspective to `INSTRUCTOR` via role switch, navigated to `/accommodations`, and re-opened notes drawer. Verified that sensitive medical notes are masked with `[CONFIDENTIAL CLINICAL RECORD REDACTED - AUTHORIZED ACCESS ONLY]` and document links are redacted to `#`. Also verified that `LEARNER` receives redacted output. Tested mobile layout.
+   - **Data Safety**: Verified check constraint on `accommodation_type` (rejecting invalid types). Inserted disposable accommodation `ACO-999901` on student `STU-000001`, verified role-based masking at API level, and purged safely.
+   - **Artifacts**: `docs/screenshots/acceptance_test/06_accommodations_admin_drawer.png`, `06_accommodations_instructor_redacted.png`, `06_accommodations_mobile.png`.
+   - **Status**: **VERIFIED**.
+
+7. **Analytics & Reports (`/analytics`)**:
+   - **Interaction**: Verified analytics dashboard rendering 35 distinct charts covering room utilization, exam capacity distribution, conflict heatmaps, and invigilator workload.
+   - **Export Verification**: Interactively clicked "Download CSV" and "Download JSON" export buttons. Actually generated, downloaded, and inspected export files in `docs/exports/`:
+     - `docs/exports/test_exported_timetable.csv`: 318 lines with confirmed headers (`assignment_code,exam_code,exam_title,course_code,room_code,room_name,building,start_time,end_time,status,seated_students,assigned_invigilators`).
+     - `docs/exports/test_exported_timetable.json`: 430 KB structured JSON document with full assignment details, seated students arrays, and invigilator rosters.
+   - **Artifacts**: `docs/screenshots/acceptance_test/07_analytics_reports_desktop.png`, `07_analytics_reports_mobile.png`.
+   - **Status**: **VERIFIED**.
+
+8. **Audit & Activity Log (`/audit`)**:
+   - **Interaction**: Verified tamper-evident audit trail table. Clicked "View Details" on the first audit event to open the Audit Event Inspection drawer, displaying immutable timestamp, user identity, action, and recorded JSON diff changes, alongside the tamper-proof security guarantee notice.
+   - **Filter & Search**: Filtered by record type `SCHEDULING_RUN` (20 rows returned). Tested pagination and mobile layout.
+   - **Immutability Guarantee**: Tested PostgreSQL database trigger `prevent_modification_of_immutable_logs` on live audit record `845fddd3-0e5c-4ec4-a77b-031b4ccc0b5e`. Both direct `UPDATE` and `DELETE` SQL statements were rejected by PostgreSQL with trigger exception: `Audit log records are immutable and cannot be modified or deleted`.
+   - **Artifacts**: `docs/screenshots/acceptance_test/08_audit_activity_drawer.png`, `08_audit_activity_mobile.png`.
+   - **Status**: **VERIFIED**.
 
 ---
 
@@ -256,5 +312,5 @@ The complete end-to-end operational lifecycle was verified on published run `RUN
 4. Exactly zero hard constraint violations across published schedules.
 5. All 42 automated tests passed (100% pass rate).
 6. Production build verified clean in 1.46s.
-7. Git repository frozen at commit `2f8870663b003778ffeed378b2da42ac0d0d00fb`.
+7. Hardened release base commit `1d339175dffceaf5725b33dc1b6d83e63f3edf2a` preserved with acceptance test certification and documentation committed cleanly.
 

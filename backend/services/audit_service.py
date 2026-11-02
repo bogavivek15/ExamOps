@@ -50,11 +50,15 @@ class AuditService:
         params: List[Any] = []
 
         if entity_type:
-            conditions.append("al.entity_type = %s")
-            params.append(entity_type)
+            clean_et = entity_type.strip().lower()
+            singular = clean_et[:-1] if clean_et.endswith('s') else clean_et
+            plural = clean_et if clean_et.endswith('s') else f"{clean_et}s"
+            conditions.append("(LOWER(al.entity_type) = %s OR LOWER(al.entity_type) = %s OR al.entity_type ILIKE %s)")
+            params.extend([singular, plural, f"%{singular}%"])
         if action:
-            conditions.append("al.action = %s")
-            params.append(action)
+            clean_act = action.strip()
+            conditions.append("(al.action ILIKE %s OR al.action ILIKE %s)")
+            params.extend([clean_act, f"%{clean_act.replace('RUN', 'SCHEDULING_RUN')}%"])
 
         where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
 

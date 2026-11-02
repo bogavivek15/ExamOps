@@ -6,11 +6,28 @@ from backend.database import execute_query, execute_mutation
 
 class CourseService:
     @staticmethod
-    def list_courses(limit: int = 100, offset: int = 0, department: Optional[str] = None) -> List[Dict[str, Any]]:
+    def list_courses(limit: int = 100, offset: int = 0, department: Optional[str] = None, search: Optional[str] = None) -> List[Dict[str, Any]]:
+        conditions = []
+        params = []
         if department:
-            sql = "SELECT * FROM courses WHERE department = %s ORDER BY course_code ASC LIMIT %s OFFSET %s;"
-            return execute_query(sql, (department, limit, offset))
-        return execute_query("SELECT * FROM courses ORDER BY course_code ASC LIMIT %s OFFSET %s;", (limit, offset))
+            conditions.append("c.department = %s")
+            params.append(department)
+        if search:
+            conditions.append("(c.course_code ILIKE %s OR c.name ILIKE %s OR c.department ILIKE %s)")
+            s = f"%{search}%"
+            params.extend([s, s, s])
+
+        where_clause = f"WHERE {' AND '.join(conditions)}" if conditions else ""
+        sql = f"""
+        SELECT c.*,
+               (SELECT count(*) FROM enrollments e WHERE e.course_id = c.id) as enrolled_count
+        FROM courses c
+        {where_clause}
+        ORDER BY c.course_code ASC
+        LIMIT %s OFFSET %s;
+        """
+        params.extend([limit, offset])
+        return execute_query(sql, tuple(params))
 
     @staticmethod
     def get_course_by_id(course_id: str) -> Optional[Dict[str, Any]]:
@@ -19,7 +36,16 @@ class CourseService:
     @staticmethod
     def list_enrollments(course_id: Optional[str] = None, student_id: Optional[str] = None, limit: int = 100) -> List[Dict[str, Any]]:
         if course_id:
-            sql = "SELECT * FROM enrollments WHERE course_id = %s LIMIT %s;"
+            sql = """
+            SELECT e.*, s.student_code, s.student_code as student_number,
+                   concat(s.first_name, ' ', s.last_name) as student_name,
+                   e.status as enrollment_status
+            FROM enrollments e
+            JOIN students s ON s.id = e.student_id
+            WHERE e.course_id = %s
+            ORDER BY s.student_code ASC
+            LIMIT %s;
+            """
             return execute_query(sql, (course_id, limit))
         if student_id:
             sql = "SELECT * FROM enrollments WHERE student_id = %s LIMIT %s;"

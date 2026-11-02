@@ -13,10 +13,11 @@ def list_courses(
     limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
     department: Optional[str] = None,
+    search: Optional[str] = None,
     current_user: CurrentUser = Depends(get_current_user),
 ):
-    """Lists courses with optional department filter."""
-    return CourseService.list_courses(limit=limit, offset=offset, department=department)
+    """Lists courses with optional department and search filters."""
+    return CourseService.list_courses(limit=limit, offset=offset, department=department, search=search)
 
 @router.get("/courses/{course_id}")
 def get_course(
