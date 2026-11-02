@@ -5,11 +5,11 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import useDebounce from '../hooks/useDebounce';
-import DataTable from '../components/ui/DataTable';
-import Drawer from '../components/ui/Drawer';
-import MetricDisplay from '../components/ui/MetricDisplay';
-import LoadingState from '../components/ui/LoadingState';
-import EmptyState from '../components/ui/EmptyState';
+import DataTable from '../components/common/DataTable';
+import Drawer from '../components/common/Drawer';
+import MetricDisplay from '../components/common/MetricDisplay';
+import LoadingState from '../components/common/LoadingState';
+import EmptyState from '../components/common/EmptyState';
 
 export default function CourseManagement() {
   const [courses, setCourses] = useState([]);

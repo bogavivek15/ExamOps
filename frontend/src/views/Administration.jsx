@@ -5,11 +5,11 @@ import {
 } from 'lucide-react';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import DataTable from '../components/ui/DataTable';
-import StatusBadge from '../components/ui/StatusBadge';
-import MetricDisplay from '../components/ui/MetricDisplay';
-import LoadingState from '../components/ui/LoadingState';
-import EmptyState from '../components/ui/EmptyState';
+import DataTable from '../components/common/DataTable';
+import StatusBadge from '../components/common/StatusBadge';
+import MetricDisplay from '../components/common/MetricDisplay';
+import LoadingState from '../components/common/LoadingState';
+import EmptyState from '../components/common/EmptyState';
 
 export default function Administration() {
   const { currentRole, switchRole } = useAuth();

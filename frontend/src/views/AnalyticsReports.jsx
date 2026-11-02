@@ -7,9 +7,9 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie
 } from 'recharts';
 import { api } from '../services/api';
-import MetricDisplay from '../components/ui/MetricDisplay';
-import LoadingState from '../components/ui/LoadingState';
-import EmptyState from '../components/ui/EmptyState';
+import MetricDisplay from '../components/common/MetricDisplay';
+import LoadingState from '../components/common/LoadingState';
+import EmptyState from '../components/common/EmptyState';
 
 export default function AnalyticsReports() {
   const [runs, setRuns] = useState([]);

@@ -1,9 +1,0 @@
-{
-  "orphaned_records": {},
-  "composite_fk_violations": {},
-  "cross_table_inconsistencies": {},
-  "summary": {
-    "checks_run": 45,
-    "violations_found": 0
-  }
-}
