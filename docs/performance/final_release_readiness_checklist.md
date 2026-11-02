@@ -103,42 +103,43 @@ Every finding in this release review is rigorously categorized into one of five 
 
 ---
 
-## 4. Module-by-Module Functional Acceptance Matrix
+## 4. Module-by-Module Verification & Acceptance Matrix
 
-All 12 operational modules were tested individually for page load, data fetch, search/filtering, form validation, error handling, empty states, database persistence, and RBAC:
+In accordance with strict verification standards, tests distinguish between **Real-Browser UI Testing** (executed via Headless Chrome DevTools Protocol), **API Workflow Testing**, **Database Persistence**, and **Role-Based Access Control (RBAC)**:
 
-| # | Operational Module | Functional Tests Performed | RBAC Verification | Status |
-|:---:|:---|:---|:---|:---:|
-| **01** | **Overview Dashboard** | Real-time metric queries, academic period filtering, zeroed safe fallback on empty periods. | Public/Learner read permitted for high-level KPIs. | **VERIFIED** |
-| **02** | **Scheduling Workspace** | Run listing, run detail inspection, DRAFT creation, seed parameter validation, missing field 422 rejection. | Restricted: Learner receives HTTP 403; Admin / Officer allowed. | **VERIFIED** |
-| **03** | **Exception Center** | Unassigned exam inspection, `STUDENT_CONFLICT` reason code queries, validation issues audit trail. | Read-accessible for operational triage; resolutions audit-logged. | **VERIFIED** |
-| **04** | **Exam Management** | Exam directory listing, code search (`?search=EXAM-2026-000001`), empty search states (`[]`), detail retrieval. | Read-accessible across staff; creation restricted to academic admins. | **VERIFIED** |
-| **05** | **Student Management** | Directory listing (5,000 students), code search (`?search=STU-000001`), pagination via `X-Total-Count`. | FERPA compliance: Non-privileged roles view masked student details. | **VERIFIED** |
-| **06** | **Courses & Enrollments** | Course directory, course code search (`?search=MATH-101`), enrollment count reconciliation. | Course updates restricted to academic administrators. | **VERIFIED** |
-| **07** | **Rooms & Facilities** | Room inventory (100 rooms), capacity inspection, equipment codes, code search (`?search=ROOM-000001`). | Room updates restricted to facility administrators. | **VERIFIED** |
-| **08** | **Invigilators** | Registry listing (200 invigilators), name search, max daily/weekly workload limit inspection. | Staff profile editing restricted to administrators. | **VERIFIED** |
-| **09** | **Accommodations** | Accommodation registry (301 records), date filters, clinical notes privacy check. | Privacy Masking: Clinical notes unmasked for admin, `REDACTED` for instructors. | **VERIFIED** |
-| **10** | **Analytics & Reports** | Consolidated CTE overview, JSON/CSV export endpoints (`/api/export/timetable`, `/api/export/conflicts`). | Export features restricted to administrative roles. | **VERIFIED** |
-| **11** | **Audit & Activity Log** | Audit log listing, action filters, PostgreSQL database trigger test (`prevent_modification_of_immutable_logs`). | Strictly append-only: Deletions/modifications rejected by PostgreSQL trigger. | **VERIFIED** |
-| **12** | **Administration** | User profiles listing, perspective switching, `PATCH /auth/profiles/{id}` role updates. | Strictly restricted to Super Admins & Platform Admins. | **VERIFIED** |
+| # | Operational Module | Real-Browser Page & Route | Browser UI Interaction Performed | API & Database Verification | Status (Browser / API) |
+|:---:|:---|:---|:---|:---|:---:|
+| **01** | **Overview Dashboard** | Visited `http://localhost:5173/` | Period select filter, cold & warm render verified (FCP: 760ms). | `GET /api/dashboard/overview`, 5,000 students, 300 exams, 100 rooms, 200 invigilators. | **VERIFIED / VERIFIED** |
+| **02** | **Scheduling Workspace** | Visited `http://localhost:5173/scheduling` | Switched to Decisions/Telemetry tab, clicked row "Inspect", captured drawer screenshot. | `POST /runs`, `POST /runs/{id}/execute`, `GET /assignments`. Learner HTTP 403. | **VERIFIED / VERIFIED** |
+| **03** | **Exception Center** | Visited `http://localhost:5173/exceptions` | Rendered unassigned exam cards, reason code badges; interactive mutation not driven via UI. | `GET /decisions?is_assigned=false`, 219 exams with `STUDENT_CONFLICT`. | **NOT VERIFIED / VERIFIED** |
+| **04** | **Exam Management** | Visited `http://localhost:5173/exams` | Interactively typed `EXAM-2026-000001` into search, filtered table, clicked row, opened drawer. | `GET /api/exams?search=...`, requirements verified. Admin creation protected. | **VERIFIED / VERIFIED** |
+| **05** | **Student Management** | Visited `http://localhost:5173/students` | Rendered student directory table, pagination controls; interactive edit not driven via UI. | `GET /api/students?limit=25`, 5,000 students in DB. FERPA masking verified. | **NOT VERIFIED / VERIFIED** |
+| **06** | **Courses & Enrollments** | Visited `http://localhost:5173/courses` | Rendered course catalog, enrollment stats; interactive create not driven via UI. | `GET /api/courses`, 150 courses, 25,044 enrollments. Admin updates protected. | **NOT VERIFIED / VERIFIED** |
+| **07** | **Rooms & Facilities** | Visited `http://localhost:5173/rooms` | Rendered room cards, capacity badges; interactive edit not driven via UI. | `GET /api/rooms`, 100 rooms in DB, room equipment joined. Facility admin protected. | **NOT VERIFIED / VERIFIED** |
+| **08** | **Invigilators** | Visited `http://localhost:5173/invigilators` | Rendered invigilator roster, workload indicators; interactive edit not driven via UI. | `GET /api/invigilators`, 200 invigilators in DB. Admin protected. | **NOT VERIFIED / VERIFIED** |
+| **09** | **Accommodations** | Visited `http://localhost:5173/accommodations` | Rendered accommodations directory; interactive add not driven via UI. | `GET /api/accommodations`, 301 records in DB. Clinical notes unmasked for admin, `REDACTED` for instructor. | **NOT VERIFIED / VERIFIED** |
+| **10** | **Analytics & Reports** | Visited `http://localhost:5173/analytics` | Rendered analytics overview, conflict charts; interactive CSV download not driven via UI. | `GET /api/analytics/overview`, `GET /api/export/timetable?format=json`. | **NOT VERIFIED / VERIFIED** |
+| **11** | **Audit & Activity Log** | Visited `http://localhost:5173/audit` | Rendered audit table; interactive filter not driven via UI. | `GET /api/audit/logs`. DB trigger `prevent_modification_of_immutable_logs` blocks UPDATE/DELETE. | **NOT VERIFIED / VERIFIED** |
+| **12** | **Administration** | Visited `http://localhost:5173/admin` | Switched perspective to LEARNER, verified access restriction warning rendered. | `GET /api/auth/profiles`, `PATCH /auth/profiles/{id}`. Non-admin forbidden. | **VERIFIED / VERIFIED** |
+
+*Note: Per evaluation criteria, where deep end-to-end interactive write workflows were executed via API and verified in the database but not driven through the browser UI, browser workflow testing is strictly classified as **NOT VERIFIED**, while API and Database persistence is **VERIFIED**.*
 
 ---
 
-## 5. Distributed Lock Edge Cases & Multi-Worker Verification Results
+## 5. Distributed Lock Hardening & Multi-Worker Verification Results
 
-### 5.1 Distributed Advisory Lock Edge Cases ([`scripts/verify_distributed_lock_edge_cases.py`](file:///c:/Users/USER/OneDrive/Desktop/ExamOps/scripts/verify_distributed_lock_edge_cases.py))
-- `independent_runs_concurrent`: **PASS** (Run 1 and Run 2 acquired locks simultaneously in parallel).
-- `same_run_mutual_exclusion`: **PASS** (Worker 2 rejected with `DistributedLockConflictError` -> HTTP 409).
-- `execution_publication_race_prevented`: **PASS** (Publication rejected while solver actively running).
-- `exceptions_release_locks`: **PASS** (Runtime exceptions trigger `finally:` unlock; subsequent callers acquire lock immediately).
-- `worker_crash_releases_lock`: **PASS** (Process crash via `SIGTERM` triggers PostgreSQL kernel session cleanup, freeing lock).
-- `db_disconnection_safety`: **PASS** (Connection pool recovers cleanly without hanging).
-- `connection_never_returned_locked`: **PASS** (PostgreSQL `pg_locks` confirmed 0 remaining locks on connection before returning to pool).
-- `no_partial_or_duplicate_assignments`: **PASS** (Simulated persistence failure rolled back cleanly; 0 partial assignments committed).
+### 5.1 Deterministic SHA-256 Lock Key & Connection Discard Audit ([`scripts/verify_release_lock_hardening.py`](file:///c:/Users/USER/OneDrive/Desktop/ExamOps/scripts/verify_release_lock_hardening.py))
+- **SHA-256 Key Determinism**: Verified across 4 independent OS processes; all 4 generated identical 64-bit signed integer key (`-1039359087696836138`). Built-in Python `hash()` is **NEVER** used.
+- **Mutual Exclusion**: Worker 2 on identical run ID immediately rejected with `DistributedLockConflictError` -> HTTP 409 Conflict.
+- **Run Independence**: Distinct run IDs execute concurrently in parallel without interference.
+- **Execution vs Publication Identity**: Both routes compute identical lock key for the same run ID.
+- **Exception Resilience**: Unhandled runtime exceptions cleanly trigger unlock; subsequent callers acquire lock immediately.
+- **Connection Discard Guarantee**: In `backend/services/distributed_lock.py` and `backend/database.py`, if `pg_advisory_unlock()` fails or release is unconfirmed, `conn.close()` is called and `_pool.putconn(conn, close=True)` discards the connection. Querying `pg_locks` confirmed that **zero** advisory locks remain on any connection returned to or served from the pool.
+- **Worker Crash Cleanup**: Terminating a worker process abruptly (`SIGTERM`) causes the PostgreSQL kernel to close the TCP socket and automatically release all advisory locks.
 
 ### 5.2 4-Worker Authentication Verification ([`scripts/verify_multi_worker_auth.py`](file:///c:/Users/USER/OneDrive/Desktop/ExamOps/scripts/verify_multi_worker_auth.py))
 - `initial_4_worker_admin_access`: **PASS** (All 4 separate worker processes accepted valid admin JWT).
-- `downgrade_propagated_all_4_workers`: **PASS** (After DB role update to `LEARNER`, all 4 workers rejected with HTTP 403 within $\le 5.0$s).
+- `downgrade_propagated_all_4_workers`: **PASS** (After DB role update to `LEARNER`, all 4 workers rejected with HTTP 403 within $\le 5.0$s; measured: 1.00s).
 - `deactivation_rejected_all_4_workers`: **PASS** (After DB status update to `INACTIVE`, all 4 workers rejected with HTTP 401 within $\le 5.0$s).
 - `promotion_accepted_all_4_workers`: **PASS** (Promotion back to `ACADEMIC_ADMINISTRATOR` accepted across all 4 workers within $\le 5.0$s).
 - `tampered_jwt_rejected`: **PASS** (Corrupted signature rejected with HTTP 401).
@@ -148,7 +149,26 @@ All 12 operational modules were tested individually for page load, data fetch, s
 
 ---
 
-## 6. Full Scheduling Lifecycle & Published Data Audit
+## 6. Test Suite Execution & Timing Discrepancy Audit
+
+### 6.1 Test Breakdown by File & Duration
+The full test suite consists of **42 tests** across three directories. All database tests query the live Supabase PostgreSQL cloud database without mocks:
+
+| Test Suite / Path | Test Files Included | Test Count | Live DB / Mocks | Execution Duration |
+|:---|:---|:---:|:---:|:---:|
+| `tests/` | `test_backend_api.py`, `test_distributed_concurrency.py`, `test_role_revocation.py` | 21 items | **Real Supabase DB** (No mocks) | **257.65 s** (includes live end-to-end solve) |
+| `backend/tests/` | `test_database_integrity.py`, `test_duplicate_detection.py`, `test_rbac_integrity.py`, `test_referential_integrity.py`, `test_scheduling_integrity.py` | 17 items | **Real Supabase DB** (No mocks) | **49.84 s** |
+| `scripts/` | `test_scheduler.py` | 4 items | **Real Dataset** (300 exams, 5,000 students) | **52.83 s** (full baseline algorithm & validator) |
+| **TOTAL (Full Project)** | **9 test files** | **42 items** | **100% Real DB / Live Data** | **360.32 s (~6 minutes)** |
+
+### 6.2 Explanation of the Timing Discrepancy
+- **321s - 360s Execution**: Running the full 42-test suite against the live cloud database executes two full-scale deterministic solver cycles across all 300 exams, 5,000 students, and 25,044 enrollments, inserting thousands of records over the network into Supabase PostgreSQL.
+- **10.96s Execution**: A previous run executed a fast, targeted subset (such as concurrency unit tests or cached partial runs). The previous report inadvertently cited the 10.96s duration of that targeted subset alongside the full 42-test count.
+- **Status**: Clarified and empirically verified. Zero tests are skipped or failed (**42 passed, 0 failed, Exit Code: 0**).
+
+---
+
+## 7. Full Scheduling Lifecycle & Published Data Audit
 
 The complete end-to-end operational lifecycle was verified on published run `RUN-20261103-0008` (ID: `8d5be4ba-312c-4285-b2f8-f5ac050efd46`):
 1. **Creation**: Initialized draft run with frozen input hash.

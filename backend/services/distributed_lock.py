@@ -56,15 +56,28 @@ def distributed_advisory_lock(resource_key: str, namespace: str = "scheduling_ru
                     detail=f"Resource '{resource_key}' is actively being processed by another worker.",
                 )
             
+            lock_confirmed_released = False
             try:
                 yield lock_id
             finally:
                 try:
                     with conn.cursor() as cur:
                         cur.execute("SELECT pg_advisory_unlock(%s);", (lock_id,))
+                        row = cur.fetchone()
+                        if row and row[0]:
+                            lock_confirmed_released = True
                 except Exception:
-                    # If socket or connection already severed, PG automatically releases the lock
-                    pass
+                    lock_confirmed_released = False
+
+                if not lock_confirmed_released:
+                    # Discard the connection completely so it is never returned to the pool
+                    # with an uncertain advisory-lock state. Closing the connection causes
+                    # PostgreSQL to immediately drop all session locks.
+                    try:
+                        conn.close()
+                    except Exception:
+                        pass
         finally:
-            conn.autocommit = orig_autocommit
+            if not conn.closed:
+                conn.autocommit = orig_autocommit
 

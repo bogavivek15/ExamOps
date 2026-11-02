@@ -52,7 +52,10 @@ def get_db_connection() -> Generator[psycopg2.extensions.connection, None, None]
             yield conn
         finally:
             try:
-                _pool.putconn(conn)
+                if conn.closed:
+                    _pool.putconn(conn, close=True)
+                else:
+                    _pool.putconn(conn)
             except Exception:
                 try:
                     conn.close()
