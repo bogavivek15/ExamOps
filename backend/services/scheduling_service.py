@@ -18,6 +18,7 @@ from backend.scheduler.models import (
     ExamRequirementModel,
 )
 from backend.scheduler.engine import SchedulingEngine
+from backend.services.analytics_service import invalidate_analytics_cache
 
 class SchedulingService:
     @staticmethod
@@ -100,6 +101,7 @@ class SchedulingService:
                 (run_id, run_code, academic_period_id, created_by, algorithm_version, seed, input_snapshot_hash, exam_count),
             )
             run_record = cur.fetchone()
+            invalidate_analytics_cache()
             return dict(run_record) if run_record else {}
 
     @staticmethod
@@ -111,6 +113,9 @@ class SchedulingService:
         run = SchedulingService.get_run_by_id(run_id)
         if not run:
             raise ValueError(f"Scheduling run {run_id} not found.")
+
+        if run.get("status") == "PUBLISHED":
+            raise ValueError(f"Scheduling run '{run_id}' is already PUBLISHED and cannot be re-executed.")
 
         period_id = run["academic_period_id"]
         period = execute_query("SELECT * FROM academic_periods WHERE id = %s;", (period_id,), fetch_one=True)
@@ -528,6 +533,8 @@ class SchedulingService:
                     )
                 conn.commit()
 
+            invalidate_analytics_cache()
+
             return {
                 "success": True,
                 "run_id": run_id,
@@ -633,6 +640,7 @@ class SchedulingService:
             "UPDATE scheduling_runs SET status = 'APPROVED', updated_at = NOW() WHERE id = %s;",
             (run_id,),
         )
+        invalidate_analytics_cache()
         return {"success": True, "run_id": run_id, "status": "APPROVED"}
 
     @staticmethod
@@ -649,4 +657,5 @@ class SchedulingService:
         with get_db_cursor(commit=True) as cur:
             cur.execute(sql, (run_id, user_id))
             res = cur.fetchone()
+            invalidate_analytics_cache()
             return res["result"] if res else {"success": False}

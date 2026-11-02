@@ -1,0 +1,215 @@
+{
+  "benchmarks": [
+    {
+      "endpoint": "/api/analytics/overview",
+      "iterations": 10,
+      "cold_ms": 4032.58,
+      "min_ms": 6.89,
+      "max_ms": 4032.58,
+      "avg_ms": 410.49,
+      "p50_ms": 8.01,
+      "p95_ms": 4032.58,
+      "p99_ms": 4032.58,
+      "all_200": true,
+      "sample_response_headers": {
+        "content-length": "593",
+        "content-type": "application/json",
+        "vary": "Accept-Encoding, Origin",
+        "content-encoding": "gzip",
+        "x-process-time": "0.0020s",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "endpoint": "/api/students?limit=15",
+      "iterations": 10,
+      "cold_ms": 925.97,
+      "min_ms": 427.6,
+      "max_ms": 925.97,
+      "avg_ms": 491.18,
+      "p50_ms": 446.75,
+      "p95_ms": 925.97,
+      "p99_ms": 925.97,
+      "all_200": true,
+      "sample_response_headers": {
+        "content-length": "1152",
+        "content-type": "application/json",
+        "x-total-count": "5000",
+        "vary": "Accept-Encoding, Origin",
+        "content-encoding": "gzip",
+        "x-process-time": "0.4240s",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "endpoint": "/api/students?limit=15&search=Graham",
+      "iterations": 10,
+      "cold_ms": 449.23,
+      "min_ms": 445.52,
+      "max_ms": 596.25,
+      "avg_ms": 488.48,
+      "p50_ms": 456.81,
+      "p95_ms": 596.25,
+      "p99_ms": 596.25,
+      "all_200": true,
+      "sample_response_headers": {
+        "content-length": "2",
+        "content-type": "application/json",
+        "x-total-count": "0",
+        "vary": "Origin",
+        "x-process-time": "0.4754s",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "endpoint": "/api/courses?limit=15",
+      "iterations": 10,
+      "cold_ms": 450.06,
+      "min_ms": 425.18,
+      "max_ms": 565.13,
+      "avg_ms": 460.1,
+      "p50_ms": 450.06,
+      "p95_ms": 565.13,
+      "p99_ms": 565.13,
+      "all_200": true,
+      "sample_response_headers": {
+        "content-length": "687",
+        "content-type": "application/json",
+        "vary": "Accept-Encoding, Origin",
+        "content-encoding": "gzip",
+        "x-process-time": "0.4180s",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "endpoint": "/api/exams?limit=15",
+      "iterations": 10,
+      "cold_ms": 428.75,
+      "min_ms": 425.86,
+      "max_ms": 440.16,
+      "avg_ms": 431.82,
+      "p50_ms": 430.93,
+      "p95_ms": 440.16,
+      "p99_ms": 440.16,
+      "all_200": true,
+      "sample_response_headers": {
+        "content-length": "1372",
+        "content-type": "application/json",
+        "vary": "Accept-Encoding, Origin",
+        "content-encoding": "gzip",
+        "x-process-time": "0.4333s",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "endpoint": "/api/rooms?limit=15",
+      "iterations": 10,
+      "cold_ms": 434.78,
+      "min_ms": 423.39,
+      "max_ms": 557.53,
+      "avg_ms": 442.49,
+      "p50_ms": 429.36,
+      "p95_ms": 557.53,
+      "p99_ms": 557.53,
+      "all_200": true,
+      "sample_response_headers": {
+        "content-length": "954",
+        "content-type": "application/json",
+        "vary": "Accept-Encoding, Origin",
+        "content-encoding": "gzip",
+        "x-process-time": "0.4182s",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "endpoint": "/api/invigilators?limit=15",
+      "iterations": 10,
+      "cold_ms": 444.87,
+      "min_ms": 429.32,
+      "max_ms": 444.87,
+      "avg_ms": 434.99,
+      "p50_ms": 433.96,
+      "p95_ms": 444.87,
+      "p99_ms": 444.87,
+      "all_200": true,
+      "sample_response_headers": {
+        "content-length": "1064",
+        "content-type": "application/json",
+        "vary": "Accept-Encoding, Origin",
+        "content-encoding": "gzip",
+        "x-process-time": "0.4244s",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "endpoint": "/api/scheduling/runs?limit=10",
+      "iterations": 10,
+      "cold_ms": 444.53,
+      "min_ms": 428.25,
+      "max_ms": 444.53,
+      "avg_ms": 436.73,
+      "p50_ms": 436.72,
+      "p95_ms": 444.53,
+      "p99_ms": 444.53,
+      "all_200": true,
+      "sample_response_headers": {
+        "content-length": "1521",
+        "content-type": "application/json",
+        "vary": "Accept-Encoding, Origin",
+        "content-encoding": "gzip",
+        "x-process-time": "0.4184s",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    },
+    {
+      "endpoint": "/api/audit/logs?limit=15",
+      "iterations": 10,
+      "cold_ms": 451.97,
+      "min_ms": 425.68,
+      "max_ms": 451.97,
+      "avg_ms": 440.46,
+      "p50_ms": 441.45,
+      "p95_ms": 451.97,
+      "p99_ms": 451.97,
+      "all_200": true,
+      "sample_response_headers": {
+        "content-length": "1808",
+        "content-type": "application/json",
+        "vary": "Accept-Encoding, Origin",
+        "content-encoding": "gzip",
+        "x-process-time": "0.4209s",
+        "x-content-type-options": "nosniff",
+        "x-frame-options": "DENY",
+        "x-xss-protection": "1; mode=block"
+      }
+    }
+  ],
+  "pagination_verified": {
+    "has_total_header": true,
+    "total_count": 5000,
+    "page_size_adhered": true
+  },
+  "security_findings": {
+    "expired_token_rejected": true,
+    "profile_cache_ttl_seconds": 60.0,
+    "cache_window_observed": true,
+    "invalidation_effective": true,
+    "multi_worker_implication": "In multi-worker deployment (e.g. Uvicorn --workers 4), in-memory cache is local per-process. A cluster-wide invalidation or shorter TTL (e.g. 15-30s) is recommended for strict real-time revocation guarantees."
+  }
+}

@@ -50,17 +50,22 @@ class InvigilatorAllocator:
                 if inv.id in temporarily_assigned_ids:
                     continue
 
-                # 1. Check availability shift window on this date
-                is_available = False
-                for av in inv.availabilities:
-                    if av.get("day_of_week") == exam_dow and av.get("availability_type") == "AVAILABLE":
-                        av_start = time.fromisoformat(av["start_time"]) if isinstance(av["start_time"], str) else av["start_time"]
-                        av_end = time.fromisoformat(av["end_time"]) if isinstance(av["end_time"], str) else av["end_time"]
-                        if exam_start_t >= av_start and exam_end_t <= av_end:
-                            is_available = True
-                            break
-                if not is_available:
-                    continue
+                # 1. Check availability shift window on this date (fast pre-parsed check)
+                shifts = getattr(inv, "shifts_by_dow", {}).get(exam_dow)
+                if shifts is not None:
+                    if not any(exam_start_t >= av_start and exam_end_t <= av_end for av_start, av_end in shifts):
+                        continue
+                else:
+                    is_available = False
+                    for av in inv.availabilities:
+                        if av.get("day_of_week") == exam_dow and av.get("availability_type") == "AVAILABLE":
+                            av_start = time.fromisoformat(av["start_time"]) if isinstance(av["start_time"], str) else av["start_time"]
+                            av_end = time.fromisoformat(av["end_time"]) if isinstance(av["end_time"], str) else av["end_time"]
+                            if exam_start_t >= av_start and exam_end_t <= av_end:
+                                is_available = True
+                                break
+                    if not is_available:
+                        continue
 
                 # 2. Check conflicts and workload limits
                 chk = ConstraintChecker.check_invigilator_conflicts(

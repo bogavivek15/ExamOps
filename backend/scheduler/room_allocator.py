@@ -48,11 +48,14 @@ class RoomAllocator:
             if not eq_res.is_valid:
                 continue
 
-            # Check existing room bookings
-            existing_bookings = room_calendar.get(r.id, [])
+            # Check existing room bookings (fast date-bucketed lookup)
+            existing_bookings = room_calendar.get((r.id, slot.date_val))
+            if existing_bookings is None:
+                existing_bookings = room_calendar.get(r.id, [])
+
             is_booked = False
             for b_start, b_end, b_exam in existing_bookings:
-                if ConstraintChecker.is_timeslot_overlapping(slot.start_dt, slot.end_dt, b_start, b_end):
+                if max(slot.start_dt, b_start) < min(slot.end_dt, b_end):
                     is_booked = True
                     break
             if is_booked:

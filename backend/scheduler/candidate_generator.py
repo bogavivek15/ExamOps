@@ -22,12 +22,16 @@ class CandidateSlotGenerator:
         self.daily_end_time = daily_end_time
         self.slot_granularity = timedelta(minutes=slot_granularity_minutes)
         self.skip_sundays = skip_sundays
+        self._slots_cache = {}
 
     def generate_slots(self, max_duration_minutes: int) -> List[CandidateSlot]:
         """
         Generates candidate time slots where an exam of length max_duration_minutes
         can finish before daily operating closing time.
         """
+        if max_duration_minutes in self._slots_cache:
+            return self._slots_cache[max_duration_minutes]
+
         slots = []
         slot_index = 0
         current_date = self.start_date
@@ -58,5 +62,6 @@ class CandidateSlotGenerator:
 
             current_date += timedelta(days=1)
 
+        self._slots_cache[max_duration_minutes] = slots
         return slots
 

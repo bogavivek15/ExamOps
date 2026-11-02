@@ -321,8 +321,9 @@ class SchedulingEngine:
                 "status": "CONFIRMED",
             })
 
-            # Update room calendar
+            # Update room calendar (both ID-only and date-bucketed)
             self.room_calendar[room.id].append((room_start, room_end, exam.exam_code))
+            self.room_calendar[(room.id, slot.date_val)].append((room_start, room_end, exam.exam_code))
 
             # 2. Record AssignmentStudent seatings
             for p in alloc.seated_students:
@@ -339,8 +340,10 @@ class SchedulingEngine:
                     "end_time": p_end.isoformat(),
                     "requires_accessible_room": p.requires_accessible_room,
                 })
-                # Update student calendar
-                self.student_calendar[p.student_id].append((room_start, p_end, exam.exam_code))
+                # Update student calendar (both ID-only and date-bucketed)
+                commitment = (room_start, p_end, exam.exam_code)
+                self.student_calendar[p.student_id].append(commitment)
+                self.student_calendar[(p.student_id, slot.date_val)].append(commitment)
 
             # 3. Record AssignmentInvigilator staffings
             for inv in alloc.assigned_invigilators:
@@ -354,7 +357,9 @@ class SchedulingEngine:
                     "end_time": room_end.isoformat(),
                 })
                 # Update invigilator calendar & workload
-                self.invigilator_calendar[inv.id].append((room_start, room_end, room.room_code))
+                shift_item = (room_start, room_end, room.room_code)
+                self.invigilator_calendar[inv.id].append(shift_item)
+                self.invigilator_calendar[(inv.id, slot.date_val)].append(shift_item)
                 dur_hrs = (room_end - room_start).total_seconds() / 3600.0
                 shift_d = room_start.date()
                 week_n = shift_d.isocalendar()[1]

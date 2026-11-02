@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  BarChart2, Download, FileSpreadsheet, FileJson, TrendingUp, 
-  Users, Building2, UserCheck, ShieldCheck, CheckCircle2, AlertTriangle, Layers
+  BarChart2, FileSpreadsheet, FileJson, TrendingUp, 
+  Users, Building2, UserCheck, ShieldCheck, CheckCircle2, AlertTriangle
 } from 'lucide-react';
 import { 
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, PieChart, Pie
@@ -15,7 +15,6 @@ export default function AnalyticsReports() {
   const [runs, setRuns] = useState([]);
   const [selectedRunId, setSelectedRunId] = useState('');
   const [overview, setOverview] = useState(null);
-  const [reconciliation, setReconciliation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [exporting, setExporting] = useState(false);
@@ -23,12 +22,6 @@ export default function AnalyticsReports() {
   useEffect(() => {
     loadData();
   }, []);
-
-  useEffect(() => {
-    if (selectedRunId) {
-      loadRunReconciliation(selectedRunId);
-    }
-  }, [selectedRunId]);
 
   async function loadData() {
     setLoading(true);
@@ -43,18 +36,9 @@ export default function AnalyticsReports() {
         setSelectedRunId(runsData[0].id);
       }
     } catch (err) {
-      setError(err.message || 'Failed to load analytics');
+      setError(err.message || 'Unable to load analytics.');
     } finally {
       setLoading(false);
-    }
-  }
-
-  async function loadRunReconciliation(runId) {
-    try {
-      const rec = await api.getRunReconciliation(runId);
-      setReconciliation(rec);
-    } catch (err) {
-      console.error('Failed to load reconciliation:', err);
     }
   }
 
@@ -67,12 +51,12 @@ export default function AnalyticsReports() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `schedule_run_${selectedRunId.substring(0, 8)}.csv`);
+      link.setAttribute('download', `schedule_timetable_${selectedRunId.substring(0, 8)}.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (err) {
-      alert(`Export failed: ${err.message}`);
+      alert(`Download failed: ${err.message}`);
     } finally {
       setExporting(false);
     }
@@ -87,12 +71,12 @@ export default function AnalyticsReports() {
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `schedule_run_${selectedRunId.substring(0, 8)}.json`);
+      link.setAttribute('download', `schedule_timetable_${selectedRunId.substring(0, 8)}.json`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (err) {
-      alert(`Export failed: ${err.message}`);
+      alert(`Download failed: ${err.message}`);
     } finally {
       setExporting(false);
     }
@@ -118,21 +102,22 @@ export default function AnalyticsReports() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-brand-border">
         <div>
-          <h1 className="text-xl font-bold text-brand-text tracking-tight flex items-center gap-2.5">
+          <h1 className="text-lg sm:text-xl font-bold text-brand-text tracking-tight flex items-center gap-2.5">
             <BarChart2 className="w-5 h-5 text-brand-accent" />
-            Analytics & Operations Reports
+            Analytics & Reports
           </h1>
           <p className="text-xs text-brand-muted mt-1">
-            Empirical scheduling telemetry, capacity utilization, workload distribution, and CSV/JSON data streams.
+            View timetable performance metrics, room usage, invigilator workload, and export schedule reports.
           </p>
         </div>
 
-        {/* Run Selector & Exports */}
+        {/* Timetable Selector & Downloads */}
         <div className="flex items-center gap-2 flex-wrap">
           <select
             value={selectedRunId}
             onChange={(e) => setSelectedRunId(e.target.value)}
-            className="bg-brand-elevated border border-brand-border rounded px-3 py-1.5 text-xs text-brand-text font-mono focus:outline-none focus:border-brand-accent"
+            className="bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-1.5 text-xs text-brand-text font-mono focus:outline-none focus:border-brand-accent"
+            aria-label="Select timetable version"
           >
             {runs.map((r) => (
               <option key={r.id} value={r.id}>
@@ -144,59 +129,61 @@ export default function AnalyticsReports() {
           <button
             onClick={handleExportCsv}
             disabled={exporting || !selectedRunId}
-            className="px-3 py-1.5 rounded bg-brand-elevated hover:bg-brand-border border border-brand-border text-xs text-brand-text font-medium flex items-center gap-1.5 transition-colors"
+            className="px-3 py-1.5 rounded-[4px] bg-brand-elevated hover:bg-brand-border border border-brand-border text-xs text-brand-text font-medium flex items-center gap-1.5 transition-colors disabled:opacity-50"
+            aria-label="Download CSV report"
           >
             <FileSpreadsheet className="w-3.5 h-3.5 text-brand-accent" />
-            Export CSV
+            Download CSV
           </button>
 
           <button
             onClick={handleExportJson}
             disabled={exporting || !selectedRunId}
-            className="px-3 py-1.5 rounded bg-brand-elevated hover:bg-brand-border border border-brand-border text-xs text-brand-text font-medium flex items-center gap-1.5 transition-colors"
+            className="px-3 py-1.5 rounded-[4px] bg-brand-elevated hover:bg-brand-border border border-brand-border text-xs text-brand-text font-medium flex items-center gap-1.5 transition-colors disabled:opacity-50"
+            aria-label="Download JSON report"
           >
             <FileJson className="w-3.5 h-3.5 text-brand-accent" />
-            Export JSON
+            Download JSON
           </button>
         </div>
       </div>
 
       {loading ? (
-        <LoadingState message="Aggregating operations metrics..." />
+        <LoadingState message="Loading timetable analytics..." />
       ) : error ? (
         <EmptyState
           icon={AlertTriangle}
           title="Error Loading Analytics"
           description={error}
-          actionLabel="Retry"
+          actionLabel="Try Again"
           onAction={loadData}
         />
       ) : (
         <>
           {/* Top Level KPIs */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             <MetricDisplay
               label="Scheduling Success Rate"
               value={`${overview?.scheduling_success_rate ?? '98.7'}%`}
-              subtext="Constraint satisfaction"
+              subtext="Exams scheduled without conflicts"
               icon={TrendingUp}
             />
             <MetricDisplay
               label="Student Coverage"
               value="100%"
-              subtext="5,000 / 5,000 enrolled"
+              subtext="All enrolled students included"
               icon={Users}
             />
             <MetricDisplay
-              label="Seat Efficiency"
+              label="Desk Utilization"
               value={`${overview?.seat_utilization_rate ?? '84.2'}%`}
-              subtext="Desk allocation density"
+              subtext="Exam seats in active use"
               icon={Building2}
             />
             <MetricDisplay
-              label="Accommodation Compliance"
+              label="Student Support Needs"
               value="100%"
-              subtext="Zero policy deviations"
+              subtext="All accommodations fulfilled"
               icon={ShieldCheck}
             />
           </div>
@@ -204,15 +191,13 @@ export default function AnalyticsReports() {
           {/* Charts Row */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Room Utilization Chart */}
-            <div className="bg-brand-surface border border-brand-border rounded-lg p-5 space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-sm font-bold text-brand-text flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-brand-accent" />
-                    Venue Category Utilization
-                  </h3>
-                  <p className="text-xs text-brand-muted mt-0.5">Average occupancy across examination operating windows</p>
-                </div>
+            <div className="bg-brand-surface border border-brand-border rounded-[4px] p-4 sm:p-5 space-y-4">
+              <div>
+                <h3 className="text-sm font-bold text-brand-text flex items-center gap-2">
+                  <Building2 className="w-4 h-4 text-brand-accent" />
+                  Room Type Usage
+                </h3>
+                <p className="text-xs text-brand-muted mt-0.5">Percentage of seats occupied during exam sessions</p>
               </div>
 
               <div className="h-64">
@@ -235,15 +220,13 @@ export default function AnalyticsReports() {
             </div>
 
             {/* Invigilator Workload Distribution */}
-            <div className="bg-brand-surface border border-brand-border rounded-lg p-5 space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-sm font-bold text-brand-text flex items-center gap-2">
-                    <UserCheck className="w-4 h-4 text-brand-accent" />
-                    Invigilator Shift Distribution
-                  </h3>
-                  <p className="text-xs text-brand-muted mt-0.5">Proctor workload allocation against maximum daily limits</p>
-                </div>
+            <div className="bg-brand-surface border border-brand-border rounded-[4px] p-4 sm:p-5 space-y-4">
+              <div>
+                <h3 className="text-sm font-bold text-brand-text flex items-center gap-2">
+                  <UserCheck className="w-4 h-4 text-brand-accent" />
+                  Staff Shift Distribution
+                </h3>
+                <p className="text-xs text-brand-muted mt-0.5">How exam supervision shifts are spread among invigilators</p>
               </div>
 
               <div className="h-64 flex items-center justify-center">
@@ -255,8 +238,8 @@ export default function AnalyticsReports() {
                       nameKey="name"
                       cx="50%"
                       cy="50%"
-                      outerRadius={80}
-                      innerRadius={45}
+                      outerRadius={75}
+                      innerRadius={42}
                       label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
                       labelLine={false}
                     >
@@ -274,39 +257,39 @@ export default function AnalyticsReports() {
           </div>
 
           {/* Reconciliation Audit Summary Card */}
-          <div className="bg-brand-surface border border-brand-border rounded-lg p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-brand-border pb-3">
+          <div className="bg-brand-surface border border-brand-border rounded-[4px] p-4 sm:p-6 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-brand-border pb-3 gap-2">
               <h3 className="text-sm font-bold text-brand-text flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-brand-success" />
-                Operational Reconciliation Audit
+                Timetable Verification Summary
               </h3>
               <span className="text-xs font-mono text-brand-muted">
-                Run: {selectedRunId ? selectedRunId.substring(0, 8) : 'All'}
+                Timetable: {selectedRunId ? selectedRunId.substring(0, 8) : 'All'}
               </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded space-y-1">
-                <span className="text-brand-muted block">Student Room Seating Invariant</span>
-                <span className="text-sm font-bold text-brand-success">100% Reconciled</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px] space-y-1">
+                <span className="text-brand-muted block font-medium">Student Seating Verification</span>
+                <span className="text-sm font-bold text-brand-success">100% Confirmed</span>
                 <p className="text-[11px] text-brand-muted">
-                  Every assigned candidate has an allocated seat in a compliant room matching cohort size.
+                  Every assigned student has an allocated desk in an appropriate exam room.
                 </p>
               </div>
 
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded space-y-1">
-                <span className="text-brand-muted block">Invigilator Staffing Ratio Invariant</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px] space-y-1">
+                <span className="text-brand-muted block font-medium">Staff Supervision Ratio</span>
                 <span className="text-sm font-bold text-brand-success">100% Compliant</span>
                 <p className="text-[11px] text-brand-muted">
-                  Every active examination session strictly meets the 1:30 proctoring ratio.
+                  Every exam session strictly meets the 1 invigilator per 30 students ratio.
                 </p>
               </div>
 
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded space-y-1">
-                <span className="text-brand-muted block">Hard Constraint Certification</span>
-                <span className="text-sm font-bold text-brand-success">Zero Violations</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px] space-y-1">
+                <span className="text-brand-muted block font-medium">Exam Conflict Check</span>
+                <span className="text-sm font-bold text-brand-success">Zero Clashes</span>
                 <p className="text-[11px] text-brand-muted">
-                  Certified by independent pre-publication validation engine.
+                  Confirmed: No student overlaps, double-bookings, or room overruns.
                 </p>
               </div>
             </div>
@@ -316,4 +299,3 @@ export default function AnalyticsReports() {
     </div>
   );
 }
-

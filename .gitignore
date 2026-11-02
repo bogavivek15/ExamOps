@@ -31,4 +31,5 @@ Thumbs.db
 # Temporary data / caches
 data/cache/
 *.log
+.tmp_chrome_audit/
 

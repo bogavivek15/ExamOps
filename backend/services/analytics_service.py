@@ -3,18 +3,69 @@ ExamOps Analytics & Reconciliation Service
 Provides real-time operational metrics and mathematical reconciliation audits.
 """
 from typing import Dict, Any, List, Optional
+import time
+import threading
 from backend.database import execute_query
+
+class AnalyticsCache:
+    """Thread-safe TTL cache for overview metrics to prevent repeated expensive count queries."""
+    def __init__(self, ttl_seconds: float = 30.0):
+        self._cache = None
+        self._timestamp = 0.0
+        self._lock = threading.Lock()
+        self.ttl = ttl_seconds
+
+    def get(self) -> Optional[Dict[str, Any]]:
+        now = time.time()
+        with self._lock:
+            if self._cache and (now - self._timestamp < self.ttl):
+                return self._cache
+            return None
+
+    def set(self, data: Dict[str, Any]):
+        with self._lock:
+            self._cache = data
+            self._timestamp = time.time()
+
+    def invalidate(self):
+        with self._lock:
+            self._cache = None
+
+_analytics_cache = AnalyticsCache(ttl_seconds=30.0)
+
+def invalidate_analytics_cache():
+    """Invalidates the cached operational overview analytics."""
+    _analytics_cache.invalidate()
 
 class AnalyticsService:
     @staticmethod
-    def get_overview_metrics() -> Dict[str, Any]:
+    def get_overview_metrics(skip_cache: bool = False) -> Dict[str, Any]:
         """Calculates institution-wide operational metrics from authoritative DB tables."""
-        total_students = execute_query("SELECT count(*) as c FROM students;", fetch_one=True)["c"]
-        total_courses = execute_query("SELECT count(*) as c FROM courses;", fetch_one=True)["c"]
-        total_exams = execute_query("SELECT count(*) as c FROM exams;", fetch_one=True)["c"]
-        total_rooms = execute_query("SELECT count(*) as c FROM rooms;", fetch_one=True)["c"]
-        total_invigilators = execute_query("SELECT count(*) as c FROM invigilators;", fetch_one=True)["c"]
-        total_accommodations = execute_query("SELECT count(*) as c FROM accommodations WHERE is_active = TRUE;", fetch_one=True)["c"]
+        if not skip_cache:
+            cached = _analytics_cache.get()
+            if cached:
+                return cached
+
+        # Consolidated single-trip query for all entity counts
+        counts = execute_query(
+            """
+            SELECT 
+                (SELECT count(*) FROM students) as total_students,
+                (SELECT count(*) FROM courses) as total_courses,
+                (SELECT count(*) FROM exams) as total_exams,
+                (SELECT count(*) FROM rooms) as total_rooms,
+                (SELECT count(*) FROM invigilators) as total_invigilators,
+                (SELECT count(*) FROM accommodations WHERE is_active = TRUE) as total_active_accommodations;
+            """,
+            fetch_one=True,
+        )
+
+        total_students = counts["total_students"]
+        total_courses = counts["total_courses"]
+        total_exams = counts["total_exams"]
+        total_rooms = counts["total_rooms"]
+        total_invigilators = counts["total_invigilators"]
+        total_accommodations = counts["total_active_accommodations"]
 
         # Active academic period
         active_period = execute_query(
@@ -40,14 +91,15 @@ class AnalyticsService:
 
         # Seated student registrations in the run
         seated_count = 0
-        if run:
-            seated_count = execute_query(
+        if run and scheduled_count > 0:
+            seated_res = execute_query(
                 "SELECT count(*) as c FROM assignment_students WHERE scheduling_run_id = %s;",
                 (run["id"],),
                 fetch_one=True,
-            )["c"]
+            )
+            seated_count = seated_res["c"] if seated_res else 0
 
-        return {
+        result = {
             "total_students": total_students,
             "total_courses": total_courses,
             "total_exams": total_exams,
@@ -61,6 +113,9 @@ class AnalyticsService:
             "completion_rate_pct": completion_pct,
             "total_seated_registrations": seated_count,
         }
+
+        _analytics_cache.set(result)
+        return result
 
     @staticmethod
     def get_run_reconciliation(run_id: str) -> Dict[str, Any]:

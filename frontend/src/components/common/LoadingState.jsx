@@ -1,12 +1,11 @@
 import React from 'react';
 import { Loader2 } from 'lucide-react';
 
-export default function LoadingState({ message = 'Loading institutional operations data...' }) {
+export default function LoadingState({ message = 'Loading records...' }) {
   return (
-    <div className="flex flex-col items-center justify-center p-12 text-center text-brand-muted">
-      <Loader2 className="animate-spin text-brand-accent mb-3" size={28} />
-      <p className="text-xs uppercase tracking-wider font-mono text-slate-400">{message}</p>
+    <div className="flex flex-col items-center justify-center p-8 sm:p-12 text-center bg-brand-surface border border-brand-border rounded-[4px] min-h-[200px]">
+      <Loader2 className="animate-spin text-brand-accent mb-3" size={24} />
+      <span className="text-xs text-brand-muted">{message}</span>
     </div>
   );
 }
-

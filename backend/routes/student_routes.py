@@ -1,7 +1,7 @@
 """
 ExamOps Student Management Routes
 """
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from typing import List, Dict, Any, Optional
 from backend.auth import get_current_user, CurrentUser, require_roles
 from backend.services.student_service import StudentService
@@ -10,13 +10,16 @@ router = APIRouter(prefix="/students", tags=["Students"])
 
 @router.get("")
 def list_students(
+    response: Response,
     limit: int = Query(50, ge=1, le=500),
     offset: int = Query(0, ge=0),
     search: Optional[str] = None,
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Lists students with optional keyword search across code, name, and email."""
-    return StudentService.list_students(limit=limit, offset=offset, search=search)
+    items, total = StudentService.list_students(limit=limit, offset=offset, search=search)
+    response.headers["X-Total-Count"] = str(total)
+    return items
 
 @router.get("/{student_id}")
 def get_student(

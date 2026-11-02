@@ -5,10 +5,19 @@ from fastapi import APIRouter, Depends, HTTPException, Body
 from typing import List, Dict, Any, Optional
 from pydantic import BaseModel
 from backend.config import settings
-from backend.auth import get_current_user, CurrentUser, require_roles, create_access_token, ROLE_ALIASES
-from backend.database import execute_query
+from backend.auth import (
+    get_current_user, CurrentUser, require_roles,
+    create_access_token, ROLE_ALIASES, invalidate_profile_cache,
+)
+from backend.database import execute_query, get_db_cursor
 
 router = APIRouter(prefix="/auth", tags=["Authentication & Profiles"])
+
+class UpdateProfileRequest(BaseModel):
+    role: Optional[str] = None
+    status: Optional[str] = None
+    display_name: Optional[str] = None
+    department: Optional[str] = None
 
 class LoginRequest(BaseModel):
     email: str
@@ -50,6 +59,8 @@ def login(req: LoginRequest):
         email=prof["email"],
         role=prof["role"],
     )
+
+    invalidate_profile_cache()
 
     return {
         "access_token": token,
@@ -103,6 +114,8 @@ def dev_switch_role(req: DevSwitchRoleRequest):
         role=prof["role"],
     )
 
+    invalidate_profile_cache()
+
     return {
         "access_token": token,
         "token_type": "bearer",
@@ -137,3 +150,51 @@ def list_user_profiles(limit: int = 50, offset: int = 0):
         "SELECT id, email, display_name, role, status, student_id, invigilator_id, department, created_at FROM user_profiles ORDER BY email ASC LIMIT %s OFFSET %s;",
         (limit, offset),
     )
+
+@router.patch("/profiles/{user_id}", dependencies=[Depends(require_roles("ACADEMIC_ADMINISTRATOR", "PLATFORM_ADMINISTRATOR", "SUPER_ADMIN"))])
+def update_user_profile(
+    user_id: str,
+    req: UpdateProfileRequest,
+    current_user: CurrentUser = Depends(get_current_user),
+):
+    """
+    Updates a user profile (role, status, display name, department).
+    Enforces atomic database update and immediate local cache invalidation.
+    Cross-worker cache TTL ensures all workers converge within 5.0 seconds.
+    """
+    fields = []
+    values = []
+    
+    if req.role is not None:
+        canonical_role = ROLE_ALIASES.get(req.role.upper(), req.role.upper())
+        fields.append("role = %s")
+        values.append(canonical_role)
+    if req.status is not None:
+        fields.append("status = %s")
+        values.append(req.status.upper())
+    if req.display_name is not None:
+        fields.append("display_name = %s")
+        values.append(req.display_name)
+    if req.department is not None:
+        fields.append("department = %s")
+        values.append(req.department)
+
+    if not fields:
+        raise HTTPException(status_code=400, detail="No fields provided to update.")
+
+    values.append(user_id)
+    sql = f"""
+    UPDATE user_profiles
+    SET {', '.join(fields)}, updated_at = NOW()
+    WHERE id = %s
+    RETURNING id, email, display_name, role, status, department;
+    """
+    with get_db_cursor(commit=True) as cur:
+        cur.execute(sql, tuple(values))
+        updated = cur.fetchone()
+        if not updated:
+            raise HTTPException(status_code=404, detail=f"User profile '{user_id}' not found.")
+        
+        invalidate_profile_cache(f"user:{user_id}")
+        invalidate_profile_cache()
+        return dict(updated)

@@ -25,19 +25,25 @@ class ConstraintChecker:
         participants: List[ExamParticipant],
         slot_start: datetime,
         slot_end: datetime,
-        student_calendar: Dict[str, List[Tuple[datetime, datetime, str]]],
+        student_calendar: Dict[Any, List[Tuple[datetime, datetime, str]]],
     ) -> ValidationResult:
         """
         Constraint: STUDENT_NON_OVERLAP
         Verifies that no student in the candidate cohort is already committed
         to an overlapping examination.
         """
+        slot_date = slot_start.date()
         for p in participants:
-            existing_commitments = student_calendar.get(p.student_id, [])
+            # Date-keyed commitments lookup is fast, fallback to student_id
+            existing_commitments = student_calendar.get((p.student_id, slot_date))
+            if existing_commitments is None:
+                existing_commitments = student_calendar.get(p.student_id, [])
+            if not existing_commitments:
+                continue
+
+            p_end = slot_start + timedelta(minutes=p.effective_duration_minutes)
             for c_start, c_end, exam_code in existing_commitments:
-                # Student exam ends at slot_start + student_duration
-                p_end = slot_start + timedelta(minutes=p.effective_duration_minutes)
-                if ConstraintChecker.is_timeslot_overlapping(slot_start, p_end, c_start, c_end):
+                if max(slot_start, c_start) < min(p_end, c_end):
                     return ValidationResult(
                         is_valid=False,
                         failed_constraints=["STUDENT_NON_OVERLAP"],
@@ -67,38 +73,67 @@ class ConstraintChecker:
         exam_end_t = end_dt.time()
 
         # 1. Check for specific closures on this date
-        for closure in room.closures:
-            c_date = closure.get("specific_date")
-            if c_date:
-                c_d = date.fromisoformat(c_date) if isinstance(c_date, str) else c_date
-                if c_d == exam_date:
-                    c_start = time.fromisoformat(closure["start_time"]) if isinstance(closure["start_time"], str) else closure["start_time"]
-                    c_end = time.fromisoformat(closure["end_time"]) if isinstance(closure["end_time"], str) else closure["end_time"]
-                    if max(exam_start_t, c_start) < min(exam_end_t, c_end):
-                        return ValidationResult(
-                            is_valid=False,
-                            failed_constraints=["ROOM_UNAVAILABLE"],
-                            reason_codes=["ROOM_CLOSED_FOR_MAINTENANCE"],
-                            details={"room_code": room.room_code, "reason": closure.get("reason", "Closure")},
-                        )
+        closures = getattr(room, "closures_by_date", {}).get(exam_date)
+        if closures:
+            for c_start, c_end, reason in closures:
+                if max(exam_start_t, c_start) < min(exam_end_t, c_end):
+                    return ValidationResult(
+                        is_valid=False,
+                        failed_constraints=["ROOM_UNAVAILABLE"],
+                        reason_codes=["ROOM_CLOSED_FOR_MAINTENANCE"],
+                        details={"room_code": room.room_code, "reason": reason},
+                    )
+        elif room.closures and not hasattr(room, "closures_by_date"):
+            for closure in room.closures:
+                c_date = closure.get("specific_date")
+                if c_date:
+                    c_d = date.fromisoformat(c_date) if isinstance(c_date, str) else c_date
+                    if c_d == exam_date:
+                        c_start = time.fromisoformat(closure["start_time"]) if isinstance(closure["start_time"], str) else closure["start_time"]
+                        c_end = time.fromisoformat(closure["end_time"]) if isinstance(closure["end_time"], str) else closure["end_time"]
+                        if max(exam_start_t, c_start) < min(exam_end_t, c_end):
+                            return ValidationResult(
+                                is_valid=False,
+                                failed_constraints=["ROOM_UNAVAILABLE"],
+                                reason_codes=["ROOM_CLOSED_FOR_MAINTENANCE"],
+                                details={"room_code": room.room_code, "reason": closure.get("reason", "Closure")},
+                            )
 
         # 2. Check operating window
-        is_covered = False
-        for op in room.operating_hours:
-            if op.get("day_of_week") == exam_dow:
-                op_start = time.fromisoformat(op["start_time"]) if isinstance(op["start_time"], str) else op["start_time"]
-                op_end = time.fromisoformat(op["end_time"]) if isinstance(op["end_time"], str) else op["end_time"]
-                if exam_start_t >= op_start and exam_end_t <= op_end:
-                    is_covered = True
-                    break
-
-        if not is_covered and room.operating_hours:
-            return ValidationResult(
-                is_valid=False,
-                failed_constraints=["ROOM_UNAVAILABLE"],
-                reason_codes=["OUTSIDE_OPERATING_HOURS"],
-                details={"room_code": room.room_code},
-            )
+        ops = getattr(room, "operating_by_dow", {}).get(exam_dow)
+        if ops:
+            is_covered = any(exam_start_t >= op_start and exam_end_t <= op_end for op_start, op_end in ops)
+            if not is_covered:
+                return ValidationResult(
+                    is_valid=False,
+                    failed_constraints=["ROOM_UNAVAILABLE"],
+                    reason_codes=["OUTSIDE_OPERATING_HOURS"],
+                    details={"room_code": room.room_code},
+                )
+        elif room.operating_hours:
+            if hasattr(room, "operating_by_dow"):
+                return ValidationResult(
+                    is_valid=False,
+                    failed_constraints=["ROOM_UNAVAILABLE"],
+                    reason_codes=["OUTSIDE_OPERATING_HOURS"],
+                    details={"room_code": room.room_code},
+                )
+            else:
+                is_covered = False
+                for op in room.operating_hours:
+                    if op.get("day_of_week") == exam_dow:
+                        op_start = time.fromisoformat(op["start_time"]) if isinstance(op["start_time"], str) else op["start_time"]
+                        op_end = time.fromisoformat(op["end_time"]) if isinstance(op["end_time"], str) else op["end_time"]
+                        if exam_start_t >= op_start and exam_end_t <= op_end:
+                            is_covered = True
+                            break
+                if not is_covered:
+                    return ValidationResult(
+                        is_valid=False,
+                        failed_constraints=["ROOM_UNAVAILABLE"],
+                        reason_codes=["OUTSIDE_OPERATING_HOURS"],
+                        details={"room_code": room.room_code},
+                    )
 
         return ValidationResult(is_valid=True)
 
@@ -156,7 +191,7 @@ class ConstraintChecker:
         invigilator: InvigilatorModel,
         start_dt: datetime,
         end_dt: datetime,
-        invigilator_calendar: Dict[str, List[Tuple[datetime, datetime, str]]],
+        invigilator_calendar: Dict[Any, List[Tuple[datetime, datetime, str]]],
         daily_hours: Dict[Tuple[str, date], float],
         weekly_hours: Dict[Tuple[str, int], float],
     ) -> ValidationResult:
@@ -164,10 +199,14 @@ class ConstraintChecker:
         Constraint: INVIGILATOR_DOUBLE_BOOKED & INVIGILATOR_WORKLOAD_EXCEEDED
         Verifies that the staff member is not double-booked and remains within workload caps.
         """
-        # Double-booking check
-        existing_shifts = invigilator_calendar.get(invigilator.id, [])
+        # Double-booking check with date-indexed calendar
+        exam_date = start_dt.date()
+        existing_shifts = invigilator_calendar.get((invigilator.id, exam_date))
+        if existing_shifts is None:
+            existing_shifts = invigilator_calendar.get(invigilator.id, [])
+
         for s_start, s_end, room_code in existing_shifts:
-            if ConstraintChecker.is_timeslot_overlapping(start_dt, end_dt, s_start, s_end):
+            if max(start_dt, s_start) < min(end_dt, s_end):
                 return ValidationResult(
                     is_valid=False,
                     failed_constraints=["INVIGILATOR_DOUBLE_BOOKED"],

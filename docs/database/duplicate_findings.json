@@ -1,0 +1,2371 @@
+{
+  "summary": {
+    "tables_checked": 15,
+    "duplicate_groups_found": 169,
+    "total_duplicate_rows": 339
+  },
+  "exact_duplicates": {},
+  "business_key_duplicates": {},
+  "semantic_duplicates": {
+    "students.name_and_dob": [
+      {
+        "first_name": "ishaan",
+        "last_name": "zhang",
+        "date_of_birth": "2002-08-28",
+        "cnt": 2,
+        "ids": [
+          "42bf1e26-57c2-55f8-af41-4a52c3d77448",
+          "51e210f6-9295-5c22-8154-57a947f13ff2"
+        ],
+        "codes": [
+          "STU-004401",
+          "STU-002337"
+        ]
+      },
+      {
+        "first_name": "james",
+        "last_name": "patel",
+        "date_of_birth": "2004-05-05",
+        "cnt": 2,
+        "ids": [
+          "b80a5e1f-2fc5-5d83-a422-07a93459a91e",
+          "5d4fe88d-2085-5867-97b8-418d62e94c98"
+        ],
+        "codes": [
+          "STU-004736",
+          "STU-003085"
+        ]
+      },
+      {
+        "first_name": "olivia",
+        "last_name": "brown",
+        "date_of_birth": "2003-08-23",
+        "cnt": 2,
+        "ids": [
+          "49991808-72c8-553e-944e-d9650a3fd2c4",
+          "c6a036f7-7c8a-5a59-af4b-991dd87d9c86"
+        ],
+        "codes": [
+          "STU-000461",
+          "STU-003857"
+        ]
+      },
+      {
+        "first_name": "rahul",
+        "last_name": "kapoor",
+        "date_of_birth": "2003-03-21",
+        "cnt": 2,
+        "ids": [
+          "dac5e91e-5a70-52ca-8db9-affc621f8014",
+          "a0bf53f9-8f8b-56e4-ba51-dc3053a9bbf4"
+        ],
+        "codes": [
+          "STU-001599",
+          "STU-002712"
+        ]
+      },
+      {
+        "first_name": "william",
+        "last_name": "zhang",
+        "date_of_birth": "2002-11-14",
+        "cnt": 2,
+        "ids": [
+          "df260f18-30aa-5068-8f39-c945fbaba800",
+          "ce2c206c-f72a-57e7-908f-c36988f3b5a8"
+        ],
+        "codes": [
+          "STU-002064",
+          "STU-004678"
+        ]
+      }
+    ],
+    "exams.course_title_period": [
+      {
+        "course_id": "e10f5d42-231a-5126-be4d-3f89c0d58b2b",
+        "title": "mathematics & statistics foundation & applied topics 2 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "6c9e6510-6731-56bb-99c6-04aa45e4a04e",
+          "492ff3d4-6af5-5ced-bebe-599d908bdfcc"
+        ],
+        "codes": [
+          "EXAM-2026-000047",
+          "EXAM-2026-000197"
+        ]
+      },
+      {
+        "course_id": "0d87fcdf-e0e7-5a5f-9744-b78364e4a778",
+        "title": "economics & finance foundation & applied topics 13 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "3ea010ee-9bfb-50a5-9390-4271ac4e4ce8",
+          "ccb4b610-b0a9-51f4-b930-d78f29a185a5"
+        ],
+        "codes": [
+          "EXAM-2026-000268",
+          "EXAM-2026-000118"
+        ]
+      },
+      {
+        "course_id": "2b1ff743-c848-54d3-8b25-37f0d7121792",
+        "title": "computer science foundation & applied topics 15 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "836cb6c1-8190-5973-b8c1-f750a993a03a",
+          "f9366f0a-6adf-55e4-a81b-eb6c3901e3b9"
+        ],
+        "codes": [
+          "EXAM-2026-000015",
+          "EXAM-2026-000165"
+        ]
+      },
+      {
+        "course_id": "99e4fd9d-5879-5689-bbbd-fd9f313c2f17",
+        "title": "humanities & social sciences foundation & applied topics 4 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "66d5e34d-6652-5dc4-8d2f-3665e0c0c2f0",
+          "7d026037-9c5e-5473-bb67-65ae83933b98"
+        ],
+        "codes": [
+          "EXAM-2026-000289",
+          "EXAM-2026-000139"
+        ]
+      },
+      {
+        "course_id": "45be5e90-2221-548f-bc6b-0b92613367e3",
+        "title": "biological sciences foundation & applied topics 8 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "5d396eb8-074e-5ac0-8cf9-acb185f7204b",
+          "2910e9bd-63ec-5d23-866f-8eaeeae0a8e7"
+        ],
+        "codes": [
+          "EXAM-2026-000098",
+          "EXAM-2026-000248"
+        ]
+      },
+      {
+        "course_id": "32d4daa8-2599-5ea3-960a-58167e5ea647",
+        "title": "economics & finance foundation & applied topics 1 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "c3432bc7-897e-5745-b096-5c3d8bc7d06e",
+          "0b880267-cec6-5724-873e-e045bce6fd23"
+        ],
+        "codes": [
+          "EXAM-2026-000106",
+          "EXAM-2026-000256"
+        ]
+      },
+      {
+        "course_id": "55ac4298-f1b1-56bd-9f66-f19a8559a9e3",
+        "title": "physics foundation & applied topics 15 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "ebfafb39-df53-517b-9895-4068c4396983",
+          "c04571da-7e06-5031-8e07-9300cccd641b"
+        ],
+        "codes": [
+          "EXAM-2026-000075",
+          "EXAM-2026-000225"
+        ]
+      },
+      {
+        "course_id": "0962640d-8e14-5713-a7ea-19c2e4bc98e3",
+        "title": "physics foundation & applied topics 4 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "6f08dcdb-68b2-5de5-9814-9e8be3ec32f7",
+          "95dba549-9399-58b5-bfbe-47b38d9837c1"
+        ],
+        "codes": [
+          "EXAM-2026-000064",
+          "EXAM-2026-000214"
+        ]
+      },
+      {
+        "course_id": "780aae5b-bdcf-5a5f-8d56-8af5daaf17d2",
+        "title": "mathematics & statistics foundation & applied topics 15 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "1affbf74-90a2-5cb2-811c-ae1fb572f9f5",
+          "e34ff432-ec42-5252-bfbf-4054fbda0b2c"
+        ],
+        "codes": [
+          "EXAM-2026-000060",
+          "EXAM-2026-000210"
+        ]
+      },
+      {
+        "course_id": "dc9b061f-b792-5c23-82f0-e0b052fbae28",
+        "title": "biological sciences foundation & applied topics 3 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "76c5ab23-c525-52c5-bf0c-9430b1a07cab",
+          "de26f0a3-babb-5647-a2d2-5858a18f6976"
+        ],
+        "codes": [
+          "EXAM-2026-000243",
+          "EXAM-2026-000093"
+        ]
+      },
+      {
+        "course_id": "869b42dd-c8a0-52e7-b095-20f41195edd8",
+        "title": "mechanical engineering foundation & applied topics 4 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "3685e148-d108-55e9-8d13-f9a368e64113",
+          "47e9f88c-082d-5d87-8c62-97eaa2fd749d"
+        ],
+        "codes": [
+          "EXAM-2026-000034",
+          "EXAM-2026-000184"
+        ]
+      },
+      {
+        "course_id": "45656881-7813-5686-8953-8825f4493d0b",
+        "title": "humanities & social sciences foundation & applied topics 6 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "683d52bc-5fed-5785-9542-c89be27e7418",
+          "30256081-5f02-52f1-b589-bf008cb70e6e"
+        ],
+        "codes": [
+          "EXAM-2026-000141",
+          "EXAM-2026-000291"
+        ]
+      },
+      {
+        "course_id": "ad8ca45f-525b-59aa-b85f-263722cd4d74",
+        "title": "business administration foundation & applied topics 2 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "f3b1bd3b-65d9-56a3-a8fb-a26e0d8eff1f",
+          "4ee41db8-8ae1-5406-a388-5c498cb99ac9"
+        ],
+        "codes": [
+          "EXAM-2026-000122",
+          "EXAM-2026-000272"
+        ]
+      },
+      {
+        "course_id": "c48b357c-cbb7-5f2d-9f5f-4631f8c754b3",
+        "title": "physics foundation & applied topics 6 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "d73a18aa-1a1c-5604-badb-bd1c6ac5c364",
+          "02b53b96-373e-546b-bcc4-ad99d5816aa6"
+        ],
+        "codes": [
+          "EXAM-2026-000066",
+          "EXAM-2026-000216"
+        ]
+      },
+      {
+        "course_id": "ce5bb40f-abac-5ef4-aa4a-3fa3018d7a43",
+        "title": "mechanical engineering foundation & applied topics 11 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "450bcfce-04b7-5475-a490-f32a297836f8",
+          "aed02e85-9a98-5a31-b691-85a114d6ff2f"
+        ],
+        "codes": [
+          "EXAM-2026-000041",
+          "EXAM-2026-000191"
+        ]
+      },
+      {
+        "course_id": "546563dc-85c6-545a-9224-9bdf977f04c1",
+        "title": "business administration foundation & applied topics 1 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "0043d073-bbba-56f6-83da-88fe7b16df47",
+          "87ec9dd5-420a-50a9-87b7-6cb4feb59fd8"
+        ],
+        "codes": [
+          "EXAM-2026-000121",
+          "EXAM-2026-000271"
+        ]
+      },
+      {
+        "course_id": "525af3df-580c-59f8-a594-5310c4af64ac",
+        "title": "business administration foundation & applied topics 7 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "149918ef-adfa-5f08-9703-be4e9e12bbe9",
+          "7e06bdd5-0dc4-5e5b-9596-cc897e4e70c3"
+        ],
+        "codes": [
+          "EXAM-2026-000127",
+          "EXAM-2026-000277"
+        ]
+      },
+      {
+        "course_id": "18f3b9e1-05b4-5056-b2d9-32e5687d1569",
+        "title": "mechanical engineering foundation & applied topics 7 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "fccc3481-82db-5289-835e-043cfad626cf",
+          "ab0ce069-9b76-5c65-9438-991432198637"
+        ],
+        "codes": [
+          "EXAM-2026-000187",
+          "EXAM-2026-000037"
+        ]
+      },
+      {
+        "course_id": "da0610f4-0ecc-5549-bb65-96a3ad55bce0",
+        "title": "electrical engineering foundation & applied topics 15 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "19d120e4-3a66-5bec-98de-7414c443a503",
+          "7e7dd5d6-5c39-5085-945d-b77ccd134861"
+        ],
+        "codes": [
+          "EXAM-2026-000030",
+          "EXAM-2026-000180"
+        ]
+      },
+      {
+        "course_id": "55e0959e-0c18-511e-a787-7510f71d6f25",
+        "title": "mechanical engineering foundation & applied topics 1 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "3528b4e3-3129-593a-b27c-158f4e75e54a",
+          "fbf5b591-24b1-5d1f-b155-f36f08df259d"
+        ],
+        "codes": [
+          "EXAM-2026-000031",
+          "EXAM-2026-000181"
+        ]
+      },
+      {
+        "course_id": "83d5f40e-e591-5dcd-847a-60ef9f260e75",
+        "title": "economics & finance foundation & applied topics 7 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "2e397381-d7f0-5d0e-aae8-bc67a0b5f0c1",
+          "783d7af6-14fd-5841-87a2-58939396099a"
+        ],
+        "codes": [
+          "EXAM-2026-000112",
+          "EXAM-2026-000262"
+        ]
+      },
+      {
+        "course_id": "0c44c9b4-e94f-5616-89e9-e074debd088f",
+        "title": "biological sciences foundation & applied topics 7 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "e6ae40ca-3171-558c-8307-ed7f58384c2f",
+          "bbf809ed-a65f-5dcc-ae7e-2e94678fd72c"
+        ],
+        "codes": [
+          "EXAM-2026-000097",
+          "EXAM-2026-000247"
+        ]
+      },
+      {
+        "course_id": "e399d0ef-ac7e-58dd-ae83-54fe28277f7a",
+        "title": "economics & finance foundation & applied topics 6 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "3d6a2913-712a-5178-b6a1-7b1654282037",
+          "5b0f5819-6b8f-58a0-9f4c-24b6748f98f3"
+        ],
+        "codes": [
+          "EXAM-2026-000111",
+          "EXAM-2026-000261"
+        ]
+      },
+      {
+        "course_id": "5fe70632-ff0c-5dea-947d-3aae2303bb0a",
+        "title": "humanities & social sciences foundation & applied topics 8 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "94ee1709-6b60-5ff4-80f2-b06016b988a7",
+          "7fb8dcca-9d3e-5b1e-90e9-39aaad442d06"
+        ],
+        "codes": [
+          "EXAM-2026-000143",
+          "EXAM-2026-000293"
+        ]
+      },
+      {
+        "course_id": "afd891cf-661a-526c-8a28-9f49cfd3dda9",
+        "title": "business administration foundation & applied topics 12 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "c32e146b-1368-5d69-9756-d5bbc942ab63",
+          "5edcfdf0-5d62-5a6f-9895-3260c332ec1c"
+        ],
+        "codes": [
+          "EXAM-2026-000132",
+          "EXAM-2026-000282"
+        ]
+      },
+      {
+        "course_id": "43f66d7a-d841-588e-8f5f-f24f563c22f6",
+        "title": "biological sciences foundation & applied topics 12 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "1f950c35-212d-5b72-9c08-07f8789ce36a",
+          "ee950288-4dec-58d3-9af8-0c5c7ec333ae"
+        ],
+        "codes": [
+          "EXAM-2026-000102",
+          "EXAM-2026-000252"
+        ]
+      },
+      {
+        "course_id": "0478f796-ffbb-5ee9-8bd0-2af567243f7e",
+        "title": "computer science foundation & applied topics 8 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "4075e176-ddea-5e40-b750-6cee58a5b89a",
+          "ecc5aae4-95f3-5f63-ac06-594643175028"
+        ],
+        "codes": [
+          "EXAM-2026-000008",
+          "EXAM-2026-000158"
+        ]
+      },
+      {
+        "course_id": "5da3224f-c25e-538a-b888-32e4bcc0cfb2",
+        "title": "economics & finance foundation & applied topics 14 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "2ec6374c-e7e7-5489-9627-808df023cf64",
+          "e866c44d-93bc-5c40-aa9a-aa2fbdbfd03e"
+        ],
+        "codes": [
+          "EXAM-2026-000119",
+          "EXAM-2026-000269"
+        ]
+      },
+      {
+        "course_id": "fa36d0f3-da3b-53f7-b018-f2caa7310e40",
+        "title": "physics foundation & applied topics 2 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "3000d3a4-1605-53bb-b3c8-2dc869584bd3",
+          "10a2d0a8-ac63-5ba1-98fc-fa72f44101cc"
+        ],
+        "codes": [
+          "EXAM-2026-000212",
+          "EXAM-2026-000062"
+        ]
+      },
+      {
+        "course_id": "5557dfa1-50e1-539b-99ac-94493544c328",
+        "title": "business administration foundation & applied topics 4 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "08885e17-0930-5278-b564-f7e8e9ca8178",
+          "c4fbae5a-a5db-57b6-be58-f7ee1dc82795"
+        ],
+        "codes": [
+          "EXAM-2026-000124",
+          "EXAM-2026-000274"
+        ]
+      },
+      {
+        "course_id": "adf804af-5c30-59da-bb98-450357008c8e",
+        "title": "chemistry foundation & applied topics 12 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "87cdb1c5-38f7-55fe-8c8a-c52c7915ee76",
+          "e8371064-01a8-5c33-90b2-10f6de69ec77"
+        ],
+        "codes": [
+          "EXAM-2026-000087",
+          "EXAM-2026-000237"
+        ]
+      },
+      {
+        "course_id": "57f52e0c-5463-52e8-9903-c383a007d33f",
+        "title": "electrical engineering foundation & applied topics 1 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "5c8958c0-6ae7-5ebf-8250-e3a75b3c606b",
+          "5917f7ba-66ba-5485-96a1-59f3cba1a2d9"
+        ],
+        "codes": [
+          "EXAM-2026-000016",
+          "EXAM-2026-000166"
+        ]
+      },
+      {
+        "course_id": "c71e7ba1-ac70-5568-9054-cdfdc60d5065",
+        "title": "business administration foundation & applied topics 14 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "1670469f-a0fc-5d0e-a59f-0e09a92c6d42",
+          "b96e35c1-1b37-567c-8ee7-a1416d209f07"
+        ],
+        "codes": [
+          "EXAM-2026-000134",
+          "EXAM-2026-000284"
+        ]
+      },
+      {
+        "course_id": "d91b2bde-04ac-5b59-a14c-43604d696ad8",
+        "title": "chemistry foundation & applied topics 8 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "5cafd788-2960-5844-96e9-df972b0cf3d7",
+          "a5c6eb55-b3f1-5532-8ca1-5d01aca6df96"
+        ],
+        "codes": [
+          "EXAM-2026-000083",
+          "EXAM-2026-000233"
+        ]
+      },
+      {
+        "course_id": "326fd487-a577-5afa-8ff9-4f85bf6673a7",
+        "title": "mechanical engineering foundation & applied topics 15 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "337e6c35-6fef-5d87-b5d0-c8658868d263",
+          "6f7ec116-16aa-521f-ba7c-4e2091066e0d"
+        ],
+        "codes": [
+          "EXAM-2026-000195",
+          "EXAM-2026-000045"
+        ]
+      },
+      {
+        "course_id": "aa173e10-6ce0-50af-a544-9aec53494383",
+        "title": "humanities & social sciences foundation & applied topics 9 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "617ab8ac-2137-5fc0-a4b6-bc1934c4fb8b",
+          "8a610231-6223-5c06-9a33-312c35bc9249"
+        ],
+        "codes": [
+          "EXAM-2026-000144",
+          "EXAM-2026-000294"
+        ]
+      },
+      {
+        "course_id": "298c02ac-69cb-5713-a2c5-d7b0c3dcf19d",
+        "title": "electrical engineering foundation & applied topics 5 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "62f51762-cf4f-5743-9141-fa7d2c358158",
+          "cf4a501c-664b-5d4f-bc5a-7bbef3531384"
+        ],
+        "codes": [
+          "EXAM-2026-000020",
+          "EXAM-2026-000170"
+        ]
+      },
+      {
+        "course_id": "2e2ebce3-f761-5bc4-b6fd-75c5d3805b56",
+        "title": "chemistry foundation & applied topics 1 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "5e90c443-2622-50b5-9ce6-0680825ead07",
+          "db3d44d0-acc9-5983-a097-8739f2fbfa3b"
+        ],
+        "codes": [
+          "EXAM-2026-000226",
+          "EXAM-2026-000076"
+        ]
+      },
+      {
+        "course_id": "03a782fa-fb59-59cb-b83c-503e87b7fe2a",
+        "title": "chemistry foundation & applied topics 14 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "3058e261-51a0-5c62-acfc-ee378862928a",
+          "02553005-7a59-50a4-928a-ced2683b2308"
+        ],
+        "codes": [
+          "EXAM-2026-000089",
+          "EXAM-2026-000239"
+        ]
+      },
+      {
+        "course_id": "0e4537af-22c1-581d-a961-732c54eec3f7",
+        "title": "business administration foundation & applied topics 9 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "06a1873a-24cf-593c-af90-a03089613916",
+          "5bd80fee-4b29-552b-b8b9-f89d173113ce"
+        ],
+        "codes": [
+          "EXAM-2026-000129",
+          "EXAM-2026-000279"
+        ]
+      },
+      {
+        "course_id": "3231885b-16c6-5cd0-b64b-fe377197e341",
+        "title": "electrical engineering foundation & applied topics 2 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "9339b1f7-2317-5d00-9f30-7a5c9a259827",
+          "7bc6320a-20dc-5b2d-9259-f5ed18338463"
+        ],
+        "codes": [
+          "EXAM-2026-000017",
+          "EXAM-2026-000167"
+        ]
+      },
+      {
+        "course_id": "40f3ab60-90c4-57fa-bdda-bb96f67a8290",
+        "title": "mathematics & statistics foundation & applied topics 8 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "4de16902-49e0-53ff-b136-2254a5b0382d",
+          "15e979d2-4336-5be1-a034-21d04a6bae2b"
+        ],
+        "codes": [
+          "EXAM-2026-000203",
+          "EXAM-2026-000053"
+        ]
+      },
+      {
+        "course_id": "1582fd9b-2cfb-5a4c-af3f-bba93c074683",
+        "title": "humanities & social sciences foundation & applied topics 3 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "3d16a7da-505f-5a56-a4d2-3d5f666778a4",
+          "9bc283dd-ca98-5e15-8888-e85857c0c496"
+        ],
+        "codes": [
+          "EXAM-2026-000138",
+          "EXAM-2026-000288"
+        ]
+      },
+      {
+        "course_id": "58545143-2654-5228-a6a6-b4a491e07ebe",
+        "title": "physics foundation & applied topics 11 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "b1ea04bc-469a-57b8-aa26-181c34cfaeeb",
+          "3d2658d3-5464-542f-8d42-77478448967c"
+        ],
+        "codes": [
+          "EXAM-2026-000071",
+          "EXAM-2026-000221"
+        ]
+      },
+      {
+        "course_id": "1924a428-23c0-5207-9891-8ddab2ad4a70",
+        "title": "computer science foundation & applied topics 4 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "73626563-deb4-5fc4-b97c-343f2b7da9bc",
+          "155cdbe8-ec40-5274-b55d-5ee434376984"
+        ],
+        "codes": [
+          "EXAM-2026-000004",
+          "EXAM-2026-000154"
+        ]
+      },
+      {
+        "course_id": "eb1a723e-1094-5917-91cd-370885825f55",
+        "title": "biological sciences foundation & applied topics 4 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "ae941520-1787-5675-93ec-c52a33490c58",
+          "35c21557-1388-5609-9e2e-232ad1bbc45c"
+        ],
+        "codes": [
+          "EXAM-2026-000094",
+          "EXAM-2026-000244"
+        ]
+      },
+      {
+        "course_id": "311c4034-f522-5f67-b85c-c0798e6c9d87",
+        "title": "biological sciences foundation & applied topics 10 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "72d547af-c24e-5428-8c04-b0d1ffe5fc67",
+          "b2c2cb71-62a3-57b0-a522-627dc62db416"
+        ],
+        "codes": [
+          "EXAM-2026-000250",
+          "EXAM-2026-000100"
+        ]
+      },
+      {
+        "course_id": "28601275-0c3d-5967-8a1a-f48728729fc5",
+        "title": "business administration foundation & applied topics 15 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "08913a47-b1ca-5daf-a557-8e9184fbf401",
+          "7fa6fee7-dcf0-553a-b918-1b4a9017679a"
+        ],
+        "codes": [
+          "EXAM-2026-000135",
+          "EXAM-2026-000285"
+        ]
+      },
+      {
+        "course_id": "f0f096af-3c72-51a5-bfaa-9b0ce781ae4f",
+        "title": "physics foundation & applied topics 1 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "dfca52b0-eb1f-5a39-826c-f8e45549f0ec",
+          "b75ce457-55e6-5e9f-83fa-e498e20bc9b7"
+        ],
+        "codes": [
+          "EXAM-2026-000211",
+          "EXAM-2026-000061"
+        ]
+      },
+      {
+        "course_id": "0e732df9-656c-5953-89d5-89a400123fb3",
+        "title": "electrical engineering foundation & applied topics 13 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "01f2f26a-2237-542b-b5c6-cbd81008d278",
+          "722f6a04-7b33-5a40-84ea-94f5b954ca34"
+        ],
+        "codes": [
+          "EXAM-2026-000028",
+          "EXAM-2026-000178"
+        ]
+      },
+      {
+        "course_id": "081520fe-88a8-5867-892c-705738b0990f",
+        "title": "chemistry foundation & applied topics 2 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "00207c6c-1b74-5417-af2e-c3e9511e042c",
+          "7bbb2d70-d124-5345-93dc-6cf335f117c2"
+        ],
+        "codes": [
+          "EXAM-2026-000077",
+          "EXAM-2026-000227"
+        ]
+      },
+      {
+        "course_id": "8a1ca77f-875b-5f51-9be8-ce16493d07ca",
+        "title": "mechanical engineering foundation & applied topics 14 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "ee21fcac-839a-549e-8964-6f763de2aef8",
+          "0e78d354-8534-5cf6-8e57-1ab9bf714b5e"
+        ],
+        "codes": [
+          "EXAM-2026-000194",
+          "EXAM-2026-000044"
+        ]
+      },
+      {
+        "course_id": "536ec00a-5c88-5619-a4e1-351a6c781dd8",
+        "title": "chemistry foundation & applied topics 6 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "4b9be88c-d1fa-5678-9f8b-92b2f8c88731",
+          "92d57a93-8567-5aa1-a0d0-74ab9d4cbfec"
+        ],
+        "codes": [
+          "EXAM-2026-000081",
+          "EXAM-2026-000231"
+        ]
+      },
+      {
+        "course_id": "c88103cd-1b01-5484-b24b-9dc4a7b97877",
+        "title": "biological sciences foundation & applied topics 11 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "d02045c5-1405-546a-b9ee-9a1075da8cfc",
+          "975a331d-8fd0-524e-bf37-22d1ff071e25"
+        ],
+        "codes": [
+          "EXAM-2026-000101",
+          "EXAM-2026-000251"
+        ]
+      },
+      {
+        "course_id": "825470e5-90f1-53fd-b01c-9967eba23160",
+        "title": "physics foundation & applied topics 14 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "2387520b-3ad0-56dc-b9b7-c15c5d6a21c6",
+          "a7d544f7-4ecc-5509-b7e0-1b5175a02597"
+        ],
+        "codes": [
+          "EXAM-2026-000074",
+          "EXAM-2026-000224"
+        ]
+      },
+      {
+        "course_id": "c118dd03-a8cd-5bc8-afca-f901eeb450ed",
+        "title": "business administration foundation & applied topics 10 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "9a96f2e0-c338-53b0-bac9-cc4943060414",
+          "518d4047-172f-5e60-9c4d-f48a947ee92f"
+        ],
+        "codes": [
+          "EXAM-2026-000130",
+          "EXAM-2026-000280"
+        ]
+      },
+      {
+        "course_id": "c17e731a-6880-5ed5-b078-b014bf2dfe01",
+        "title": "mathematics & statistics foundation & applied topics 14 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "0abbdce3-3bd9-5af1-a071-761887b861f4",
+          "be7c1079-f8d2-5f5a-9684-81ccd44d3da6"
+        ],
+        "codes": [
+          "EXAM-2026-000059",
+          "EXAM-2026-000209"
+        ]
+      },
+      {
+        "course_id": "92afd497-7d2c-5e5b-9819-bed4bc731824",
+        "title": "computer science foundation & applied topics 3 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "98b19983-60fb-599a-b61c-887e29e0b92d",
+          "b8aed9c4-8789-582f-bdc1-95d8e75aca3e"
+        ],
+        "codes": [
+          "EXAM-2026-000003",
+          "EXAM-2026-000153"
+        ]
+      },
+      {
+        "course_id": "8bd3fec8-8fe8-5ed3-b879-29033e40bda4",
+        "title": "mechanical engineering foundation & applied topics 8 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "00c813a1-4e76-5b5f-8057-9f8c6ed923d6",
+          "d1cf5e09-b91e-5267-bffb-930b801e0d0d"
+        ],
+        "codes": [
+          "EXAM-2026-000038",
+          "EXAM-2026-000188"
+        ]
+      },
+      {
+        "course_id": "c99e0e9c-edbd-5f19-a120-c4280fb42d35",
+        "title": "electrical engineering foundation & applied topics 12 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "528526a8-6100-5159-841c-756435247c3e",
+          "5d2a139f-cfd5-5833-9c7b-ac081c8b8c13"
+        ],
+        "codes": [
+          "EXAM-2026-000027",
+          "EXAM-2026-000177"
+        ]
+      },
+      {
+        "course_id": "4ccc081f-58d4-5906-a78b-9434c54776c8",
+        "title": "humanities & social sciences foundation & applied topics 15 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "28b208eb-e049-56db-987d-ef118b814b82",
+          "fa208e66-0404-5bcf-a1a2-8e4f84885742"
+        ],
+        "codes": [
+          "EXAM-2026-000150",
+          "EXAM-2026-000300"
+        ]
+      },
+      {
+        "course_id": "89ddb105-1582-510f-acb2-ab4ae66bc775",
+        "title": "electrical engineering foundation & applied topics 3 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "71d4aa03-bd42-5c63-ab47-8af16ca4016c",
+          "70e302da-2ee0-5938-a6a5-9048f48e9d06"
+        ],
+        "codes": [
+          "EXAM-2026-000018",
+          "EXAM-2026-000168"
+        ]
+      },
+      {
+        "course_id": "94c59fe8-dd50-5373-92cc-f9d8875b9068",
+        "title": "mathematics & statistics foundation & applied topics 4 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "ade81e2c-4b09-5671-babf-5b5546710d64",
+          "89ea676a-16c5-5757-9ccf-8f96a13ab952"
+        ],
+        "codes": [
+          "EXAM-2026-000049",
+          "EXAM-2026-000199"
+        ]
+      },
+      {
+        "course_id": "b8f59469-a2af-59f2-aefc-71316d335cb1",
+        "title": "mechanical engineering foundation & applied topics 10 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "42ce7dbf-5926-5c64-be73-6d58f1a3c370",
+          "f204b6f0-0801-506a-8b8e-4f27e96ce2a5"
+        ],
+        "codes": [
+          "EXAM-2026-000040",
+          "EXAM-2026-000190"
+        ]
+      },
+      {
+        "course_id": "f3963bd7-8102-56fb-94a4-83854d186c4f",
+        "title": "chemistry foundation & applied topics 9 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "45aa3131-080d-5e4b-909e-4602444213fc",
+          "29d981f1-24e7-5e78-992c-c6a562cfe9c9"
+        ],
+        "codes": [
+          "EXAM-2026-000084",
+          "EXAM-2026-000234"
+        ]
+      },
+      {
+        "course_id": "fffac953-4104-5149-810c-c1ad54bc7ed8",
+        "title": "biological sciences foundation & applied topics 9 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "37cb3413-1404-58cf-838f-4f62d0f3c764",
+          "a8d8dc5d-d0c0-5131-9c3e-a7e43e7badfe"
+        ],
+        "codes": [
+          "EXAM-2026-000099",
+          "EXAM-2026-000249"
+        ]
+      },
+      {
+        "course_id": "f08f676e-a3bd-51cd-afa9-cbcb701d5108",
+        "title": "economics & finance foundation & applied topics 8 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "5131db14-f655-5521-9326-5d60c0eba3cf",
+          "a4a341b1-17fa-57f8-a163-a244571d6a49"
+        ],
+        "codes": [
+          "EXAM-2026-000113",
+          "EXAM-2026-000263"
+        ]
+      },
+      {
+        "course_id": "a97b2d63-6ebc-5f53-8f65-07cf5483b639",
+        "title": "computer science foundation & applied topics 13 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "b73d20b7-9d45-5b82-8e74-acc4a2fd6ed8",
+          "e497fcd8-9133-5334-a7ef-e626d309c8fe"
+        ],
+        "codes": [
+          "EXAM-2026-000013",
+          "EXAM-2026-000163"
+        ]
+      },
+      {
+        "course_id": "e2e8676b-7526-5c00-862d-84f60533572e",
+        "title": "chemistry foundation & applied topics 7 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "2a87ae4d-8a1e-5928-9561-888905b43478",
+          "cc9a7794-a89f-5ccb-8816-856f62f1fa60"
+        ],
+        "codes": [
+          "EXAM-2026-000082",
+          "EXAM-2026-000232"
+        ]
+      },
+      {
+        "course_id": "7cbe69c9-5357-5ed0-982c-e559ad09f05c",
+        "title": "electrical engineering foundation & applied topics 6 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "f403d5ad-0926-5fe1-9670-7983ef7048b3",
+          "e7e9ed57-9e7d-504d-a33c-5992f33e1f66"
+        ],
+        "codes": [
+          "EXAM-2026-000021",
+          "EXAM-2026-000171"
+        ]
+      },
+      {
+        "course_id": "1d7c4852-83db-5a8c-8d46-8eaa0e7c0916",
+        "title": "computer science foundation & applied topics 5 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "6a793b73-9cf5-59a6-a093-a6d4fa0978e4",
+          "2bcaf29a-048b-528b-9a3b-43ae6b28614e"
+        ],
+        "codes": [
+          "EXAM-2026-000005",
+          "EXAM-2026-000155"
+        ]
+      },
+      {
+        "course_id": "1b69d918-9ea7-5510-9d1f-18f61ebf3367",
+        "title": "mathematics & statistics foundation & applied topics 5 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "daee9f76-87f7-5641-9a88-d6bb285ed6ab",
+          "1deb8095-00ae-556e-a38e-cbffecbc9856"
+        ],
+        "codes": [
+          "EXAM-2026-000050",
+          "EXAM-2026-000200"
+        ]
+      },
+      {
+        "course_id": "215e5394-2bc7-5f40-a2d7-2c33215e47fa",
+        "title": "business administration foundation & applied topics 3 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "22fac2fd-6f44-597e-872b-4bfafa4a3669",
+          "c441e53c-d9fc-568b-b748-292498aad7f8"
+        ],
+        "codes": [
+          "EXAM-2026-000123",
+          "EXAM-2026-000273"
+        ]
+      },
+      {
+        "course_id": "9f503d49-0cfa-531e-8542-49a0e4add548",
+        "title": "biological sciences foundation & applied topics 13 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "e2e2e755-5787-5621-903b-03bd77f829fb",
+          "4c55656c-3a42-5800-97e0-82c983c218c2"
+        ],
+        "codes": [
+          "EXAM-2026-000103",
+          "EXAM-2026-000253"
+        ]
+      },
+      {
+        "course_id": "5beaf5c0-2d69-53df-a149-40fbaecd721a",
+        "title": "humanities & social sciences foundation & applied topics 10 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "ee25afc8-d722-501e-8d8f-4a7543293748",
+          "d5e0286b-29c2-5218-bb56-ee0d3f462670"
+        ],
+        "codes": [
+          "EXAM-2026-000145",
+          "EXAM-2026-000295"
+        ]
+      },
+      {
+        "course_id": "618deb5a-09e8-5e4f-b0a2-976d777d802a",
+        "title": "humanities & social sciences foundation & applied topics 1 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "fb3d56f4-13c5-5398-8522-7553ad90dacc",
+          "19cbe7c8-a9d7-5f20-a6f0-2e9c0025278f"
+        ],
+        "codes": [
+          "EXAM-2026-000136",
+          "EXAM-2026-000286"
+        ]
+      },
+      {
+        "course_id": "615fa5a3-fc52-5527-aa2a-8f7115ab718b",
+        "title": "business administration foundation & applied topics 13 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "97d20d25-7807-5bdc-b734-6c5ef7260aea",
+          "844d268c-5858-5dba-9602-f817c78b0d92"
+        ],
+        "codes": [
+          "EXAM-2026-000133",
+          "EXAM-2026-000283"
+        ]
+      },
+      {
+        "course_id": "361ca025-f97b-555f-8e0f-405c67e25c12",
+        "title": "physics foundation & applied topics 8 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "dcbdbc07-6a50-5768-b9c2-a41a76bd196c",
+          "0fcb6a53-d0bd-5bf2-b802-4b05fb9e57cc"
+        ],
+        "codes": [
+          "EXAM-2026-000068",
+          "EXAM-2026-000218"
+        ]
+      },
+      {
+        "course_id": "9d3065d1-2273-551f-b25f-fe5cebca2737",
+        "title": "electrical engineering foundation & applied topics 11 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "eebc7da1-3011-51bf-97e3-71580a9d39f0",
+          "ebb2f88d-8ec3-5a16-93a9-289f95d3838b"
+        ],
+        "codes": [
+          "EXAM-2026-000026",
+          "EXAM-2026-000176"
+        ]
+      },
+      {
+        "course_id": "af7af9ce-05fa-5fbe-ac83-af1d60bd96b3",
+        "title": "business administration foundation & applied topics 6 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "8b861040-eecc-58e5-b62a-2da1fd4230e3",
+          "f6950463-f507-57a1-ad1c-5bfea3a213a0"
+        ],
+        "codes": [
+          "EXAM-2026-000276",
+          "EXAM-2026-000126"
+        ]
+      },
+      {
+        "course_id": "8cd11a36-f430-52e8-b1ea-e5901b9b0f99",
+        "title": "economics & finance foundation & applied topics 2 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "69d81760-9200-52c6-a997-37591c08829f",
+          "62bd1f63-22cf-55ce-9ae6-433d4414fa33"
+        ],
+        "codes": [
+          "EXAM-2026-000107",
+          "EXAM-2026-000257"
+        ]
+      },
+      {
+        "course_id": "f2e43652-aa68-553b-8219-8e448d7c967d",
+        "title": "biological sciences foundation & applied topics 14 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "a6039e99-3258-5547-92da-492c899a8830",
+          "e9b23bc4-f5b9-55a4-b86f-c414483c59bb"
+        ],
+        "codes": [
+          "EXAM-2026-000104",
+          "EXAM-2026-000254"
+        ]
+      },
+      {
+        "course_id": "d5b0a9ac-f244-5ec6-921d-a9a38dc830de",
+        "title": "economics & finance foundation & applied topics 12 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "48200c0e-dbb3-5d81-9a90-76565301ab4a",
+          "13ce61fa-99fc-59fe-841f-d80cd241acbc"
+        ],
+        "codes": [
+          "EXAM-2026-000117",
+          "EXAM-2026-000267"
+        ]
+      },
+      {
+        "course_id": "b95be3c7-e8ad-554a-8d0b-96bbe07f028c",
+        "title": "physics foundation & applied topics 9 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "3aa6d9ae-db71-5b72-a08b-fad058d8cd01",
+          "7ebc58b2-8720-5e63-9218-5e64d9f37cc8"
+        ],
+        "codes": [
+          "EXAM-2026-000219",
+          "EXAM-2026-000069"
+        ]
+      },
+      {
+        "course_id": "308fd19a-9bc8-5b1c-a96c-14bebfb6e190",
+        "title": "chemistry foundation & applied topics 11 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "a6277f34-2376-5020-bd1b-1d4bc49c37ba",
+          "e2a789e8-a164-5af5-97bb-d6bd7382fdda"
+        ],
+        "codes": [
+          "EXAM-2026-000086",
+          "EXAM-2026-000236"
+        ]
+      },
+      {
+        "course_id": "daaa873e-e56a-50fa-a7a0-1620b10d3ba3",
+        "title": "mathematics & statistics foundation & applied topics 13 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "37051f67-8e8a-5f97-befe-be70560f12ff",
+          "dc0f19eb-3c9e-54ca-ade8-252347bcf7e8"
+        ],
+        "codes": [
+          "EXAM-2026-000208",
+          "EXAM-2026-000058"
+        ]
+      },
+      {
+        "course_id": "1fe13230-d635-5312-9cf7-c5f9c8efe3e0",
+        "title": "economics & finance foundation & applied topics 11 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "368c1dc9-0ab1-5249-a7e2-ecb7285fd8a5",
+          "cebbb841-68c4-5538-bcca-8061f5a2733f"
+        ],
+        "codes": [
+          "EXAM-2026-000266",
+          "EXAM-2026-000116"
+        ]
+      },
+      {
+        "course_id": "d117706e-e4c6-5052-961c-985d7b783f4d",
+        "title": "chemistry foundation & applied topics 10 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "31dbee1f-d3e6-574b-a8ca-455aa54ed923",
+          "2af44b61-8a2b-5a9a-b9d3-ea017c500b13"
+        ],
+        "codes": [
+          "EXAM-2026-000235",
+          "EXAM-2026-000085"
+        ]
+      },
+      {
+        "course_id": "a7f85a07-4f75-5c01-bff6-4f5ffc5a9bcd",
+        "title": "mathematics & statistics foundation & applied topics 3 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "02bc21ba-ccb2-5b31-a80a-4ba173306629",
+          "9421be94-ca1c-535f-bf29-4797639dac1f"
+        ],
+        "codes": [
+          "EXAM-2026-000048",
+          "EXAM-2026-000198"
+        ]
+      },
+      {
+        "course_id": "065a79b5-d21a-5ec8-8cfd-88f38452d274",
+        "title": "computer science foundation & applied topics 1 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "c4a34f56-51c4-549d-8678-876e43f64816",
+          "6095abbe-3350-5963-893c-200fc699ce9c"
+        ],
+        "codes": [
+          "EXAM-2026-000001",
+          "EXAM-2026-000151"
+        ]
+      },
+      {
+        "course_id": "38a86c63-7201-5b4d-8139-a61cbf5d5476",
+        "title": "economics & finance foundation & applied topics 3 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "0de0b75e-9866-5bb3-a91b-0c02ec0f6f7e",
+          "6b08b2d6-665d-54b5-8cf7-0e6fc3bc78cf"
+        ],
+        "codes": [
+          "EXAM-2026-000108",
+          "EXAM-2026-000258"
+        ]
+      },
+      {
+        "course_id": "9f043505-d900-5813-861e-793d19a5dbba",
+        "title": "biological sciences foundation & applied topics 5 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "8212d78a-12d1-52b8-9902-981af708f297",
+          "0dbc5bda-36f0-5597-9638-f636afa3be06"
+        ],
+        "codes": [
+          "EXAM-2026-000095",
+          "EXAM-2026-000245"
+        ]
+      },
+      {
+        "course_id": "61cd25d4-b5bb-515d-bcfa-52b5de5d4d0c",
+        "title": "chemistry foundation & applied topics 3 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "0276644e-2bd9-5464-8e99-dc409d1057c9",
+          "4acbe5d9-335e-57a6-9847-033d03fd263d"
+        ],
+        "codes": [
+          "EXAM-2026-000078",
+          "EXAM-2026-000228"
+        ]
+      },
+      {
+        "course_id": "65f9fc92-b5cd-5438-a9c9-da263b356f5b",
+        "title": "computer science foundation & applied topics 14 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "e7891479-6e7f-5e46-9d73-a4be68f0e980",
+          "087026b0-049c-5f50-b7c4-5ae929ae1234"
+        ],
+        "codes": [
+          "EXAM-2026-000014",
+          "EXAM-2026-000164"
+        ]
+      },
+      {
+        "course_id": "2a8d9b11-3057-5a23-9cc4-b18910f37013",
+        "title": "chemistry foundation & applied topics 13 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "5917eb29-8e83-590d-96fe-e799c09be76e",
+          "abd6ff9f-5fa5-5f97-ad44-17bafaf57c27"
+        ],
+        "codes": [
+          "EXAM-2026-000088",
+          "EXAM-2026-000238"
+        ]
+      },
+      {
+        "course_id": "f018d0fc-22ed-53bf-999a-f40b6c28b764",
+        "title": "biological sciences foundation & applied topics 6 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "92c907b6-1e32-5551-850f-c194640cc495",
+          "fd0c6930-1780-5d65-b193-451226bb4bae"
+        ],
+        "codes": [
+          "EXAM-2026-000096",
+          "EXAM-2026-000246"
+        ]
+      },
+      {
+        "course_id": "8fd918bb-97cb-5b97-868a-8f5b0f8c537b",
+        "title": "economics & finance foundation & applied topics 5 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "1c7728ce-2d9b-5993-9c2a-0184b7311794",
+          "ecfa4703-d6b1-5634-8869-efa3ab819bd0"
+        ],
+        "codes": [
+          "EXAM-2026-000110",
+          "EXAM-2026-000260"
+        ]
+      },
+      {
+        "course_id": "fc8bf89f-27b0-580f-a7ac-2bf67dffb37c",
+        "title": "mathematics & statistics foundation & applied topics 11 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "45191d0c-6d17-576d-a775-ab2f196b755a",
+          "a789e00d-5aca-5920-ab15-bf247d1488d5"
+        ],
+        "codes": [
+          "EXAM-2026-000206",
+          "EXAM-2026-000056"
+        ]
+      },
+      {
+        "course_id": "7c82fe33-9dcd-5099-ade8-0aea319aea93",
+        "title": "electrical engineering foundation & applied topics 10 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "4214f611-a502-5b15-a9b1-66b2ec4bb15e",
+          "2abebcc6-16ed-5894-9504-7d0c115e5f68"
+        ],
+        "codes": [
+          "EXAM-2026-000175",
+          "EXAM-2026-000025"
+        ]
+      },
+      {
+        "course_id": "8cb9ede3-2183-5625-b18d-0ca0b59a504f",
+        "title": "humanities & social sciences foundation & applied topics 11 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "a75ca8f8-684f-5c69-9e24-00525b0c9e7f",
+          "296d451c-5c22-5bc7-8710-9487685c5861"
+        ],
+        "codes": [
+          "EXAM-2026-000146",
+          "EXAM-2026-000296"
+        ]
+      },
+      {
+        "course_id": "77c1cd07-22e4-5e2d-bf7a-77be4e741bf0",
+        "title": "biological sciences foundation & applied topics 1 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "8264e650-65ee-5e99-aa1e-488913127d2e",
+          "7223e97c-fe54-5436-b223-5e9a9e70b8f4"
+        ],
+        "codes": [
+          "EXAM-2026-000241",
+          "EXAM-2026-000091"
+        ]
+      },
+      {
+        "course_id": "e46efc25-b29f-548e-80d7-bc8c9e3030df",
+        "title": "biological sciences foundation & applied topics 15 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "e9cfbc0f-a649-5003-99f9-30751b974ed5",
+          "557312de-a311-53d8-86db-658715a8ee16"
+        ],
+        "codes": [
+          "EXAM-2026-000105",
+          "EXAM-2026-000255"
+        ]
+      },
+      {
+        "course_id": "743a1509-d490-57a0-a0d5-2cd6b00f01aa",
+        "title": "mechanical engineering foundation & applied topics 6 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "d46e895b-45e0-54b7-bf4e-2e6bcf52f84d",
+          "d7a34b57-aaf3-5168-9497-3779c766275a"
+        ],
+        "codes": [
+          "EXAM-2026-000036",
+          "EXAM-2026-000186"
+        ]
+      },
+      {
+        "course_id": "e20ae64b-4bb7-55e9-8813-03b23863efdf",
+        "title": "electrical engineering foundation & applied topics 14 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "7e7c8aa2-4900-5035-b1b6-413f923283db",
+          "0c95dfce-6087-50e6-b01d-26f0ede0bd5b"
+        ],
+        "codes": [
+          "EXAM-2026-000029",
+          "EXAM-2026-000179"
+        ]
+      },
+      {
+        "course_id": "d68f6852-d28a-5365-a677-1e0d0ef0e71b",
+        "title": "business administration foundation & applied topics 8 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "4e9dbceb-6b9f-535a-80c2-46fadc04e431",
+          "76c95e24-f018-5fa9-bf8e-5b596f35f801"
+        ],
+        "codes": [
+          "EXAM-2026-000128",
+          "EXAM-2026-000278"
+        ]
+      },
+      {
+        "course_id": "c3ebab2a-74ed-5cbe-9b0b-6960644ac7e2",
+        "title": "mathematics & statistics foundation & applied topics 7 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "00784bc7-7bed-5c41-9449-7622dd2b8dde",
+          "c3a100a3-c34a-531e-9c8c-c5f07724c2d7"
+        ],
+        "codes": [
+          "EXAM-2026-000052",
+          "EXAM-2026-000202"
+        ]
+      },
+      {
+        "course_id": "ba7e52a7-a614-50af-b28a-5231fd699d89",
+        "title": "economics & finance foundation & applied topics 4 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "e3219de8-2a53-52d3-9ead-13ddcfbcb6a6",
+          "a82b5104-31b2-5708-af73-848d1ebe380a"
+        ],
+        "codes": [
+          "EXAM-2026-000109",
+          "EXAM-2026-000259"
+        ]
+      },
+      {
+        "course_id": "5d39f5f0-e706-5e3f-bcd5-a2911ed73de8",
+        "title": "mechanical engineering foundation & applied topics 3 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "73bb1ee7-4023-5588-90f2-c43ae2ce9202",
+          "1ade2f13-5441-59bb-9a0c-61b38e5edb94"
+        ],
+        "codes": [
+          "EXAM-2026-000033",
+          "EXAM-2026-000183"
+        ]
+      },
+      {
+        "course_id": "2b74f7c6-5c2f-53d5-a79a-9369d2094b9e",
+        "title": "mathematics & statistics foundation & applied topics 1 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "e9be798e-1fba-5197-89ce-f7454e566878",
+          "3b37a870-4512-5af9-bd0a-5e24ef362947"
+        ],
+        "codes": [
+          "EXAM-2026-000046",
+          "EXAM-2026-000196"
+        ]
+      },
+      {
+        "course_id": "56807c46-1fba-583a-84b0-a88c33ae7375",
+        "title": "biological sciences foundation & applied topics 2 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "7fc9cdeb-98be-5626-aaed-16457bb3c438",
+          "cee2c118-85b4-53e1-baba-74e6f6e25d2f"
+        ],
+        "codes": [
+          "EXAM-2026-000242",
+          "EXAM-2026-000092"
+        ]
+      },
+      {
+        "course_id": "50cfe515-e579-5107-8594-cd796402ce9a",
+        "title": "computer science foundation & applied topics 11 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "072b073a-42c6-510c-be43-c65a3266dd7d",
+          "01e4036e-45b6-54aa-81d7-d0f1e0c16377"
+        ],
+        "codes": [
+          "EXAM-2026-000161",
+          "EXAM-2026-000011"
+        ]
+      },
+      {
+        "course_id": "227b936d-0e75-5660-bf8a-dde6ca2c8cf4",
+        "title": "physics foundation & applied topics 12 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "6550501a-3047-5e81-9a26-e5ac5ad26251",
+          "7de1fe0a-85ea-562d-a0cc-637f4a58f585"
+        ],
+        "codes": [
+          "EXAM-2026-000072",
+          "EXAM-2026-000222"
+        ]
+      },
+      {
+        "course_id": "d4860c01-881d-5496-a21b-db9aabdcd6db",
+        "title": "mechanical engineering foundation & applied topics 13 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "46ef4675-997b-5f8f-af7b-0645d55d4654",
+          "fd8717d1-e910-5377-81d3-4abe532d4018"
+        ],
+        "codes": [
+          "EXAM-2026-000043",
+          "EXAM-2026-000193"
+        ]
+      },
+      {
+        "course_id": "a6600eba-556c-52c1-958b-68dc5a6f0c35",
+        "title": "electrical engineering foundation & applied topics 9 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "262569db-d860-5e61-bbea-3140a239346a",
+          "f684153b-175e-5223-84b2-33084f029948"
+        ],
+        "codes": [
+          "EXAM-2026-000024",
+          "EXAM-2026-000174"
+        ]
+      },
+      {
+        "course_id": "9b682dad-22de-5d9d-8bf9-682c1e1944ad",
+        "title": "humanities & social sciences foundation & applied topics 13 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "fae37453-1749-5620-a2f6-44e7c387e829",
+          "758a7598-f1dd-5ab5-a8e5-4cac1cd008da"
+        ],
+        "codes": [
+          "EXAM-2026-000148",
+          "EXAM-2026-000298"
+        ]
+      },
+      {
+        "course_id": "6cbc640f-3933-5465-88b7-749a7bc5b911",
+        "title": "business administration foundation & applied topics 11 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "180fc661-faae-58c0-8981-b624fc7ce84c",
+          "7dcd173a-6856-5e70-afcd-f4faf53ea8bc"
+        ],
+        "codes": [
+          "EXAM-2026-000131",
+          "EXAM-2026-000281"
+        ]
+      },
+      {
+        "course_id": "0da025c6-1e22-57ea-8c44-905c020c16a2",
+        "title": "computer science foundation & applied topics 7 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "9b288cf0-e5f8-5f7f-a9d7-7c181c28b057",
+          "27059972-5046-5a19-ab56-94623a81aa23"
+        ],
+        "codes": [
+          "EXAM-2026-000007",
+          "EXAM-2026-000157"
+        ]
+      },
+      {
+        "course_id": "a5b568f6-483d-5ff2-b733-9e56d90dc24d",
+        "title": "computer science foundation & applied topics 6 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "593f957c-f870-57c9-90c6-bdf060c470e1",
+          "fcc22587-1831-562a-8176-6b6be57fb99d"
+        ],
+        "codes": [
+          "EXAM-2026-000006",
+          "EXAM-2026-000156"
+        ]
+      },
+      {
+        "course_id": "d837a46b-fb5e-500b-b403-0f80503e665d",
+        "title": "computer science foundation & applied topics 12 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "64943983-a058-515d-9b7d-1447282a195a",
+          "efb720ae-049a-5be9-ae69-597fc0b90101"
+        ],
+        "codes": [
+          "EXAM-2026-000012",
+          "EXAM-2026-000162"
+        ]
+      },
+      {
+        "course_id": "b6549791-be13-5a29-90db-e5b8bb4143c8",
+        "title": "chemistry foundation & applied topics 15 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "4ae10eaf-e613-5087-bd69-264ae9e9c524",
+          "98ad0c91-4659-5d77-94eb-d022cec876ed"
+        ],
+        "codes": [
+          "EXAM-2026-000090",
+          "EXAM-2026-000240"
+        ]
+      },
+      {
+        "course_id": "722bc840-b635-56c3-9e9c-80d141ae6a4a",
+        "title": "electrical engineering foundation & applied topics 7 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "c1e40006-1aab-51f6-908c-50ff99ceda73",
+          "22609ea4-346e-525e-94c4-fed8661391a4"
+        ],
+        "codes": [
+          "EXAM-2026-000022",
+          "EXAM-2026-000172"
+        ]
+      },
+      {
+        "course_id": "4bae5058-5820-5c1e-b338-0d3afd5ea3b4",
+        "title": "computer science foundation & applied topics 9 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "0032197e-f021-5657-886e-bd7000e5935c",
+          "b2747ceb-1365-5138-bdb8-d6ee8303b1e3"
+        ],
+        "codes": [
+          "EXAM-2026-000009",
+          "EXAM-2026-000159"
+        ]
+      },
+      {
+        "course_id": "b4a9a49b-9bcc-5b3f-9e3f-10318e91c67a",
+        "title": "electrical engineering foundation & applied topics 8 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "f2a3bb69-dd89-539d-af45-2d90541d14bc",
+          "19d37eb5-deb0-5e37-92d9-c91788f985ba"
+        ],
+        "codes": [
+          "EXAM-2026-000023",
+          "EXAM-2026-000173"
+        ]
+      },
+      {
+        "course_id": "4d216dcb-e8b5-5a65-b7f8-c3ac716197ef",
+        "title": "humanities & social sciences foundation & applied topics 2 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "f2952c6e-1bb0-5f25-a730-1deb22647586",
+          "42b018b9-892b-5df9-8457-ee406d0016fe"
+        ],
+        "codes": [
+          "EXAM-2026-000137",
+          "EXAM-2026-000287"
+        ]
+      },
+      {
+        "course_id": "394b1035-e509-5659-81e1-7f6da0123f79",
+        "title": "computer science foundation & applied topics 2 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "6337b2d7-5eef-5dac-b8a8-f647492c55a2",
+          "46193892-3049-5a17-b4f8-0e5a4236b46b"
+        ],
+        "codes": [
+          "EXAM-2026-000002",
+          "EXAM-2026-000152"
+        ]
+      },
+      {
+        "course_id": "ac1cb3bb-7f27-57a6-a2bc-6d0522f3e01f",
+        "title": "chemistry foundation & applied topics 4 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "c5baca7f-9caa-57f4-bd3d-32ddde437ad1",
+          "ffc1d531-f2b6-5b20-bcc6-872ddce5263d"
+        ],
+        "codes": [
+          "EXAM-2026-000079",
+          "EXAM-2026-000229"
+        ]
+      },
+      {
+        "course_id": "5e419eb0-6250-5910-a6c1-a3a4572ec875",
+        "title": "computer science foundation & applied topics 10 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "0644d25a-ef37-5fd6-8815-bebe6e518665",
+          "18777111-819f-529e-a894-bb65e46a1582"
+        ],
+        "codes": [
+          "EXAM-2026-000160",
+          "EXAM-2026-000010"
+        ]
+      },
+      {
+        "course_id": "779da1a4-1de8-5744-a4a4-f31a6863c74a",
+        "title": "humanities & social sciences foundation & applied topics 14 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "dfed688c-0eb6-5c15-a6a1-dde95b00c5ac",
+          "3da2c05a-2a98-58b1-b55a-caa8d6447532"
+        ],
+        "codes": [
+          "EXAM-2026-000149",
+          "EXAM-2026-000299"
+        ]
+      },
+      {
+        "course_id": "2ba05c66-3b5e-5ada-a618-af7a01eb1005",
+        "title": "economics & finance foundation & applied topics 9 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "d13c4d65-33d3-5dd3-a894-c237b1cb3e78",
+          "c6ec80a4-d57c-5c65-96aa-1f6811061968"
+        ],
+        "codes": [
+          "EXAM-2026-000114",
+          "EXAM-2026-000264"
+        ]
+      },
+      {
+        "course_id": "ed7ecb52-9418-56e5-8653-0ea083d1ac4e",
+        "title": "physics foundation & applied topics 10 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "bde5cc4a-cebe-5b6a-bcca-aecb7a7a3af2",
+          "4194e5e9-20f5-57cf-9df9-dc74c92f68c5"
+        ],
+        "codes": [
+          "EXAM-2026-000070",
+          "EXAM-2026-000220"
+        ]
+      },
+      {
+        "course_id": "1074b5d3-dfe2-51e7-92e7-74c35ecf5fe4",
+        "title": "physics foundation & applied topics 13 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "ed38e5a2-8502-50ba-86f7-45616b1b1d58",
+          "ba6cf606-5314-589c-b87e-dc74ebc0a7c9"
+        ],
+        "codes": [
+          "EXAM-2026-000073",
+          "EXAM-2026-000223"
+        ]
+      },
+      {
+        "course_id": "0be1634d-ce7c-5e5c-9d5c-707aec5b4ec0",
+        "title": "mathematics & statistics foundation & applied topics 6 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "46e27ced-8f5e-5264-b385-0b956f37d6a4",
+          "a89488c3-a244-5653-b784-855b0600c37b"
+        ],
+        "codes": [
+          "EXAM-2026-000051",
+          "EXAM-2026-000201"
+        ]
+      },
+      {
+        "course_id": "694ab9f4-f057-52dd-aafd-dfb6c8a56391",
+        "title": "humanities & social sciences foundation & applied topics 5 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "6d841d3f-5741-591b-a8f7-46e5b6083801",
+          "9e4111e3-1d8b-5ec3-8cf2-b14a77047cfe"
+        ],
+        "codes": [
+          "EXAM-2026-000140",
+          "EXAM-2026-000290"
+        ]
+      },
+      {
+        "course_id": "cceed700-1eb5-5b5d-8c34-95ec26d27488",
+        "title": "mechanical engineering foundation & applied topics 2 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "7d54f131-dad5-5244-903a-5989ffbd4e2a",
+          "879738f2-0bad-557b-bfa9-11e8e61f14c2"
+        ],
+        "codes": [
+          "EXAM-2026-000032",
+          "EXAM-2026-000182"
+        ]
+      },
+      {
+        "course_id": "db00d8a1-f3c6-50ea-ac62-d077067ec845",
+        "title": "mechanical engineering foundation & applied topics 9 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "4c1df6c1-6d17-5e2a-894e-a3921203e1d2",
+          "4e07f965-432e-5c72-91eb-34699d217e93"
+        ],
+        "codes": [
+          "EXAM-2026-000039",
+          "EXAM-2026-000189"
+        ]
+      },
+      {
+        "course_id": "8ad736c0-d60d-598e-a0d2-98a37a799e05",
+        "title": "chemistry foundation & applied topics 5 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "1e5ad216-008d-523b-8252-7f368d80dc43",
+          "ec640351-8d9c-57fe-bfef-77dd2702d04a"
+        ],
+        "codes": [
+          "EXAM-2026-000080",
+          "EXAM-2026-000230"
+        ]
+      },
+      {
+        "course_id": "d3e9a617-5598-5157-96e9-439f7a75cf36",
+        "title": "physics foundation & applied topics 7 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "fc900be7-c190-57cc-8ab2-dfb38b635a09",
+          "89ae7401-c477-53fd-9a73-5b625863350e"
+        ],
+        "codes": [
+          "EXAM-2026-000067",
+          "EXAM-2026-000217"
+        ]
+      },
+      {
+        "course_id": "de4f7e5e-2bf0-5d1e-bba1-3405d9bcc6a2",
+        "title": "mathematics & statistics foundation & applied topics 10 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "a9330307-1e3c-5e2f-b8b5-719b70a0f084",
+          "be014d32-5ad3-5ac1-9b10-dcda1efe196e"
+        ],
+        "codes": [
+          "EXAM-2026-000055",
+          "EXAM-2026-000205"
+        ]
+      },
+      {
+        "course_id": "056b8cbe-36fc-53ac-a096-b6e9d3ad3713",
+        "title": "mechanical engineering foundation & applied topics 12 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "a87842b2-db4c-5270-8aa8-8210116530a7",
+          "b7567b09-6b21-5868-9d8d-3cfe9c17ce39"
+        ],
+        "codes": [
+          "EXAM-2026-000042",
+          "EXAM-2026-000192"
+        ]
+      },
+      {
+        "course_id": "be6af672-c560-54db-9261-9fda29e842a0",
+        "title": "business administration foundation & applied topics 5 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "3232f343-7ab6-5dc3-ba1f-3060f7c65132",
+          "6a8232a2-e7a0-55fd-ade6-223a0dd92391"
+        ],
+        "codes": [
+          "EXAM-2026-000125",
+          "EXAM-2026-000275"
+        ]
+      },
+      {
+        "course_id": "0bde00a4-feed-5b89-ac9d-6c990c02eaf6",
+        "title": "economics & finance foundation & applied topics 15 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "5f5a205a-619e-5c4d-a463-d4bc591040aa",
+          "38e39016-70ea-5d23-9f68-964e07948e1d"
+        ],
+        "codes": [
+          "EXAM-2026-000120",
+          "EXAM-2026-000270"
+        ]
+      },
+      {
+        "course_id": "e6cd0d3e-8dab-592a-bf23-1f3b9a1a3380",
+        "title": "physics foundation & applied topics 3 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "67e67e04-e989-5754-98c9-6912d0928c04",
+          "d5387ebf-3fd6-5040-9d59-150c20e1152c"
+        ],
+        "codes": [
+          "EXAM-2026-000063",
+          "EXAM-2026-000213"
+        ]
+      },
+      {
+        "course_id": "f5acbce2-062e-5521-bb7c-9b45d455a55e",
+        "title": "mathematics & statistics foundation & applied topics 9 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "960a47c8-6465-5510-8cff-ec28786d2bce",
+          "01566772-62bd-5287-9485-1e815e3f3db5"
+        ],
+        "codes": [
+          "EXAM-2026-000054",
+          "EXAM-2026-000204"
+        ]
+      },
+      {
+        "course_id": "e935c168-b938-5356-a893-f25687a63092",
+        "title": "humanities & social sciences foundation & applied topics 7 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "e5818fb8-b2db-5c5b-aac2-d5a6d05e3695",
+          "c26468aa-210f-5dba-b295-cf245f4c109e"
+        ],
+        "codes": [
+          "EXAM-2026-000142",
+          "EXAM-2026-000292"
+        ]
+      },
+      {
+        "course_id": "202e63b7-2193-530f-aae0-996e795e1933",
+        "title": "mathematics & statistics foundation & applied topics 12 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "4b442a7d-f05f-51a9-96c9-01ff973681b9",
+          "10d03303-0703-5f7d-8f55-d3f46473d7a5"
+        ],
+        "codes": [
+          "EXAM-2026-000057",
+          "EXAM-2026-000207"
+        ]
+      },
+      {
+        "course_id": "421bc338-40fc-505a-b4e3-cd92b7d56597",
+        "title": "mechanical engineering foundation & applied topics 5 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "af2febc6-da39-5e6c-a6d1-98e7a298068c",
+          "e8037d32-1706-588f-8e35-6f215ff392c4"
+        ],
+        "codes": [
+          "EXAM-2026-000035",
+          "EXAM-2026-000185"
+        ]
+      },
+      {
+        "course_id": "fb8877df-037e-5854-bd1d-2124327b6a32",
+        "title": "humanities & social sciences foundation & applied topics 12 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "2312d391-e7e4-51fc-afaf-dfbc2595462f",
+          "a22ac15d-4fce-557a-9206-f86207987190"
+        ],
+        "codes": [
+          "EXAM-2026-000147",
+          "EXAM-2026-000297"
+        ]
+      },
+      {
+        "course_id": "f87316be-bf22-58a8-8d31-f084d9c81323",
+        "title": "economics & finance foundation & applied topics 10 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "a69c281d-89ee-5323-8ad1-4dcd96fe23ff",
+          "ef51a762-bee5-5239-9b34-00293edaec60"
+        ],
+        "codes": [
+          "EXAM-2026-000115",
+          "EXAM-2026-000265"
+        ]
+      },
+      {
+        "course_id": "1b4350ad-b20a-5444-bf32-47b828d79cec",
+        "title": "physics foundation & applied topics 5 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "5608961a-487f-593b-be29-97a9d7b56401",
+          "da011de8-ae8f-590e-8169-2bef52453fda"
+        ],
+        "codes": [
+          "EXAM-2026-000065",
+          "EXAM-2026-000215"
+        ]
+      },
+      {
+        "course_id": "181dcfa3-c4ce-5070-b7b4-85aad53c9140",
+        "title": "electrical engineering foundation & applied topics 4 comprehensive examination",
+        "academic_period_id": "11111111-1111-1111-1111-111111111111",
+        "cnt": 2,
+        "ids": [
+          "d239add2-fd77-5f8a-927d-9e799357ac70",
+          "5d5b6478-a296-52de-9027-32005dd96936"
+        ],
+        "codes": [
+          "EXAM-2026-000019",
+          "EXAM-2026-000169"
+        ]
+      }
+    ],
+    "invigilators.name": [
+      {
+        "first_name": "aditi",
+        "last_name": "jones",
+        "cnt": 2,
+        "ids": [
+          "4a7e534f-895a-575f-846c-e4f4a5e5ff1c",
+          "8d3a1c2b-ccc2-5857-acb2-805d2f262048"
+        ],
+        "codes": [
+          "INV-000032",
+          "INV-000144"
+        ]
+      },
+      {
+        "first_name": "aarav",
+        "last_name": "miller",
+        "cnt": 2,
+        "ids": [
+          "fda8b815-92c7-53a3-9ded-707311fc7abf",
+          "0ba85c7d-802e-572a-910e-938e07021a87"
+        ],
+        "codes": [
+          "INV-000044",
+          "INV-000146"
+        ]
+      },
+      {
+        "first_name": "william",
+        "last_name": "o'connor",
+        "cnt": 2,
+        "ids": [
+          "bde6c97d-f248-5ac7-8b98-c0bc3ffed116",
+          "a62198bf-ea83-56ab-8ab8-760c18ecf5c3"
+        ],
+        "codes": [
+          "INV-000056",
+          "INV-000069"
+        ]
+      },
+      {
+        "first_name": "sophia",
+        "last_name": "rao",
+        "cnt": 2,
+        "ids": [
+          "bc9ae4b5-ccf1-5aa6-aeb7-035e78699ccd",
+          "bb900510-655a-56e0-bae6-35d3f449e61c"
+        ],
+        "codes": [
+          "INV-000073",
+          "INV-000094"
+        ]
+      },
+      {
+        "first_name": "yuki",
+        "last_name": "jones",
+        "cnt": 2,
+        "ids": [
+          "ed1d9f41-2714-5729-b9ea-296546a73d5b",
+          "df692a71-6c84-5e0a-abb1-0ca27f57f0c6"
+        ],
+        "codes": [
+          "INV-000029",
+          "INV-000157"
+        ]
+      },
+      {
+        "first_name": "kavita",
+        "last_name": "wilson",
+        "cnt": 2,
+        "ids": [
+          "8a0f2f73-92d5-5bdb-a837-9b6c6430d66e",
+          "2104ec84-8452-581e-af23-0ce7de911ec2"
+        ],
+        "codes": [
+          "INV-000117",
+          "INV-000128"
+        ]
+      },
+      {
+        "first_name": "maya",
+        "last_name": "nair",
+        "cnt": 2,
+        "ids": [
+          "57f1d60b-f8a1-5f1a-b60b-4746aaecfb24",
+          "36949b0e-eb35-5f2e-a75c-0118c731da73"
+        ],
+        "codes": [
+          "INV-000071",
+          "INV-000162"
+        ]
+      },
+      {
+        "first_name": "tariq",
+        "last_name": "kapoor",
+        "cnt": 3,
+        "ids": [
+          "3d1512ad-9959-5852-8b5e-0ce44cc488f2",
+          "1bd3caa5-ebb4-5bc3-b98b-bb82f6d4d734",
+          "3de3739a-168c-5f86-8b9c-df2bebcae037"
+        ],
+        "codes": [
+          "INV-000101",
+          "INV-000132",
+          "INV-000190"
+        ]
+      },
+      {
+        "first_name": "hannah",
+        "last_name": "kim",
+        "cnt": 2,
+        "ids": [
+          "c43122f7-bd4a-53f5-a231-30d196980532",
+          "93be2342-06ba-55bf-8188-4ffa9d2d7bd0"
+        ],
+        "codes": [
+          "INV-000121",
+          "INV-000191"
+        ]
+      },
+      {
+        "first_name": "david",
+        "last_name": "iyer",
+        "cnt": 2,
+        "ids": [
+          "b97f593e-313c-59d6-8e70-1111eb46864c",
+          "bf34c70c-aaae-5330-97e4-b92d275e86c9"
+        ],
+        "codes": [
+          "INV-000035",
+          "INV-000164"
+        ]
+      },
+      {
+        "first_name": "isabella",
+        "last_name": "hernandez",
+        "cnt": 2,
+        "ids": [
+          "f4948fb0-e18d-59ca-8a4e-fb057a725a00",
+          "83e50b11-ab25-5547-b28e-e33481327538"
+        ],
+        "codes": [
+          "INV-000006",
+          "INV-000057"
+        ]
+      },
+      {
+        "first_name": "david",
+        "last_name": "kim",
+        "cnt": 2,
+        "ids": [
+          "69a6566b-6ee9-5097-ba92-51637bc9137f",
+          "9a8316bc-ea4e-5caf-87e7-ff717377c829"
+        ],
+        "codes": [
+          "INV-000140",
+          "INV-000168"
+        ]
+      },
+      {
+        "first_name": "rahul",
+        "last_name": "agarwal",
+        "cnt": 2,
+        "ids": [
+          "44411800-03c1-5de5-8691-ae33415f4c1e",
+          "61f0bc02-e349-5b26-b6fa-f194dc3293ab"
+        ],
+        "codes": [
+          "INV-000034",
+          "INV-000148"
+        ]
+      },
+      {
+        "first_name": "priya",
+        "last_name": "yamamoto",
+        "cnt": 2,
+        "ids": [
+          "53e8db8d-a599-5ea9-8599-e15e905f8983",
+          "e4faeb33-b39a-5408-9921-80ef86eddfa6"
+        ],
+        "codes": [
+          "INV-000150",
+          "INV-000197"
+        ]
+      }
+    ]
+  }
+}

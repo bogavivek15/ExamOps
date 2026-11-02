@@ -1,24 +1,44 @@
 """
 ExamOps Student Management Service
 """
-from typing import List, Dict, Optional, Any
+import time
+from typing import List, Dict, Optional, Any, Tuple
 from backend.database import execute_query, execute_mutation
 
 class StudentService:
-    @staticmethod
-    def list_students(limit: int = 100, offset: int = 0, search: Optional[str] = None) -> List[Dict[str, Any]]:
+    _cached_total: Optional[Tuple[float, int]] = None
+
+    @classmethod
+    def _get_total_count(cls) -> int:
+        now = time.time()
+        if cls._cached_total and (now - cls._cached_total[0] < 60.0):
+            return cls._cached_total[1]
+        res = execute_query("SELECT count(*) as c FROM students;", fetch_one=True)
+        count = res["c"] if res else 5000
+        cls._cached_total = (now, count)
+        return count
+
+    @classmethod
+    def list_students(cls, limit: int = 100, offset: int = 0, search: Optional[str] = None) -> Tuple[List[Dict[str, Any]], int]:
         if search:
             sql = """
-            SELECT * FROM students 
+            SELECT *, count(*) OVER() as _full_count FROM students 
             WHERE student_code ILIKE %s OR first_name ILIKE %s OR last_name ILIKE %s OR email ILIKE %s
             ORDER BY student_code ASC LIMIT %s OFFSET %s;
             """
             s = f"%{search}%"
-            return execute_query(sql, (s, s, s, s, limit, offset))
-        return execute_query(
+            items = execute_query(sql, (s, s, s, s, limit, offset))
+            total = items[0]["_full_count"] if items else 0
+            for item in items:
+                item.pop("_full_count", None)
+            return items, total
+
+        items = execute_query(
             "SELECT * FROM students ORDER BY student_code ASC LIMIT %s OFFSET %s;",
             (limit, offset),
         )
+        total = cls._get_total_count()
+        return items, total
 
     @staticmethod
     def get_student_by_id(student_id: str) -> Optional[Dict[str, Any]]:

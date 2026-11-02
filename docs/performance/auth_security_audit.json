@@ -1,0 +1,7 @@
+{
+  "jwt_expiration_and_tampering": "VERIFIED (HTTP 401)",
+  "rbac_route_enforcement": "VERIFIED (HTTP 403)",
+  "role_downgrade_enforcement": "VERIFIED after invalidation (HTTP 403)",
+  "account_deactivation": "VERIFIED (HTTP 401)",
+  "profile_cache_ttl_window": "PASSED WITH LIMITATIONS (60s TTL window; recommended 5s TTL)"
+}

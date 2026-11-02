@@ -3,7 +3,8 @@ ExamOps Authentication & Role-Based Authorization
 Validates bearer credentials and resolves immutable user profiles.
 """
 from dataclasses import dataclass
-from typing import Optional, List, Dict, Any
+from typing import Optional, List, Dict, Any, Tuple
+import threading
 import time
 import json
 import base64
@@ -26,6 +27,43 @@ class CurrentUser:
     student_id: Optional[str] = None
     invigilator_id: Optional[str] = None
     department: Optional[str] = None
+
+class ProfileCache:
+    """Thread-safe bounded in-memory cache for user profiles to eliminate redundant DB lookups.
+    Enforces a strict 5-second maximum TTL to guarantee immediate security revocation propagation."""
+    def __init__(self, ttl_seconds: float = 5.0):
+        self._cache: Dict[str, Tuple[float, CurrentUser]] = {}
+        self._lock = threading.Lock()
+        self.ttl = ttl_seconds
+
+    def get(self, key: str) -> Optional[CurrentUser]:
+        now = time.time()
+        with self._lock:
+            entry = self._cache.get(key)
+            if entry and (now - entry[0] < self.ttl):
+                return entry[1]
+            if entry:
+                del self._cache[key]
+            return None
+
+    def set(self, key: str, user: CurrentUser):
+        with self._lock:
+            if len(self._cache) > 500:
+                self._cache.clear()
+            self._cache[key] = (time.time(), user)
+
+    def invalidate(self, key: Optional[str] = None):
+        with self._lock:
+            if key:
+                self._cache.pop(key, None)
+            else:
+                self._cache.clear()
+
+_profile_cache = ProfileCache(ttl_seconds=5.0)
+
+def invalidate_profile_cache(key: Optional[str] = None):
+    """Invalidates the in-memory user profile cache."""
+    _profile_cache.invalidate(key)
 
 ROLE_ALIASES = {
     "STUDENT": "LEARNER",
@@ -136,13 +174,18 @@ def get_current_user(
     elif x_test_role and settings.ENVIRONMENT != "production":
         # Internal test harness role fallback (used by verify_phase*.py scripts)
         canonical_role = ROLE_ALIASES.get(x_test_role.upper(), x_test_role)
+        cache_key = f"role:{canonical_role}"
+        cached = _profile_cache.get(cache_key)
+        if cached:
+            return cached
+
         prof = execute_query(
             "SELECT * FROM user_profiles WHERE role = %s AND status = 'ACTIVE' ORDER BY created_at ASC LIMIT 1;",
             (canonical_role,),
             fetch_one=True,
         )
         if prof:
-            return CurrentUser(
+            user = CurrentUser(
                 id=str(prof["id"]),
                 email=prof["email"],
                 display_name=prof["display_name"],
@@ -151,6 +194,8 @@ def get_current_user(
                 invigilator_id=str(prof["invigilator_id"]) if prof["invigilator_id"] else None,
                 department=prof["department"],
             )
+            _profile_cache.set(cache_key, user)
+            return user
 
     if not user_id:
         raise HTTPException(
@@ -158,6 +203,11 @@ def get_current_user(
             detail="Authentication required. Provide a valid Bearer token.",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
+    cache_key = f"user:{user_id}"
+    cached = _profile_cache.get(cache_key)
+    if cached:
+        return cached
 
     # Validate UUID syntax safely against PostgreSQL
     prof = None
@@ -182,7 +232,7 @@ def get_current_user(
             detail=f"User profile not found for identifier '{user_id}'.",
         )
 
-    return CurrentUser(
+    user = CurrentUser(
         id=str(prof["id"]),
         email=prof["email"],
         display_name=prof["display_name"],
@@ -191,6 +241,8 @@ def get_current_user(
         invigilator_id=str(prof["invigilator_id"]) if prof["invigilator_id"] else None,
         department=prof["department"],
     )
+    _profile_cache.set(cache_key, user)
+    return user
 
 def require_roles(*allowed_roles: str):
     """Enforces role-based access control on routes."""

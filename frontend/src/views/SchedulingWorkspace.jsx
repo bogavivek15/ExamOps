@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import {
   Play,
-  CheckCircle,
   UploadCloud,
   FileSpreadsheet,
   FileCode,
   ShieldCheck,
   AlertTriangle,
   Plus,
-  RefreshCw,
-  Search,
-  SlidersHorizontal,
-  Clock,
-  MapPin,
-  Users,
   Eye,
   Check,
 } from 'lucide-react';
@@ -23,7 +16,6 @@ import DataTable from '../components/common/DataTable';
 import StatusBadge from '../components/common/StatusBadge';
 import Drawer from '../components/common/Drawer';
 import Modal from '../components/common/Modal';
-import LoadingState from '../components/common/LoadingState';
 
 export default function SchedulingWorkspace() {
   const { isAdmin, currentRole } = useAuth();
@@ -37,11 +29,11 @@ export default function SchedulingWorkspace() {
   const [executing, setExecuting] = useState(false);
   const [actionMessage, setActionMessage] = useState(null);
 
-  // Decision Telemetry Drawer State
+  // Decision Inspection Drawer State
   const [inspectingDecision, setInspectingDecision] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  // Create Run Modal State
+  // Create Timetable Modal State
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [newRunSeed, setNewRunSeed] = useState(20261022);
   const [newRunVersion, setNewRunVersion] = useState('1.0.0');
@@ -66,7 +58,7 @@ export default function SchedulingWorkspace() {
         setSelectedRunId(data[0].id);
       }
     } catch (err) {
-      console.error('Failed to load runs:', err);
+      console.error('Failed to load timetables:', err);
     } finally {
       setLoading(false);
     }
@@ -84,7 +76,7 @@ export default function SchedulingWorkspace() {
       setAssignments(asgns);
       setDecisions(decs);
     } catch (err) {
-      console.error('Failed to load run details:', err);
+      console.error('Failed to load timetable details:', err);
     } finally {
       setLoading(false);
     }
@@ -103,12 +95,17 @@ export default function SchedulingWorkspace() {
       setCreateModalOpen(false);
       await loadRuns();
       setSelectedRunId(newRun.id);
-      setActionMessage({ type: 'success', text: `Created run ${newRun.run_code}` });
+      setActionMessage({ type: 'success', text: `Created new timetable ${newRun.run_code}` });
     } catch (err) {
       const msg = err.message || '';
       let userFriendlyError = err.message;
-      if (msg.includes('403') || msg.includes('Forbidden') || msg.includes('permission') || msg.includes('lacks permission')) {
-        userFriendlyError = `Permission Denied (HTTP 403): Current role '${currentRole || 'LEARNER'}' lacks authorization to create scheduling runs. Authorized roles are: EXAM_OFFICER, ACADEMIC_ADMINISTRATOR, PLATFORM_ADMINISTRATOR, SUPER_ADMIN.`;
+      if (
+        msg.includes('403') ||
+        msg.includes('Forbidden') ||
+        msg.includes('permission') ||
+        msg.includes('lacks permission')
+      ) {
+        userFriendlyError = `You do not have permission to create timetables in your current role (${currentRole || 'Learner'}). Please switch to Exam Officer or Academic Administrator.`;
       }
       setModalError(userFriendlyError);
       setActionMessage({ type: 'error', text: userFriendlyError });
@@ -119,16 +116,19 @@ export default function SchedulingWorkspace() {
     if (!selectedRunId) return;
     try {
       setExecuting(true);
-      setActionMessage({ type: 'info', text: 'Executing deterministic scheduling solver...' });
+      setActionMessage({ type: 'info', text: 'Creating exam timetable and assigning rooms...' });
       const result = await api.executeRun(selectedRunId);
       setActionMessage({
         type: 'success',
-        text: `Solved successfully: ${result.metrics.scheduled_count} exams scheduled with zero violations!`,
+        text: `Timetable created successfully: ${result.metrics.scheduled_count} exams scheduled without any conflicts!`,
       });
       await loadRunDetails(selectedRunId);
       await loadRuns();
     } catch (err) {
-      setActionMessage({ type: 'error', text: `Execution failed: ${err.message}` });
+      setActionMessage({
+        type: 'error',
+        text: `Scheduling failed: ${err.message || 'Unable to complete timetable calculation.'}`,
+      });
     } finally {
       setExecuting(false);
     }
@@ -138,11 +138,11 @@ export default function SchedulingWorkspace() {
     if (!selectedRunId) return;
     try {
       await api.approveRun(selectedRunId);
-      setActionMessage({ type: 'success', text: 'Schedule successfully approved!' });
+      setActionMessage({ type: 'success', text: 'Timetable approved successfully for official release!' });
       await loadRunDetails(selectedRunId);
       await loadRuns();
     } catch (err) {
-      setActionMessage({ type: 'error', text: err.message });
+      setActionMessage({ type: 'error', text: err.message || 'Unable to approve timetable.' });
     }
   };
 
@@ -153,7 +153,7 @@ export default function SchedulingWorkspace() {
       if (res.success) {
         setActionMessage({
           type: 'success',
-          text: `Official schedule published! (Run ID: ${res.published_run_id.slice(0, 8)})`,
+          text: `Official timetable published! Available to all departments and students.`,
         });
         await loadRunDetails(selectedRunId);
         await loadRuns();
@@ -171,11 +171,11 @@ export default function SchedulingWorkspace() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `examops_schedule_${selectedRunId.slice(0, 8)}.csv`;
+      a.download = `examops_timetable_${selectedRunId.slice(0, 8)}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
-    } catch (err) {
-      setActionMessage({ type: 'error', text: 'Failed to export CSV.' });
+    } catch {
+      setActionMessage({ type: 'error', text: 'Failed to download CSV timetable file.' });
     }
   };
 
@@ -187,11 +187,11 @@ export default function SchedulingWorkspace() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `examops_schedule_${selectedRunId.slice(0, 8)}.json`;
+      a.download = `examops_timetable_${selectedRunId.slice(0, 8)}.json`;
       a.click();
       window.URL.revokeObjectURL(url);
-    } catch (err) {
-      setActionMessage({ type: 'error', text: 'Failed to export JSON.' });
+    } catch {
+      setActionMessage({ type: 'error', text: 'Failed to download JSON timetable file.' });
     }
   };
 
@@ -230,7 +230,7 @@ export default function SchedulingWorkspace() {
       ),
     },
     {
-      header: 'Timetable Interval',
+      header: 'Date & Time',
       accessor: 'start_time',
       render: (val, row) => {
         const start = new Date(val);
@@ -247,7 +247,7 @@ export default function SchedulingWorkspace() {
       },
     },
     {
-      header: 'Seated Students',
+      header: 'Students Seated',
       accessor: 'seated_student_count',
       width: '120px',
       render: (val) => (
@@ -263,16 +263,17 @@ export default function SchedulingWorkspace() {
       render: (val) => <StatusBadge status={val} size="xs" />,
     },
     {
-      header: 'Telemetry',
+      header: 'Reason',
       accessor: 'exam_id',
-      width: '90px',
+      width: '110px',
       sortable: false,
       render: (examId) => (
         <button
           onClick={() => openDecisionDrawer(examId)}
-          className="flex items-center gap-1 px-2 py-1 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded text-[11px] text-brand-text hover:text-brand-accent transition-colors"
+          className="flex items-center gap-1.5 px-2.5 py-1 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded text-[11px] text-brand-text hover:text-brand-accent transition-colors"
+          aria-label="View scheduling explanation"
         >
-          <Eye size={12} /> Why
+          <Eye size={12} className="text-brand-accent" /> Details
         </button>
       ),
     },
@@ -281,17 +282,18 @@ export default function SchedulingWorkspace() {
   return (
     <div className="space-y-6">
       {/* Top Operations Action Bar */}
-      <div className="bg-brand-surface border border-brand-border rounded-lg p-5 space-y-4">
+      <div className="bg-brand-surface border border-brand-border rounded-[4px] p-4 sm:p-5 space-y-4">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          {/* Run Selector */}
-          <div className="flex items-center gap-3">
-            <span className="text-xs uppercase font-mono tracking-wider text-slate-400">
-              Run:
+          {/* Timetable Version Selector */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <span className="text-xs uppercase font-mono tracking-wider text-slate-400 shrink-0">
+              Timetable:
             </span>
             <select
               value={selectedRunId || ''}
               onChange={(e) => setSelectedRunId(e.target.value)}
-              className="bg-brand-elevated border border-brand-border rounded px-3 py-1.5 text-xs text-brand-text font-mono focus:outline-none focus:border-brand-accent"
+              className="bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-1.5 text-xs text-brand-text font-mono focus:outline-none focus:border-brand-accent max-w-full sm:max-w-md"
+              aria-label="Select timetable version"
             >
               {runs.map((r) => (
                 <option key={r.id} value={r.id}>
@@ -305,54 +307,56 @@ export default function SchedulingWorkspace() {
                 setModalError(null);
                 setCreateModalOpen(true);
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded text-xs text-brand-text hover:border-brand-accent transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded-[4px] text-xs text-brand-text hover:border-brand-accent transition-colors shrink-0"
             >
-              <Plus size={14} className="text-brand-accent" /> New Run
+              <Plus size={14} className="text-brand-accent" /> New Timetable
             </button>
           </div>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-2 flex-wrap justify-end">
+          <div className="flex items-center gap-2 flex-wrap justify-start md:justify-end">
             <button
               onClick={handleExecuteSolver}
               disabled={executing || !isAdmin}
-              className="flex items-center gap-1.5 px-3.5 py-1.5 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold text-xs rounded transition-all shadow-md shadow-brand-accent/20 disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3.5 py-2 sm:py-1.5 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold text-xs rounded-[4px] transition-all shadow-md shadow-brand-accent/20 disabled:opacity-50"
             >
               <Play size={13} className="fill-current" />
-              {executing ? 'Solving...' : 'Execute Solver'}
+              {executing ? 'Creating Timetable...' : 'Create Timetable'}
             </button>
 
             <button
               onClick={handleApprove}
               disabled={!activeRun || activeRun.status === 'PUBLISHED' || !isAdmin}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border hover:border-brand-accent text-xs text-slate-300 rounded transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-2 sm:py-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border hover:border-brand-accent text-xs text-slate-300 rounded-[4px] transition-colors disabled:opacity-50"
             >
               <Check size={14} className="text-brand-accent" />
-              Approve
+              Approve Timetable
             </button>
 
             <button
               onClick={handlePublish}
               disabled={!activeRun || activeRun.status === 'PUBLISHED' || !isAdmin}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-accent hover:bg-brand-accent-hover border border-[#62626266]/40 text-black font-semibold text-xs rounded-[4px] transition-colors disabled:opacity-50"
+              className="flex items-center gap-1.5 px-3 py-2 sm:py-1.5 bg-brand-accent hover:bg-brand-accent-hover border border-[#62626266]/40 text-black font-semibold text-xs rounded-[4px] transition-colors disabled:opacity-50"
             >
               <UploadCloud size={14} />
-              Publish Schedule
+              Publish Timetable
             </button>
 
-            {/* Exports */}
+            {/* Downloads */}
             <div className="flex items-center gap-1 pl-2 border-l border-brand-border">
               <button
                 onClick={handleExportCsv}
-                title="Export Timetable as CSV"
-                className="p-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded text-brand-muted hover:text-brand-text transition-colors"
+                title="Download Timetable as CSV"
+                className="p-2 sm:p-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded-[4px] text-brand-muted hover:text-brand-text transition-colors"
+                aria-label="Download CSV"
               >
                 <FileSpreadsheet size={16} />
               </button>
               <button
                 onClick={handleExportJson}
-                title="Export Timetable as JSON"
-                className="p-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded text-brand-muted hover:text-brand-text transition-colors"
+                title="Download Timetable as JSON"
+                className="p-2 sm:p-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded-[4px] text-brand-muted hover:text-brand-text transition-colors"
+                aria-label="Download JSON"
               >
                 <FileCode size={16} />
               </button>
@@ -362,11 +366,12 @@ export default function SchedulingWorkspace() {
 
         {/* Read-Only Role Notice if not authorized */}
         {!isAdmin && (
-          <div className="p-3 bg-amber-950/30 border border-amber-800/40 rounded-lg flex items-center justify-between text-xs text-amber-200">
+          <div className="p-3 bg-amber-950/30 border border-amber-800/40 rounded-[4px] flex items-center justify-between text-xs text-amber-200">
             <div className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
               <span>
-                <strong>Read-Only Perspective:</strong> Active role is <span className="font-mono font-bold text-amber-300">{currentRole || 'LEARNER'}</span>. Operational actions (create run, execute solver, approve schedule) require <strong>EXAM_OFFICER</strong> or <strong>ACADEMIC_ADMINISTRATOR</strong>.
+                <strong>View-Only Mode:</strong> You are viewing this page with the{' '}
+                <span className="font-mono font-bold text-amber-300">{currentRole || 'Learner'}</span> role. Creating or publishing timetables requires <strong>Exam Officer</strong> or <strong>Administrator</strong> permissions.
               </span>
             </div>
           </div>
@@ -375,7 +380,7 @@ export default function SchedulingWorkspace() {
         {/* Action Notification Message */}
         {actionMessage && (
           <div
-            className={`p-3 rounded text-xs flex items-center justify-between ${
+            className={`p-3 rounded-[4px] text-xs flex items-center justify-between ${
               actionMessage.type === 'error'
                 ? 'bg-rose-500/15 border border-rose-500/30 text-rose-300'
                 : actionMessage.type === 'info'
@@ -386,17 +391,18 @@ export default function SchedulingWorkspace() {
             <span>{actionMessage.text}</span>
             <button
               onClick={() => setActionMessage(null)}
-              className="text-xs font-bold opacity-70 hover:opacity-100"
+              className="text-xs font-bold opacity-70 hover:opacity-100 ml-2"
+              aria-label="Dismiss alert"
             >
               ✕
             </button>
           </div>
         )}
 
-        {/* Status & Integrity Guarantee Banner */}
+        {/* Status & Integrity Banner */}
         {activeRun && (
           <div className="pt-3 border-t border-brand-border flex flex-col sm:flex-row sm:items-center justify-between text-xs text-brand-muted gap-3">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
               <span>Status: <StatusBadge status={activeRun.status} size="xs" /></span>
               <span>•</span>
               <span>Scheduled: <strong className="text-brand-accent font-mono">{activeRun.scheduled_count}</strong></span>
@@ -407,8 +413,8 @@ export default function SchedulingWorkspace() {
             </div>
 
             <div className="flex items-center gap-1.5 text-brand-accent font-medium">
-              <ShieldCheck size={14} />
-              <span>Independent Certification: Zero Hard Constraints Violated</span>
+              <ShieldCheck size={14} className="shrink-0" />
+              <span>Verified: All Scheduling Rules Met (No Conflicts)</span>
             </div>
           </div>
         )}
@@ -420,15 +426,15 @@ export default function SchedulingWorkspace() {
         data={assignments}
         loading={loading}
         searchPlaceholder="Filter assignments by exam code, title, room code, or building..."
-        emptyMessage="No examination assignments found for this scheduling run. Click 'Execute Solver' to generate optimal timetable."
+        emptyMessage="No exam assignments found for this timetable. Click 'Create Timetable' to assign rooms and times automatically."
       />
 
-      {/* Decision Telemetry Drawer */}
+      {/* Decision Details Drawer */}
       <Drawer
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        title="Algorithmic Decision Telemetry"
-        subtitle={inspectingDecision ? `Inspection for Exam ${inspectingDecision.exam_code}` : ''}
+        title="Scheduling Decision Details"
+        subtitle={inspectingDecision ? `Exam Code: ${inspectingDecision.exam_code}` : ''}
       >
         {inspectingDecision ? (
           <div className="space-y-5 text-xs">
@@ -442,7 +448,7 @@ export default function SchedulingWorkspace() {
                   size="sm"
                 />
                 <span className="font-semibold text-brand-text">
-                  {inspectingDecision.is_assigned ? 'Successfully Scheduled' : 'Unassigned in this Run'}
+                  {inspectingDecision.is_assigned ? 'Successfully Scheduled' : 'Unassigned in this Timetable'}
                 </span>
               </div>
             </div>
@@ -451,7 +457,7 @@ export default function SchedulingWorkspace() {
             {!inspectingDecision.is_assigned && (
               <div>
                 <h4 className="font-bold text-slate-300 uppercase tracking-wider text-[10px] mb-2">
-                  Failure Reason Codes
+                  Why It Could Not Be Scheduled
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
                   {inspectingDecision.reason_codes?.map((code) => (
@@ -470,13 +476,18 @@ export default function SchedulingWorkspace() {
             {inspectingDecision.is_assigned && inspectingDecision.selected_candidate && (
               <div className="space-y-3">
                 <h4 className="font-bold text-slate-300 uppercase tracking-wider text-[10px]">
-                  Selected Allocation
+                  Assigned Room & Time
                 </h4>
                 <div className="p-3 bg-brand-elevated rounded border border-brand-border space-y-2 font-mono text-[11px]">
                   <div>Date: <span className="text-brand-text">{inspectingDecision.selected_candidate.date}</span></div>
-                  <div>Interval: <span className="text-brand-text">{new Date(inspectingDecision.selected_candidate.start_time).toLocaleTimeString()} - {new Date(inspectingDecision.selected_candidate.end_time).toLocaleTimeString()}</span></div>
+                  <div>
+                    Time: <span className="text-brand-text">
+                      {new Date(inspectingDecision.selected_candidate.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -{' '}
+                      {new Date(inspectingDecision.selected_candidate.end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  </div>
                   <div>Allocated Rooms: <span className="text-brand-accent">{inspectingDecision.selected_candidate.room_codes?.join(', ')}</span></div>
-                  <div>Total Students Seated: <span className="text-brand-accent">{inspectingDecision.selected_candidate.total_seated}</span></div>
+                  <div>Students Seated: <span className="text-brand-accent">{inspectingDecision.selected_candidate.total_seated}</span></div>
                 </div>
               </div>
             )}
@@ -485,13 +496,12 @@ export default function SchedulingWorkspace() {
             {inspectingDecision.candidate_details && (
               <div>
                 <h4 className="font-bold text-slate-300 uppercase tracking-wider text-[10px] mb-2">
-                  Evaluation Telemetry
+                  Scheduling Evaluation Details
                 </h4>
                 <div className="p-3 bg-brand-elevated rounded border border-brand-border space-y-1.5 font-mono text-[11px] text-brand-muted">
                   <div>Decision Order: <span className="text-brand-text font-bold">{inspectingDecision.decision_order}</span></div>
-                  <div>Evaluated Slots: <span className="text-brand-text">{inspectingDecision.candidate_details.evaluated_slots}</span></div>
-                  <div>Valid Candidate Slots: <span className="text-brand-text">{inspectingDecision.candidate_details.valid_slots_found || 0}</span></div>
-                  <div>Pass Number: <span className="text-brand-text">{inspectingDecision.candidate_details.pass_number || 1}</span></div>
+                  <div>Slots Evaluated: <span className="text-brand-text">{inspectingDecision.candidate_details.evaluated_slots}</span></div>
+                  <div>Valid Slots Found: <span className="text-brand-text">{inspectingDecision.candidate_details.valid_slots_found || 0}</span></div>
                 </div>
               </div>
             )}
@@ -501,52 +511,52 @@ export default function SchedulingWorkspace() {
         )}
       </Drawer>
 
-      {/* New Run Modal */}
+      {/* New Timetable Modal */}
       <Modal
         isOpen={createModalOpen}
         onClose={() => {
           setCreateModalOpen(false);
           setModalError(null);
         }}
-        title="Create New Operational Scheduling Run"
-        subtitle="Initialize a new scheduling instance for the active academic period."
+        title="Create New Exam Timetable"
+        subtitle="Start a new schedule draft for this academic term."
       >
         <form onSubmit={handleCreateRun} className="space-y-4">
           {modalError && (
             <div className="p-3 bg-red-950/70 border border-red-800 rounded-md flex items-start gap-2.5 text-xs text-red-200">
               <AlertTriangle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
               <div>
-                <span className="font-bold block text-red-100">Authorization Rejection (HTTP 403)</span>
+                <span className="font-bold block text-red-100">Action Not Allowed</span>
                 <span className="text-[11px] leading-relaxed text-red-300">{modalError}</span>
               </div>
             </div>
           )}
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1">
-              Random Seed
+              Schedule Seed (Advanced)
             </label>
             <input
               type="number"
               value={newRunSeed}
               onChange={(e) => setNewRunSeed(e.target.value)}
               required
-              className="w-full px-3 py-1.5 bg-brand-elevated border border-brand-border rounded text-xs text-brand-text font-mono focus:border-brand-accent focus:outline-none"
+              className="w-full px-3 py-1.5 bg-brand-elevated border border-brand-border rounded-[4px] text-xs text-brand-text font-mono focus:border-brand-accent focus:outline-none"
             />
             <span className="text-[10px] text-brand-muted mt-1 block">
-              Default baseline seed: 20261022. Guarantees deterministic, reproducible outcomes.
+              Standard seed: 20261022. Ensures the timetable generates consistently and reproducibly.
             </span>
           </div>
 
           <div>
             <label className="block text-xs font-semibold text-slate-300 mb-1">
-              Algorithm Version
+              Scheduler Version
             </label>
             <input
               type="text"
               value={newRunVersion}
               onChange={(e) => setNewRunVersion(e.target.value)}
               required
-              className="w-full px-3 py-1.5 bg-brand-elevated border border-brand-border rounded text-xs text-brand-text font-mono focus:border-brand-accent focus:outline-none"
+              className="w-full px-3 py-1.5 bg-brand-elevated border border-brand-border rounded-[4px] text-xs text-brand-text font-mono focus:border-brand-accent focus:outline-none"
             />
           </div>
 
@@ -554,15 +564,15 @@ export default function SchedulingWorkspace() {
             <button
               type="button"
               onClick={() => setCreateModalOpen(false)}
-              className="px-3 py-1.5 bg-brand-elevated border border-brand-border rounded text-xs text-slate-300 hover:text-brand-text"
+              className="px-3.5 py-1.5 bg-brand-elevated border border-brand-border rounded-[4px] text-xs text-slate-300 hover:text-brand-text"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-1.5 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold rounded text-xs"
+              className="px-4 py-1.5 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold rounded-[4px] text-xs transition-colors"
             >
-              Create Run
+              Create Timetable
             </button>
           </div>
         </form>
@@ -570,4 +580,3 @@ export default function SchedulingWorkspace() {
     </div>
   );
 }
-

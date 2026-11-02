@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  BookOpen, Search, Filter, Users, Calendar, Award, Layers,
-  ExternalLink, CheckCircle2, AlertTriangle, Eye, ArrowRight
+  BookOpen, Search, Filter, Users, Calendar, Layers,
+  CheckCircle2, AlertTriangle, Eye
 } from 'lucide-react';
 import { api } from '../services/api';
+import useDebounce from '../hooks/useDebounce';
 import DataTable from '../components/ui/DataTable';
-import StatusBadge from '../components/ui/StatusBadge';
 import Drawer from '../components/ui/Drawer';
 import MetricDisplay from '../components/ui/MetricDisplay';
 import LoadingState from '../components/ui/LoadingState';
@@ -27,9 +27,11 @@ export default function CourseManagement() {
   const [enrollments, setEnrollments] = useState([]);
   const [loadingEnrollments, setLoadingEnrollments] = useState(false);
 
+  const debouncedSearch = useDebounce(search, 300);
+
   useEffect(() => {
     loadCourses();
-  }, [page, pageSize, search, deptFilter]);
+  }, [page, pageSize, debouncedSearch, deptFilter]);
 
   async function loadCourses() {
     setLoading(true);
@@ -38,13 +40,13 @@ export default function CourseManagement() {
       const res = await api.listCourses({
         page,
         page_size: pageSize,
-        search: search || undefined,
+        search: debouncedSearch || undefined,
         department: deptFilter || undefined,
       });
       setCourses(res.items || []);
       setTotal(res.total || 0);
     } catch (err) {
-      setError(err.message || 'Failed to load course catalog');
+      setError(err.message || 'Unable to load course catalog.');
     } finally {
       setLoading(false);
     }
@@ -72,7 +74,7 @@ export default function CourseManagement() {
       className: 'font-mono text-brand-accent font-semibold',
     },
     {
-      header: 'Title',
+      header: 'Course Title',
       cell: (row) => row.name || row.title || 'Course Unit',
       className: 'text-brand-text font-medium truncate max-w-[240px]',
     },
@@ -84,7 +86,7 @@ export default function CourseManagement() {
     {
       header: 'Credits',
       cell: (row) => (
-        <span className="text-xs text-brand-muted font-mono">{row.credits || 3} CR</span>
+        <span className="text-xs text-brand-muted font-mono">{row.credits || 3} Credits</span>
       ),
     },
     {
@@ -101,10 +103,11 @@ export default function CourseManagement() {
       cell: (row) => (
         <button
           onClick={() => handleOpenDetail(row)}
-          className="px-2.5 py-1 text-xs rounded bg-brand-elevated hover:bg-brand-border border border-brand-border text-brand-text transition-colors flex items-center gap-1"
+          className="px-2.5 py-1 text-xs rounded bg-brand-elevated hover:bg-brand-border border border-brand-border text-brand-text hover:text-brand-accent transition-colors flex items-center gap-1"
+          aria-label={`View enrolled students for ${row.course_code}`}
         >
           <Eye className="w-3 h-3 text-brand-accent" />
-          Enrollments
+          View Enrollments
         </button>
       ),
     },
@@ -115,18 +118,18 @@ export default function CourseManagement() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-brand-border">
         <div>
-          <h1 className="text-xl font-bold text-brand-text tracking-tight flex items-center gap-2.5">
+          <h1 className="text-lg sm:text-xl font-bold text-brand-text tracking-tight flex items-center gap-2.5">
             <BookOpen className="w-5 h-5 text-brand-accent" />
-            Course & Enrollment Management
+            Courses & Enrollments
           </h1>
           <p className="text-xs text-brand-muted mt-1">
-            Academic course offerings, credit allocations, and student enrollment snapshots.
+            Browse academic courses, student enrollments, and department offerings.
           </p>
         </div>
       </div>
 
       {/* KPI Overview */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <MetricDisplay
           label="Total Courses"
           value={total}
@@ -134,29 +137,29 @@ export default function CourseManagement() {
           icon={BookOpen}
         />
         <MetricDisplay
-          label="Academic Period"
+          label="Academic Term"
           value="FALL-2026"
-          subtext="Standard term"
+          subtext="Standard semester"
           icon={Calendar}
         />
         <MetricDisplay
-          label="Enrollment Density"
+          label="Class Size Distribution"
           value="High"
-          subtext="Multi-department cross-listing"
+          subtext="Across all departments"
           icon={Layers}
         />
         <MetricDisplay
-          label="Sync Status"
-          value="Frozen"
-          subtext="Input snapshot locked"
+          label="Roster Status"
+          value="Ready"
+          subtext="Course list confirmed for scheduling"
           icon={CheckCircle2}
         />
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-brand-surface border border-brand-border rounded-lg p-4 flex flex-col md:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3 w-full md:w-auto flex-1">
-          <div className="relative flex-1 max-w-md">
+      <div className="bg-brand-surface border border-brand-border rounded-[4px] p-3 sm:p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 sm:gap-4">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-3 w-full md:w-auto flex-1">
+          <div className="relative flex-1 max-w-full sm:max-w-md">
             <Search className="w-4 h-4 text-brand-muted absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
@@ -166,19 +169,20 @@ export default function CourseManagement() {
                 setSearch(e.target.value);
                 setPage(1);
               }}
-              className="w-full pl-9 pr-4 py-2 bg-brand-elevated border border-brand-border rounded text-xs text-brand-text placeholder-brand-muted focus:outline-none focus:border-brand-accent transition-colors"
+              className="w-full pl-9 pr-4 py-2 bg-brand-elevated border border-brand-border rounded-[4px] text-xs text-brand-text placeholder-brand-muted focus:outline-none focus:border-brand-accent transition-colors"
             />
           </div>
 
           <div className="flex items-center gap-2">
-            <Filter className="w-3.5 h-3.5 text-brand-muted" />
+            <Filter className="w-3.5 h-3.5 text-brand-muted shrink-0" />
             <select
               value={deptFilter}
               onChange={(e) => {
                 setDeptFilter(e.target.value);
                 setPage(1);
               }}
-              className="bg-brand-elevated border border-brand-border rounded px-3 py-2 text-xs text-brand-text focus:outline-none focus:border-brand-accent"
+              className="w-full sm:w-auto bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-2 text-xs text-brand-text focus:outline-none focus:border-brand-accent"
+              aria-label="Filter by department"
             >
               <option value="">All Departments</option>
               <option value="Computer Science">Computer Science</option>
@@ -190,7 +194,7 @@ export default function CourseManagement() {
           </div>
         </div>
 
-        <div className="text-xs text-brand-muted">
+        <div className="text-xs text-brand-muted text-right">
           Showing <span className="font-semibold text-brand-text">{courses.length}</span> of {total} courses
         </div>
       </div>
@@ -203,14 +207,14 @@ export default function CourseManagement() {
           icon={AlertTriangle}
           title="Error Loading Courses"
           description={error}
-          actionLabel="Retry"
+          actionLabel="Try Again"
           onAction={loadCourses}
         />
       ) : courses.length === 0 ? (
         <EmptyState
           icon={BookOpen}
           title="No Courses Found"
-          description="No course records match the specified filters."
+          description="No course records match your filter criteria."
         />
       ) : (
         <DataTable
@@ -233,11 +237,11 @@ export default function CourseManagement() {
       >
         {selectedCourse && (
           <div className="space-y-6">
-            <div className="bg-brand-elevated border border-brand-border rounded-lg p-4 space-y-2">
-              <span className="text-xs font-mono text-brand-accent uppercase tracking-wider">
+            <div className="bg-brand-elevated border border-brand-border rounded-[4px] p-4 space-y-2">
+              <span className="text-xs font-mono text-brand-accent uppercase tracking-wider font-semibold">
                 {selectedCourse.course_code}
               </span>
-              <h3 className="text-base font-bold text-brand-text">{selectedCourse.title}</h3>
+              <h3 className="text-base font-bold text-brand-text">{selectedCourse.title || selectedCourse.name}</h3>
               <p className="text-xs text-brand-muted">
                 Department: <strong className="text-brand-text">{selectedCourse.department}</strong> • Credits: <strong className="text-brand-text">{selectedCourse.credits || 3}</strong>
               </p>
@@ -248,25 +252,25 @@ export default function CourseManagement() {
               <div className="flex items-center justify-between">
                 <h4 className="text-xs font-bold text-brand-muted uppercase tracking-wider flex items-center gap-1.5">
                   <Users className="w-3.5 h-3.5 text-brand-accent" />
-                  Candidate Cohort Roster ({enrollments.length} loaded)
+                  Enrolled Students ({enrollments.length})
                 </h4>
               </div>
 
               {loadingEnrollments ? (
                 <div className="text-xs text-brand-muted py-6 text-center">Loading enrollments...</div>
               ) : enrollments.length === 0 ? (
-                <div className="p-4 bg-brand-surface border border-brand-border rounded text-center text-xs text-brand-muted">
-                  No active student enrollments found for this course.
+                <div className="p-4 bg-brand-surface border border-brand-border rounded-[4px] text-center text-xs text-brand-muted">
+                  No students currently enrolled in this course.
                 </div>
               ) : (
                 <div className="max-h-[460px] overflow-y-auto space-y-2 pr-1">
                   {enrollments.map((enr, idx) => (
-                    <div key={idx} className="p-2.5 bg-brand-surface border border-brand-border rounded flex items-center justify-between text-xs">
+                    <div key={idx} className="p-2.5 bg-brand-surface border border-brand-border rounded-[4px] flex items-center justify-between text-xs">
                       <div>
-                        <span className="font-mono text-brand-accent font-semibold mr-2">{enr.student_number}</span>
+                        <span className="font-mono text-brand-accent font-semibold mr-2">{enr.student_number || enr.student_code}</span>
                         <span className="text-brand-text font-medium">{enr.student_name || `${enr.first_name || ''} ${enr.last_name || ''}`}</span>
                       </div>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-brand-elevated text-brand-muted uppercase">
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-brand-elevated text-brand-muted uppercase font-medium">
                         {enr.enrollment_status || 'Enrolled'}
                       </span>
                     </div>
@@ -280,4 +284,3 @@ export default function CourseManagement() {
     </div>
   );
 }
-

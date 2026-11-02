@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Settings, Users, Shield, Calendar, Clock, Sliders, 
-  CheckCircle2, AlertTriangle, UserCheck, RefreshCw, Key
+  Settings, Users, Shield, 
+  CheckCircle2, AlertTriangle, UserCheck, Key, Check
 } from 'lucide-react';
 import { api } from '../services/api';
 import { useAuth } from '../context/AuthContext';
@@ -12,7 +12,7 @@ import LoadingState from '../components/ui/LoadingState';
 import EmptyState from '../components/ui/EmptyState';
 
 export default function Administration() {
-  const { role, switchRole } = useAuth();
+  const { currentRole, switchRole } = useAuth();
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,7 +29,7 @@ export default function Administration() {
       const data = await api.listProfiles();
       setProfiles(data || []);
     } catch (err) {
-      setError(err.message || 'Failed to load user profiles');
+      setError(err.message || 'Unable to load user accounts.');
     } finally {
       setLoading(false);
     }
@@ -63,14 +63,15 @@ export default function Administration() {
       cell: (row) => <StatusBadge status={row.status || 'ACTIVE'} />,
     },
     {
-      header: 'Simulate As',
+      header: 'Switch Perspective',
       cell: (row) => (
         <button
           onClick={() => switchRole(row.role_name || row.role)}
-          className="px-2.5 py-1 text-xs rounded bg-brand-elevated hover:bg-brand-border border border-brand-border text-brand-text transition-colors flex items-center gap-1"
+          className="px-2.5 py-1 text-xs rounded bg-brand-elevated hover:bg-brand-border border border-brand-border text-brand-text hover:text-brand-accent transition-colors flex items-center gap-1"
+          aria-label={`Switch to role ${row.role_name || row.role}`}
         >
           <UserCheck className="w-3 h-3 text-brand-accent" />
-          Assume Role
+          Switch to Role
         </button>
       ),
     },
@@ -81,95 +82,95 @@ export default function Administration() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-brand-border">
         <div>
-          <h1 className="text-xl font-bold text-brand-text tracking-tight flex items-center gap-2.5">
+          <h1 className="text-lg sm:text-xl font-bold text-brand-text tracking-tight flex items-center gap-2.5">
             <Settings className="w-5 h-5 text-brand-accent" />
-            Administration & Policy Governance
+            Administration & Settings
           </h1>
           <p className="text-xs text-brand-muted mt-1">
-            Institutional configuration parameters, user role permissions, and academic period rules.
+            Manage user accounts, view scheduling rules, and check institutional examination settings.
           </p>
         </div>
 
-        {/* Active Role Simulation Indicator */}
-        <div className="flex items-center gap-2 bg-brand-elevated border border-brand-border rounded px-3 py-1.5">
+        {/* Current Role Indicator */}
+        <div className="flex items-center gap-2 bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-1.5 self-start sm:self-auto">
           <Key className="w-3.5 h-3.5 text-brand-accent" />
-          <span className="text-xs text-brand-muted">Active Role Context:</span>
-          <span className="text-xs font-mono font-bold text-brand-accent">{role}</span>
+          <span className="text-xs text-brand-muted">Current Role:</span>
+          <span className="text-xs font-mono font-bold text-brand-accent">{currentRole}</span>
         </div>
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 border-b border-brand-border pb-2">
+      <div className="flex items-center gap-2 border-b border-brand-border pb-2 overflow-x-auto">
         <button
           onClick={() => setActiveTab('users')}
-          className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+          className={`px-3 py-1.5 rounded-[4px] text-xs font-medium transition-colors shrink-0 ${
             activeTab === 'users'
               ? 'bg-brand-accent text-brand-bg font-semibold'
               : 'text-brand-muted hover:text-brand-text'
           }`}
         >
-          User Accounts & Access Control
+          User Accounts & Permissions
         </button>
         <button
           onClick={() => setActiveTab('rules')}
-          className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+          className={`px-3 py-1.5 rounded-[4px] text-xs font-medium transition-colors shrink-0 ${
             activeTab === 'rules'
               ? 'bg-brand-accent text-brand-bg font-semibold'
               : 'text-brand-muted hover:text-brand-text'
           }`}
         >
-          Scheduling Rules & Constraints
+          Scheduling Rules & Limits
         </button>
         <button
           onClick={() => setActiveTab('institution')}
-          className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
+          className={`px-3 py-1.5 rounded-[4px] text-xs font-medium transition-colors shrink-0 ${
             activeTab === 'institution'
               ? 'bg-brand-accent text-brand-bg font-semibold'
               : 'text-brand-muted hover:text-brand-text'
           }`}
         >
-          Institutional Parameters
+          College Settings
         </button>
       </div>
 
       {/* Tab 1: Users */}
       {activeTab === 'users' && (
         <div className="space-y-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             <MetricDisplay
-              label="Registered Operators"
+              label="User Accounts"
               value={profiles.length || '12'}
-              subtext="Platform user profiles"
+              subtext="Registered staff & admins"
               icon={Users}
             />
             <MetricDisplay
-              label="Role Hierarchy"
-              value="RBAC Enforced"
+              label="Access Control"
+              value="Role-Based"
               subtext="Row-level security active"
               icon={Shield}
             />
             <MetricDisplay
-              label="Session Security"
-              value="JWT Bearer"
-              subtext="Stateless authorization"
+              label="Security"
+              value="Encrypted Token"
+              subtext="Secure authentication"
               icon={Key}
             />
             <MetricDisplay
-              label="Audit Non-Repudiation"
-              value="Synchronous"
-              subtext="Logged per mutation"
+              label="Audit Logging"
+              value="Automatic"
+              subtext="All changes tracked"
               icon={CheckCircle2}
             />
           </div>
 
           {loading ? (
-            <LoadingState message="Loading platform users..." />
+            <LoadingState message="Loading user accounts..." />
           ) : error ? (
             <EmptyState
               icon={AlertTriangle}
               title="Error Loading Users"
               description={error}
-              actionLabel="Retry"
+              actionLabel="Try Again"
               onAction={loadProfiles}
             />
           ) : (
@@ -189,81 +190,85 @@ export default function Administration() {
       {/* Tab 2: Rules */}
       {activeTab === 'rules' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-brand-surface border border-brand-border rounded-lg p-5 space-y-4">
-            <h3 className="text-sm font-bold text-brand-text flex items-center gap-2">
-              <Shield className="w-4 h-4 text-brand-accent" />
-              Hard Constraints (Uncompromising Invariants)
-            </h3>
-            <p className="text-xs text-brand-muted">
-              Any candidate schedule containing a single violation of these constraints will be automatically rejected.
-            </p>
+          <div className="bg-brand-surface border border-brand-border rounded-[4px] p-4 sm:p-5 space-y-4">
+            <div>
+              <h3 className="text-sm font-bold text-brand-text flex items-center gap-2">
+                <Shield className="w-4 h-4 text-brand-accent" />
+                Mandatory Rules (Must Never Be Broken)
+              </h3>
+              <p className="text-xs text-brand-muted mt-1">
+                Any timetable that breaks one of these rules is automatically rejected by the system.
+              </p>
+            </div>
 
             <div className="space-y-2.5 text-xs">
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded">
-                <span className="font-semibold text-brand-text block">1. Student Conflict Prohibition</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px]">
+                <span className="font-semibold text-brand-text block">1. No Overlapping Exams for Any Student</span>
                 <p className="text-brand-muted text-[11px] mt-0.5">
                   No individual student can be scheduled for two concurrent examinations at any overlapping minute.
                 </p>
               </div>
 
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded">
-                <span className="font-semibold text-brand-text block">2. Venue Capacity Strict Bound</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px]">
+                <span className="font-semibold text-brand-text block">2. Never Exceed Room Capacity</span>
                 <p className="text-brand-muted text-[11px] mt-0.5">
-                  The count of candidates seated in any examination venue must not exceed its effective exam capacity.
+                  The count of students seated in any room must not exceed its desk capacity.
                 </p>
               </div>
 
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded">
-                <span className="font-semibold text-brand-text block">3. Invigilator Non-Overlapping Bound</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px]">
+                <span className="font-semibold text-brand-text block">3. No Invigilator Double-Booking</span>
                 <p className="text-brand-muted text-[11px] mt-0.5">
                   No invigilator may be assigned to more than one simultaneous examination room.
                 </p>
               </div>
 
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded">
-                <span className="font-semibold text-brand-text block">4. Operating Hours & Availability</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px]">
+                <span className="font-semibold text-brand-text block">4. Exams Only During Open Hours</span>
                 <p className="text-brand-muted text-[11px] mt-0.5">
-                  All examination sessions must fall strictly within verified room availability windows.
+                  All examination sessions must fall strictly within verified room availability hours.
                 </p>
               </div>
 
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded">
-                <span className="font-semibold text-brand-text block">5. Accessibility Accommodations</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px]">
+                <span className="font-semibold text-brand-text block">5. Always Fulfill Student Support & Extra Time</span>
                 <p className="text-brand-muted text-[11px] mt-0.5">
-                  Candidate accessibility needs (extra time, step-free access) must be fully honored without exception.
+                  Student accessibility requirements (extra time, step-free access) must be fully honored without exception.
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="bg-brand-surface border border-brand-border rounded-lg p-5 space-y-4">
-            <h3 className="text-sm font-bold text-brand-text flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-brand-accent" />
-              Soft Optimization Heuristics
-            </h3>
-            <p className="text-xs text-brand-muted">
-              Objective weights applied during slot and room selection to optimize the candidate experience.
-            </p>
+          <div className="bg-brand-surface border border-brand-border rounded-[4px] p-4 sm:p-5 space-y-4">
+            <div>
+              <h3 className="text-sm font-bold text-brand-text flex items-center gap-2">
+                <Check className="w-4 h-4 text-brand-accent" />
+                Quality Guidelines (Best Practices)
+              </h3>
+              <p className="text-xs text-brand-muted mt-1">
+                Guidelines used by the scheduler to create a balanced, stress-free experience for students.
+              </p>
+            </div>
 
             <div className="space-y-2.5 text-xs">
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded">
-                <span className="font-semibold text-brand-text block">Student Exam Spread Penalty</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px]">
+                <span className="font-semibold text-brand-text block">Spread Out Student Exams</span>
                 <p className="text-brand-muted text-[11px] mt-0.5">
-                  Penalizes scheduling consecutive examinations for the same student on identical calendar days.
+                  Avoids scheduling multiple consecutive exams on the same day for a student.
                 </p>
               </div>
 
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded">
-                <span className="font-semibold text-brand-text block">Venue Fill Density Maximization</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px]">
+                <span className="font-semibold text-brand-text block">Efficient Room Usage</span>
                 <p className="text-brand-muted text-[11px] mt-0.5">
-                  Selects venues that minimize unused desks while avoiding overflow.
+                  Selects rooms that comfortably seat students without leaving huge empty spaces.
                 </p>
               </div>
 
-              <div className="p-3 bg-brand-elevated border border-brand-border rounded">
-                <span className="font-semibold text-brand-text block">Invigilator Workload Balance</span>
+              <div className="p-3 bg-brand-elevated border border-brand-border rounded-[4px]">
+                <span className="font-semibold text-brand-text block">Fair Staff Workload</span>
                 <p className="text-brand-muted text-[11px] mt-0.5">
-                  Evenly distributes proctoring duties across qualified staff members.
+                  Evenly distributes exam supervision duties across available staff.
                 </p>
               </div>
             </div>
@@ -273,20 +278,20 @@ export default function Administration() {
 
       {/* Tab 3: Institutional Parameters */}
       {activeTab === 'institution' && (
-        <div className="bg-brand-surface border border-brand-border rounded-lg p-6 space-y-6">
+        <div className="bg-brand-surface border border-brand-border rounded-[4px] p-4 sm:p-6 space-y-6">
           <div className="border-b border-brand-border pb-4">
-            <h3 className="text-sm font-bold text-brand-text">Active Academic Period Configuration</h3>
+            <h3 className="text-sm font-bold text-brand-text">Active Academic Term Configuration</h3>
             <p className="text-xs text-brand-muted mt-1">Fall 2026 Examination Period parameters</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-xs">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 text-xs">
             <div className="space-y-1">
-              <label className="text-brand-muted block font-medium">Academic Period Code</label>
+              <label className="text-brand-muted block font-medium">Academic Term Code</label>
               <input
                 type="text"
                 disabled
                 value="FALL-2026"
-                className="w-full bg-brand-elevated border border-brand-border rounded px-3 py-2 text-brand-text font-mono"
+                className="w-full bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-2 text-brand-text font-mono"
               />
             </div>
 
@@ -296,7 +301,7 @@ export default function Administration() {
                 type="text"
                 disabled
                 value="2026-12-01 to 2026-12-14 (14 days)"
-                className="w-full bg-brand-elevated border border-brand-border rounded px-3 py-2 text-brand-text font-mono"
+                className="w-full bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-2 text-brand-text font-mono"
               />
             </div>
 
@@ -306,7 +311,7 @@ export default function Administration() {
                 type="text"
                 disabled
                 value="3 slots / day (09:00, 13:00, 16:30)"
-                className="w-full bg-brand-elevated border border-brand-border rounded px-3 py-2 text-brand-text font-mono"
+                className="w-full bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-2 text-brand-text font-mono"
               />
             </div>
 
@@ -316,27 +321,27 @@ export default function Administration() {
                 type="text"
                 disabled
                 value="1 invigilator per 30 students"
-                className="w-full bg-brand-elevated border border-brand-border rounded px-3 py-2 text-brand-text font-mono"
+                className="w-full bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-2 text-brand-text font-mono"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-brand-muted block font-medium">Minimum Inter-Exam Break</label>
+              <label className="text-brand-muted block font-medium">Minimum Break Between Exams</label>
               <input
                 type="text"
                 disabled
                 value="30 minutes"
-                className="w-full bg-brand-elevated border border-brand-border rounded px-3 py-2 text-brand-text font-mono"
+                className="w-full bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-2 text-brand-text font-mono"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-brand-muted block font-medium">Synthetic Generator Seed</label>
+              <label className="text-brand-muted block font-medium">Standard Timetable Seed</label>
               <input
                 type="text"
                 disabled
                 value="20261022 (Fixed Seed)"
-                className="w-full bg-brand-elevated border border-brand-border rounded px-3 py-2 text-brand-text font-mono"
+                className="w-full bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-2 text-brand-text font-mono"
               />
             </div>
           </div>
@@ -345,4 +350,3 @@ export default function Administration() {
     </div>
   );
 }
-

@@ -51,7 +51,13 @@ def get_db_connection() -> Generator[psycopg2.extensions.connection, None, None]
         try:
             yield conn
         finally:
-            _pool.putconn(conn)
+            try:
+                _pool.putconn(conn)
+            except Exception:
+                try:
+                    conn.close()
+                except Exception:
+                    pass
     else:
         # Direct fallback connection
         try:

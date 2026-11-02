@@ -2,11 +2,13 @@
 ExamOps Scheduling Engine & Operational Workspace Routes
 """
 from fastapi import APIRouter, Depends, HTTPException, Query
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Set
+import threading
 from pydantic import BaseModel
 from backend.auth import get_current_user, CurrentUser, require_roles
 from backend.services.scheduling_service import SchedulingService
 from backend.services.audit_service import AuditService
+from backend.services.distributed_lock import distributed_advisory_lock, DistributedLockConflictError
 
 router = APIRouter(prefix="/scheduling", tags=["Scheduling Operations"])
 
@@ -67,18 +69,27 @@ def execute_scheduling_run(
     Executes the deterministic scheduling solver for this run.
     Freezes student snapshots, checks conflict graph, solves room & invigilator allocations,
     performs independent validation, and commits assignments and telemetry.
+    Uses PostgreSQL-backed distributed advisory locks for multi-worker and multi-process safety.
     """
     try:
-        result = SchedulingService.execute_scheduling_run(run_id)
-        AuditService.log_event(
-            user_id=current_user.id,
-            user_role=current_user.role,
-            action="EXECUTE_SCHEDULING_RUN",
-            entity_type="scheduling_runs",
-            entity_id=run_id,
-            new_state=result,
+        with distributed_advisory_lock(run_id):
+            result = SchedulingService.execute_scheduling_run(run_id)
+            AuditService.log_event(
+                user_id=current_user.id,
+                user_role=current_user.role,
+                action="EXECUTE_SCHEDULING_RUN",
+                entity_type="scheduling_runs",
+                entity_id=run_id,
+                new_state=result,
+            )
+            return result
+    except DistributedLockConflictError:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Scheduling run '{run_id}' is already actively executing on another worker. Please wait for completion.",
         )
-        return result
+    except HTTPException:
+        raise
     except Exception as e:
         AuditService.log_event(
             user_id=current_user.id,
@@ -163,10 +174,19 @@ def publish_scheduling_run(
     """
     Atomically publishes a scheduling run using row locks on the academic period.
     Supersedes any previously published schedule.
+    Uses PostgreSQL distributed advisory lock to guarantee consistency with ongoing execution.
     """
     try:
-        res = SchedulingService.publish_run(run_id, current_user.id)
-        return res
+        with distributed_advisory_lock(run_id):
+            res = SchedulingService.publish_run(run_id, current_user.id)
+            return res
+    except DistributedLockConflictError:
+        raise HTTPException(
+            status_code=409,
+            detail=f"Scheduling run '{run_id}' is actively being processed on another worker.",
+        )
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Publication failed: {str(e)}")
 

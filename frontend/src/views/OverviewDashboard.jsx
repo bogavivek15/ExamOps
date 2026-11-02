@@ -34,13 +34,13 @@ export default function OverviewDashboard() {
       const data = await api.getAnalyticsOverview();
       setOverview(data);
     } catch (err) {
-      setError(err.message || 'Failed to load operational overview');
+      setError(err.message || 'Unable to load timetable overview. Please verify your connection.');
     } finally {
       setLoading(false);
     }
   };
 
-  if (loading) return <LoadingState message="Loading institutional overview..." />;
+  if (loading) return <LoadingState message="Loading exam operations overview..." />;
   if (error) {
     return (
       <div className="p-6 bg-brand-surface border border-brand-danger/30 rounded-[4px] text-center text-brand-danger">
@@ -48,9 +48,9 @@ export default function OverviewDashboard() {
         <p className="text-sm font-semibold">{error}</p>
         <button
           onClick={loadOverview}
-          className="mt-4 px-4 py-1.5 bg-brand-elevated border border-brand-border rounded-[4px] text-xs text-white hover:border-brand-accent"
+          className="mt-4 px-4 py-1.5 bg-brand-elevated border border-brand-border rounded-[4px] text-xs text-white hover:border-brand-accent transition-colors"
         >
-          Retry
+          Try Again
         </button>
       </div>
     );
@@ -60,22 +60,22 @@ export default function OverviewDashboard() {
 
   return (
     <div className="space-y-6">
-      {/* Top Banner: Academic Period & Run Status */}
-      <div className="bg-[#121212] border border-brand-border rounded-[4px] p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* Top Banner: Academic Term & Timetable Status */}
+      <div className="bg-[#121212] border border-brand-border rounded-[4px] p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 mb-1">
+          <div className="flex items-center gap-2 mb-1 flex-wrap">
             <span className="text-xs uppercase font-mono tracking-wider text-brand-accent font-semibold">
-              Operational Period
+              Academic Term
             </span>
             <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
-            <span className="text-xs text-brand-muted">Active Semester</span>
+            <span className="text-xs text-brand-muted">Current Semester</span>
           </div>
-          <h2 className="text-xl font-bold text-white tracking-tight">
+          <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
             {overview?.active_period?.name || 'Fall 2026 Examination Period'}
           </h2>
           <p className="text-xs text-brand-muted mt-1">
-            Period Code: <span className="font-mono text-slate-300">{overview?.active_period?.code}</span> •
-            Examination Window: <span className="font-mono text-slate-300">{overview?.active_period?.exam_start_date}</span> to{' '}
+            Term Code: <span className="font-mono text-slate-300">{overview?.active_period?.code}</span> •
+            Exam Dates: <span className="font-mono text-slate-300">{overview?.active_period?.exam_start_date}</span> to{' '}
             <span className="font-mono text-slate-300">{overview?.active_period?.exam_end_date}</span>
           </p>
         </div>
@@ -83,79 +83,79 @@ export default function OverviewDashboard() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/scheduling')}
-            className="flex items-center gap-2 px-4 py-2.5 bg-brand-accent hover:bg-brand-accent-hover text-black font-semibold rounded-[4px] text-xs transition-all border border-[#62626266]/40 shadow-sm"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-accent hover:bg-brand-accent-hover text-black font-semibold rounded-[4px] text-xs transition-all border border-[#62626266]/40 shadow-sm"
           >
             <Play size={14} className="fill-current" />
-            Launch Scheduling Workspace
+            Open Scheduling Workspace
           </button>
         </div>
       </div>
 
-      {/* Primary Institutional Scale Metrics */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      {/* Primary Scale Metrics */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
         <MetricDisplay
           label="Total Students"
           value={overview?.total_students?.toLocaleString()}
           icon={Users}
-          secondary="Enrolled cohort"
+          secondary="Enrolled students"
         />
         <MetricDisplay
           label="Total Courses"
           value={overview?.total_courses?.toLocaleString()}
           icon={GraduationCap}
-          secondary="Active catalog"
+          secondary="Active this term"
         />
         <MetricDisplay
           label="Examinations"
           value={overview?.total_exams?.toLocaleString()}
           icon={Calendar}
-          secondary="Final & midterm"
+          secondary="Midterms & finals"
         />
         <MetricDisplay
-          label="Rooms & Venues"
+          label="Exam Rooms"
           value={overview?.total_rooms?.toLocaleString()}
           icon={DoorOpen}
-          secondary="Available spaces"
+          secondary="Available for exams"
         />
         <MetricDisplay
           label="Invigilators"
           value={overview?.total_invigilators?.toLocaleString()}
           icon={UserCheck}
-          secondary="Academic staff"
+          secondary="Exam supervision staff"
         />
         <MetricDisplay
           label="Accommodations"
           value={overview?.total_active_accommodations?.toLocaleString()}
           icon={HeartHandshake}
-          secondary="Special needs"
+          secondary="Student support needs"
         />
       </div>
 
-      {/* Schedule Execution Condition Card */}
+      {/* Schedule Condition Card */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-brand-surface border border-brand-border rounded-[4px] p-6">
-          <div className="flex items-center justify-between pb-4 border-b border-brand-border mb-5">
+        <div className="lg:col-span-2 bg-brand-surface border border-brand-border rounded-[4px] p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-brand-border mb-5 gap-2">
             <div>
               <h3 className="text-sm font-bold uppercase tracking-wider text-white">
-                Current Operational Schedule State
+                Current Timetable Status
               </h3>
               <p className="text-xs text-brand-muted mt-0.5">
-                Authoritative schedule output for the active semester
+                Official examination schedule for this academic term
               </p>
             </div>
             {latestRun ? (
               <StatusBadge status={latestRun.status} />
             ) : (
-              <span className="text-xs text-brand-muted">No runs executed</span>
+              <span className="text-xs text-brand-muted">No timetable generated yet</span>
             )}
           </div>
 
           {latestRun ? (
             <div className="space-y-6">
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                 <div className="p-3 bg-brand-elevated rounded-[4px] border border-brand-border">
                   <span className="text-[11px] text-brand-muted block mb-1">Scheduled Exams</span>
-                  <span className="text-xl font-bold font-mono text-brand-accent">
+                  <span className="text-lg sm:text-xl font-bold font-mono text-brand-accent">
                     {latestRun.scheduled_count}
                   </span>
                   <span className="text-[10px] text-brand-muted block mt-1">
@@ -164,34 +164,34 @@ export default function OverviewDashboard() {
                 </div>
 
                 <div className="p-3 bg-brand-elevated rounded-[4px] border border-brand-border">
-                  <span className="text-[11px] text-brand-muted block mb-1">Unassigned Exams</span>
-                  <span className="text-xl font-bold font-mono text-brand-warning">
+                  <span className="text-[11px] text-brand-muted block mb-1">Unscheduled Exams</span>
+                  <span className="text-lg sm:text-xl font-bold font-mono text-brand-warning">
                     {latestRun.unassigned_count}
                   </span>
-                  <span className="text-[10px] text-brand-muted block mt-1">Documented reasons</span>
+                  <span className="text-[10px] text-brand-muted block mt-1">Needs attention</span>
                 </div>
 
                 <div className="p-3 bg-brand-elevated rounded-[4px] border border-brand-border">
-                  <span className="text-[11px] text-brand-muted block mb-1">Completion Rate</span>
-                  <span className="text-xl font-bold font-mono text-brand-accent">
+                  <span className="text-[11px] text-brand-muted block mb-1">Scheduling Success</span>
+                  <span className="text-lg sm:text-xl font-bold font-mono text-brand-accent">
                     {overview?.completion_rate_pct}%
                   </span>
-                  <span className="text-[10px] text-brand-muted block mt-1">Feasibility yield</span>
+                  <span className="text-[10px] text-brand-muted block mt-1">Exams placed</span>
                 </div>
 
                 <div className="p-3 bg-brand-elevated rounded-[4px] border border-brand-border">
-                  <span className="text-[11px] text-brand-muted block mb-1">Seated Registrations</span>
-                  <span className="text-xl font-bold font-mono text-white">
+                  <span className="text-[11px] text-brand-muted block mb-1">Seated Students</span>
+                  <span className="text-lg sm:text-xl font-bold font-mono text-white">
                     {overview?.total_seated_registrations?.toLocaleString()}
                   </span>
-                  <span className="text-[10px] text-brand-muted block mt-1">Students placed</span>
+                  <span className="text-[10px] text-brand-muted block mt-1">Desks assigned</span>
                 </div>
               </div>
 
               {/* Progress Bar */}
               <div>
                 <div className="flex justify-between text-xs text-brand-muted mb-2 font-mono">
-                  <span>Schedule Completion Yield</span>
+                  <span>Overall Scheduling Progress</span>
                   <span className="text-white font-bold">{overview?.completion_rate_pct}%</span>
                 </div>
                 <div className="h-2.5 w-full bg-brand-elevated rounded-[2px] overflow-hidden border border-brand-border">
@@ -202,36 +202,36 @@ export default function OverviewDashboard() {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between text-xs pt-2">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs pt-2 gap-2">
                 <span className="text-brand-muted font-mono text-[11px]">
-                  Run ID: {latestRun.run_code} • Seed: {latestRun.seed} • Engine: v{latestRun.algorithm_version}
+                  Timetable Code: {latestRun.run_code} • Scheduler v{latestRun.algorithm_version}
                 </span>
                 <button
                   onClick={() => navigate('/scheduling')}
                   className="flex items-center gap-1.5 text-brand-accent hover:text-brand-accent-hover font-medium transition-colors"
                 >
-                  Inspect Timetable & Decisions <ArrowRight size={14} />
+                  View Timetable & Decisions <ArrowRight size={14} />
                 </button>
               </div>
             </div>
           ) : (
             <div className="py-8 text-center text-brand-muted text-xs">
-              No scheduling runs have been recorded for this period yet.
+              No exam timetables have been created for this term yet.
               <button
                 onClick={() => navigate('/scheduling')}
                 className="mt-3 block mx-auto text-brand-accent font-semibold"
               >
-                Create First Run →
+                Create First Timetable →
               </button>
             </div>
           )}
         </div>
 
         {/* Quick Operations & Resource Insights */}
-        <div className="bg-brand-surface border border-brand-border rounded-[4px] p-6 flex flex-col justify-between">
+        <div className="bg-brand-surface border border-brand-border rounded-[4px] p-4 sm:p-6 flex flex-col justify-between">
           <div>
             <h3 className="text-sm font-bold uppercase tracking-wider text-white pb-4 border-b border-brand-border mb-4">
-              Operational Actions
+              Quick Actions
             </h3>
 
             <div className="space-y-3">
@@ -241,13 +241,13 @@ export default function OverviewDashboard() {
               >
                 <div>
                   <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
-                    Examination Workspace
+                    Scheduling Workspace
                   </div>
                   <div className="text-[11px] text-brand-muted">
-                    Generate and publish schedules
+                    Create, review, and publish exam timetables
                   </div>
                 </div>
-                <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors" />
+                <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
               </button>
 
               <button
@@ -256,13 +256,13 @@ export default function OverviewDashboard() {
               >
                 <div>
                   <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
-                    Exception Center
+                    Issue Center
                   </div>
                   <div className="text-[11px] text-brand-muted">
-                    Investigate {overview?.unassigned_exams || 0} unscheduled exams
+                    Review {overview?.unassigned_exams || 0} unscheduled exams
                   </div>
                 </div>
-                <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors" />
+                <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
               </button>
 
               <button
@@ -271,24 +271,24 @@ export default function OverviewDashboard() {
               >
                 <div>
                   <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
-                    Analytics & Reconciliation
+                    Reports & Insights
                   </div>
                   <div className="text-[11px] text-brand-muted">
-                    Audit capacity and export data
+                    Review room capacity and download records
                   </div>
                 </div>
-                <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors" />
+                <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
               </button>
             </div>
           </div>
 
           <div className="mt-6 pt-4 border-t border-brand-border text-[11px] text-brand-muted">
             <div className="flex items-center gap-1.5 text-brand-accent font-medium">
-              <CheckCircle2 size={13} />
-              Zero Hard Constraint Breaches Certified
+              <CheckCircle2 size={13} className="shrink-0" />
+              All Scheduling Rules Met
             </div>
             <p className="mt-1 text-slate-400">
-              Verified by independent constraint validator.
+              Verified: Zero student clashes or room capacity overruns.
             </p>
           </div>
         </div>

@@ -52,6 +52,27 @@ class RoomModel:
     equipment_codes: Set[str] = field(default_factory=set)
     operating_hours: List[Dict[str, Any]] = field(default_factory=list)
     closures: List[Dict[str, Any]] = field(default_factory=list)
+    operating_by_dow: Dict[int, List[Tuple[time, time]]] = field(default_factory=dict, init=False)
+    closures_by_date: Dict[date, List[Tuple[time, time, str]]] = field(default_factory=dict, init=False)
+
+    def __post_init__(self):
+        self.operating_by_dow = {}
+        for op in self.operating_hours:
+            dow = op.get("day_of_week")
+            if dow is not None:
+                st = time.fromisoformat(op["start_time"]) if isinstance(op["start_time"], str) else op["start_time"]
+                et = time.fromisoformat(op["end_time"]) if isinstance(op["end_time"], str) else op["end_time"]
+                self.operating_by_dow.setdefault(int(dow), []).append((st, et))
+
+        self.closures_by_date = {}
+        for c in self.closures:
+            c_date = c.get("specific_date")
+            if c_date:
+                cd = date.fromisoformat(c_date) if isinstance(c_date, str) else c_date
+                st = time.fromisoformat(c["start_time"]) if isinstance(c["start_time"], str) else c["start_time"]
+                et = time.fromisoformat(c["end_time"]) if isinstance(c["end_time"], str) else c["end_time"]
+                reason = c.get("reason", "Closure")
+                self.closures_by_date.setdefault(cd, []).append((st, et, reason))
 
 @dataclass
 class InvigilatorModel:
@@ -63,6 +84,17 @@ class InvigilatorModel:
     max_hours_per_day: float = 8.0
     max_hours_per_week: float = 25.0
     availabilities: List[Dict[str, Any]] = field(default_factory=list)
+    shifts_by_dow: Dict[int, List[Tuple[time, time]]] = field(default_factory=dict, init=False)
+
+    def __post_init__(self):
+        self.shifts_by_dow = {}
+        for av in self.availabilities:
+            if av.get("availability_type") == "AVAILABLE":
+                dow = av.get("day_of_week")
+                if dow is not None:
+                    st = time.fromisoformat(av["start_time"]) if isinstance(av["start_time"], str) else av["start_time"]
+                    et = time.fromisoformat(av["end_time"]) if isinstance(av["end_time"], str) else av["end_time"]
+                    self.shifts_by_dow.setdefault(int(dow), []).append((st, et))
 
 @dataclass
 class CandidateSlot:

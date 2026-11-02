@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  AlertTriangle, Filter, CheckCircle2, RefreshCw, ArrowRight, 
-  HelpCircle, ShieldAlert, Cpu, Eye, ExternalLink, Calendar, Search
+  AlertTriangle, CheckCircle2, RefreshCw, ArrowRight, 
+  HelpCircle, ShieldAlert, Cpu, Eye
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import DataTable from '../components/ui/DataTable';
-import StatusBadge from '../components/ui/StatusBadge';
 import Drawer from '../components/ui/Drawer';
 import MetricDisplay from '../components/ui/MetricDisplay';
 import LoadingState from '../components/ui/LoadingState';
@@ -47,7 +46,7 @@ export default function ExceptionCenter() {
         setLoading(false);
       }
     } catch (err) {
-      setError(err.message || 'Failed to load scheduling runs');
+      setError(err.message || 'Unable to load timetables.');
       setLoading(false);
     }
   }
@@ -71,8 +70,8 @@ export default function ExceptionCenter() {
           exam_code: iss.exam_code,
           exam_title: iss.exam_title,
           severity: iss.severity || 'CRITICAL',
-          reason_code: iss.issue_code || iss.reason_code || 'HARD_CONSTRAINT_BREACH',
-          description: iss.description || iss.message || 'Hard constraint breach detected by independent validator.',
+          reason_code: iss.issue_code || iss.reason_code || 'CONFLICT_DETECTED',
+          description: iss.description || iss.message || 'Scheduling rule not met for this exam.',
         })),
         ...unassignedList.map(dec => ({
           id: dec.id,
@@ -81,7 +80,7 @@ export default function ExceptionCenter() {
           exam_title: dec.exam_title,
           severity: 'BLOCKING',
           reason_code: (dec.reason_codes && dec.reason_codes[0]) || 'STUDENT_CONFLICT',
-          description: `No feasible timeslot and room combination met all constraints across ${dec.candidate_details?.evaluated_slots || 192} candidate slots (Cohort size: ${dec.candidate_details?.cohort_size || 'N/A'}). Primary bottleneck: ${(dec.reason_codes && dec.reason_codes.join(', ')) || 'STUDENT_CONFLICT'}.`,
+          description: `No available time slot and room matched all requirements across ${dec.candidate_details?.evaluated_slots || 192} checked slots. Primary issue: ${(dec.reason_codes && dec.reason_codes.join(', ')) || 'STUDENT_CONFLICT'}.`,
           candidate_details: dec.candidate_details,
           reason_codes: dec.reason_codes,
         })),
@@ -90,7 +89,7 @@ export default function ExceptionCenter() {
       setIssues(formattedIssues);
       setDecisions(unassignedList);
     } catch (err) {
-      setError(err.message || 'Failed to load run exceptions');
+      setError(err.message || 'Unable to load timetable issues.');
     } finally {
       setLoading(false);
     }
@@ -99,7 +98,6 @@ export default function ExceptionCenter() {
   function handleOpenDetail(issue) {
     setSelectedIssue(issue);
     setDrawerOpen(true);
-    // Filter matching failure decisions
     const matching = decisions.filter(d => d.exam_code === issue.exam_code || d.exam_id === issue.exam_id);
     setIssueDecisions(matching);
   }
@@ -111,7 +109,7 @@ export default function ExceptionCenter() {
       className: 'font-mono text-brand-accent font-semibold',
     },
     {
-      header: 'Title / Course',
+      header: 'Exam Title & Course',
       cell: (row) => (
         <div>
           <span className="font-semibold text-brand-text block">{row.exam_title || row.title || 'Course Examination'}</span>
@@ -124,12 +122,12 @@ export default function ExceptionCenter() {
       cell: (row) => (
         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded text-xs font-bold uppercase tracking-wider bg-brand-danger/15 text-brand-danger border border-brand-danger/30">
           <AlertTriangle className="w-3 h-3" />
-          {row.severity || 'BLOCKING'}
+          {row.severity === 'BLOCKING' ? 'Unscheduled' : row.severity || 'Needs Review'}
         </span>
       ),
     },
     {
-      header: 'Reason Code',
+      header: 'Reason',
       cell: (row) => (
         <span className="font-mono text-xs font-semibold text-brand-warning">
           {row.reason_code || row.issue_code || 'UNSCHEDULED_CONFLICT'}
@@ -137,7 +135,7 @@ export default function ExceptionCenter() {
       ),
     },
     {
-      header: 'Evaluated Failure Root Cause',
+      header: 'Why It Could Not Be Scheduled',
       cell: (row) => (
         <p className="text-xs text-brand-muted max-w-xs truncate">
           {row.description || row.message || 'No conflict-free timeslot and venue combination met all hard constraints.'}
@@ -149,10 +147,11 @@ export default function ExceptionCenter() {
       cell: (row) => (
         <button
           onClick={() => handleOpenDetail(row)}
-          className="px-2.5 py-1 text-xs rounded bg-brand-elevated hover:bg-brand-border border border-brand-border text-brand-text transition-colors flex items-center gap-1"
+          className="px-2.5 py-1 text-xs rounded bg-brand-elevated hover:bg-brand-border border border-brand-border text-brand-text hover:text-brand-accent transition-colors flex items-center gap-1"
+          aria-label={`View details for ${row.exam_code}`}
         >
           <Eye className="w-3 h-3 text-brand-accent" />
-          Investigate
+          View Details
         </button>
       ),
     },
@@ -163,22 +162,23 @@ export default function ExceptionCenter() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-brand-border">
         <div>
-          <h1 className="text-xl font-bold text-brand-text tracking-tight flex items-center gap-2.5">
+          <h1 className="text-lg sm:text-xl font-bold text-brand-text tracking-tight flex items-center gap-2.5">
             <ShieldAlert className="w-5 h-5 text-brand-danger" />
-            Exception Center
+            Issue & Conflict Center
           </h1>
           <p className="text-xs text-brand-muted mt-1">
-            Dedicated triage workspace for unscheduled examinations, hard-constraint rejections, and corrective telemetry.
+            Review exams that could not be scheduled, understand the reasons, and find ways to resolve conflicts.
           </p>
         </div>
 
-        {/* Run Selector */}
-        <div className="flex items-center gap-3">
-          <label className="text-xs text-brand-muted font-medium">Evaluation Run:</label>
+        {/* Timetable Selector */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+          <label className="text-xs text-brand-muted font-medium shrink-0">Timetable Version:</label>
           <select
             value={selectedRunId}
             onChange={(e) => setSelectedRunId(e.target.value)}
-            className="bg-brand-elevated border border-brand-border rounded px-3 py-1.5 text-xs text-brand-text font-mono focus:outline-none focus:border-brand-accent"
+            className="bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-1.5 text-xs text-brand-text font-mono focus:outline-none focus:border-brand-accent"
+            aria-label="Select timetable version"
           >
             {runs.map((r) => (
               <option key={r.id} value={r.id}>
@@ -188,8 +188,9 @@ export default function ExceptionCenter() {
           </select>
           <button
             onClick={() => selectedRunId && loadRunExceptions(selectedRunId)}
-            className="p-1.5 rounded bg-brand-elevated hover:bg-brand-border border border-brand-border text-brand-muted hover:text-brand-text transition-colors"
-            title="Refresh Exceptions"
+            className="p-1.5 rounded-[4px] bg-brand-elevated hover:bg-brand-border border border-brand-border text-brand-muted hover:text-brand-text transition-colors shrink-0"
+            title="Refresh Issues"
+            aria-label="Refresh issues list"
           >
             <RefreshCw className="w-4 h-4" />
           </button>
@@ -197,52 +198,52 @@ export default function ExceptionCenter() {
       </div>
 
       {/* KPI Overview */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
         <MetricDisplay
-          label="Unscheduled Examinations"
+          label="Unscheduled Exams"
           value={issues.length}
-          subtext="Requires administrative review"
+          subtext="Needs attention"
           icon={AlertTriangle}
         />
         <MetricDisplay
-          label="Hard Constraint Violations"
+          label="Student / Room Clashes"
           value="0"
           subtext="Zero allowed in confirmed schedule"
           icon={CheckCircle2}
         />
         <MetricDisplay
-          label="Telemetry Traces"
+          label="Evaluated Options"
           value={decisions.length}
-          subtext="Recorded rejected evaluations"
+          subtext="Time slots checked"
           icon={Cpu}
         />
         <MetricDisplay
-          label="Resolution Workflow"
-          value="Deterministic"
-          subtext="No silent data alterations"
+          label="Rule Validation"
+          value="Automatic"
+          subtext="Verified by scheduler"
           icon={ShieldAlert}
         />
       </div>
 
       {/* Main Table */}
       {loading ? (
-        <LoadingState message="Analyzing scheduling run exceptions..." />
+        <LoadingState message="Checking timetable for issues..." />
       ) : error ? (
         <EmptyState
           icon={AlertTriangle}
-          title="Error Loading Exceptions"
+          title="Error Loading Issues"
           description={error}
-          actionLabel="Retry"
+          actionLabel="Try Again"
           onAction={() => selectedRunId && loadRunExceptions(selectedRunId)}
         />
       ) : issues.length === 0 ? (
-        <div className="bg-brand-surface border border-brand-border rounded-lg p-12 text-center space-y-3">
+        <div className="bg-brand-surface border border-brand-border rounded-[4px] p-8 sm:p-12 text-center space-y-3">
           <div className="w-12 h-12 rounded-full bg-brand-success/15 border border-brand-success/30 flex items-center justify-center mx-auto text-brand-success">
             <CheckCircle2 className="w-6 h-6" />
           </div>
-          <h3 className="text-base font-bold text-brand-text">Zero Unscheduled Examinations</h3>
+          <h3 className="text-base font-bold text-brand-text">All Exams Scheduled</h3>
           <p className="text-xs text-brand-muted max-w-md mx-auto">
-            All course examinations in this scheduling run have been assigned to conflict-free time slots and compliant venues.
+            Every exam in this timetable has been assigned to a suitable room and time with zero conflicts.
           </p>
         </div>
       ) : (
@@ -261,13 +262,13 @@ export default function ExceptionCenter() {
       <Drawer
         isOpen={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        title={`Exception Investigation: ${selectedIssue?.exam_code || ''}`}
+        title={`Exam Issue Details: ${selectedIssue?.exam_code || ''}`}
         size="lg"
       >
         {selectedIssue && (
           <div className="space-y-6">
-            <div className="bg-brand-elevated border border-brand-danger/30 rounded-lg p-4 space-y-3">
-              <div className="flex items-start justify-between">
+            <div className="bg-brand-elevated border border-brand-danger/30 rounded-[4px] p-4 space-y-3">
+              <div className="flex items-start justify-between gap-2">
                 <div>
                   <span className="text-xs font-mono text-brand-danger uppercase tracking-wider font-bold">
                     REASON: {selectedIssue.reason_code || 'UNSCHEDULED_EXAM'}
@@ -276,8 +277,8 @@ export default function ExceptionCenter() {
                     {selectedIssue.exam_title || selectedIssue.title || selectedIssue.exam_code}
                   </h3>
                 </div>
-                <span className="px-2.5 py-0.5 text-xs font-bold rounded bg-brand-danger/20 text-brand-danger border border-brand-danger/40">
-                  {selectedIssue.severity || 'BLOCKING'}
+                <span className="px-2.5 py-0.5 text-xs font-bold rounded bg-brand-danger/20 text-brand-danger border border-brand-danger/40 shrink-0">
+                  {selectedIssue.severity === 'BLOCKING' ? 'Unscheduled' : selectedIssue.severity}
                 </span>
               </div>
               <p className="text-xs text-brand-muted leading-relaxed">
@@ -289,36 +290,36 @@ export default function ExceptionCenter() {
             <div className="space-y-2">
               <h4 className="text-xs font-bold text-brand-muted uppercase tracking-wider flex items-center gap-1.5">
                 <HelpCircle className="w-3.5 h-3.5 text-brand-accent" />
-                Recommended Corrective Action
+                Recommended Ways to Resolve
               </h4>
-              <div className="p-4 bg-brand-surface border border-brand-border rounded-lg text-xs space-y-2 text-brand-text">
+              <div className="p-4 bg-brand-surface border border-brand-border rounded-[4px] text-xs space-y-2 text-brand-text">
                 <p>
-                  <strong>Institutional Policy Protocol:</strong> To resolve this exception without violating academic integrity:
+                  <strong>Suggested steps to schedule this exam:</strong>
                 </p>
                 <ol className="list-decimal list-inside space-y-1.5 text-brand-muted">
-                  <li>Verify if room operating hours can be expanded during peak examination week.</li>
-                  <li>Check if additional qualified invigilators can be added to the proctor pool.</li>
-                  <li>If cohort size exceeds single-venue capacity, allow multi-room splitting across simultaneous adjacent venues.</li>
-                  <li>Re-run the scheduling solver to verify full constraint satisfaction.</li>
+                  <li>Check if room operating hours can be expanded during peak exam days.</li>
+                  <li>Verify if additional qualified invigilators can be added to the supervision pool.</li>
+                  <li>If the class cohort is larger than single-room capacity, allow multi-room splitting.</li>
+                  <li>Update the timetable to verify all rules are met.</li>
                 </ol>
               </div>
             </div>
 
-            {/* Rejected Slot Telemetry */}
+            {/* Rejected Slot Details */}
             <div className="space-y-3">
               <h4 className="text-xs font-bold text-brand-muted uppercase tracking-wider flex items-center gap-1.5">
                 <Cpu className="w-3.5 h-3.5 text-brand-accent" />
-                Evaluated Constraint Failures ({issueDecisions.length} telemetry records)
+                Checked Time Slots & Why They Failed ({issueDecisions.length} checked)
               </h4>
 
               {issueDecisions.length === 0 ? (
-                <div className="p-4 bg-brand-surface border border-brand-border rounded text-center text-xs text-brand-muted">
-                  No fine-grained slot failure traces recorded for this specific examination code.
+                <div className="p-4 bg-brand-surface border border-brand-border rounded-[4px] text-center text-xs text-brand-muted">
+                  No individual slot traces recorded for this specific exam.
                 </div>
               ) : (
                 <div className="max-h-72 overflow-y-auto space-y-2 pr-1">
                   {issueDecisions.map((dec, idx) => (
-                    <div key={idx} className="p-3 bg-brand-surface border border-brand-border rounded text-xs space-y-1">
+                    <div key={idx} className="p-3 bg-brand-surface border border-brand-border rounded-[4px] text-xs space-y-1">
                       <div className="flex items-center justify-between text-brand-text">
                         <span className="font-mono text-brand-warning font-semibold">Slot: {dec.slot_label || dec.slot_id?.substring(0, 8)}</span>
                         <span className="text-[10px] uppercase font-bold text-brand-danger bg-brand-danger/10 px-2 py-0.5 rounded border border-brand-danger/20">
@@ -326,7 +327,7 @@ export default function ExceptionCenter() {
                         </span>
                       </div>
                       <p className="text-brand-muted text-[11px]">
-                        <strong>Failed Constraint:</strong> {dec.failed_constraints?.join(', ') || dec.reason || 'Candidate resource unavailable or student conflict'}
+                        <strong>Failed Rule:</strong> {dec.failed_constraints?.join(', ') || dec.reason || 'Room unavailable or student clash'}
                       </p>
                     </div>
                   ))}
@@ -338,9 +339,9 @@ export default function ExceptionCenter() {
             <div className="pt-2">
               <button
                 onClick={() => navigate('/scheduling')}
-                className="w-full py-2.5 px-4 rounded bg-brand-accent hover:bg-brand-accent/90 text-brand-bg font-semibold text-xs transition-colors flex items-center justify-center gap-2"
+                className="w-full py-2.5 px-4 rounded-[4px] bg-brand-accent hover:bg-brand-accent/90 text-brand-bg font-semibold text-xs transition-colors flex items-center justify-center gap-2"
               >
-                Open Scheduling Workspace to Re-execute Run
+                Go to Scheduling Workspace to Update Timetable
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -350,4 +351,3 @@ export default function ExceptionCenter() {
     </div>
   );
 }
-

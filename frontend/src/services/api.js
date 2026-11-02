@@ -14,6 +14,12 @@ class ApiClient {
       this.currentUser = null;
     }
     this.activeRole = this.currentUser?.role || 'ACADEMIC_ADMINISTRATOR';
+    this.cache = new Map();
+    this.cacheTTL = 30000; // 30 seconds default TTL for read cache
+  }
+
+  clearCache() {
+    this.cache.clear();
   }
 
   getToken() {
@@ -21,6 +27,7 @@ class ApiClient {
   }
 
   setSession(token, user) {
+    this.clearCache();
     this.token = token;
     this.currentUser = user;
     this.activeRole = user?.role || 'ACADEMIC_ADMINISTRATOR';
@@ -62,7 +69,24 @@ class ApiClient {
   }
 
   async request(endpoint, options = {}) {
+    const method = (options.method || 'GET').toUpperCase();
     const url = `${API_BASE}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
+
+    // Invalidate cache on mutations
+    if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method)) {
+      this.clearCache();
+    }
+
+    // Serve from cache if GET and within TTL
+    const cacheKey = `${method}:${url}`;
+    const now = Date.now();
+    if (method === 'GET' && !options.skipCache) {
+      const cached = this.cache.get(cacheKey);
+      if (cached && now - cached.timestamp < (options.cacheTTL || this.cacheTTL)) {
+        return JSON.parse(JSON.stringify(cached.data));
+      }
+    }
+
     const headers = {
       'Content-Type': 'application/json',
       ...(this.token ? { Authorization: `Bearer ${this.token}` } : {}),
@@ -87,9 +111,16 @@ class ApiClient {
         throw new Error(data.detail || data.message || `Request failed with status ${response.status}`);
       }
       if (Array.isArray(data)) {
+        const totalHeader = response.headers.get('x-total-count');
         data.items = data;
-        data.total = data.length;
+        data.total = totalHeader ? parseInt(totalHeader, 10) : data.length;
       }
+
+      // Store in memory cache for GET requests
+      if (method === 'GET' && !options.skipCache) {
+        this.cache.set(cacheKey, { data, timestamp: now });
+      }
+
       return data;
     } catch (err) {
       console.error(`API Error [${endpoint}]:`, err);

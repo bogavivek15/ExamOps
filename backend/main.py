@@ -4,7 +4,9 @@ FastAPI + Pydantic + Supabase PostgreSQL
 """
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse, RedirectResponse
+from contextlib import asynccontextmanager
 import time
 
 from backend.config import settings
@@ -23,6 +25,11 @@ from backend.routes.analytics_routes import router as analytics_router
 from backend.routes.audit_routes import router as audit_router
 from backend.routes.export_routes import router as export_router
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db_pool()
+    yield
+
 app = FastAPI(
     title="ExamOps API",
     description="Examination Operations & Intelligent Scheduling Platform API",
@@ -30,6 +37,7 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
+    lifespan=lifespan,
 )
 
 # Convenient redirects for /api/docs, /api/openapi.json, and /api/redoc
@@ -45,6 +53,9 @@ def redirect_api_openapi():
 def redirect_api_redoc():
     return RedirectResponse(url="/redoc")
 
+# GZip Compression Middleware (compresses responses > 1KB)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
+
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
@@ -52,11 +63,8 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["X-Total-Count", "X-Process-Time"],
 )
-
-@app.on_event("startup")
-def startup_event():
-    init_db_pool()
 
 @app.middleware("http")
 async def add_security_and_timing_headers(request: Request, call_next):
