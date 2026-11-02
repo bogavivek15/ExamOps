@@ -147,10 +147,12 @@ All 5 scenarios are certified by the independent `ScheduleValidator` in `scripts
 # Start PostgreSQL via Docker (or use Supabase CLI / remote Supabase project)
 docker run -d --name examops-db -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=examops postgres:16
 
-# Apply migrations sequentially
+# Apply all 5 database migrations sequentially
 psql -h localhost -U postgres -d examops -f supabase/migrations/001_core_master_and_security.sql
 psql -h localhost -U postgres -d examops -f supabase/migrations/002_scheduling_engine.sql
 psql -h localhost -U postgres -d examops -f supabase/migrations/003_rls_and_policies.sql
+psql -h localhost -U postgres -d examops -f supabase/migrations/004_performance_indexes.sql
+psql -h localhost -U postgres -d examops -f supabase/migrations/005_cleanup_redundant_indexes.sql
 ```
 
 ### 2. Backend Setup
@@ -178,6 +180,18 @@ npm run dev
 ```
 Frontend application will be accessible at: `http://localhost:5173`
 
+### 4. Running the Complete Automated Test Suite (42/42 Tests)
+```bash
+# Run the complete test suite across all 42 automated tests
+python -m pytest backend/tests tests scripts/test_scheduler.py -v
+
+# Run the 8-module real-browser headless Chrome acceptance test
+node scripts/browser_acceptance_eight_modules.js
+
+# Build frontend production bundle
+cd frontend && npm run build
+```
+
 ---
 
 ## 7. Verification Evidence & Automated Test Suites
@@ -197,6 +211,8 @@ ExamOps has undergone rigorous dual-pass verification (Pass A: Static/Contract A
 | **Phase 8 Performance** | `python scripts/verify_phase8.py` | Connection pool 30/30 stress tested, core endpoints <50ms, OWASP security headers verified. |
 | **Phase 9 End-to-End** | `python scripts/verify_phase9.py` | Workflows A-F executed; All 5 negative scenarios intercepted and certified. |
 | **Phase 10 Deployment** | `python scripts/verify_phase10.py` | Vercel SPA rewrites, Render IaC, multi-stage Dockerfile, and requirements verified. |
+| **Full Automated Suite (42 Tests)** | `python -m pytest backend/tests tests scripts/test_scheduler.py` | 42/42 passed (100%), 0 failures, 0 skips. Verified deterministic solver & constraints. |
+| **Real Browser CDP Audit** | `node scripts/browser_acceptance_eight_modules.js` | All 12 application modules interactively verified with 17 captured screenshots. |
 
 ---
 
