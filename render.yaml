@@ -12,7 +12,15 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.0
-      - key: SUPABASE_DB_URL
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_ANON_KEY
         sync: false
       - key: JWT_SECRET_KEY
         generateValue: true
@@ -20,9 +28,11 @@ services:
         value: HS256
       - key: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
         value: "480"
+      - key: SUPABASE_JWT_SECRET
+        sync: false
       - key: CORS_ORIGINS
-        value: '["https://examops.vercel.app","http://localhost:5173","http://localhost:3000"]'
+        value: '["https://examops.vercel.app","https://examops-staging.vercel.app","http://localhost:5173","http://127.0.0.1:5173","http://localhost:3000","http://127.0.0.1:3000"]'
       - key: DB_POOL_MIN_CONN
-        value: "2"
+        value: "1"
       - key: DB_POOL_MAX_CONN
-        value: "20"
+        value: "4"

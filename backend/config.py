@@ -48,6 +48,29 @@ def _normalize_database_url(url: str) -> str:
         pass
     return url
 
+def _parse_cors_origins() -> list:
+    """Parses CORS origins from env (JSON or comma-separated) and strips any wildcards."""
+    raw = os.getenv("CORS_ORIGINS")
+    default_origins = [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://examops.vercel.app",
+        "https://examops-staging.vercel.app",
+    ]
+    if not raw:
+        return default_origins
+    import json
+    try:
+        parsed = json.loads(raw)
+        if isinstance(parsed, list):
+            # Never permit wildcard '*' when credentials mode is enabled
+            return [o.strip() for o in parsed if o and o.strip() != "*"]
+    except Exception:
+        pass
+    return [o.strip() for o in raw.split(",") if o.strip() and o.strip() != "*"]
+
 _load_env_file()
 
 class Settings(BaseModel):
@@ -62,18 +85,14 @@ class Settings(BaseModel):
         or os.getenv("SUPABASE_DB_URL")
         or "postgresql://postgres:postgres@localhost:54329/examops"
     )
-    DB_POOL_MIN_CONN: int = int(os.getenv("DB_POOL_MIN_CONN", "2"))
-    DB_POOL_MAX_CONN: int = int(os.getenv("DB_POOL_MAX_CONN", "20"))
+    # Recommended safe per-worker pool bounds for 4 Uvicorn workers under 20-connection PgBouncer limit
+    # (4 workers * 4 maxconn = 16 combined max connections, preserving 4 connections headroom)
+    DB_POOL_MIN_CONN: int = int(os.getenv("DB_POOL_MIN_CONN", "1"))
+    DB_POOL_MAX_CONN: int = int(os.getenv("DB_POOL_MAX_CONN", "4"))
     JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "examops-dev-secret-key-for-local-authentication-20261022")
     JWT_ALGORITHM: str = os.getenv("JWT_ALGORITHM", "HS256")
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "480"))
     SUPABASE_JWT_SECRET: str = os.getenv("SUPABASE_JWT_SECRET", "")
-    CORS_ORIGINS: list = [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "https://examops.vercel.app",
-        "*",
-    ]
+    CORS_ORIGINS: list = _parse_cors_origins()
 
 settings = Settings()

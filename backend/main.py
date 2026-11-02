@@ -56,10 +56,11 @@ def redirect_api_redoc():
 # GZip Compression Middleware (compresses responses > 1KB)
 app.add_middleware(GZipMiddleware, minimum_size=1000)
 
-# CORS Configuration
+# CORS Configuration (Strict origins, explicit Vercel preview regex, no wildcards with credentials)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
+    allow_origin_regex=r"^https:\/\/([a-zA-Z0-9_-]+\.)?vercel\.app$",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
