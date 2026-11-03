@@ -2,8 +2,8 @@
 
 > **Version:** 1.0.0  
 > **Product:** ExamOps — Examination Operations & Intelligent Scheduling Platform  
-> **Last Updated:** 2026-11-01  
-> **Status:** Discovery / Pre-Implementation
+> **Last Updated:** 2026-11-03  
+> **Status:** Implemented / Production Architecture
 
 ---
 
@@ -87,12 +87,12 @@ flowchart LR
 
 | Technology | Version Target | Purpose | Justification |
 |------------|---------------|---------|---------------|
-| **React** | 18+ | UI component library | Specified stack; component-based architecture for complex operational interfaces |
-| **Vite** | 5+ | Dev server and bundler | Fast HMR, ES module support, minimal configuration |
+| **React** | 19.3.1 (React 19) | UI component library | Modern component-based architecture with native React hooks and contexts |
+| **Vite** | 8.3.5 (Vite 8) | Dev server and production bundler | Lightning-fast HMR and optimized production bundling (2,654 modules in <2s) |
 | **JavaScript** | ES2022 | Application language | Specified stack; no TypeScript |
-| **Tailwind CSS** | 3+ | Utility-first styling | Rapid UI development with design token consistency |
+| **Tailwind CSS** | 3.4.17 | Utility-first styling | Design token consistency, dark-first enterprise palette (#0B1118 background) |
 | **Plain CSS** | — | Custom styling | Used where Tailwind creates worse design outcomes (complex animations, custom properties) |
-| **React Router** | v6 | Client-side routing | Nested routes, protected route wrappers, breadcrumb generation |
+| **React Router** | 7.18.5 (React Router 7) | Client-side routing | Route wrappers, auth guards, declarative navigation across 12 modules |
 | **Lucide React** | Latest | Icon library | Consistent, lightweight SVG icons |
 | **Recharts** | Latest | Data visualization | Meaningful charts for analytics (utilization, coverage, exceptions) |
 | **@supabase/supabase-js** | v2 | Auth client + optional direct DB | Login, logout, session restoration, token retrieval |
@@ -103,12 +103,12 @@ flowchart LR
 
 | Technology | Version Target | Purpose | Justification |
 |------------|---------------|---------|---------------|
-| **Python** | 3.11+ | Application language | Specified stack |
-| **FastAPI** | 0.100+ | REST API framework | Automatic OpenAPI docs, Pydantic integration, async support |
+| **Python** | 3.12+ | Application language | Standard library math, graph coloring, and deterministic PRNG |
+| **FastAPI** | 0.115.0 | REST API framework | Automatic OpenAPI/Swagger docs, Pydantic v2 schemas, async route handlers |
 | **Pydantic** | v2 | Request/response validation | Type-safe schemas, automatic validation, serialization |
 | **supabase-py** | Latest | Database and auth client | Official Supabase Python SDK for PostgreSQL access and JWT verification |
 | **Python stdlib** | Built-in | Scheduling and data generation | `random`, `hashlib`, `datetime`, `collections`, `json`, `csv` — no external optimization libraries |
-| **Pytest** | Latest | Testing framework | Backend unit and integration tests |
+| **Pytest** | 9.2.0 | Testing framework | 42-test comprehensive test suite verifying live DB and scheduling engine |
 | **uvicorn** | Latest | ASGI server | Production server for FastAPI |
 
 ### Database Stack
@@ -149,166 +149,169 @@ flowchart LR
 
 The repository uses a **simple monorepo** layout with clear boundaries between frontend, backend, data generation, tests, and documentation.
 
-```
+`	ext
 examops/
 │
 ├── AGENTS.md                          # Master product & engineering specification
 ├── README.md                          # Public-facing project documentation
+├── Dockerfile                         # Container definition for containerized backend runs
+├── render.yaml                        # Render cloud deployment specification
+├── requirements.txt                   # Production Python dependencies
 ├── .gitignore                         # Git ignore rules
-├── .env.example                       # Environment variable template (no secrets)
+├── .env.example                       # Environment variable template (zero secrets)
 │
-├── frontend/                          # React application (deployed to Vercel)
+├── frontend/                          # React 19 + Vite 8 frontend (deployed to Vercel)
 │   ├── index.html                     # HTML entry point
-│   ├── package.json                   # Dependencies and scripts
-│   ├── vite.config.js                 # Vite configuration
-│   ├── tailwind.config.js             # Tailwind CSS configuration
+│   ├── package.json                   # Dependencies (React 19, React Router 7, Lucide, Recharts)
+│   ├── vite.config.js                 # Vite 8 configuration with vendor chunk splitting
+│   ├── tailwind.config.js             # Tailwind CSS configuration with enterprise tokens
 │   ├── postcss.config.js              # PostCSS configuration
+│   ├── vercel.json                    # Vercel SPA routing rewrites
 │   └── src/
-│       ├── main.jsx                   # Application entry point
-│       ├── App.jsx                    # Root component with router
-│       ├── components/                # Reusable UI components
-│       │   ├── ui/                    # Primitives: Button, Input, Select, Modal, etc.
-│       │   ├── layout/               # AppSidebar, TopNavigation, PageHeader
-│       │   ├── data/                  # DataTable, FilterBar, Pagination, StatusBadge
-│       │   ├── charts/               # ChartContainer, MetricDisplay
-│       │   ├── scheduling/           # Calendar, Timeline, assignment views
-│       │   └── feedback/             # Toast, LoadingState, ErrorState, EmptyState
-│       ├── layouts/                   # Page layout wrappers
-│       │   ├── AppLayout.jsx          # Authenticated layout (sidebar + topbar + main)
-│       │   └── AuthLayout.jsx         # Unauthenticated layout (login/signup)
-│       ├── pages/                     # Route-level page components
-│       │   ├── Dashboard.jsx          # Module 1: Overview Dashboard
-│       │   ├── SchedulingWorkspace.jsx # Module 2: Scheduling command center
-│       │   ├── Exams.jsx             # Module 3: Examination management
-│       │   ├── Students.jsx          # Module 4: Student management
-│       │   ├── Courses.jsx           # Module 5: Course & enrollment management
-│       │   ├── Rooms.jsx             # Module 6: Room management
-│       │   ├── Invigilators.jsx      # Module 7: Invigilator management
-│       │   ├── Accommodations.jsx    # Module 8: Accommodation management
-│       │   ├── Exceptions.jsx        # Module 9: Exception center
-│       │   ├── Analytics.jsx         # Module 10: Analytics & reports
-│       │   ├── AuditLog.jsx          # Module 11: Audit & activity
-│       │   ├── Administration.jsx    # Module 12: Administration
-│       │   └── Login.jsx             # Authentication page
-│       ├── context/                   # React Context providers
-│       │   ├── AuthContext.jsx        # Authentication state and methods
-│       │   ├── ThemeContext.jsx       # Design token management
-│       │   └── NotificationContext.jsx # Toast/notification state
-│       ├── hooks/                     # Custom React hooks
-│       │   ├── useApi.js             # Fetch wrapper with auth headers
-│       │   ├── useAuth.js            # Auth context consumer
-│       │   ├── usePagination.js      # Pagination state management
-│       │   └── useDebounce.js        # Debounced input values
-│       ├── services/                  # API service modules
-│       │   ├── api.js                # Base API client configuration
-│       │   ├── authService.js        # Supabase Auth wrapper
-│       │   ├── studentService.js     # Student API calls
-│       │   ├── examService.js        # Exam API calls
-│       │   ├── roomService.js        # Room API calls
-│       │   ├── schedulingService.js  # Scheduling API calls
-│       │   └── analyticsService.js   # Analytics API calls
-│       ├── utils/                     # Utility functions
-│       │   ├── formatters.js         # Date, number, ID formatting
-│       │   ├── validators.js         # Client-side form validation
-│       │   └── constants.js          # Application constants
-│       └── styles/                    # Global styles and design tokens
-│           ├── tokens.css            # CSS custom properties (design tokens)
-│           ├── globals.css           # Global styles and resets
-│           └── components.css        # Complex component styles
+│       ├── main.jsx                   # Application bootstrap
+│       ├── App.jsx                    # Root router with 12 operational modules
+│       ├── App.css / index.css        # Enterprise dark-first styling
+│       ├── components/
+│       │   ├── common/                # Canonical UI primitives (DataTable, Drawer, Modal, MetricDisplay, StatusBadge, EmptyState, LoadingState)
+│       │   └── layout/                # Layout components (AppLayout, AppSidebar, TopNavigation)
+│       ├── context/                   # React Contexts (AuthContext with RBAC role switching)
+│       ├── hooks/                     # Custom React hooks (useDebounce)
+│       ├── services/                  # Unified REST API client (api.js with 33 endpoint methods)
+│       ├── styles/                    # Theme design tokens (theme.css)
+│       └── views/                     # 12 Operational Product Modules:
+│           ├── OverviewDashboard.jsx        # Module 01: High-level KPI monitoring & operational state
+│           ├── SchedulingWorkspace.jsx      # Module 02: Visual timetable & solver execution center
+│           ├── ExamManagement.jsx           # Module 03: Exam directory, requirements & priorities
+│           ├── StudentManagement.jsx        # Module 04: Student cohort & timetable viewer
+│           ├── CourseManagement.jsx         # Module 05: Course directory & active enrollments
+│           ├── RoomManagement.jsx           # Module 06: Facilities, capacities & closures
+│           ├── InvigilatorManagement.jsx    # Module 07: Staff availability & workload quotas
+│           ├── AccommodationManagement.jsx  # Module 08: Student accommodations & clinical notes
+│           ├── ExceptionCenter.jsx          # Module 09: Unassigned exam triage & reason codes
+│           ├── AnalyticsReports.jsx         # Module 10: Utilization metrics & CSV/JSON export
+│           ├── AuditActivity.jsx            # Module 11: Tamper-evident audit & event ledger
+│           └── Administration.jsx           # Module 12: Academic periods & institution config
 │
-├── backend/                           # FastAPI application (deployed to Render)
-│   ├── main.py                        # FastAPI app initialization, middleware, CORS
-│   ├── config.py                      # Environment configuration and settings
-│   ├── auth.py                        # JWT verification and user resolution
-│   ├── database.py                    # Supabase client initialization
-│   ├── requirements.txt              # Python dependencies
-│   ├── routes/                        # API route definitions (transport layer)
-│   │   ├── students.py               # /api/v1/students
-│   │   ├── courses.py                # /api/v1/courses
-│   │   ├── enrollments.py            # /api/v1/enrollments
-│   │   ├── exams.py                  # /api/v1/exams
-│   │   ├── rooms.py                  # /api/v1/rooms
-│   │   ├── invigilators.py           # /api/v1/invigilators
-│   │   ├── accommodations.py         # /api/v1/accommodations
-│   │   ├── scheduling.py             # /api/v1/scheduling
-│   │   ├── exceptions.py             # /api/v1/exceptions
-│   │   ├── analytics.py              # /api/v1/analytics
-│   │   └── audit.py                  # /api/v1/audit
-│   ├── services/                      # Business logic layer
-│   │   ├── student_service.py        # Student operations
-│   │   ├── exam_service.py           # Exam lifecycle management
-│   │   ├── room_service.py           # Room and capacity operations
-│   │   ├── scheduling_service.py     # Scheduling run orchestration
-│   │   └── report_service.py         # Analytics and export generation
-│   ├── scheduler/                     # Scheduling algorithm modules
-│   │   ├── engine.py                 # Main scheduling orchestrator
-│   │   ├── conflict_graph.py         # Student-exam conflict graph builder
-│   │   ├── candidate_generator.py    # Time-slot candidate generation
-│   │   ├── room_allocator.py         # Multi-room student allocation
-│   │   ├── invigilator_allocator.py  # Invigilator assignment
-│   │   ├── constraints.py            # Hard constraint validation
-│   │   └── scoring.py                # Deterministic candidate scoring
-│   └── validation/                    # Independent validation modules
-│       ├── data_validation.py        # Input data relationship validation
-│       └── schedule_validation.py    # Full-schedule constraint verification
+├── backend/                           # FastAPI backend (deployed to Render)
+│   ├── main.py                        # FastAPI application, CORS, router registrations, /health
+│   ├── config.py                      # Pydantic Settings, environment loader, DB pool config
+│   ├── auth.py                        # JWT verification, RBAC role resolution, profile caching
+│   ├── database.py                    # ThreadedConnectionPool, context managers, execute_query
+│   ├── models/
+│   │   └── schemas.py                 # Pydantic v2 request/response validation schemas
+│   ├── routes/                        # 11 Domain Route Controllers:
+│   │   ├── accommodation_routes.py    # /api/accommodations & clinical notes
+│   │   ├── analytics_routes.py        # /api/analytics & reconciliation KPIs
+│   │   ├── audit_routes.py            # /api/audit/logs
+│   │   ├── auth_routes.py             # /api/auth/me, /profiles, /dev-switch-role
+│   │   ├── course_routes.py           # /api/courses
+│   │   ├── exam_routes.py             # /api/exams
+│   │   ├── export_routes.py           # /api/export/runs/{id}/csv and /json
+│   │   ├── invigilator_routes.py      # /api/invigilators
+│   │   ├── room_routes.py             # /api/rooms
+│   │   ├── scheduling_routes.py       # /api/scheduling/runs (execute, approve, publish)
+│   │   └── student_routes.py          # /api/students
+│   ├── scheduler/                     # Pure Python Scheduling Engine (0 black-box libraries):
+│   │   ├── engine.py                  # SchedulingEngine orchestrator & multi-pass improvement
+│   │   ├── conflict_graph.py          # ConflictGraph & Most-Constrained-First ordering
+│   │   ├── candidate_generator.py     # CandidateSlot generator across academic calendar
+│   │   ├── room_allocator.py          # Seven Room-Splitting Invariants allocator
+│   │   ├── invigilator_allocator.py   # Invigilator staffing with daily/weekly limits
+│   │   ├── constraints.py             # ConstraintChecker for hard and soft rules
+│   │   ├── models.py                  # Dataclasses: ExamModel, RoomModel, InvigilatorModel
+│   │   ├── schedule_validator.py      # Independent ScheduleValidator certifying 0 violations
+│   │   └── scoring.py                 # CandidateSlotScorer evaluating penalty weights
+│   ├── services/                      # Domain Business Logic Layer:
+│   │   ├── accommodation_service.py   # Clinical notes privacy masking & extra time math
+│   │   ├── analytics_service.py       # KPI computation & seat reconciliation
+│   │   ├── audit_service.py           # Tamper-evident logging to audit_logs & schedule_events
+│   │   ├── course_service.py          # Course & enrollment queries
+│   │   ├── distributed_lock.py        # PostgreSQL 64-bit advisory locking (pg_try_advisory_lock)
+│   │   ├── export_service.py          # CSV & JSON timetable export generators
+│   │   ├── invigilator_service.py     # Workload aggregation & availability checks
+│   │   ├── room_service.py            # Capacity effective dating & closure inspection
+│   │   ├── scheduling_service.py      # Snapshot freezing, run execution & atomic publication
+│   │   └── student_service.py         # Student records & personalized schedule views
+│   └── tests/                         # Pytest Database & Integrity Suites:
+│       ├── test_database_integrity.py     # Row counts, regex patterns, immutability triggers
+│       ├── test_duplicate_detection.py    # Uniqueness constraints on business codes & pairs
+│       ├── test_rbac_integrity.py         # Authentication & role-based route guards
+│       ├── test_referential_integrity.py  # 23 foreign key pairs & orphan prevention
+│       └── test_scheduling_integrity.py   # Hard constraint checks on published schedules
 │
-├── supabase/                          # Supabase configuration & migrations
-│   └── migrations/                    # Authoritative SQL migration files
-│       ├── 001_core_master_data.sql   # Core master data, facilities, invigilators, accommodations
-│       ├── 002_scheduling_engine.sql  # Scheduling runs, snapshots, assignments, multi-room splits
-│       └── 003_security_and_rls.sql   # User profiles, RBAC, partial unique index, RLS policies, audit
+├── generator/                         # Standalone Synthetic Data Generator (Seed 20261022)
+│   ├── config.py                      # Master parameters: 5,000 students, 300 exams, 100 rooms, 200 invigilators
+│   ├── generate.py                    # Deterministic procedural generation engine
+│   ├── exporters.py                   # Canonical JSON/CSV serialization & SHA-256 calculation
+│   └── negative_scenarios.py          # Anomaly injector producing 5 mandatory negative test fixtures
 │
-├── generator/                         # Synthetic data generator
-│   ├── generate.py                   # Main generation entry point
-│   ├── config.py                     # Generator configuration (seed, counts)
-│   ├── scenarios.py                  # Five negative scenario fixtures
-│   ├── load_seed.py                  # Database seeding script
-│   └── validate.py                   # Post-generation validation
+├── data/                              # Synthetic Data Outputs & Ground Truth
+│   ├── csv/                           # 17 Relational CSV exports (students.csv, exams.csv, etc.)
+│   ├── json/                          # 16 Canonical JSON exports
+│   ├── sql/
+│   │   └── seed_data.sql              # Bulk PostgreSQL INSERT statements
+│   ├── ground_truth.csv               # Isolated ground truth fixture catalog
+│   ├── ground_truth.json              # Structured expected constraint failure attributes
+│   └── manifest.json                  # Cryptographic SHA-256 checksum manifest
 │
-├── data/                              # Generated data outputs
-│   ├── generated/                    # CSV and JSON entity exports
-│   ├── ground_truth/                 # Expected outcomes for negative scenarios
-│   └── manifests/                    # Source manifest and checksums
+├── scripts/                           # Operational, Verification & Diagnostic Utilities:
+│   ├── test_scheduler.py              # Standalone scheduling engine test (negative scenarios, baseline)
+│   ├── test_synthetic_data.py         # 2-run reproducibility & referential integrity test
+│   ├── analyze_conflict_graph.py      # Mathematical conflict graph density & degree analyzer
+│   ├── inspect_scheduling_details.py  # Detailed run assignment & decision telemetry dumper
+│   ├── apply_cloud_migrations.py      # Sequential Supabase migration applicator
+│   ├── apply_and_test_database.py     # Cloud schema deployment & database health check
+│   ├── load_cloud_baseline.py         # Cloud dataset streaming loader
+│   ├── browser_acceptance_eight_modules.js # Headless browser DOM & routing validator
+│   └── database/
+│       ├── audit_database.py          # PostgreSQL catalog constraint & index auditor
+│       ├── detect_duplicates.py       # Duplicate identifier detection utility
+│       ├── validate_examops_rules.py  # Institutional staffing ratio & duration validator
+│       └── validate_relationships.py  # Database referential integrity validator
 │
-├── tests/                             # Test suite
-│   ├── conftest.py                   # Pytest fixtures and configuration
-│   ├── test_generator.py            # Data generation tests
-│   ├── test_relationships.py        # Foreign key and referential integrity tests
-│   ├── test_constraints.py          # Business constraint validation tests
-│   ├── test_scheduler.py            # Scheduling algorithm tests
-│   ├── test_edge_cases.py           # Five negative scenario tests
-│   ├── test_api.py                  # API endpoint tests
-│   └── test_reproducibility.py      # Deterministic regeneration tests
+├── supabase/
+│   └── migrations/                    # 5 Authoritative PostgreSQL Schema Migrations:
+│       ├── 001_core_master_and_security.sql   # Core master tables, immutability triggers, helper functions
+│       ├── 002_scheduling_engine.sql          # Scheduling runs, snapshots, assignments, decisions
+│       ├── 003_rls_and_policies.sql           # Row Level Security policies & clinical notes protection
+│       ├── 004_performance_indexes.sql       # Composite B-tree indexes for high-throughput queries
+│       └── 005_cleanup_redundant_indexes.sql  # Pruning of redundant prefix indexes
 │
-└── docs/                              # Project documentation
-    ├── source/                       # Original requirement documents
+├── tests/                             # Root Integration & Concurrency Test Suites:
+│   ├── test_backend_api.py            # 9 FastAPI endpoint integration tests
+│   ├── test_distributed_concurrency.py # 5 PostgreSQL advisory locking & multi-process isolation tests
+│   └── test_role_revocation.py        # 7 RBAC downgrade & <= 5-second TTL cache tests
+│
+└── docs/                              # Consolidated Project Documentation:
+    ├── source/                        # Authoritative YottaFlex Source Documents:
     │   ├── problem_statement.md
     │   ├── candidate_faq.pdf
     │   ├── submission_guidelines.pdf
     │   └── requirements_original.md
-    ├── requirements.md               # Requirements register
-    ├── requirements_traceability.md   # Full traceability matrix
-    ├── architecture.md               # This document
-    ├── data_dictionary.md            # Complete field-level data dictionary
-    ├── erd.md                        # Entity-relationship diagram
-    ├── business_rules.md             # Business rules and configurable defaults
-    ├── assumptions.md                # Documented assumptions register
-    ├── permissions.md                # Role-permission mapping
-    ├── scheduling_algorithm.md       # Algorithm design and worked examples
-    ├── API.md                        # API endpoint reference
-    ├── security.md                   # Security architecture
-    ├── design_system.md              # UI design tokens and component catalog
-    ├── ui_ux_specification.md        # UI/UX specification
-    ├── testing.md                    # Test strategy and plan
-    ├── implementation_plan.md        # Phased implementation roadmap
-    ├── technical_risks.md            # Risk register
-    ├── validation_report.md          # Post-generation validation evidence
-    ├── source_manifest.md            # Data source provenance
-    ├── known_limitations.md          # Documented limitations
-    ├── deployment.md                 # Deployment guide
-    ├── interview_guide.md            # Technical interview preparation
-    └── ai_prompt_history.md          # AI tool usage log
-```
+    ├── ai_prompt_history.md           # Transparent AI prompt history & tool disclosure log
+    ├── ai_prompts/                    # Full-text archive of original engineering prompts
+    ├── requirements.md                # Decomposed requirements register
+    ├── requirements_traceability.md   # Requirements-to-code traceability matrix
+    ├── architecture.md                # System architecture & ADRs (this document)
+    ├── data_dictionary.md             # Complete 24-entity field catalog
+    ├── erd.md                         # Entity-relationship diagrams & cardinalities
+    ├── business_rules.md              # Hard & soft scheduling constraints
+    ├── assumptions.md                 # Configurable academic policy assumptions
+    ├── permissions.md                 # RBAC matrix & role permissions
+    ├── scheduling_algorithm.md        # LDF + Greedy algorithm design & invariants
+    ├── security.md                    # Defense-in-depth security, RLS & JWT auth
+    ├── design_system.md               # Dark-first design tokens, layout & typography
+    ├── ui_ux_specification.md         # UI/UX interaction standards
+    ├── testing.md                     # Pytest 42-test contract & reproducibility verification
+    ├── validation_report.md           # Schema, RLS, trigger & constraint validation evidence
+    ├── evaluation.md                  # Empirical latencies, concurrency & solver benchmarks
+    ├── source_manifest.md             # Data provenance & generator reproducibility manifest
+    ├── known_issues_and_limitations.md # Graph density saturation & operational limits
+    ├── candidate_interview_defense.md # Technical interview talking points & architectural defense
+    ├── technical_risks.md             # Technical risk register & mitigations
+    ├── implementation_plan.md         # Phased implementation roadmap
+    └── screenshots/                   # High-resolution desktop showcase captures
+`
 
 ---
 
@@ -1002,11 +1005,11 @@ app.add_middleware(
 | Field-level data dictionary | [data_dictionary.md](data_dictionary.md) |
 | Scheduling algorithm | [scheduling_algorithm.md](scheduling_algorithm.md) |
 | Business rules & defaults | [business_rules.md](business_rules.md) |
-| API endpoint reference | [API.md](API.md) |
+| API endpoint reference | [FastAPI Interactive Swagger Docs](/docs) |
 | Design system | [design_system.md](design_system.md) |
 | Requirements register | [requirements.md](requirements.md) |
 | Test strategy | [testing.md](testing.md) |
-| Deployment guide | [deployment.md](deployment.md) |
+| Deployment guide | [render.yaml](../render.yaml) & [README.md](../README.md#7-backend-installation--startup) |
 | Role-permission mapping | [permissions.md](permissions.md) |
 
 ---

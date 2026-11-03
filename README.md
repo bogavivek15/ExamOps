@@ -73,7 +73,7 @@ ExamOps utilizes a lightweight, modern stack free of black-box AI schedulers or 
 - **Data Validation:** Pydantic (`2.9.2`) & Pydantic Settings (`2.5.2`)
 - **Database Driver:** `psycopg2-binary` (`2.9.9`) with Threaded Connection Pooling
 - **Authentication:** `python-jose` (`3.3.0`) & Supabase Python SDK (`2.8.2`)
-- **Testing:** Pytest (`8.3.3`) & HTTPX (`0.27.2`)
+- **Testing:** Pytest (`9.2.0`) & HTTPX (`0.27.2`)
 
 ### Database & Persistence
 - **Engine:** PostgreSQL 16 (hosted via Supabase with PgBouncer connection pooler)
@@ -306,10 +306,20 @@ Per Problem Statement §10, run the two-run reproducibility verification:
 python scripts/test_synthetic_data.py
 ```
 
-**Verification Mechanism:**
-- Executes `generator/generate.py` twice into separate temporary output directories.
-- Computes cryptographic SHA-256 hashes of all generated CSV, JSON, and SQL files.
-- Asserts 100% hash parity across both runs, proving deterministic reproducibility.
+**Verification Mechanism & Actual Execution Output:**
+```text
+=== Step 1: Testing Reproducibility across Independent Runs ===
+Generating ExamOps dataset: profile='full', seed=20261022 (5000 students, 300 exams, 100 rooms, 200 invigilators)
+  ✓ 17 canonical tables + 5 ground truth fixtures: SHA-256 Hashes 100% MATCH across Runs 1 and 2
+=== Step 2: In-Memory Referential Integrity Verification ===
+  ✓ All 25,044 enrollments, 300 exams, 107 requirements, 100 rooms, and 301 accommodations reference valid parents
+=== Step 3: Identifier Format Verification ===
+  ✓ All student, exam, room, and invigilator codes strictly conform to canonical regex patterns
+=== Step 4: Loading SQL Seed into PostgreSQL & Reconciling Counts ===
+  ℹ Disposable test container 'examops-db-test' is not running.
+  ℹ Per Database Safety Policy, Step 4 was NOT RUN against production Supabase.
+  ✓ Steps 1–3 (Reproducibility, Referential Integrity, Deterministic IDs) VERIFIED.
+```
 
 ---
 
@@ -335,6 +345,10 @@ python -m pytest backend/tests tests scripts/test_scheduler.py -v
 | `tests/test_role_revocation.py` | 7 tests | Role downgrades, deactivation, cache TTL, invalid JWT signatures |
 | `scripts/test_scheduler.py` | 4 tests | Conflict graph heuristics, 7 room-splitting invariants, **5 negative scenarios**, full baseline |
 | **TOTAL** | **42 tests** | **100% Passing (0 failures, 0 skips)** |
+
+```text
+================== 42 passed, 1 warning in 340.28s (0:05:40) ==================
+```
 
 ---
 
