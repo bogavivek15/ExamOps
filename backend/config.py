@@ -133,7 +133,7 @@ class Settings(BaseModel):
     PROJECT_NAME: str = "ExamOps"
     VERSION: str = "1.0.0"
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
-    DEMO_LOGIN_ENABLED: bool = os.getenv("DEMO_LOGIN_ENABLED", "false").lower() in ("true", "1", "yes", "t")
+    DEMO_LOGIN_ENABLED: bool = os.getenv("DEMO_LOGIN_ENABLED", "true").lower() in ("true", "1", "yes", "t")
     DEMO_ACCESS_KEY: str = os.getenv("DEMO_ACCESS_KEY", "")
     SUPABASE_URL: str = os.getenv("SUPABASE_URL", "http://127.0.0.1:54321")
     SUPABASE_ANON_KEY: str = os.getenv("SUPABASE_ANON_KEY", "anon-key-placeholder")
