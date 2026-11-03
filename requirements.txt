@@ -16,7 +16,7 @@ passlib[bcrypt]==1.7.4
 python-multipart==0.0.12
 
 # Supabase Python SDK
-supabase==2.8.2
+supabase==2.8.1
 
 # HTTP Client & Testing
 httpx==0.27.2
