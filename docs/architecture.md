@@ -247,7 +247,7 @@ examops/
 │
 ├── data/                              # Synthetic Data Outputs & Ground Truth
 │   ├── csv/                           # 17 Relational CSV exports (students.csv, exams.csv, etc.)
-│   ├── json/                          # 16 Canonical JSON exports
+│   ├── json/                          # 17 Canonical JSON exports
 │   ├── sql/
 │   │   └── seed_data.sql              # Bulk PostgreSQL INSERT statements
 │   ├── ground_truth.csv               # Isolated ground truth fixture catalog
@@ -1005,7 +1005,7 @@ app.add_middleware(
 | Field-level data dictionary | [data_dictionary.md](data_dictionary.md) |
 | Scheduling algorithm | [scheduling_algorithm.md](scheduling_algorithm.md) |
 | Business rules & defaults | [business_rules.md](business_rules.md) |
-| API endpoint reference | [FastAPI Interactive Swagger Docs](/docs) |
+| API endpoint reference | [FastAPI Interactive Swagger Docs](http://localhost:8000/docs) |
 | Design system | [design_system.md](design_system.md) |
 | Requirements register | [requirements.md](requirements.md) |
 | Test strategy | [testing.md](testing.md) |

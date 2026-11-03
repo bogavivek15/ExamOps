@@ -22,7 +22,7 @@ This report consolidates the relational schema audit, foreign key integrity veri
 
 ---
 
-## 2. Entity Model & Relationship Verification (24 Tables)
+## 2. Entity Model & Relationship Verification (26 Tables)
 
 | Domain | Entity | Primary Key | Foreign Key Dependencies | Integrity Rule Enforced |
 |---|---|---|---|---|
@@ -47,6 +47,7 @@ This report consolidates the relational schema audit, foreign key integrity veri
 | **Operations Engine** | `schedule_assignments`| `id (UUID)`| `scheduling_run_id`, `exam_id`, `room_id` | Public code `ASN-<exam>-<room>`, unique per run |
 | **Operations Engine** | `assignment_students`| `id (UUID)` | `schedule_assignment_id`, `run_exam_student_id` | Composite FK to `(scheduling_run_id, exam_id)` |
 | **Operations Engine** | `assignment_invigilators`| `id (UUID)`| `schedule_assignment_id`, `invigilator_id` | Workload attribution |
+| **Operations Engine** | `schedule_events` | `id (UUID)` | `scheduling_run_id`, `created_by` | Immutable lifecycle event stream |
 | **Telemetry** | `scheduling_decisions`| `id (UUID)`| `scheduling_run_id`, `exam_id` | Rejection telemetry and evaluated constraints |
 | **Telemetry** | `validation_issues` | `id (UUID)` | `scheduling_run_id`, `exam_id` | Explicit reason codes (`CAPACITY_DEFICIT`, etc.) |
 | **Access & Audit** | `user_profiles` | `id (UUID)` | None (linked to auth.users) | Strict RBAC: 5 institutional roles |

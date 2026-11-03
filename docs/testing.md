@@ -62,8 +62,8 @@ scripts/
 ### 3.1 Database Structural & Integrity Suite (`backend/tests/test_database_integrity.py`)
 - **`test_baseline_entity_counts`:** Asserts exact baseline volumes in PostgreSQL: 5,000 students, 300 exams, 100 rooms, 200 invigilators, 150 courses, 25,044 enrollments, 301 accommodations, 1,200 availabilities.
 - **`test_identifier_patterns`:** Asserts regex pattern compliance for canonical business codes (`^STU-[0-9]{6}$`, `^EXAM-[0-9]{4}-[0-9]{6}$`, `^ROOM-[0-9]{6}$`, `^INV-[0-9]{6}$`, etc.).
-- **`test_mandatory_columns_not_null`:** Asserts zero null values in mandatory columns across all entities.
-- **`test_immutability_triggers`:** Verifies PostgreSQL triggers prevent `UPDATE` or `DELETE` on append-only audit and event logs.
+- **`test_mandatory_columns_not_null`:** Asserts zero NULL or blank string values across 11 critical mandatory text columns in 5 primary master entities (`students.first_name`, `students.last_name`, `students.email`, `courses.name`, `courses.department`, `exams.title`, `rooms.name`, `rooms.building`, `invigilators.first_name`, `invigilators.last_name`, `invigilators.email`).
+- **`test_immutability_triggers`:** Verifies PostgreSQL triggers reject both `UPDATE` and `DELETE` mutations on append-only audit and decision logs (`audit_logs` and `scheduling_decisions`).
 
 ### 3.2 Duplicate Detection Suite (`backend/tests/test_duplicate_detection.py`)
 - **`test_unique_business_codes`:** Asserts unique indices prevent duplicate codes across students, rooms, exams, and invigilators.
@@ -201,7 +201,7 @@ python scripts/test_synthetic_data.py
 
 ### Verification Logic & Steps
 1. **Step 1 (Deterministic Dual-Run Hashes):** Generates the dataset twice using fixed seed `20261022` and computes canonical SHA-256 hashes across all 17 output entities and ground truth fixtures. Asserts 100% hash parity.
-2. **Step 2 (In-Memory Referential Integrity):** Validates all 25,044 enrollments, 300 exams, 107 requirements, 100 room capacities, 136 room equipment, 601 room availabilities, 1,200 invigilator availabilities, and 301 accommodations against parent entity IDs.
+2. **Step 2 (In-Memory Referential Integrity):** Validates all 25,044 enrollments, 300 exams, 107 requirements, 100 room capacities, 136 room equipment, 601 room availabilities, 1,200 invigilator availabilities, 301 accommodations, and 150 course instructor assignments against parent entity IDs.
 3. **Step 3 (Identifier Syntax Validation):** Validates zero malformed identifiers using regex format assertions.
 4. **Step 4 (Database Safety Guard):** Checks for a local disposable PostgreSQL container (`examops-db-test`). If not active, reports Step 4 as **NOT RUN** to guarantee zero destructive table drops or mutations against live production Supabase PostgreSQL.
 
@@ -238,6 +238,7 @@ Target metrics: 5000 students, 300 exams, 100 rooms, 200 invigilators
   ✓ All room capacities and equipment reference valid rooms and equipment types.
   ✓ All room and invigilator availabilities reference valid parents.
   ✓ All accommodations and confidential notes reference valid parents.
+  ✓ All 150 course instructor assignments reference valid courses and profiles.
 
 === Step 3: Identifier Format Verification ===
   ✓ All identifiers strictly conform to canonical uppercase padded syntax.
@@ -298,3 +299,37 @@ dist/assets/vendor-charts-DmdBpsRU.js            377.47 kB │ gzip: 108.74 kB
 
 ✓ built in 1.98s
 ```
+
+
+---
+
+## 7. Database Test Safety & Environment Target Disclosure
+
+### 7.1 Database Target Identification
+- **Target Host:** `aws-1-eu-west-3.pooler.supabase.com:5432/postgres` (Supabase Cloud PostgreSQL 16 via PgBouncer transaction/session pooler).
+- **Security & Privacy:** Full database URLs, user credentials, and session keys are strictly guarded in `.env` and never logged, printed to console, or committed to version control.
+- **Environment Status:** Active operational database containing 26 base tables and production reference data.
+
+### 7.2 Mutation & Teardown Analysis of Database-Backed Tests
+A thorough audit of all test modules executing live database queries identified the following mutation characteristics:
+1. **`tests/test_backend_api.py::test_scheduling_run_workflow`**:
+   - Executes the complete operational lifecycle: creates a new scheduling run (`POST /api/scheduling/runs`), executes the heuristic solver (`/execute`), approves the run (`/approve`), and publishes the run (`/publish`).
+   - *Audit Finding:* This workflow test creates real persistent records across `scheduling_runs`, `schedule_assignments`, `assignment_students`, `assignment_invigilators`, `scheduling_decisions`, `schedule_events`, and `audit_logs`. The test contains no automated teardown fixture, resulting in confirmed published run records (e.g. `RUN-20261103-0013`) remaining permanently in the database.
+2. **`tests/test_role_revocation.py`**:
+   - Creates ephemeral user profiles with synthetic IDs (`test_user_*`) and asserts authentication and role boundaries.
+   - *Audit Finding:* Employs clean fixture-level `DELETE` teardown to purge test accounts upon completion.
+3. **`tests/test_distributed_concurrency.py`**:
+   - Acquires PostgreSQL 64-bit advisory locks (`pg_try_advisory_lock`) across multiple threads and spawned OS processes.
+   - *Audit Finding:* All acquired locks and temporary runs are safely released in `finally` blocks and upon process termination.
+4. **`backend/tests/test_database_integrity.py::test_immutability_triggers`**:
+   - Issues `UPDATE` and `DELETE` queries against `audit_logs` and `scheduling_decisions`.
+   - *Audit Finding:* Safely rejected by PostgreSQL BEFORE triggers; failed mutations abort without persisting changes.
+
+### 7.3 Release Audit Safety Policy & Verified Limitations
+- **Zero Destructive Operations:** In accordance with institutional safety standards, test executions against production Supabase NEVER execute `DROP SCHEMA`, `DROP TABLE`, `TRUNCATE`, or destructive migrations.
+- **Audit Turn Execution Policy:** During post-cleanup verification and final accuracy audits where an isolated local database container (`examops-db-test`) is not active, mutating integration tests (such as `test_backend_api.py::test_scheduling_run_workflow`) are **NOT re-executed against the live production database** to avoid polluting production scheduling runs.
+- **Verified Test Suite Components:**
+  - `python -m pytest backend/tests tests scripts/test_scheduler.py --collect-only`: Verified 42 test items correctly discovered and structured without errors.
+  - `python scripts/test_scheduler.py`: 4/4 in-memory scheduling heuristic tests passed in 5.3s (Zero hard constraint violations, 5 negative scenarios verified, 7 room-splitting invariants verified).
+  - `python scripts/test_synthetic_data.py`: Dual-run deterministic SHA-256 reproducibility (Seed 20261022), in-memory referential integrity (including `course_instructors`), and identifier regex syntax 100% verified.
+  - `cd frontend && npm run build`: 2,654 modules bundled with 0 errors in 1.98s.

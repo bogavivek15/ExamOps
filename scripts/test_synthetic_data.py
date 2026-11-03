@@ -86,6 +86,13 @@ def main():
         assert note["accommodation_id"] in acc_ids, f"Dangling accommodation_id in {note}"
     print(f"  ✓ All accommodations and confidential notes reference valid parents.")
 
+    # Verify course instructors
+    user_profile_ids = {u["id"] for u in dataset_1["user_profiles"]}
+    for ci in dataset_1["course_instructors"]:
+        assert ci["course_id"] in course_ids, f"Dangling course_id in {ci}"
+        assert ci["instructor_profile_id"] in user_profile_ids, f"Dangling instructor_profile_id in {ci}"
+    print(f"  ✓ All {len(dataset_1['course_instructors'])} course instructor assignments reference valid courses and profiles.")
+
     print("\n=== Step 3: Identifier Format Verification ===")
     stu_regex = re.compile(r"^STU-[0-9]{6}$")
     for s in dataset_1["students"]:

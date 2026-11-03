@@ -4,9 +4,9 @@
 
 [![Build & Test Status](https://img.shields.io/badge/Pytest-42%2F42%20Passing-57BE93.svg)](docs/testing.md)
 [![Architecture](https://img.shields.io/badge/Architecture-FastAPI%20%7C%20React%20%7C%20PostgreSQL-56D6C2.svg)](docs/architecture.md)
-[![Database](https://img.shields.io/badge/Database-24%20Tables%20%7C%20RLS%20Enforced-7CAAE5.svg)](docs/erd.md)
+[![Database](https://img.shields.io/badge/Database-26%20Tables%20%7C%20RLS%20Enforced-7CAAE5.svg)](docs/erd.md)
 [![Constraints](https://img.shields.io/badge/Hard%20Constraints-0%20Violations-57BE93.svg)](docs/scheduling_algorithm.md)
-[![AI Transparency](https://img.shields.io/badge/AI%20Prompts-Full%20Ledger-E8B66D.svg)](docs/ai_prompt_history.md)
+[![AI Transparency](https://img.shields.io/badge/AI%20Prompts-Logged%20%26%20Disclosed-E8B66D.svg)](docs/ai_prompt_history.md)
 
 ---
 
@@ -77,7 +77,7 @@ ExamOps utilizes a lightweight, modern stack free of black-box AI schedulers or 
 
 ### Database & Persistence
 - **Engine:** PostgreSQL 16 (hosted via Supabase with PgBouncer connection pooler)
-- **Security:** 24 relational tables with Row-Level Security (RLS) and immutability triggers
+- **Security:** 26 relational tables with Row-Level Security (RLS) and immutability triggers
 - **Distributed Concurrency:** PostgreSQL 64-bit advisory locks (`pg_try_advisory_lock`)
 
 ---

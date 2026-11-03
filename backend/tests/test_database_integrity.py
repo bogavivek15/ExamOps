@@ -77,10 +77,18 @@ def test_immutability_triggers():
             execute_mutation("DELETE FROM audit_logs WHERE id = %s;", (str(log["id"]),))
         assert "append-only" in str(exc_info.value).lower() or "disallowed" in str(exc_info.value).lower()
 
+        with pytest.raises(Exception) as exc_info_up:
+            execute_mutation("UPDATE audit_logs SET action = 'TAMPERED' WHERE id = %s;", (str(log["id"]),))
+        assert "append-only" in str(exc_info_up.value).lower() or "disallowed" in str(exc_info_up.value).lower()
+
     # 2. Scheduling Decisions
     decision = execute_query("SELECT id FROM scheduling_decisions LIMIT 1;", fetch_one=True)
     if decision:
         with pytest.raises(Exception) as exc_info:
             execute_mutation("DELETE FROM scheduling_decisions WHERE id = %s;", (str(decision["id"]),))
         assert "append-only" in str(exc_info.value).lower() or "disallowed" in str(exc_info.value).lower()
+
+        with pytest.raises(Exception) as exc_info_up:
+            execute_mutation("UPDATE scheduling_decisions SET is_assigned = TRUE WHERE id = %s;", (str(decision["id"]),))
+        assert "append-only" in str(exc_info_up.value).lower() or "disallowed" in str(exc_info_up.value).lower()
 
