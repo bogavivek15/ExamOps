@@ -1,6 +1,7 @@
 """
 ExamOps Authentication & Role-Based Authorization
-Validates bearer credentials and resolves immutable user profiles.
+Validates Supabase Bearer credentials (JWKS asymmetric ES256/RS256 and secret HS256)
+and resolves immutable, authoritative user profiles from PostgreSQL.
 """
 from dataclasses import dataclass
 from typing import Optional, List, Dict, Any, Tuple
@@ -11,6 +12,9 @@ import base64
 import hmac
 import hashlib
 import uuid
+import httpx
+from jose import jwt, jwk
+from jose.exceptions import JWTError, ExpiredSignatureError
 from fastapi import Header, HTTPException, Depends, Security
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from backend.config import settings
@@ -65,6 +69,46 @@ def invalidate_profile_cache(key: Optional[str] = None):
     """Invalidates the in-memory user profile cache."""
     _profile_cache.invalidate(key)
 
+class JWKSCache:
+    """Thread-safe cache for Supabase Auth JWKS public signing keys."""
+    def __init__(self, supabase_url: str, ttl_seconds: float = 3600.0):
+        self.supabase_url = supabase_url.rstrip("/") if supabase_url else ""
+        self.ttl = ttl_seconds
+        self._keys: Dict[str, Any] = {}
+        self._lock = threading.Lock()
+        self._last_fetch: float = 0.0
+
+    def _fetch_keys(self):
+        if not self.supabase_url or "placeholder" in self.supabase_url:
+            return
+        url = f"{self.supabase_url}/auth/v1/.well-known/jwks.json"
+        try:
+            r = httpx.get(url, timeout=5.0)
+            if r.status_code == 200:
+                data = r.json()
+                new_keys = {}
+                for k in data.get("keys", []):
+                    kid = k.get("kid")
+                    if kid:
+                        new_keys[kid] = jwk.construct(k)
+                self._keys = new_keys
+                self._last_fetch = time.time()
+        except Exception:
+            pass
+
+    def get_key(self, kid: Optional[str]) -> Optional[Any]:
+        with self._lock:
+            now = time.time()
+            if not self._keys or (now - self._last_fetch > self.ttl) or (kid and kid not in self._keys):
+                self._fetch_keys()
+            if kid and kid in self._keys:
+                return self._keys[kid]
+            if len(self._keys) == 1 and not kid:
+                return next(iter(self._keys.values()))
+            return None
+
+_jwks_cache = JWKSCache(settings.SUPABASE_URL)
+
 ROLE_ALIASES = {
     "STUDENT": "LEARNER",
     "LEARNER": "LEARNER",
@@ -99,39 +143,83 @@ def create_access_token(user_id: str, email: str, role: str, expires_delta_secon
     return f"{h_b64}.{p_b64}.{signature}"
 
 def verify_and_decode_jwt(token: str) -> Optional[Dict[str, Any]]:
-    """Verifies HS256 JWT signature and expiration. Returns payload dict or None."""
-    parts = token.split(".")
-    if len(parts) != 3:
+    """
+    Verifies JWT cryptographic signature and expiration against:
+    1. Supabase JWKS (ES256 / RS256 asymmetric keys)
+    2. Supabase Auth /auth/v1/user endpoint (if online/configured)
+    3. Secret key HMAC (HS256)
+    Returns decoded payload dictionary or None if invalid.
+    """
+    if not token or not isinstance(token, str):
         return None
-    
-    header_b64, payload_b64, signature_b64 = parts
-    to_sign = f"{header_b64}.{payload_b64}".encode()
-    
-    valid = False
-    for secret in [settings.JWT_SECRET_KEY, settings.SUPABASE_JWT_SECRET]:
-        if not secret:
-            continue
-        expected_sig = base64.urlsafe_b64encode(
-            hmac.new(secret.encode(), to_sign, hashlib.sha256).digest()
-        ).decode().rstrip("=")
-        if hmac.compare_digest(signature_b64, expected_sig):
-            valid = True
-            break
-            
-    if not valid and settings.ENVIRONMENT != "production" and signature_b64 in ("mock-signature", "dev-signature"):
-        valid = True
-        
-    if not valid:
-        return None
-        
+
+    # Step 1: Attempt JWKS / asymmetric decode
     try:
-        pad = payload_b64 + "=" * ((4 - len(payload_b64) % 4) % 4)
-        payload = json.loads(base64.urlsafe_b64decode(pad))
-        if "exp" in payload and payload["exp"] < int(time.time()):
-            return None
-        return payload
+        unverified_header = jwt.get_unverified_header(token)
+        alg = unverified_header.get("alg", "HS256")
+        kid = unverified_header.get("kid")
+
+        if alg in ("ES256", "RS256"):
+            key = _jwks_cache.get_key(kid)
+            if key:
+                try:
+                    payload = jwt.decode(
+                        token,
+                        key,
+                        algorithms=[alg],
+                        options={"verify_signature": True, "verify_exp": True, "verify_aud": False},
+                    )
+                    return payload
+                except (JWTError, ExpiredSignatureError):
+                    return None
     except Exception:
-        return None
+        pass
+
+    # Step 2: Attempt HS256 decode with configured secrets
+    for secret in [settings.SUPABASE_JWT_SECRET, settings.JWT_SECRET_KEY]:
+        if not secret or secret.startswith("placeholder"):
+            continue
+        try:
+            payload = jwt.decode(
+                token,
+                secret,
+                algorithms=["HS256"],
+                options={"verify_signature": True, "verify_exp": True, "verify_aud": False},
+            )
+            return payload
+        except (JWTError, ExpiredSignatureError):
+            pass
+        except Exception:
+            pass
+
+    # Step 3: Online Supabase Auth user verification fallback
+    if settings.SUPABASE_URL and not settings.SUPABASE_URL.startswith("placeholder"):
+        try:
+            headers = {"Authorization": f"Bearer {token}"}
+            if settings.SUPABASE_ANON_KEY and not settings.SUPABASE_ANON_KEY.startswith("placeholder"):
+                headers["apikey"] = settings.SUPABASE_ANON_KEY
+            elif settings.SUPABASE_SERVICE_ROLE_KEY and not settings.SUPABASE_SERVICE_ROLE_KEY.startswith("placeholder"):
+                headers["apikey"] = settings.SUPABASE_SERVICE_ROLE_KEY
+
+            if "apikey" in headers:
+                r = httpx.get(
+                    f"{settings.SUPABASE_URL.rstrip('/')}/auth/v1/user",
+                    headers=headers,
+                    timeout=4.0,
+                )
+                if r.status_code == 200:
+                    data = r.json()
+                    return {
+                        "sub": data.get("id"),
+                        "id": data.get("id"),
+                        "email": data.get("email"),
+                        "role": data.get("role", "authenticated"),
+                        "user_metadata": data.get("user_metadata", {}),
+                    }
+        except Exception:
+            pass
+
+    return None
 
 def get_current_user(
     auth_header: Optional[HTTPAuthorizationCredentials] = Security(bearer_scheme),
@@ -144,58 +232,48 @@ def get_current_user(
     Client-supplied roles in headers or body are never trusted as authoritative in production.
     """
     user_id = None
-    
+    payload = None
+
     if auth_header and auth_header.credentials:
-        token = auth_header.credentials
+        token = auth_header.credentials.strip()
         payload = verify_and_decode_jwt(token)
         if payload:
             user_id = payload.get("sub") or payload.get("id")
         else:
-            # Check if token is directly a user UUID (allowed only in dev/test)
-            if settings.ENVIRONMENT != "production":
-                try:
-                    uuid.UUID(str(token))
-                    user_id = token
-                except (ValueError, TypeError):
-                    raise HTTPException(
-                        status_code=401,
-                        detail="Invalid or expired Bearer token signature.",
-                        headers={"WWW-Authenticate": "Bearer"},
-                    )
-            else:
-                raise HTTPException(
-                    status_code=401,
-                    detail="Invalid or expired Bearer token signature.",
-                    headers={"WWW-Authenticate": "Bearer"},
-                )
-
-    elif x_test_user_id and settings.ENVIRONMENT != "production":
-        user_id = x_test_user_id
-    elif x_test_role and settings.ENVIRONMENT != "production":
-        # Internal test harness role fallback (used by verify_phase*.py scripts)
-        canonical_role = ROLE_ALIASES.get(x_test_role.upper(), x_test_role)
-        cache_key = f"role:{canonical_role}"
-        cached = _profile_cache.get(cache_key)
-        if cached:
-            return cached
-
-        prof = execute_query(
-            "SELECT * FROM user_profiles WHERE role = %s AND status = 'ACTIVE' ORDER BY created_at ASC LIMIT 1;",
-            (canonical_role,),
-            fetch_one=True,
-        )
-        if prof:
-            user = CurrentUser(
-                id=str(prof["id"]),
-                email=prof["email"],
-                display_name=prof["display_name"],
-                role=prof["role"],
-                student_id=str(prof["student_id"]) if prof["student_id"] else None,
-                invigilator_id=str(prof["invigilator_id"]) if prof["invigilator_id"] else None,
-                department=prof["department"],
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid or expired Bearer token signature.",
+                headers={"WWW-Authenticate": "Bearer"},
             )
-            _profile_cache.set(cache_key, user)
-            return user
+
+    elif settings.ENVIRONMENT != "production":
+        # Internal test harness fallbacks allowed strictly in non-production test suites
+        if x_test_user_id:
+            user_id = x_test_user_id
+        elif x_test_role:
+            canonical_role = ROLE_ALIASES.get(x_test_role.upper(), x_test_role)
+            cache_key = f"role:{canonical_role}"
+            cached = _profile_cache.get(cache_key)
+            if cached:
+                return cached
+
+            prof = execute_query(
+                "SELECT * FROM user_profiles WHERE role = %s AND status = 'ACTIVE' ORDER BY created_at ASC LIMIT 1;",
+                (canonical_role,),
+                fetch_one=True,
+            )
+            if prof:
+                user = CurrentUser(
+                    id=str(prof["id"]),
+                    email=prof["email"],
+                    display_name=prof["display_name"],
+                    role=prof["role"],
+                    student_id=str(prof["student_id"]) if prof["student_id"] else None,
+                    invigilator_id=str(prof["invigilator_id"]) if prof["invigilator_id"] else None,
+                    department=prof["department"],
+                )
+                _profile_cache.set(cache_key, user)
+                return user
 
     if not user_id:
         raise HTTPException(
@@ -214,17 +292,20 @@ def get_current_user(
     try:
         valid_uuid = str(uuid.UUID(str(user_id)))
         prof = execute_query(
-            "SELECT * FROM user_profiles WHERE id = %s AND status = 'ACTIVE';",
+            "SELECT * FROM user_profiles WHERE id = %s;",
             (valid_uuid,),
             fetch_one=True,
         )
     except (ValueError, TypeError, AttributeError):
-        if user_id and "@" in str(user_id):
-            prof = execute_query(
-                "SELECT * FROM user_profiles WHERE email = %s AND status = 'ACTIVE';",
-                (str(user_id),),
-                fetch_one=True,
-            )
+        pass
+
+    # Secondary lookup by email if token contains email
+    if not prof and payload and payload.get("email"):
+        prof = execute_query(
+            "SELECT * FROM user_profiles WHERE LOWER(email) = %s;",
+            (str(payload["email"]).strip().lower(),),
+            fetch_one=True,
+        )
 
     if not prof:
         raise HTTPException(
@@ -232,14 +313,20 @@ def get_current_user(
             detail=f"User profile not found for identifier '{user_id}'.",
         )
 
+    if prof.get("status") != "ACTIVE":
+        raise HTTPException(
+            status_code=401,
+            detail=f"User account '{prof['email']}' is inactive or suspended (status: {prof.get('status')}).",
+        )
+
     user = CurrentUser(
         id=str(prof["id"]),
         email=prof["email"],
         display_name=prof["display_name"],
         role=prof["role"],
-        student_id=str(prof["student_id"]) if prof["student_id"] else None,
-        invigilator_id=str(prof["invigilator_id"]) if prof["invigilator_id"] else None,
-        department=prof["department"],
+        student_id=str(prof["student_id"]) if prof.get("student_id") else None,
+        invigilator_id=str(prof["invigilator_id"]) if prof.get("invigilator_id") else None,
+        department=prof.get("department"),
     )
     _profile_cache.set(cache_key, user)
     return user

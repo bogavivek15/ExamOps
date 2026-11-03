@@ -52,12 +52,13 @@ def _parse_cors_origins() -> list:
     """Parses CORS origins from env (JSON or comma-separated) and strips any wildcards."""
     raw = os.getenv("CORS_ORIGINS")
     default_origins = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
+        "https://exam-ops-murex.vercel.app",
         "https://examops.vercel.app",
         "https://examops-staging.vercel.app",
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
     ]
     if not raw:
         return default_origins
@@ -66,10 +67,16 @@ def _parse_cors_origins() -> list:
         parsed = json.loads(raw)
         if isinstance(parsed, list):
             # Never permit wildcard '*' when credentials mode is enabled
-            return [o.strip() for o in parsed if o and o.strip() != "*"]
+            origins = [o.strip() for o in parsed if o and o.strip() != "*"]
+            if "https://exam-ops-murex.vercel.app" not in origins:
+                origins.append("https://exam-ops-murex.vercel.app")
+            return origins
     except Exception:
         pass
-    return [o.strip() for o in raw.split(",") if o.strip() and o.strip() != "*"]
+    origins = [o.strip() for o in raw.split(",") if o.strip() and o.strip() != "*"]
+    if "https://exam-ops-murex.vercel.app" not in origins:
+        origins.append("https://exam-ops-murex.vercel.app")
+    return origins
 
 _load_env_file()
 

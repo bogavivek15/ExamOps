@@ -3,6 +3,7 @@ ExamOps Authentication & User Profile Routes
 """
 from fastapi import APIRouter, Depends, HTTPException, Body
 from typing import List, Dict, Any, Optional
+import httpx
 from pydantic import BaseModel
 from backend.config import settings
 from backend.auth import (
@@ -29,41 +30,88 @@ class DevSwitchRoleRequest(BaseModel):
 @router.post("/login")
 def login(req: LoginRequest):
     """
-    Authenticates a user and issues a cryptographically signed Bearer JWT token.
-    The authoritative role is retrieved exclusively from PostgreSQL user_profiles.
+    Authenticates a user via Supabase Auth password verification and returns the authoritative user profile.
+    Client-supplied passwords MUST be verified. Unauthenticated email-only logins are strictly forbidden.
     """
-    email_clean = req.email.strip().lower()
-    
-    # Query database for user profile
+    email_clean = req.email.strip().lower() if req.email else ""
+    if not email_clean or not req.password:
+        raise HTTPException(
+            status_code=400,
+            detail="Both email and password are required.",
+        )
+
+    access_token = None
+    auth_user_id = None
+
+    # Step 1: Attempt Supabase Auth password verification via official API
+    if settings.SUPABASE_URL and settings.SUPABASE_ANON_KEY and not settings.SUPABASE_ANON_KEY.startswith("placeholder"):
+        try:
+            r = httpx.post(
+                f"{settings.SUPABASE_URL.rstrip('/')}/auth/v1/token?grant_type=password",
+                headers={
+                    "apikey": settings.SUPABASE_ANON_KEY,
+                    "Content-Type": "application/json",
+                },
+                json={"email": email_clean, "password": req.password},
+                timeout=5.0,
+            )
+            if r.status_code == 200:
+                token_data = r.json()
+                access_token = token_data.get("access_token")
+                user_obj = token_data.get("user", {})
+                auth_user_id = user_obj.get("id")
+        except Exception:
+            pass
+
+    # Step 2: Fallback check against auth.users bcrypt password via direct PostgreSQL
+    if not access_token:
+        try:
+            user_row = execute_query(
+                """SELECT id, email, encrypted_password, email_confirmed_at
+                   FROM auth.users
+                   WHERE LOWER(email) = %s AND (encrypted_password = crypt(%s, encrypted_password));""",
+                (email_clean, req.password),
+                fetch_one=True,
+            )
+            if user_row:
+                auth_user_id = str(user_row["id"])
+                prof = execute_query(
+                    "SELECT * FROM user_profiles WHERE (id = %s OR LOWER(email) = %s) AND status = 'ACTIVE' LIMIT 1;",
+                    (auth_user_id, email_clean),
+                    fetch_one=True,
+                )
+                if prof:
+                    access_token = create_access_token(
+                        user_id=str(prof["id"]),
+                        email=prof["email"],
+                        role=prof["role"],
+                    )
+        except Exception:
+            pass
+
+    if not access_token or not auth_user_id:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid email or password.",
+        )
+
+    # Authoritative profile resolution from PostgreSQL user_profiles
     prof = execute_query(
-        "SELECT * FROM user_profiles WHERE LOWER(email) = %s AND status = 'ACTIVE' LIMIT 1;",
-        (email_clean,),
+        "SELECT * FROM user_profiles WHERE (id = %s OR LOWER(email) = %s) AND status = 'ACTIVE' LIMIT 1;",
+        (auth_user_id, email_clean),
         fetch_one=True,
     )
-    
-    # Dedicated operator alias fallback
-    if not prof and "officer" in email_clean:
-        prof = execute_query(
-            "SELECT * FROM user_profiles WHERE role = 'ACADEMIC_ADMINISTRATOR' AND status = 'ACTIVE' ORDER BY email ASC LIMIT 1;",
-            fetch_one=True,
-        )
 
     if not prof:
         raise HTTPException(
             status_code=401,
-            detail=f"Invalid credentials or user account '{req.email}' not found / inactive.",
+            detail=f"User authenticated but no active operational profile found for '{email_clean}'.",
         )
-
-    token = create_access_token(
-        user_id=str(prof["id"]),
-        email=prof["email"],
-        role=prof["role"],
-    )
 
     invalidate_profile_cache()
 
     return {
-        "access_token": token,
+        "access_token": access_token,
         "token_type": "bearer",
         "user": {
             "id": str(prof["id"]),
@@ -80,21 +128,16 @@ def login(req: LoginRequest):
 def dev_switch_role(req: DevSwitchRoleRequest):
     """
     Local development role switcher.
-    Issues a verified, signed JWT for a real PostgreSQL user record possessing the requested role.
-    This guarantees the frontend never supplies an unverified role string directly.
-    In production environments, granting administrator privileges via dev-switch-role is strictly forbidden.
+    Strictly disabled in production environments.
     """
-    canonical_role = ROLE_ALIASES.get(req.role.upper(), req.role.upper())
-    
-    # Enforce production security restriction
     if settings.ENVIRONMENT == "production":
-        admin_roles = {"ACADEMIC_ADMINISTRATOR", "PLATFORM_ADMINISTRATOR", "SUPER_ADMIN", "EXAM_OFFICER"}
-        if canonical_role in admin_roles or req.role.upper() in admin_roles:
-            raise HTTPException(
-                status_code=403,
-                detail="Forbidden: Development role switcher cannot grant administrator privileges in production.",
-            )
-    
+        raise HTTPException(
+            status_code=403,
+            detail="Forbidden: Role switching is disabled in production environments.",
+        )
+
+    canonical_role = ROLE_ALIASES.get(req.role.upper(), req.role.upper())
+
     # Query database for active profile with this role
     prof = execute_query(
         "SELECT * FROM user_profiles WHERE role = %s AND status = 'ACTIVE' ORDER BY email ASC LIMIT 1;",
@@ -164,7 +207,7 @@ def update_user_profile(
     """
     fields = []
     values = []
-    
+
     if req.role is not None:
         canonical_role = ROLE_ALIASES.get(req.role.upper(), req.role.upper())
         fields.append("role = %s")
@@ -194,7 +237,7 @@ def update_user_profile(
         updated = cur.fetchone()
         if not updated:
             raise HTTPException(status_code=404, detail=f"User profile '{user_id}' not found.")
-        
+
         invalidate_profile_cache(f"user:{user_id}")
         invalidate_profile_cache()
         return dict(updated)

@@ -1,5 +1,10 @@
+/**
+ * ExamOps Frontend — Authentication Context
+ * Manages Supabase Auth credentials, session restoration, and database-authoritative role access.
+ */
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { supabase, isSupabaseConfigured } from '../services/supabaseClient';
 
 const AuthContext = createContext();
 
@@ -13,66 +18,151 @@ export const ROLES = [
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(api.currentUser);
-  const [currentRole, setCurrentRole] = useState(api.getActiveRole());
   const [loading, setLoading] = useState(true);
+  const [authError, setAuthError] = useState(null);
 
   useEffect(() => {
-    initializeSession();
+    let unsubscribe = null;
+
+    const initAuth = async () => {
+      try {
+        setLoading(true);
+
+        if (isSupabaseConfigured && supabase) {
+          // 1. Check existing Supabase session from localStorage
+          const { data: { session }, error } = await supabase.auth.getSession();
+          if (session?.access_token && !error) {
+            try {
+              api.setSession(session.access_token, null);
+              const profile = await api.getMe();
+              api.setSession(session.access_token, profile);
+              setCurrentUser(profile);
+            } catch (err) {
+              console.warn('Backend profile verification failed for Supabase session:', err);
+              api.clearSession();
+              setCurrentUser(null);
+            }
+          } else {
+            api.clearSession();
+            setCurrentUser(null);
+          }
+
+          // 2. Subscribe to auth changes (token refresh, logout)
+          const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
+            if (event === 'SIGNED_OUT' || !session) {
+              api.clearSession();
+              setCurrentUser(null);
+            } else if (event === 'TOKEN_REFRESHED' && session) {
+              api.setSession(session.access_token, currentUser);
+            }
+          });
+          unsubscribe = listener?.subscription?.unsubscribe;
+        } else {
+          // Standalone backend token verification fallback
+          const existingToken = api.getToken();
+          if (existingToken) {
+            try {
+              const profile = await api.getMe();
+              api.setSession(existingToken, profile);
+              setCurrentUser(profile);
+            } catch (err) {
+              console.warn('Backend token expired or invalid:', err);
+              api.clearSession();
+              setCurrentUser(null);
+            }
+          } else {
+            api.clearSession();
+            setCurrentUser(null);
+          }
+        }
+      } catch (err) {
+        console.error('Session initialization error:', err);
+        api.clearSession();
+        setCurrentUser(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    initAuth();
+
+    return () => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
+    };
   }, []);
 
-  const initializeSession = async () => {
+  const login = async (email, password) => {
     try {
       setLoading(true);
-      // If token already exists, verify via /auth/me
-      if (api.getToken()) {
-        const user = await api.getMe();
-        setCurrentUser(user);
-        setCurrentRole(user.role);
-        api.setSession(api.getToken(), user);
+      setAuthError(null);
+
+      if (isSupabaseConfigured && supabase) {
+        // Authenticate directly through Supabase Auth
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password: password,
+        });
+
+        if (error) {
+          throw new Error(error.message || 'Invalid email or password.');
+        }
+
+        const token = data.session?.access_token;
+        if (!token) {
+          throw new Error('Authentication failed: no access token returned.');
+        }
+
+        api.setSession(token, null);
+        const profile = await api.getMe();
+        api.setSession(token, profile);
+        setCurrentUser(profile);
+        return profile;
       } else {
-        // Initialize default operator session: Academic Administrator / Exam Officer
-        const data = await api.devSwitchRole('ACADEMIC_ADMINISTRATOR');
+        // Authenticate via backend verified login
+        const data = await api.login(email.trim(), password);
         setCurrentUser(data.user);
-        setCurrentRole(data.user.role);
+        return data.user;
       }
     } catch (err) {
-      console.warn('Initial session establishment failed, falling back to operator login:', err);
-      try {
-        const data = await api.devSwitchRole('ACADEMIC_ADMINISTRATOR');
-        setCurrentUser(data.user);
-        setCurrentRole(data.user.role);
-      } catch (fallbackErr) {
-        console.error('Critical auth fallback failed:', fallbackErr);
-      }
+      const msg = err.message || 'Authentication failed. Please verify your credentials.';
+      setAuthError(msg);
+      throw new Error(msg);
     } finally {
       setLoading(false);
     }
   };
 
-  const switchRole = async (role) => {
+  const logout = async () => {
     try {
-      setLoading(true);
-      const data = await api.devSwitchRole(role);
-      setCurrentUser(data.user);
-      setCurrentRole(data.user.role);
-      return data.user;
+      if (isSupabaseConfigured && supabase) {
+        await supabase.auth.signOut();
+      }
     } catch (err) {
-      console.error('Role switch failed:', err);
-      throw err;
+      console.warn('Supabase signOut error:', err);
     } finally {
-      setLoading(false);
+      api.clearSession();
+      setCurrentUser(null);
     }
   };
+
+  const currentRole = currentUser?.role || null;
+  const isAuthenticated = Boolean(currentUser);
+  const isAdmin = ['ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR', 'EXAM_OFFICER'].includes(currentRole);
 
   return (
     <AuthContext.Provider
       value={{
-        currentRole,
         currentUser,
-        switchRole,
-        availableRoles: ROLES,
+        currentRole,
+        isAuthenticated,
+        isAdmin,
         loading,
-        isAdmin: ['ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR', 'EXAM_OFFICER'].includes(currentRole),
+        authError,
+        login,
+        logout,
+        availableRoles: ROLES,
       }}
     >
       {children}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   CalendarDays,
@@ -16,6 +16,7 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
+  LogOut,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
@@ -55,8 +56,15 @@ const NAV_GROUPS = [
 ];
 
 export default function AppSidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
-  const { currentRole, availableRoles } = useAuth();
+  const navigate = useNavigate();
+  const { currentRole, availableRoles, logout } = useAuth();
   const roleObj = availableRoles.find((r) => r.id === currentRole) || availableRoles[0];
+
+  const handleLogout = async () => {
+    if (onCloseMobile) onCloseMobile();
+    await logout();
+    navigate('/login', { replace: true });
+  };
 
   return (
     <>
@@ -184,22 +192,36 @@ export default function AppSidebar({ collapsed, onToggle, mobileOpen, onCloseMob
         </div>
 
         {/* Role Context Indicator Footer */}
-        <div className="p-3 border-t border-brand-border bg-brand-sidebar">
+        <div className="p-3 border-t border-brand-border bg-brand-sidebar space-y-2">
           {!collapsed || mobileOpen ? (
-            <div className="flex flex-col gap-1 text-[11px]">
-              <span className="text-slate-400 uppercase tracking-wider text-[9px] font-semibold">
-                Active User Role
-              </span>
-              <div
-                className={`px-2.5 py-1 rounded-[4px] text-[11px] font-medium border ${roleObj?.badge || 'border-brand-border'} truncate`}
-              >
-                {roleObj?.label || currentRole}
+            <>
+              <div className="flex flex-col gap-1 text-[11px]">
+                <span className="text-slate-400 uppercase tracking-wider text-[9px] font-semibold">
+                  Active User Role
+                </span>
+                <div
+                  className={`px-2.5 py-1 rounded-[4px] text-[11px] font-medium border ${roleObj?.badge || 'border-brand-border'} truncate`}
+                >
+                  {roleObj?.label || currentRole || 'Academic Administrator'}
+                </div>
               </div>
-            </div>
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center justify-center gap-2 px-2.5 py-1.5 rounded-[4px] bg-red-500/10 hover:bg-red-500/20 text-red-300 border border-red-500/30 text-xs font-medium transition-colors"
+                title="Sign out of ExamOps"
+              >
+                <LogOut size={14} className="shrink-0" />
+                <span>Sign Out</span>
+              </button>
+            </>
           ) : (
-            <div className="flex justify-center" title={`Active: ${roleObj?.label || currentRole}`}>
-              <span className="w-2.5 h-2.5 rounded-full bg-brand-accent shadow-[0_0_8px_rgba(184,239,67,0.6)]" />
-            </div>
+            <button
+              onClick={handleLogout}
+              className="w-full flex justify-center p-1.5 rounded-[4px] text-red-300 hover:bg-red-500/20 transition-colors"
+              title="Sign Out"
+            >
+              <LogOut size={16} />
+            </button>
           )}
         </div>
       </aside>

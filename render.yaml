@@ -31,7 +31,7 @@ services:
       - key: SUPABASE_JWT_SECRET
         sync: false
       - key: CORS_ORIGINS
-        value: '["https://examops.vercel.app","https://examops-staging.vercel.app","http://localhost:5173","http://127.0.0.1:5173","http://localhost:3000","http://127.0.0.1:3000"]'
+        value: '["https://exam-ops-murex.vercel.app","https://examops.vercel.app","https://examops-staging.vercel.app","http://localhost:5173","http://127.0.0.1:5173","http://localhost:3000","http://127.0.0.1:3000"]'
       - key: DB_POOL_MIN_CONN
         value: "1"
       - key: DB_POOL_MAX_CONN

@@ -13,7 +13,7 @@ class ApiClient {
     } catch {
       this.currentUser = null;
     }
-    this.activeRole = this.currentUser?.role || 'ACADEMIC_ADMINISTRATOR';
+    this.activeRole = this.currentUser?.role || null;
     this.cache = new Map();
     this.cacheTTL = 30000; // 30 seconds default TTL for read cache
   }
@@ -22,15 +22,25 @@ class ApiClient {
     this.cache.clear();
   }
 
+  clearSession() {
+    this.clearCache();
+    this.token = null;
+    this.currentUser = null;
+    this.activeRole = null;
+    localStorage.removeItem('examops_token');
+    localStorage.removeItem('examops_user');
+    localStorage.removeItem('examops_active_role');
+  }
+
   getToken() {
     return this.token;
   }
 
   setSession(token, user) {
     this.clearCache();
-    this.token = token;
-    this.currentUser = user;
-    this.activeRole = user?.role || 'ACADEMIC_ADMINISTRATOR';
+    this.token = token || null;
+    this.currentUser = user || null;
+    this.activeRole = user?.role || null;
     if (token) {
       localStorage.setItem('examops_token', token);
     } else {

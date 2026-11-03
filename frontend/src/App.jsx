@@ -1,8 +1,11 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import AppLayout from './components/layout/AppLayout';
 import LoadingState from './components/common/LoadingState';
+
+// Auth Login View
+const Login = lazy(() => import('./views/Login'));
 
 // All 12 Operational Product Modules — Lazy-loaded for optimized startup & route splitting
 const OverviewDashboard = lazy(() => import('./views/OverviewDashboard'));
@@ -18,13 +21,62 @@ const AnalyticsReports = lazy(() => import('./views/AnalyticsReports'));
 const AuditActivity = lazy(() => import('./views/AuditActivity'));
 const Administration = lazy(() => import('./views/Administration'));
 
+function ProtectedRoute({ children }) {
+  const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) {
+    return <LoadingState message="Verifying session credentials..." />;
+  }
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+}
+
+function PublicOnlyRoute({ children }) {
+  const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) {
+    return <LoadingState message="Checking active session..." />;
+  }
+
+  if (isAuthenticated) {
+    const dest = location.state?.from?.pathname || '/';
+    return <Navigate to={dest} replace />;
+  }
+
+  return children;
+}
+
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Suspense fallback={<LoadingState message="Loading ExamOps module..." />}>
           <Routes>
-            <Route path="/" element={<AppLayout />}>
+            {/* Public Login Route */}
+            <Route
+              path="/login"
+              element={
+                <PublicOnlyRoute>
+                  <Login />
+                </PublicOnlyRoute>
+              }
+            />
+
+            {/* Authenticated Application Shell & 12 Operational Modules */}
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
               {/* Module 1: Overview Dashboard */}
               <Route index element={<OverviewDashboard />} />
 
