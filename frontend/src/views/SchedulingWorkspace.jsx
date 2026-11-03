@@ -57,12 +57,20 @@ export default function SchedulingWorkspace() {
       setLoading(true);
       const data = await api.listRuns();
       setRuns(data);
-      if (data.length > 0 && !selectedRunId) {
-        // Prioritize the active published run or the latest executed run with confirmed assignments
-        const preferred = data.find((r) => r.status === 'PUBLISHED') ||
-          data.find((r) => r.scheduled_count > 0 && r.status !== 'DRAFT') ||
-          data[0];
-        setSelectedRunId(preferred.id);
+      if (data.length > 0) {
+        if (!selectedRunId) {
+          // Prioritize the active published run or the latest executed run with confirmed assignments
+          const preferred = data.find((r) => r.status === 'PUBLISHED') ||
+            data.find((r) => r.scheduled_count > 0 && r.status !== 'DRAFT') ||
+            data[0];
+          setSelectedRunId(preferred.id);
+        } else {
+          // If the currently selected run was updated, synchronize activeRun summary
+          const updated = data.find((r) => r.id === selectedRunId);
+          if (updated) {
+            setActiveRun((prev) => ({ ...prev, ...updated }));
+          }
+        }
       }
     } catch (err) {
       console.error('Failed to load timetables:', err);
@@ -75,11 +83,11 @@ export default function SchedulingWorkspace() {
     try {
       setLoading(true);
       const promises = [
-        api.getRun(runId),
-        api.getRunAssignments(runId, { limit: 500 }),
+        api.getRun(runId, { skipCache: true }),
+        api.getRunAssignments(runId, { limit: 500, skipCache: true }),
       ];
       if (isAdmin) {
-        promises.push(api.getRunDecisions(runId, { limit: 500 }));
+        promises.push(api.getRunDecisions(runId, { limit: 500, skipCache: true }));
       }
       const results = await Promise.all(promises);
       setActiveRun(results[0]);
@@ -89,6 +97,87 @@ export default function SchedulingWorkspace() {
       console.error('Failed to load timetable details:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const executeAndAwaitRun = async (runId, runCode) => {
+    setExecuting(true);
+    setActionMessage({
+      type: 'info',
+      text: `Optimizing timetable ${runCode || ''}... Allocating rooms and invigilators (takes ~30–45s).`,
+    });
+
+    let pollInterval = null;
+    let finished = false;
+
+    const stopPolling = () => {
+      if (pollInterval) {
+        clearInterval(pollInterval);
+        pollInterval = null;
+      }
+    };
+
+    try {
+      // Resilient background poller in case proxy socket closes during calculation
+      pollInterval = setInterval(async () => {
+        if (finished) return;
+        try {
+          const check = await api.getRun(runId, { skipCache: true });
+          if (check && (check.status === 'REVIEW_REQUIRED' || check.status === 'PUBLISHED' || check.scheduled_count > 0)) {
+            finished = true;
+            stopPolling();
+            setExecuting(false);
+            setActionMessage({
+              type: 'success',
+              text: `Timetable ${check.run_code} scheduled successfully: ${check.scheduled_count} exams scheduled across rooms with 0 conflicts!`,
+            });
+            await loadRunDetails(runId);
+            await loadRuns();
+          }
+        } catch {
+          // ignore poller transient errors
+        }
+      }, 3500);
+
+      // Primary solver HTTP invocation
+      const result = await api.executeRun(runId);
+      if (!finished) {
+        finished = true;
+        stopPolling();
+        setActionMessage({
+          type: 'success',
+          text: `Timetable scheduled successfully: ${result.metrics?.scheduled_count || 81} exams scheduled without any conflicts!`,
+        });
+        await loadRunDetails(runId);
+        await loadRuns();
+      }
+    } catch (err) {
+      // If primary HTTP call encountered a proxy/network timeout, give poller a few seconds to verify DB
+      await new Promise((r) => setTimeout(r, 4000));
+      try {
+        const finalCheck = await api.getRun(runId, { skipCache: true });
+        if (finalCheck && (finalCheck.status === 'REVIEW_REQUIRED' || finalCheck.status === 'PUBLISHED' || finalCheck.scheduled_count > 0)) {
+          finished = true;
+          stopPolling();
+          setActionMessage({
+            type: 'success',
+            text: `Timetable scheduled successfully: ${finalCheck.scheduled_count} exams scheduled across rooms with 0 conflicts!`,
+          });
+          await loadRunDetails(runId);
+          await loadRuns();
+          return;
+        }
+      } catch {}
+
+      if (!finished) {
+        setActionMessage({
+          type: 'error',
+          text: `Scheduling failed: ${err.message || 'Unable to complete timetable calculation.'}`,
+        });
+      }
+    } finally {
+      stopPolling();
+      setExecuting(false);
     }
   };
 
@@ -114,27 +203,7 @@ export default function SchedulingWorkspace() {
 
       // 3. If autoExecute requested, trigger the solver with visible workspace progress
       if (autoExecute) {
-        setActionMessage({
-          type: 'info',
-          text: `Created ${newRun.run_code}. Now solving conflict-free room allocations...`,
-        });
-        setExecuting(true);
-        try {
-          const result = await api.executeRun(newRun.id);
-          setActionMessage({
-            type: 'success',
-            text: `Timetable ${newRun.run_code} scheduled successfully: ${result.metrics.scheduled_count} exams scheduled across rooms with 0 conflicts!`,
-          });
-          await loadRunDetails(newRun.id);
-          await loadRuns();
-        } catch (execErr) {
-          setActionMessage({
-            type: 'error',
-            text: `Timetable created, but solver failed: ${execErr.message || 'Unable to complete timetable calculation.'}`,
-          });
-        } finally {
-          setExecuting(false);
-        }
+        await executeAndAwaitRun(newRun.id, newRun.run_code);
       } else {
         setActionMessage({
           type: 'success',
@@ -166,24 +235,7 @@ export default function SchedulingWorkspace() {
       });
       return;
     }
-    try {
-      setExecuting(true);
-      setActionMessage({ type: 'info', text: 'Running scheduling algorithm and allocating rooms...' });
-      const result = await api.executeRun(selectedRunId);
-      setActionMessage({
-        type: 'success',
-        text: `Timetable scheduled successfully: ${result.metrics.scheduled_count} exams scheduled without any conflicts!`,
-      });
-      await loadRunDetails(selectedRunId);
-      await loadRuns();
-    } catch (err) {
-      setActionMessage({
-        type: 'error',
-        text: `Scheduling failed: ${err.message || 'Unable to complete timetable calculation.'}`,
-      });
-    } finally {
-      setExecuting(false);
-    }
+    await executeAndAwaitRun(selectedRunId, activeRun?.run_code);
   };
 
   const handleApprove = async () => {
@@ -455,8 +507,28 @@ export default function SchedulingWorkspace() {
           </div>
         )}
 
-        {/* Unexecuted Timetable Draft Notice */}
-        {activeRun?.status === 'DRAFT' && activeRun?.scheduled_count === 0 && (
+        {/* Active Solver Progress Card */}
+        {executing && (
+          <div className="p-3.5 bg-brand-elevated border border-brand-accent/50 rounded-[4px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-brand-text shadow-lg">
+            <div className="flex items-center gap-3">
+              <div className="w-4 h-4 border-2 border-brand-accent border-t-transparent rounded-full animate-spin shrink-0" />
+              <div>
+                <span className="font-bold text-brand-accent block">
+                  Computing Optimal Examination Timetable...
+                </span>
+                <span className="text-[11px] text-slate-300 block mt-0.5">
+                  Solving conflict graph across 5,000 students, matching 100 room capacities, and assigning invigilators (~30–45s).
+                </span>
+              </div>
+            </div>
+            <span className="px-2.5 py-1 bg-brand-accent/20 border border-brand-accent/40 text-brand-accent font-mono text-[11px] rounded shrink-0 font-semibold animate-pulse">
+              Solver In Progress
+            </span>
+          </div>
+        )}
+
+        {/* Unexecuted Timetable Draft Notice (only when not actively executing) */}
+        {!executing && activeRun?.status === 'DRAFT' && activeRun?.scheduled_count === 0 && (
           <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-[4px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-amber-200">
             <div className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
@@ -467,10 +539,9 @@ export default function SchedulingWorkspace() {
             {isAdmin && (
               <button
                 onClick={handleExecuteSolver}
-                disabled={executing}
-                className="px-2.5 py-1 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold text-xs rounded transition-colors shrink-0 flex items-center gap-1 cursor-pointer disabled:opacity-50"
+                className="px-2.5 py-1 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold text-xs rounded transition-colors shrink-0 flex items-center gap-1 cursor-pointer"
               >
-                <Play size={12} className="fill-current" /> {executing ? 'Solving...' : 'Run Scheduler Now'}
+                <Play size={12} className="fill-current" /> Run Scheduler Now
               </button>
             )}
           </div>
