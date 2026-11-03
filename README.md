@@ -2,7 +2,7 @@
 
 > *"Plan Smarter. Schedule Precisely. Operate With Confidence."*
 
-[![Build & Test Status](https://img.shields.io/badge/Pytest-42%2F42%20Passing-57BE93.svg)](docs/testing.md)
+[![Build & Test Status](https://img.shields.io/badge/Verification-42%20Collected%20%7C%20Historical%2042%2F42-57BE93.svg)](docs/testing.md)
 [![Architecture](https://img.shields.io/badge/Architecture-FastAPI%20%7C%20React%20%7C%20PostgreSQL-56D6C2.svg)](docs/architecture.md)
 [![Database](https://img.shields.io/badge/Database-26%20Tables%20%7C%20RLS%20Enforced-7CAAE5.svg)](docs/erd.md)
 [![Constraints](https://img.shields.io/badge/Hard%20Constraints-0%20Violations-57BE93.svg)](docs/scheduling_algorithm.md)
@@ -323,9 +323,18 @@ Generating ExamOps dataset: profile='full', seed=20261022 (5000 students, 300 ex
 
 ---
 
-## 12. Automated Testing (42-Test Pytest Suite)
+## 12. Automated Testing & Verification Suite
 
-The automated test suite contains **exactly 42 test cases** covering database integrity, RBAC, API endpoints, distributed locking, and scheduler invariants:
+The repository contains **42 test cases** across 9 modules covering database integrity, RBAC, API endpoints, distributed locking, and scheduler invariants:
+
+### Verification Context & Execution Results
+- **Historical Full-Suite Execution (`2026-11-03 04:30 UTC`):** 42/42 tests passing against live Supabase PostgreSQL (340.28s).
+- **Latest Release Verification (`2026-11-03 13:30 UTC`):**
+  - Pytest Discovery: `python -m pytest backend/tests tests scripts/test_scheduler.py --collect-only` (42 items collected, 0 errors).
+  - In-Memory Scheduling Suite: `python scripts/test_scheduler.py` (4/4 passed: MCF ordering, 7 room-splitting invariants, 5 negative scenarios).
+  - Synthetic Data Reproducibility: `python scripts/test_synthetic_data.py` (Dual-run SHA-256 match, 150 `course_instructors` FK verified).
+  - Production Frontend Build: `npm run build` (2,654 modules transformed with 0 errors in 1.36s).
+  - Database Safety Guard: Mutating database integration tests are not re-executed against the operational Supabase instance during release audits to prevent creating unwanted published schedules without a disposable test container.
 
 ```bash
 python -m pytest backend/tests tests scripts/test_scheduler.py -v

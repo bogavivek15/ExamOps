@@ -2,10 +2,10 @@
 
 > **Version:** 1.0.0  
 > **Product:** ExamOps — Examination Operations & Intelligent Scheduling Platform  
-> **Test Framework:** Pytest 9.2 (Backend & Invariants) + Vite Build Verification (Frontend)  
+> **Test Framework:** Pytest 9.2.0 (Backend & Invariants) + Vite Build Verification (Frontend)  
 > **Database:** PostgreSQL 16 (Supabase Cloud with Pooler)  
 > **Authoritative Sources:** problem_statement.md, candidate_faq.pdf, submission_guidelines.pdf, AGENTS.md  
-> **Status:** Implemented & Verified (42/42 Pytest Tests Passing, Seed 20261022 Reproducibility Certified)
+> **Status:** Verified (42 Items Collected, Historical 42/42 Passing, Seed 20261022 Reproducibility Certified)
 
 ---
 
@@ -126,14 +126,16 @@ scripts/
 
 ---
 
-## 4. Pytest Execution Command & Live Results
+## 4. Pytest Execution Command & Verification Results
 
-### Execution Command
+### 4.1 Historical Full-Suite Execution (`2026-11-03 04:30 UTC`)
+The full 42-test suite was executed against the operational Supabase PostgreSQL instance with the following baseline results:
+
 ```bash
 python -m pytest backend/tests tests scripts/test_scheduler.py -v
 ```
 
-### Live Terminal Execution Output
+```text
 ```text
 ============================= test session starts =============================
 platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0
@@ -187,6 +189,31 @@ scripts/test_scheduler.py::test_full_baseline_execution PASSED           [100%]
 
 ================== 42 passed, 1 warning in 340.28s (0:05:40) ==================
 ```
+
+### 4.2 Latest Release Verification (`2026-11-03 13:30 UTC`)
+Following repository cleanup and test safety reconciliation:
+1. **Pytest Discovery & Collection:**
+   ```bash
+   python -m pytest backend/tests tests scripts/test_scheduler.py --collect-only
+   ```
+   *Result:* Exactly 42 test items collected across 9 modules in 0.66s with zero syntax or import errors.
+2. **In-Memory Scheduling Verification:**
+   ```bash
+   python scripts/test_scheduler.py
+   ```
+   *Result:* 4/4 tests passed (Conflict graph MCF ordering, 7 room-splitting invariants, 5 negative scenarios detected with exact reason codes, and full baseline certified with zero hard-constraint breaches).
+3. **Synthetic Data Reproducibility:**
+   ```bash
+   python scripts/test_synthetic_data.py
+   ```
+   *Result:* Dual-run SHA-256 match on fixed seed `20261022`, in-memory referential integrity (including 150 `course_instructors`), uppercase regex IDs verified.
+4. **Frontend Production Build:**
+   ```bash
+   cd frontend && npm run build
+   ```
+   *Result:* 2,654 modules bundled into optimized assets in 1.36s with zero errors.
+5. **Database-Backed Integration Tests Execution Policy:**
+   Mutating database-backed integration tests (`test_backend_api.py::test_scheduling_run_workflow`) were not re-executed against the operational Supabase database on the latest commit to prevent dirtying production data without an isolated container.
 
 ---
 

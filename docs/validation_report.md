@@ -11,10 +11,10 @@
 
 ## 1. Executive Summary
 
-This report consolidates the relational schema audit, foreign key integrity verification, business constraint checks, and database performance discovery conducted across the 24-entity ExamOps schema.
+This report consolidates the relational schema audit, foreign key integrity verification, business constraint checks, and database performance discovery conducted across the 26-entity ExamOps schema.
 
 ### Core Audit Outcomes:
-- **Entity Count:** 24 normalized relational tables across 5 migrations.
+- **Entity Count:** 26 normalized relational tables across 5 migrations.
 - **Referential Integrity:** 100% valid foreign keys across all parent-child relationships; **0 orphaned child records**.
 - **Composite Key Guarantees:** Cross-run allocation corruption is mathematically prevented by composite constraints on `assignment_students(id, scheduling_run_id, exam_id, room_id)`.
 - **Audit Immutability:** Dedicated PostgreSQL trigger functions reject `UPDATE` or `DELETE` on confirmed `audit_logs`.
@@ -67,14 +67,18 @@ This report consolidates the relational schema audit, foreign key integrity veri
 - **Clinical Privacy Masking:** Student accommodation clinical details in `accommodation_notes` are readable only by `SUPPORT_STAFF` and `PLATFORM_ADMINISTRATOR`. Instructors and students receive redacted views.
 
 ### 3.3 Audit Log Immutability
-- PostgreSQL trigger `trg_prevent_audit_log_modification` blocks all `UPDATE` and `DELETE` queries on `audit_logs`:
+- PostgreSQL triggers `trg_audit_logs_immutable`, `trg_decisions_immutable`, and `trg_events_immutable` block all `UPDATE` and `DELETE` operations on append-only operational tables (`audit_logs`, `scheduling_decisions`, and `schedule_events`):
   ```sql
-  CREATE OR REPLACE FUNCTION prevent_audit_log_tampering()
+  CREATE OR REPLACE FUNCTION public.prevent_modification_of_immutable_logs()
   RETURNS TRIGGER AS $$
   BEGIN
-      RAISE EXCEPTION 'Audit log entries are immutable and cannot be updated or deleted.';
+      RAISE EXCEPTION 'Disallowed: table % is append-only and cannot be updated or deleted.', TG_TABLE_NAME;
   END;
   $$ LANGUAGE plpgsql;
+
+  CREATE TRIGGER trg_audit_logs_immutable
+  BEFORE UPDATE OR DELETE ON audit_logs
+  FOR EACH ROW EXECUTE FUNCTION public.prevent_modification_of_immutable_logs();
   ```
 
 ---
@@ -84,5 +88,5 @@ This report consolidates the relational schema audit, foreign key integrity veri
 Integrity was verified using the automated test suite:
 - `backend/tests/test_database_integrity.py`: Verifies entity counts, PK uniqueness, identifier formats, and immutability triggers.
 - `backend/tests/test_duplicate_detection.py`: Verifies absence of duplicate business codes.
-- `backend/tests/test_referential_integrity.py`: Validates all 24 entity foreign key joins and run snapshot consistency.
+- `backend/tests/test_referential_integrity.py`: Validates all 23 foreign key pairs across the database entities and run snapshot consistency.
 - `scripts/database/validate_examops_rules.py`: Asserts institutional constraint compliance.
