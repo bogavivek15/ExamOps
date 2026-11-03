@@ -33,7 +33,11 @@ export default function AnalyticsReports() {
       setOverview(overviewData);
       setRuns(runsData || []);
       if (runsData && runsData.length > 0) {
-        setSelectedRunId(runsData[0].id);
+        // Prioritize the active published run or the latest executed run with confirmed assignments
+        const preferred = runsData.find((r) => r.status === 'PUBLISHED') ||
+          runsData.find((r) => r.scheduled_count > 0 && r.status !== 'DRAFT') ||
+          runsData[0];
+        setSelectedRunId(preferred.id);
       }
     } catch (err) {
       setError(err.message || 'Unable to load analytics.');
@@ -116,12 +120,12 @@ export default function AnalyticsReports() {
           <select
             value={selectedRunId}
             onChange={(e) => setSelectedRunId(e.target.value)}
-            className="bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-1.5 text-xs text-brand-text font-mono focus:outline-none focus:border-brand-accent"
+            className="bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-1.5 text-xs text-brand-text font-mono focus:outline-none focus:border-brand-accent max-w-[320px] truncate"
             aria-label="Select timetable version"
           >
             {runs.map((r) => (
               <option key={r.id} value={r.id}>
-                {r.run_code} ({r.status})
+                {r.run_code} • {r.status} ({r.scheduled_count || 0} scheduled)
               </option>
             ))}
           </select>
@@ -129,7 +133,7 @@ export default function AnalyticsReports() {
           <button
             onClick={handleExportCsv}
             disabled={exporting || !selectedRunId}
-            className="px-3 py-1.5 rounded-[4px] bg-brand-elevated hover:bg-brand-border border border-brand-border text-xs text-brand-text font-medium flex items-center gap-1.5 transition-colors disabled:opacity-50"
+            className="px-3 py-1.5 rounded-[4px] bg-brand-elevated hover:bg-brand-border border border-brand-border text-xs text-brand-text font-medium flex items-center gap-1.5 transition-colors disabled:opacity-50 cursor-pointer"
             aria-label="Download CSV report"
           >
             <FileSpreadsheet className="w-3.5 h-3.5 text-brand-accent" />
@@ -139,7 +143,7 @@ export default function AnalyticsReports() {
           <button
             onClick={handleExportJson}
             disabled={exporting || !selectedRunId}
-            className="px-3 py-1.5 rounded-[4px] bg-brand-elevated hover:bg-brand-border border border-brand-border text-xs text-brand-text font-medium flex items-center gap-1.5 transition-colors disabled:opacity-50"
+            className="px-3 py-1.5 rounded-[4px] bg-brand-elevated hover:bg-brand-border border border-brand-border text-xs text-brand-text font-medium flex items-center gap-1.5 transition-colors disabled:opacity-50 cursor-pointer"
             aria-label="Download JSON report"
           >
             <FileJson className="w-3.5 h-3.5 text-brand-accent" />
@@ -147,6 +151,22 @@ export default function AnalyticsReports() {
           </button>
         </div>
       </div>
+
+      {/* Warning banner if selected run has 0 assignments */}
+      {(() => {
+        const cur = runs.find((r) => r.id === selectedRunId);
+        if (cur && cur.status === 'DRAFT' && cur.scheduled_count === 0) {
+          return (
+            <div className="flex items-center gap-2.5 p-3 rounded-[6px] bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs">
+              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>
+                <strong>Unexecuted Timetable Draft:</strong> {cur.run_code} has not been solved yet. To download confirmed room allocations, select a completed or published timetable above, or click <em>Run Scheduler</em> in the Scheduling Workspace.
+              </span>
+            </div>
+          );
+        }
+        return null;
+      })()}
 
       {loading ? (
         <LoadingState message="Loading timetable analytics..." />

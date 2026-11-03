@@ -16,6 +16,7 @@ class CreateRunRequest(BaseModel):
     academic_period_id: str
     algorithm_version: str = "1.0.0"
     seed: int = 20261022
+    auto_execute: bool = False
 
 @router.get("/runs")
 def list_scheduling_runs(
@@ -36,7 +37,7 @@ def create_scheduling_run(
     req: CreateRunRequest,
     current_user: CurrentUser = Depends(get_current_user),
 ):
-    """Creates a new scheduling run in DRAFT status."""
+    """Creates a new scheduling run. If auto_execute is True, immediately solves and allocates rooms/invigilators."""
     run = SchedulingService.create_scheduling_run(
         academic_period_id=req.academic_period_id,
         created_by=current_user.id,
@@ -51,6 +52,20 @@ def create_scheduling_run(
         entity_id=run.get("id", ""),
         new_state=run,
     )
+
+    if req.auto_execute:
+        with distributed_advisory_lock(run["id"]):
+            exec_result = SchedulingService.execute_scheduling_run(run["id"])
+            run = SchedulingService.get_run_by_id(run["id"])
+            AuditService.log_event(
+                user_id=current_user.id,
+                user_role=current_user.role,
+                action="EXECUTE_SCHEDULING_RUN",
+                entity_type="scheduling_runs",
+                entity_id=run["id"],
+                new_state=exec_result,
+            )
+
     return run
 
 @router.get("/runs/{run_id}")

@@ -88,17 +88,19 @@ class SchedulingService:
         hash_payload = f"{academic_period_id}:{algorithm_version}:{seed}:{run_id}:{exam_count}"
         input_snapshot_hash = hashlib.sha256(hash_payload.encode()).hexdigest()
 
+        # NOTE: Handle unscheduled exams honestly. When a run is newly created in DRAFT,
+        # all exams are unassigned. Never report unassigned_count = 0 when exams remain unscheduled!
         sql = """
         INSERT INTO scheduling_runs (
             id, run_code, academic_period_id, created_by, algorithm_version,
             seed, input_snapshot_hash, status, total_exams, scheduled_count, unassigned_count
-        ) VALUES (%s, %s, %s, %s, %s, %s, %s, 'DRAFT', %s, 0, 0)
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, 'DRAFT', %s, 0, %s)
         RETURNING *;
         """
         with get_db_cursor(commit=True) as cur:
             cur.execute(
                 sql,
-                (run_id, run_code, academic_period_id, created_by, algorithm_version, seed, input_snapshot_hash, exam_count),
+                (run_id, run_code, academic_period_id, created_by, algorithm_version, seed, input_snapshot_hash, exam_count, exam_count),
             )
             run_record = cur.fetchone()
             invalidate_analytics_cache()

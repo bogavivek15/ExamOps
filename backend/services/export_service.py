@@ -39,6 +39,20 @@ class ExportService:
 
         output = io.StringIO()
         if not rows:
+            run_meta = execute_query(
+                "SELECT run_code, status, total_exams, scheduled_count, unassigned_count FROM scheduling_runs WHERE id = %s;",
+                (run_id,),
+                fetch_one=True,
+            )
+            if run_meta and run_meta.get("status") == "DRAFT":
+                total = run_meta.get("total_exams", 0)
+                unassigned = run_meta.get("unassigned_count") or total
+                return (
+                    f"# Timetable Draft: {run_meta.get('run_code')}\n"
+                    f"# Status: DRAFT ({total} total exams, 0 scheduled, {unassigned} unassigned)\n"
+                    "# This draft has not been executed yet. Run the scheduling engine to allocate rooms.\n"
+                    "assignment_code,exam_code,exam_title,course_code,room_code,room_name,building,start_time,end_time,status,seated_students,assigned_invigilators\n"
+                )
             return "No assignments found for this scheduling run.\n"
 
         fieldnames = [
@@ -68,6 +82,10 @@ class ExportService:
         run = execute_query("SELECT * FROM scheduling_runs WHERE id = %s;", (run_id,), fetch_one=True)
         if not run:
             return {"error": "Run not found"}
+
+        # Handle unscheduled draft counts honestly: if DRAFT and unassigned_count is 0, reflect total_exams
+        if run.get("status") == "DRAFT" and run.get("unassigned_count", 0) == 0 and run.get("total_exams", 0) > 0:
+            run["unassigned_count"] = run["total_exams"]
 
         assignments = execute_query(
             """

@@ -38,6 +38,8 @@ export default function SchedulingWorkspace() {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [newRunSeed, setNewRunSeed] = useState(20261022);
   const [newRunVersion, setNewRunVersion] = useState('1.0.0');
+  const [autoExecute, setAutoExecute] = useState(true);
+  const [creating, setCreating] = useState(false);
   const [modalError, setModalError] = useState(null);
 
   useEffect(() => {
@@ -56,7 +58,11 @@ export default function SchedulingWorkspace() {
       const data = await api.listRuns();
       setRuns(data);
       if (data.length > 0 && !selectedRunId) {
-        setSelectedRunId(data[0].id);
+        // Prioritize the active published run or the latest executed run with confirmed assignments
+        const preferred = data.find((r) => r.status === 'PUBLISHED') ||
+          data.find((r) => r.scheduled_count > 0 && r.status !== 'DRAFT') ||
+          data[0];
+        setSelectedRunId(preferred.id);
       }
     } catch (err) {
       console.error('Failed to load timetables:', err);
@@ -89,17 +95,29 @@ export default function SchedulingWorkspace() {
   const handleCreateRun = async (e) => {
     e.preventDefault();
     setModalError(null);
+    setCreating(true);
     try {
       const periodId = activeRun?.academic_period_id || '11111111-1111-1111-1111-111111111111';
       const newRun = await api.createRun({
         academic_period_id: periodId,
         algorithm_version: newRunVersion,
         seed: Number(newRunSeed),
+        auto_execute: autoExecute,
       });
       setCreateModalOpen(false);
       await loadRuns();
       setSelectedRunId(newRun.id);
-      setActionMessage({ type: 'success', text: `Created new timetable draft ${newRun.run_code}. You can now run the scheduler.` });
+      if (autoExecute && newRun.scheduled_count > 0) {
+        setActionMessage({
+          type: 'success',
+          text: `Created and scheduled timetable ${newRun.run_code}: ${newRun.scheduled_count} exams scheduled across rooms with 0 conflicts!`,
+        });
+      } else {
+        setActionMessage({
+          type: 'success',
+          text: `Created new timetable draft ${newRun.run_code}. You can now run the scheduler.`,
+        });
+      }
     } catch (err) {
       const msg = err.message || '';
       let userFriendlyError = err.message;
@@ -113,6 +131,8 @@ export default function SchedulingWorkspace() {
       }
       setModalError(userFriendlyError);
       setActionMessage({ type: 'error', text: userFriendlyError });
+    } finally {
+      setCreating(false);
     }
   };
 
@@ -406,9 +426,30 @@ export default function SchedulingWorkspace() {
                   setModalError(null);
                   setCreateModalOpen(true);
                 }}
-                className="px-2.5 py-1 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold text-xs rounded transition-colors shrink-0 flex items-center gap-1"
+                className="px-2.5 py-1 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold text-xs rounded transition-colors shrink-0 flex items-center gap-1 cursor-pointer"
               >
                 <Plus size={12} /> New Timetable Draft
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* Unexecuted Timetable Draft Notice */}
+        {activeRun?.status === 'DRAFT' && activeRun?.scheduled_count === 0 && (
+          <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-[4px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-amber-200">
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
+              <span>
+                <strong>Unexecuted Timetable Draft:</strong> Run <span className="font-mono text-amber-300 font-semibold">{activeRun.run_code}</span> has not been solved yet ({activeRun.total_exams} exams awaiting room and invigilator allocation).
+              </span>
+            </div>
+            {isAdmin && (
+              <button
+                onClick={handleExecuteSolver}
+                disabled={executing}
+                className="px-2.5 py-1 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold text-xs rounded transition-colors shrink-0 flex items-center gap-1 cursor-pointer disabled:opacity-50"
+              >
+                <Play size={12} className="fill-current" /> {executing ? 'Solving...' : 'Run Scheduler Now'}
               </button>
             )}
           </div>
@@ -597,19 +638,40 @@ export default function SchedulingWorkspace() {
             />
           </div>
 
+          <div className="pt-2">
+            <label className="flex items-start gap-2.5 cursor-pointer select-none text-xs text-slate-300 bg-brand-elevated/60 p-2.5 rounded border border-brand-border">
+              <input
+                type="checkbox"
+                checked={autoExecute}
+                onChange={(e) => setAutoExecute(e.target.checked)}
+                className="mt-0.5 rounded border-brand-border text-brand-accent focus:ring-brand-accent focus:ring-offset-brand-bg bg-brand-surface"
+              />
+              <div>
+                <span className="font-semibold text-brand-text block">
+                  Automatically run solver and seat exams
+                </span>
+                <span className="text-[11px] text-brand-muted block mt-0.5">
+                  Immediately assigns conflict-free rooms and invigilators upon creation so the timetable is ready for export.
+                </span>
+              </div>
+            </label>
+          </div>
+
           <div className="pt-4 flex justify-end gap-2">
             <button
               type="button"
+              disabled={creating}
               onClick={() => setCreateModalOpen(false)}
-              className="px-3.5 py-1.5 bg-brand-elevated border border-brand-border rounded-[4px] text-xs text-slate-300 hover:text-brand-text"
+              className="px-3.5 py-1.5 bg-brand-elevated border border-brand-border rounded-[4px] text-xs text-slate-300 hover:text-brand-text disabled:opacity-50"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-1.5 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold rounded-[4px] text-xs transition-colors"
+              disabled={creating}
+              className="px-4 py-1.5 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold rounded-[4px] text-xs transition-colors disabled:opacity-50 cursor-pointer"
             >
-              Create Timetable
+              {creating ? 'Creating & Solving...' : 'Create Timetable'}
             </button>
           </div>
         </form>
