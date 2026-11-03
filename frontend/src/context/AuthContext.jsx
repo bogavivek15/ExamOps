@@ -9,11 +9,11 @@ import { supabase, isSupabaseConfigured } from '../services/supabaseClient';
 const AuthContext = createContext();
 
 export const ROLES = [
-  { id: 'ACADEMIC_ADMINISTRATOR', label: 'Academic Administrator (Exam Officer)', badge: 'bg-brand-accent/20 text-brand-accent border-brand-accent/40' },
+  { id: 'ACADEMIC_ADMINISTRATOR', label: 'Academic Administrator', badge: 'bg-brand-accent/20 text-brand-accent border-brand-accent/40' },
+  { id: 'INSTRUCTOR', label: 'Instructor', badge: 'bg-sky-500/20 text-sky-300 border-sky-500/30' },
+  { id: 'SUPPORT_STAFF', label: 'Support Staff', badge: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
+  { id: 'LEARNER', label: 'Learner', badge: 'bg-brand-accent/15 text-brand-accent border-brand-accent/30' },
   { id: 'PLATFORM_ADMINISTRATOR', label: 'Platform Administrator', badge: 'bg-purple-500/20 text-purple-300 border-purple-500/30' },
-  { id: 'INSTRUCTOR', label: 'Course Instructor', badge: 'bg-sky-500/20 text-sky-300 border-sky-500/30' },
-  { id: 'SUPPORT_STAFF', label: 'Support / Invigilator', badge: 'bg-amber-500/20 text-amber-300 border-amber-500/30' },
-  { id: 'LEARNER', label: 'Student / Learner', badge: 'bg-brand-accent/15 text-brand-accent border-brand-accent/30' },
 ];
 
 export function AuthProvider({ children }) {
@@ -93,11 +93,11 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
-  const demoLogin = async (role, accessKey = null) => {
+  const demoLogin = async (role) => {
     try {
       setLoading(true);
       setAuthError(null);
-      const data = await api.demoLogin(role, accessKey);
+      const data = await api.demoLogin(role);
       setCurrentUser(data.user);
       return data.user;
     } catch (err) {

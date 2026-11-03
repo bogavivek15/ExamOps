@@ -1,10 +1,13 @@
 """
 ExamOps Authentication & User Profile Routes
 """
-from fastapi import APIRouter, Depends, HTTPException, Body, Header
+from fastapi import APIRouter, Depends, HTTPException, Body, Header, Request
 from typing import List, Dict, Any, Optional
 import httpx
 import secrets
+import time
+import threading
+from collections import defaultdict
 from pydantic import BaseModel
 from backend.config import settings
 from backend.auth import (
@@ -14,6 +17,32 @@ from backend.auth import (
 from backend.database import execute_query, get_db_cursor
 
 router = APIRouter(prefix="/auth", tags=["Authentication & Profiles"])
+
+class DemoRateLimiter:
+    """Thread-safe in-memory sliding-window rate limiter for evaluation demo login."""
+    def __init__(self, max_requests: int = 30, window_seconds: int = 60):
+        self.max_requests = max_requests
+        self.window_seconds = window_seconds
+        self._requests = defaultdict(list)
+        self._lock = threading.Lock()
+
+    def is_allowed(self, client_ip: str) -> bool:
+        now = time.time()
+        with self._lock:
+            timestamps = self._requests[client_ip]
+            valid = [t for t in timestamps if now - t < self.window_seconds]
+            if len(valid) >= self.max_requests:
+                self._requests[client_ip] = valid
+                return False
+            valid.append(now)
+            self._requests[client_ip] = valid
+            return True
+
+    def reset(self):
+        with self._lock:
+            self._requests.clear()
+
+_demo_rate_limiter = DemoRateLimiter(max_requests=30, window_seconds=60)
 
 class UpdateProfileRequest(BaseModel):
     role: Optional[str] = None
@@ -41,22 +70,22 @@ ALLOWED_DEMO_ROLES = {
 DEMO_ROLE_ACCOUNTS: Dict[str, Dict[str, str]] = {
     "ACADEMIC_ADMINISTRATOR": {
         "email": "evaluator@examops.edu",
-        "title": "Academic Administrator (Exam Officer)",
+        "title": "Academic Administrator",
         "description": "Full operational authority over timetables, constraints, room allocations, exception triage, and publication.",
     },
     "INSTRUCTOR": {
         "email": "head.computer@faculty.institution.edu",
-        "title": "Course Instructor",
+        "title": "Instructor",
         "description": "Departmental curriculum view, student cohort enrollments, and schedule examination details.",
     },
     "SUPPORT_STAFF": {
         "email": "facilities.lead.1@examops.institution.edu",
-        "title": "Support Staff / Invigilator",
+        "title": "Support Staff",
         "description": "Invigilator duties, venue accessibility features, and proctoring schedules.",
     },
     "LEARNER": {
         "email": "carlos.garcia.0008@student.institution.edu",
-        "title": "Student / Learner",
+        "title": "Learner",
         "description": "Student portal viewing personal exam timetables and venue locations without administrative controls.",
     },
 }
@@ -83,6 +112,7 @@ def list_demo_roles():
 @router.post("/demo-login")
 def demo_login(
     req: DemoLoginRequest,
+    request: Request,
     x_demo_access_key: Optional[str] = Header(None, alias="X-Demo-Access-Key"),
 ):
     """
@@ -90,7 +120,7 @@ def demo_login(
     Issues a cryptographically signed Bearer session for the requested role.
     Strictly protected:
     1. Requires DEMO_LOGIN_ENABLED to be true.
-    2. Requires valid DEMO_ACCESS_KEY.
+    2. Enforces sliding-window rate limiting.
     3. Strictly forbids PLATFORM_ADMINISTRATOR and SUPER_ADMIN.
     4. Only permits the four authorized demo roles.
     5. Resolves role from active database profile and validates role match without fallback.
@@ -99,22 +129,19 @@ def demo_login(
     if not settings.DEMO_LOGIN_ENABLED:
         raise HTTPException(
             status_code=403,
-            detail="Demo login is disabled.",
+            detail="Demo evaluation access is currently disabled.",
         )
 
-    # 2. Validate demo access key header
-    if not settings.DEMO_ACCESS_KEY:
-        raise HTTPException(
-            status_code=403,
-            detail="Demo access key is not configured on the server.",
-        )
+    # 2. Rate limiting check
+    client_ip = request.client.host if request.client else "127.0.0.1"
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        client_ip = forwarded.split(",")[0].strip()
 
-    provided_key = (x_demo_access_key or "").strip()
-
-    if not provided_key or not secrets.compare_digest(provided_key, settings.DEMO_ACCESS_KEY):
+    if not _demo_rate_limiter.is_allowed(client_ip):
         raise HTTPException(
-            status_code=403,
-            detail="Missing or invalid demo access key.",
+            status_code=429,
+            detail="Rate limit exceeded. Please wait a moment before requesting another demo session.",
         )
 
     # 3. Role validation

@@ -139,16 +139,10 @@ class ApiClient {
   }
 
   // Auth & Profile
-  async demoLogin(role, accessKey = null) {
-    const body = { role };
-    const headers = {};
-    if (accessKey) {
-      headers['X-Demo-Access-Key'] = accessKey;
-    }
+  async demoLogin(role) {
     const data = await this.request('/auth/demo-login', {
       method: 'POST',
-      headers,
-      body: JSON.stringify(body),
+      body: JSON.stringify({ role }),
     });
     this.setSession(data.access_token, data.user);
     return data;

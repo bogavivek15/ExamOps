@@ -128,13 +128,6 @@ def validate_security_configuration(s: Optional["Settings"] = None) -> None:
                     "When configured for HS256 verification in production, a strong, high-entropy secret "
                     "of at least 32 characters is required. Default, empty, or placeholder values are strictly prohibited."
                 )
-        if target.DEMO_LOGIN_ENABLED:
-            demo_key = (target.DEMO_ACCESS_KEY or "").strip()
-            if not demo_key or len(demo_key) < 16 or "placeholder" in demo_key.lower():
-                raise RuntimeError(
-                    "FATAL SECURITY CONFIGURATION: DEMO_LOGIN_ENABLED is enabled in production "
-                    "without a sufficiently strong DEMO_ACCESS_KEY (minimum 16 characters required)."
-                )
 
 class Settings(BaseModel):
     PROJECT_NAME: str = "ExamOps"

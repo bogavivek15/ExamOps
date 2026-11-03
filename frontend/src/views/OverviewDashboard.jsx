@@ -257,13 +257,39 @@ export default function OverviewDashboard() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => navigate('/scheduling')}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-accent hover:bg-brand-accent-hover text-black font-semibold rounded-[4px] text-xs transition-all border border-[#62626266]/40 shadow-sm"
-          >
-            <Play size={14} className="fill-current" />
-            Open Scheduling Workspace
-          </button>
+          {currentRole === 'PLATFORM_ADMINISTRATOR' ? (
+            <button
+              onClick={() => navigate('/admin')}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-accent hover:bg-brand-accent-hover text-black font-semibold rounded-[4px] text-xs transition-all border border-[#62626266]/40 shadow-sm cursor-pointer"
+            >
+              <Play size={14} className="fill-current" />
+              Platform Administration
+            </button>
+          ) : currentRole === 'INSTRUCTOR' ? (
+            <button
+              onClick={() => navigate('/exams')}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-accent hover:bg-brand-accent-hover text-black font-semibold rounded-[4px] text-xs transition-all border border-[#62626266]/40 shadow-sm cursor-pointer"
+            >
+              <Play size={14} className="fill-current" />
+              Course Examinations
+            </button>
+          ) : currentRole === 'SUPPORT_STAFF' ? (
+            <button
+              onClick={() => navigate('/rooms')}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-accent hover:bg-brand-accent-hover text-black font-semibold rounded-[4px] text-xs transition-all border border-[#62626266]/40 shadow-sm cursor-pointer"
+            >
+              <Play size={14} className="fill-current" />
+              Rooms & Facilities
+            </button>
+          ) : (
+            <button
+              onClick={() => navigate('/scheduling')}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 bg-brand-accent hover:bg-brand-accent-hover text-black font-semibold rounded-[4px] text-xs transition-all border border-[#62626266]/40 shadow-sm cursor-pointer"
+            >
+              <Play size={14} className="fill-current" />
+              Open Scheduling Workspace
+            </button>
+          )}
         </div>
       </div>
 
@@ -411,50 +437,187 @@ export default function OverviewDashboard() {
             </h3>
 
             <div className="space-y-3">
-              <button
-                onClick={() => navigate('/scheduling')}
-                className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group"
-              >
-                <div>
-                  <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
-                    Scheduling Workspace
-                  </div>
-                  <div className="text-[11px] text-brand-muted">
-                    Create, review, and publish exam timetables
-                  </div>
-                </div>
-                <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
-              </button>
-
-              <button
-                onClick={() => navigate('/exceptions')}
-                className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group"
-              >
-                <div>
-                  <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
-                    Issue Center
-                  </div>
-                  <div className="text-[11px] text-brand-muted">
-                    Review {overview?.unassigned_exams || 0} unscheduled exams
-                  </div>
-                </div>
-                <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
-              </button>
-
-              <button
-                onClick={() => navigate('/analytics')}
-                className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group"
-              >
-                <div>
-                  <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
-                    Reports & Insights
-                  </div>
-                  <div className="text-[11px] text-brand-muted">
-                    Review room capacity and download records
-                  </div>
-                </div>
-                <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
-              </button>
+              {currentRole === 'INSTRUCTOR' ? (
+                <>
+                  <button
+                    onClick={() => navigate('/exams')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Course Examinations
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Inspect examinations, durations, and cohorts
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => navigate('/courses')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Courses & Enrollments
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Departmental academic registrations
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => navigate('/rooms')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Rooms & Venues
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Check assigned exam room locations
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                </>
+              ) : currentRole === 'SUPPORT_STAFF' ? (
+                <>
+                  <button
+                    onClick={() => navigate('/rooms')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Rooms & Venues
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Manage capacities, closures, and accessibility
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => navigate('/exceptions')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Issue Center
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Review {overview?.unassigned_exams || 0} unscheduled exams
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => navigate('/invigilators')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Invigilator Schedules
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Inspect proctor availability and shifts
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                </>
+              ) : currentRole === 'PLATFORM_ADMINISTRATOR' ? (
+                <>
+                  <button
+                    onClick={() => navigate('/admin')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Platform Administration
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        User directory, role updates & policies
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => navigate('/audit')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Audit & Security Log
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Review system-wide immutable event trail
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => navigate('/scheduling')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Scheduling Workspace
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Review examination timetable operations
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => navigate('/scheduling')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Scheduling Workspace
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Create, review, and publish exam timetables
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => navigate('/exceptions')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Issue Center
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Review {overview?.unassigned_exams || 0} unscheduled exams
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                  <button
+                    onClick={() => navigate('/analytics')}
+                    className="w-full text-left p-3 rounded-[4px] bg-brand-elevated border border-brand-border hover:border-brand-accent/50 transition-colors flex items-center justify-between group cursor-pointer"
+                  >
+                    <div>
+                      <div className="text-xs font-semibold text-white group-hover:text-brand-accent transition-colors">
+                        Reports & Insights
+                      </div>
+                      <div className="text-[11px] text-brand-muted">
+                        Review room capacity and download records
+                      </div>
+                    </div>
+                    <ArrowRight size={14} className="text-brand-muted group-hover:text-brand-accent transition-colors shrink-0" />
+                  </button>
+                </>
+              )}
             </div>
           </div>
 

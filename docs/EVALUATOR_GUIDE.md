@@ -17,40 +17,31 @@
 
 ---
 
-## 2. Evaluator Demonstration Credentials
+## 2. Evaluator Access Architecture & Roles
 
-An active, verified **Academic Administrator** account has been provisioned in the live database for external project review.
+ExamOps features a streamlined, centered login experience supporting all **five primary system actors**:
 
-To protect the live demonstration environment, the password is not committed to the public Git repository.
-
-| Field | Configuration | Notes |
-|---|---|---|
-| **Institutional Email** | `evaluator@examops.edu` | Dedicated demonstration user |
-| **Password** | `[SECURE_SUBMISSION_PASSWORD]` | *Supplied securely in evaluation submission brief* |
-| **Assigned Role** | `ACADEMIC_ADMINISTRATOR` | Full operational and scheduling privileges |
-| **Display Name** | `ExamOps Evaluator` | Audit and log actor identity |
-| **Account Status** | `ACTIVE` | Verified operational status |
-| **Database Identity** | `auth.users` UUID (`d88e966e-d605-40b0-8213-fa40e63e9f98`) | Mapped to `public.user_profiles` |
-
-### Secure Credential Distribution Procedure
-- **Private Delivery**: The project owner securely shares the provisioned evaluator password through the confidential project submission portal or private candidate-evaluator communication channel.
-- **Zero Secrets in Repository**: No plaintext passwords, service-role keys, or JWT secrets are stored in Git version control.
-- **Credential Rotation**: The project owner can rotate the evaluator password on demand using the server-side provisioning script with environment variables.
+| Actor / Persona | Mode | Synthetic Identity | Operational Scope & Access Boundary |
+|---|---|---|---|
+| **Academic Administrator** | Demo (Passwordless) | evaluator@examops.edu | Full examination operations: scheduling workspace, solver execution, timetable publication, room allocations, exception triage, and audit trail inspection. |
+| **Instructor** | Demo (Passwordless) | head.computer@faculty.institution.edu | View assigned courses, examination timetables, and academic schedule data. Strictly restricted from invigilator schedules, proctor availability, and clinical accommodation notes. |
+| **Support Staff** | Demo (Passwordless) | acilities.lead.1@examops.institution.edu | Facilities and operational support: room capacities, venue equipment, maintenance closures, availability, and validation triage. Restricted from academic scheduling approval and user security administration. |
+| **Learner** | Demo (Passwordless) | carlos.garcia.0008@student.institution.edu | View personal examination timetable and approved accommodation details. Strictly isolated to own data; cannot access other learners' records, modify schedules, or view admin operations. |
+| **Platform Administrator** | Protected (Credentials) | dmin@examops.institution.edu | Platform-level security, user profiles, RBAC role assignments, and system-wide configuration. Strictly requires institutional credentials. |
 
 ---
 
 ## 3. Quick-Start Login Walkthrough
 
 1. Open **[https://exam-ops-murex.vercel.app](https://exam-ops-murex.vercel.app)** in any modern desktop or mobile browser.
-2. If unauthenticated, the application automatically redirects to the secure enterprise login screen (`/login`).
-3. Enter the evaluator email and password:
-   - **Email**: `evaluator@examops.edu`
-   - **Password**: *(The provisioned evaluator password provided in your evaluation brief)*
-     *(Click the Eye icon in the input field to toggle password visibility if desired).*
-4. Click **Sign In**.
-5. Upon cryptographic token verification against Supabase Auth, the application securely resolves your database profile and transitions directly to the **Overview Dashboard**.
-6. When finished reviewing, click the **Sign Out** button located in the top-right navigation bar (or sidebar footer on mobile) to terminate your session and return to `/login`.
-
+2. The application loads the minimal, centered login card with the signature lime-green ExamOps branding.
+3. Select any role from the **Select Role** dropdown:
+   - For complete exam officer evaluation: Select **Academic Administrator**.
+   - The button dynamically updates to **Login as Academic Administrator**.
+4. Click **Login as Academic Administrator** to enter directly without typing an email or password.
+5. Upon token generation and database profile resolution, the application securely logs you in and transitions to the **Overview Dashboard**.
+6. When testing role boundaries, click **Sign Out** from the profile menu and select **Instructor**, **Support Staff**, or **Learner** to test each persona's role-scoped views and permissions.
+7. To access **Platform Administrator**, select it in the dropdown, enter valid institutional administrator credentials, and authenticate.
 ---
 
 ## 4. Platform Tour: 12 Operational Modules

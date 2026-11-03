@@ -26,41 +26,46 @@ ExamOps is an enterprise examination operations and intelligent scheduling platf
 
 ### 🔑 Evaluator Authentication & Access Architecture
 
-#### A. Current Live Deployment Access (Active on Vercel)
+ExamOps features a streamlined, centered, dark-first authentication interface providing immediate evaluation access across the five primary system actors:
 
-The currently deployed production frontend on Vercel presents the standard enterprise credential login screen (`/login`). External evaluators can access the platform immediately using the provisioned Academic Administrator demonstration account:
+#### A. Four Passwordless Evaluation Demo Roles
 
-- **Institutional Email:** `evaluator@examops.edu`
-- **Password:** *(Supplied securely in your project evaluation submission brief; never stored in Git)*
-- **Assigned Role:** `ACADEMIC_ADMINISTRATOR` (full exam officer privileges: scheduling workspace, solver execution, timetable publication, room allocations, exception triage, and audit trail inspection)
+For immediate evaluation, four predefined institutional personas can be authenticated without entering credentials or demo keys (when `DEMO_LOGIN_ENABLED=true` in evaluation environments):
 
-*(For password distribution policy, verification procedures, and role details, see [`docs/EVALUATOR_GUIDE.md`](docs/EVALUATOR_GUIDE.md)).*
+| Actor / Persona | Synthetic Institutional Identity | Operational Scope & Access Boundary |
+|---|---|---|
+| **Academic Administrator** | `evaluator@examops.edu` | Full examination operations: scheduling workspace, solver execution, timetable publication, room allocations, exception triage, and audit trail inspection. |
+| **Instructor** | `head.computer@faculty.institution.edu` | View assigned courses, examination timetables, and academic schedule data. Strictly restricted from invigilator schedules, proctor availability, and clinical accommodation notes (`403 Forbidden`). |
+| **Support Staff** | `facilities.lead.1@examops.institution.edu` | Facilities and operational support: room capacities, venue equipment, maintenance closures, availability, and validation triage. Restricted from academic scheduling approval and user security administration. Clinical notes masked. |
+| **Learner** | `carlos.garcia.0008@student.institution.edu` | View personal examination timetable and approved accommodation details. Strictly isolated to own data; cannot access other learners' records, modify schedules, or view admin operations. |
 
-#### B. Planned Role-Based Demo Login (Implemented locally, scheduled for next deployment)
+#### B. Protected Platform Administrator Access
 
-A streamlined four-role demo access interface has been implemented in the codebase and validated through local test suites. Once deployed in the upcoming release:
+The fifth actor, **Platform Administrator**, enforces a strict security boundary:
+- **No Passwordless Demo Access:** The platform administrator role is strictly excluded from demo login tokens (`403 Forbidden` if requested via demo endpoint).
+- **Institutional Credentials Required:** Selecting Platform Administrator in the role dropdown reveals email and password inputs directly within the card for authenticated administration access (`admin@examops.institution.edu`).
+- **Administrative Scope:** Platform-level security, user profiles, RBAC role assignments, and system-wide configuration. Distinct from Academic Administrator.
 
-> [!IMPORTANT]
-> **Upcoming Demo Access Security & Scope:**
-> - Evaluation demo login will be active only when `DEMO_LOGIN_ENABLED=true` on the backend and requires a valid `DEMO_ACCESS_KEY` supplied securely through the `X-Demo-Access-Key` request header. *(For security, the access key is configured via environment settings and is not committed or exposed in documentation).*
-> - **Public demo login will support only four roles:** **Academic Administrator**, **Instructor**, **Support Staff**, and **Learner**.
-> - **Platform Administrator** access is strictly prohibited via demo login and will continue to require normal credential authentication (email and password).
-> - **Role Permissions:** Instructors cannot access invigilator schedules or availability (nor clinical notes), while Support Staff has operational access to facilities, room capacities, equipment, availability, and validation triage (with clinical accommodation notes masked).
+#### C. Evaluation Security Architecture
+- **Environment Gating:** Demo authentication is enabled explicitly via `DEMO_LOGIN_ENABLED=true` (configured in Render environment settings) and disabled by default in strict production environments.
+- **Server-Side Identity Resolution:** The frontend transmits only the requested role. The backend resolves the authoritative synthetic profile directly from Supabase PostgreSQL, verifies active status, and signs the JWT on the server.
+- **Rate Limiting:** Public demo authentication is protected by an in-memory sliding-window rate limiter (30 requests/minute per client IP) returning HTTP 429 when thresholds are exceeded.
+- **Role Boundary Enforcement:** Backend dependencies (`require_academic_admin`, `require_staff_or_admin`, `get_current_active_user`) rigorously enforce permission checks at the route layer regardless of client state.
 
 ---
 
-### ⏱️ Two-Minute Evaluator Walkthrough (Current Live Deployment)
+### ⏱️ Two-Minute Evaluator Walkthrough
 
-1. **Sign In (Live Frontend):** Open **[https://exam-ops-murex.vercel.app](https://exam-ops-murex.vercel.app)**. On the standard login screen, enter the evaluator credentials:
-   - **Email:** `evaluator@examops.edu`
-   - **Password:** *(Enter the evaluator password provided in your evaluation brief)*
-   Click **Sign In** to authenticate via Supabase Auth and enter the **Overview Dashboard** as Academic Administrator. *(Note: The current live deployment uses email/password login; the role-dropdown demo selector is implemented locally and planned for the next deployment).*
-2. **Review Operational KPIs (`/`):** Land on the **Overview Dashboard**. Inspect the institutional metrics reflecting the baseline seeded dataset: **5,000 students**, **150 courses**, **300 exams**, **100 rooms**, **200 invigilators**, and **301 accommodations**.
-3. **Open Scheduling Workspace (`/scheduling`):** Click the primary button **"Open Scheduling Workspace"**. Inspect the visual timetable, confirmed room allocations, and student seat assignments across the active term.
-4. **Inspect Decision Telemetry:** Click any scheduled examination in the table to open the slide-over inspection drawer. Review hard constraint validations, soft scoring breakdowns, and why alternative time slots were rejected.
-5. **Investigate Unassigned Exams (`/exceptions`):** Navigate to the **Exception Center** in the sidebar. Inspect the unassigned examinations, each attributed with deterministic failure reason codes (`STUDENT_CONFLICT`, `CAPACITY_DEFICIT`).
-6. **Verify Accommodations & Governance (`/accommodations`, `/audit`):** Inspect student accommodations with role-based medical notes privacy masking, audit trails with JSON before/after diffs, and download live CSV/JSON timetable exports.
-7. **Verify RBAC Enforcement:** Click the profile menu to sign out. Backend authorization strictly protects administrative actions (`403 Forbidden`). Once the upcoming deployment goes live, evaluators will be able to switch directly between the four demo roles to test role-scoped views interactively.
+1. **Sign In:** Open **[https://exam-ops-murex.vercel.app](https://exam-ops-murex.vercel.app)**. You will see the minimal, dark-first login card with the ExamOps brand title in lime green.
+2. **Select Any Role:** Choose any of the five actors from the **Select Role** dropdown:
+   - Select **Academic Administrator** $\to$ Button updates to **"Login as Academic Administrator"**.
+   - Click the button to enter instantly into the **Overview Dashboard** with full exam officer privileges.
+3. **Review Operational KPIs (`/`):** Land on the **Overview Dashboard**. Inspect the institutional metrics reflecting the baseline seeded dataset: **5,000 students**, **150 courses**, **300 exams**, **100 rooms**, **200 invigilators**, and **301 accommodations**.
+4. **Open Scheduling Workspace (`/scheduling`):** Click the primary button **"Open Scheduling Workspace"**. Inspect the visual timetable, confirmed room allocations, and student seat assignments across the active term.
+5. **Inspect Decision Telemetry:** Click any scheduled examination in the table to open the slide-over inspection drawer. Review hard constraint validations, soft scoring breakdowns, and why alternative time slots were rejected.
+6. **Investigate Unassigned Exams (`/exceptions`):** Navigate to the **Exception Center** in the sidebar. Inspect the unassigned examinations, each attributed with deterministic failure reason codes (`STUDENT_CONFLICT`, `CAPACITY_DEFICIT`).
+7. **Verify Accommodations & Governance (`/accommodations`, `/audit`):** Inspect student accommodations with role-based medical notes privacy masking, audit trails with JSON before/after diffs, and download live CSV/JSON timetable exports.
+8. **Verify Role Isolation Across Actors:** Sign out and select **Learner** $\to$ click **"Login as Learner"**. Notice the navigation sidebar dynamically filters to personal learner views, the dashboard presents learner-tailored KPIs, and administrative routes are locked down. Test **Instructor** and **Support Staff** to verify role-scoped operational views.
 
 ---
 
@@ -190,7 +195,7 @@ The automated verification suite was executed locally, yielding the verified res
 
 | Test Suite Module | Scope & Verifications |
 |---|---|
-| `backend/tests/test_demo_auth_security.py` | Demo authentication restrictions, `X-Demo-Access-Key` validation, four-role whitelist, Platform Administrator demo denial, signature/expiration rejection, environment guards |
+| `backend/tests/test_demo_auth_security.py` | Demo authentication restrictions, sliding-window rate limiting, four-role whitelist (passwordless in evaluation mode), Platform Administrator demo denial (HTTP 403), signature/expiration rejection, environment guards |
 | `backend/tests/test_rbac_scheduling_audit.py` | Role permission boundaries (Platform Admin, Academic Admin, Instructor restrictions against invigilator schedules/availability, Support Staff facilities/validation triage, Student data isolation, published schedule immutability) |
 | `backend/tests/test_database_integrity.py` | Exact entity counts (5,000 students, 300 exams, 100 rooms, 200 invigilators), PK patterns, NOT NULL columns, audit immutability triggers |
 | `backend/tests/test_duplicate_detection.py` | Unique business identifiers, composite relationship uniqueness |

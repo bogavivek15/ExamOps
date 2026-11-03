@@ -49,57 +49,51 @@ def test_demo_login_disabled_returns_403(monkeypatch):
 
 
 # ==============================================================================
-# 2. MISSING OR INCORRECT DEMO ACCESS KEY RETURNS 403
+# 2. KEYLESS DEMO LOGIN & RATE LIMITING
 # ==============================================================================
 
-def test_missing_or_incorrect_demo_access_key_returns_403(monkeypatch):
-    """When DEMO_LOGIN_ENABLED is True, invalid or missing header key must return HTTP 403."""
+def test_demo_login_rate_limiting(monkeypatch):
+    """Verify rate limiter blocks client when exceeding 30 requests per window."""
     monkeypatch.setattr(settings, "DEMO_LOGIN_ENABLED", True)
-    monkeypatch.setattr(settings, "DEMO_ACCESS_KEY", TEST_DEMO_KEY)
+    from backend.routes.auth_routes import _demo_rate_limiter
+    _demo_rate_limiter.reset()
 
-    # Case A: Missing X-Demo-Access-Key header completely
-    res_missing = client.post(
-        "/api/auth/demo-login",
-        json={"role": "ACADEMIC_ADMINISTRATOR"},
-    )
-    assert res_missing.status_code == 403
-    assert "key" in res_missing.json().get("detail", "").lower()
+    # Fill up 30 allowed requests
+    for _ in range(30):
+        res = client.post("/api/auth/demo-login", json={"role": "LEARNER"})
+        assert res.status_code == 200
 
-    # Case B: Key passed in request body instead of header (body keys must NOT be accepted)
-    res_body_key = client.post(
-        "/api/auth/demo-login",
-        json={"role": "ACADEMIC_ADMINISTRATOR", "access_key": TEST_DEMO_KEY},
-    )
-    assert res_body_key.status_code == 403
+    # 31st request must trigger HTTP 429
+    res_limited = client.post("/api/auth/demo-login", json={"role": "LEARNER"})
+    assert res_limited.status_code == 429
+    assert "rate limit exceeded" in res_limited.json().get("detail", "").lower()
+    _demo_rate_limiter.reset()
 
-    # Case C: Empty X-Demo-Access-Key header string
-    res_empty = client.post(
-        "/api/auth/demo-login",
-        json={"role": "ACADEMIC_ADMINISTRATOR"},
-        headers={"X-Demo-Access-Key": "   "},
-    )
-    assert res_empty.status_code == 403
 
-    # Case D: Incorrect access key in X-Demo-Access-Key header
-    res_wrong_header = client.post(
-        "/api/auth/demo-login",
-        json={"role": "ACADEMIC_ADMINISTRATOR"},
-        headers={"X-Demo-Access-Key": "invalid-header-key"},
-    )
-    assert res_wrong_header.status_code == 403
+def test_missing_and_inactive_profiles_rejected(monkeypatch):
+    """Verify demo login rejects unsupported roles and missing accounts."""
+    monkeypatch.setattr(settings, "DEMO_LOGIN_ENABLED", True)
+    from backend.routes.auth_routes import _demo_rate_limiter
+    _demo_rate_limiter.reset()
 
-    # Case E: Server has empty DEMO_ACCESS_KEY configured
-    monkeypatch.setattr(settings, "DEMO_ACCESS_KEY", "")
-    res_unconfigured = client.post(
+    # Case A: Unsupported role
+    res_unsupported = client.post(
         "/api/auth/demo-login",
-        json={"role": "ACADEMIC_ADMINISTRATOR"},
-        headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
+        json={"role": "UNKNOWN_ROLE"},
     )
-    assert res_unconfigured.status_code == 403
+    assert res_unsupported.status_code == 403
+    assert "Unsupported demo role" in res_unsupported.json().get("detail", "")
+
+    # Case B: Inactive profile query
+    res_inactive = client.post(
+        "/api/auth/demo-login",
+        json={"role": "STUDENT_INACTIVE_MOCK"},
+    )
+    assert res_inactive.status_code == 403
 
 
 # ==============================================================================
-# 3. ALL FOUR ALLOWED ROLES RECEIVE ONLY THEIR OWN ROLE
+# 3. ALL FOUR ALLOWED ROLES RECEIVE ONLY THEIR OWN ROLE (PASSWORDLESS)
 # ==============================================================================
 
 @pytest.mark.parametrize("requested_role", [
@@ -109,14 +103,14 @@ def test_missing_or_incorrect_demo_access_key_returns_403(monkeypatch):
     "LEARNER",
 ])
 def test_all_four_allowed_roles_receive_only_their_own_role(monkeypatch, requested_role):
-    """Verify each of the 4 allowed demo roles receives exclusively their own authoritative role via header key."""
+    """Verify each of the 4 allowed demo roles receives exclusively their own authoritative role without any access key."""
     monkeypatch.setattr(settings, "DEMO_LOGIN_ENABLED", True)
-    monkeypatch.setattr(settings, "DEMO_ACCESS_KEY", TEST_DEMO_KEY)
+    from backend.routes.auth_routes import _demo_rate_limiter
+    _demo_rate_limiter.reset()
 
     res = client.post(
         "/api/auth/demo-login",
         json={"role": requested_role},
-        headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
     )
     assert res.status_code == 200, f"Failed for role {requested_role}: {res.text}"
     data = res.json()
@@ -145,13 +139,13 @@ def test_all_four_allowed_roles_receive_only_their_own_role(monkeypatch, request
 def test_platform_administrator_demo_login_rejected(monkeypatch):
     """PLATFORM_ADMINISTRATOR and SUPER_ADMIN roles are strictly prohibited via demo login."""
     monkeypatch.setattr(settings, "DEMO_LOGIN_ENABLED", True)
-    monkeypatch.setattr(settings, "DEMO_ACCESS_KEY", TEST_DEMO_KEY)
+    from backend.routes.auth_routes import _demo_rate_limiter
+    _demo_rate_limiter.reset()
 
     # 1. Attempt PLATFORM_ADMINISTRATOR
     res_platform = client.post(
         "/api/auth/demo-login",
         json={"role": "PLATFORM_ADMINISTRATOR"},
-        headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
     )
     assert res_platform.status_code == 403
     assert "Platform Administrator" in res_platform.json().get("detail", "")
@@ -160,7 +154,6 @@ def test_platform_administrator_demo_login_rejected(monkeypatch):
     res_super = client.post(
         "/api/auth/demo-login",
         json={"role": "SUPER_ADMIN"},
-        headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
     )
     assert res_super.status_code == 403
 
@@ -180,14 +173,14 @@ def test_platform_administrator_demo_login_rejected(monkeypatch):
 def test_tampering_with_requested_role_cannot_grant_additional_privileges(monkeypatch):
     """Arbitrary role strings, injection attempts, and client header spoofing cannot elevate privileges."""
     monkeypatch.setattr(settings, "DEMO_LOGIN_ENABLED", True)
-    monkeypatch.setattr(settings, "DEMO_ACCESS_KEY", TEST_DEMO_KEY)
+    from backend.routes.auth_routes import _demo_rate_limiter
+    _demo_rate_limiter.reset()
 
     # Case A: Unsupported arbitrary roles
     for arbitrary_role in ["ROOT", "SYSADMIN", "AUDITOR", "DB_ADMIN", "DEVELOPER"]:
         res = client.post(
             "/api/auth/demo-login",
             json={"role": arbitrary_role},
-            headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
         )
         assert res.status_code == 403
 
@@ -195,7 +188,6 @@ def test_tampering_with_requested_role_cannot_grant_additional_privileges(monkey
     res_inject = client.post(
         "/api/auth/demo-login",
         json={"role": "' OR '1'='1' --"},
-        headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
     )
     assert res_inject.status_code == 403
 
@@ -203,7 +195,6 @@ def test_tampering_with_requested_role_cannot_grant_additional_privileges(monkey
     learner_login = client.post(
         "/api/auth/demo-login",
         json={"role": "LEARNER"},
-        headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
     )
     assert learner_login.status_code == 200
     learner_token = learner_login.json()["access_token"]
@@ -228,13 +219,13 @@ def test_tampering_with_requested_role_cannot_grant_additional_privileges(monkey
 def test_backend_authorization_rejects_unauthorized_operations(monkeypatch):
     """Verify backend RBAC strictly forbids unauthorized operations across issued tokens."""
     monkeypatch.setattr(settings, "DEMO_LOGIN_ENABLED", True)
-    monkeypatch.setattr(settings, "DEMO_ACCESS_KEY", TEST_DEMO_KEY)
+    from backend.routes.auth_routes import _demo_rate_limiter
+    _demo_rate_limiter.reset()
 
     # 1. Learner Token Constraints
     learner_res = client.post(
         "/api/auth/demo-login",
         json={"role": "LEARNER"},
-        headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
     )
     learner_token = learner_res.json()["access_token"]
     learner_headers = {"Authorization": f"Bearer {learner_token}"}
@@ -250,7 +241,6 @@ def test_backend_authorization_rejects_unauthorized_operations(monkeypatch):
     inst_res = client.post(
         "/api/auth/demo-login",
         json={"role": "INSTRUCTOR"},
-        headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
     )
     inst_token = inst_res.json()["access_token"]
     inst_headers = {"Authorization": f"Bearer {inst_token}"}
@@ -265,7 +255,6 @@ def test_backend_authorization_rejects_unauthorized_operations(monkeypatch):
     staff_res = client.post(
         "/api/auth/demo-login",
         json={"role": "SUPPORT_STAFF"},
-        headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
     )
     staff_token = staff_res.json()["access_token"]
     staff_headers = {"Authorization": f"Bearer {staff_token}"}
@@ -279,7 +268,6 @@ def test_backend_authorization_rejects_unauthorized_operations(monkeypatch):
     admin_res = client.post(
         "/api/auth/demo-login",
         json={"role": "ACADEMIC_ADMINISTRATOR"},
-        headers={"X-Demo-Access-Key": TEST_DEMO_KEY},
     )
     admin_token = admin_res.json()["access_token"]
     admin_headers = {"Authorization": f"Bearer {admin_token}"}
@@ -328,17 +316,7 @@ def test_production_startup_fails_with_unsafe_jwt_secret():
         )
     assert "Unsafe JWT_SECRET_KEY detected in production" in str(exc_info.value)
 
-    # Case E: DEMO_LOGIN_ENABLED in production without strong DEMO_ACCESS_KEY
-    with pytest.raises(RuntimeError) as exc_info:
-        Settings(
-            ENVIRONMENT="production",
-            JWT_SECRET_KEY="a" * 64,
-            DEMO_LOGIN_ENABLED=True,
-            DEMO_ACCESS_KEY="short-key",
-        )
-    assert "DEMO_LOGIN_ENABLED is enabled in production without a sufficiently strong DEMO_ACCESS_KEY" in str(exc_info.value)
-
-    # Case F: Valid strong production configuration succeeds
+    # Case E: Valid strong production configuration succeeds
     valid_prod_settings = Settings(
         ENVIRONMENT="production",
         JWT_SECRET_KEY="b" * 64,

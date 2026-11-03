@@ -52,13 +52,27 @@ function PublicOnlyRoute({ children }) {
   return children;
 }
 
+function RoleRoute({ permittedRoles, children }) {
+  const { currentRole, loading } = useAuth();
+
+  if (loading) {
+    return <LoadingState message="Checking access permissions..." />;
+  }
+
+  if (permittedRoles && currentRole && !permittedRoles.includes(currentRole)) {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+}
+
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Suspense fallback={<LoadingState message="Loading ExamOps module..." />}>
           <Routes>
-            {/* Public Login Route */}
+            {/* Public Minimal Login Route */}
             <Route
               path="/login"
               element={
@@ -77,41 +91,118 @@ export default function App() {
                 </ProtectedRoute>
               }
             >
-              {/* Module 1: Overview Dashboard */}
+              {/* Module 1: Overview Dashboard (All 5 Roles) */}
               <Route index element={<OverviewDashboard />} />
 
-              {/* Module 2: Scheduling Operations Center */}
-              <Route path="scheduling" element={<SchedulingWorkspace />} />
+              {/* Module 2: Scheduling Operations Center (Academic Admin & Platform Admin) */}
+              <Route
+                path="scheduling"
+                element={
+                  <RoleRoute permittedRoles={['ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <SchedulingWorkspace />
+                  </RoleRoute>
+                }
+              />
 
               {/* Module 3: Examination Management */}
-              <Route path="exams" element={<ExamManagement />} />
+              <Route
+                path="exams"
+                element={
+                  <RoleRoute permittedRoles={['LEARNER', 'INSTRUCTOR', 'ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <ExamManagement />
+                  </RoleRoute>
+                }
+              />
 
               {/* Module 4: Student Management */}
-              <Route path="students" element={<StudentManagement />} />
+              <Route
+                path="students"
+                element={
+                  <RoleRoute permittedRoles={['LEARNER', 'ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <StudentManagement />
+                  </RoleRoute>
+                }
+              />
 
               {/* Module 5: Course & Enrollment Management */}
-              <Route path="courses" element={<CourseManagement />} />
+              <Route
+                path="courses"
+                element={
+                  <RoleRoute permittedRoles={['LEARNER', 'INSTRUCTOR', 'ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <CourseManagement />
+                  </RoleRoute>
+                }
+              />
 
               {/* Module 6: Room & Facilities Management */}
-              <Route path="rooms" element={<RoomManagement />} />
+              <Route
+                path="rooms"
+                element={
+                  <RoleRoute permittedRoles={['SUPPORT_STAFF', 'INSTRUCTOR', 'ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <RoomManagement />
+                  </RoleRoute>
+                }
+              />
 
               {/* Module 7: Invigilator Management */}
-              <Route path="invigilators" element={<InvigilatorManagement />} />
+              <Route
+                path="invigilators"
+                element={
+                  <RoleRoute permittedRoles={['SUPPORT_STAFF', 'INSTRUCTOR', 'ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <InvigilatorManagement />
+                  </RoleRoute>
+                }
+              />
 
               {/* Module 8: Accommodation Management */}
-              <Route path="accommodations" element={<AccommodationManagement />} />
+              <Route
+                path="accommodations"
+                element={
+                  <RoleRoute permittedRoles={['LEARNER', 'SUPPORT_STAFF', 'ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <AccommodationManagement />
+                  </RoleRoute>
+                }
+              />
 
               {/* Module 9: Exception Center */}
-              <Route path="exceptions" element={<ExceptionCenter />} />
+              <Route
+                path="exceptions"
+                element={
+                  <RoleRoute permittedRoles={['SUPPORT_STAFF', 'ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <ExceptionCenter />
+                  </RoleRoute>
+                }
+              />
 
               {/* Module 10: Analytics & Reports */}
-              <Route path="analytics" element={<AnalyticsReports />} />
+              <Route
+                path="analytics"
+                element={
+                  <RoleRoute permittedRoles={['SUPPORT_STAFF', 'ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <AnalyticsReports />
+                  </RoleRoute>
+                }
+              />
 
               {/* Module 11: Audit & Activity */}
-              <Route path="audit" element={<AuditActivity />} />
+              <Route
+                path="audit"
+                element={
+                  <RoleRoute permittedRoles={['ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <AuditActivity />
+                  </RoleRoute>
+                }
+              />
 
               {/* Module 12: Administration & Policies */}
-              <Route path="admin" element={<Administration />} />
+              <Route
+                path="admin"
+                element={
+                  <RoleRoute permittedRoles={['ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR']}>
+                    <Administration />
+                  </RoleRoute>
+                }
+              />
 
               {/* Fallback route */}
               <Route path="*" element={<Navigate to="/" replace />} />
