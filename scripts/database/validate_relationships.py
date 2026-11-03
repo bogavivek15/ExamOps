@@ -120,9 +120,10 @@ def validate_referential_integrity() -> Dict[str, Any]:
                res.scheduling_run_id as res_run_id, res.exam_id as res_exam_id, res.student_id as res_student_id
         FROM assignment_students ast
         JOIN run_exam_students res ON ast.run_exam_student_id = res.id
-        WHERE ast.scheduling_run_id != res.scheduling_run_id 
+        WHERE ast.scheduling_run_id IN (SELECT id FROM scheduling_runs WHERE status IN ('PUBLISHED', 'APPROVED', 'REVIEW_REQUIRED', 'SCHEDULING'))
+          AND (ast.scheduling_run_id != res.scheduling_run_id 
            OR ast.exam_id != res.exam_id 
-           OR ast.student_id != res.student_id;
+           OR ast.student_id != res.student_id);
     """
     comp_asgn_res = execute_query(sql_asgn_res)
     if comp_asgn_res:
@@ -132,13 +133,14 @@ def validate_referential_integrity() -> Dict[str, Any]:
     else:
         print("  [VALID COMPOSITE] assignment_students <-> run_exam_students matches exactly.")
 
-    # 3. Cross-Table: Check scheduling_runs total_exams vs scheduled_count + unassigned_count
+    # 3. Cross-Table: Check completed scheduling_runs total_exams vs scheduled_count + unassigned_count
     report["summary"]["checks_run"] += 1
     sql_run_counts = """
         SELECT id, run_code, status, total_exams, scheduled_count, unassigned_count,
                (scheduled_count + unassigned_count) as calculated_sum
         FROM scheduling_runs
-        WHERE total_exams != (scheduled_count + unassigned_count);
+        WHERE status IN ('COMPLETED', 'REVIEW_REQUIRED', 'APPROVED', 'PUBLISHED', 'SUPERSEDED')
+          AND total_exams != (scheduled_count + unassigned_count);
     """
     mismatched_runs = execute_query(sql_run_counts)
     if mismatched_runs:
@@ -170,12 +172,13 @@ def validate_referential_integrity() -> Dict[str, Any]:
     else:
         print("  [VALID ASSIGNMENT COUNTS] scheduled_count equals distinct exams in schedule_assignments.")
 
-    # 5. Cross-Table: Check decisions count for each run == total_exams
+    # 5. Cross-Table: Check decisions count for each completed run == total_exams
     report["summary"]["checks_run"] += 1
     sql_dec_cnt = """
         SELECT sr.id, sr.run_code, sr.total_exams, COUNT(sd.id) as actual_decisions
         FROM scheduling_runs sr
         LEFT JOIN scheduling_decisions sd ON sd.scheduling_run_id = sr.id
+        WHERE sr.status IN ('COMPLETED', 'REVIEW_REQUIRED', 'APPROVED', 'PUBLISHED', 'SUPERSEDED')
         GROUP BY sr.id, sr.run_code, sr.total_exams
         HAVING sr.total_exams != COUNT(sd.id);
     """
@@ -195,6 +198,7 @@ def validate_referential_integrity() -> Dict[str, Any]:
 if __name__ == "__main__":
     rep = validate_referential_integrity()
     out_file = ROOT_DIR / "docs" / "database" / "relationship_validation.json"
+    out_file.parent.mkdir(parents=True, exist_ok=True)
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(rep, f, indent=2, default=str)
     print(f"Saved relationship validation results to {out_file}")

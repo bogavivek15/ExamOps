@@ -168,6 +168,7 @@ def discover_database_schema():
 if __name__ == "__main__":
     schema = discover_database_schema()
     out_path = ROOT_DIR / "docs" / "database" / "schema_discovery.json"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(schema, f, indent=2, default=str)
     print(f"\n[SUCCESS] Discovery output written to {out_path}")

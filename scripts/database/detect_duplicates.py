@@ -394,6 +394,7 @@ def audit_duplicates() -> Dict[str, Any]:
 if __name__ == "__main__":
     res = audit_duplicates()
     out_file = ROOT_DIR / "docs" / "database" / "duplicate_findings.json"
+    out_file.parent.mkdir(parents=True, exist_ok=True)
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(res, f, indent=2, default=str)
     print(f"Saved duplicate findings to {out_file}")

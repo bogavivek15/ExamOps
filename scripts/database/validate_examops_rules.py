@@ -324,6 +324,7 @@ def validate_examops_rules() -> Dict[str, Any]:
 if __name__ == "__main__":
     rep = validate_examops_rules()
     out_file = ROOT_DIR / "docs" / "database" / "rules_validation.json"
+    out_file.parent.mkdir(parents=True, exist_ok=True)
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(rep, f, indent=2, default=str)
     print(f"Saved rules validation results to {out_file}")
