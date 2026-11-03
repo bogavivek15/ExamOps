@@ -157,8 +157,11 @@ class SchedulingService:
                 "SELECT * FROM run_exam_students WHERE scheduling_run_id = %s;",
                 (run_id,),
             )
+            res_map: Dict[Tuple[str, str], str] = {}  # (exam_id, student_id) -> run_exam_student_id
+            participants_by_exam: Dict[str, List[ExamParticipant]] = {}
+
             if not snapshot_rows:
-                # Build snapshot from enrollments and accommodations
+                # Build snapshot from enrollments and accommodations in a single pass
                 enrollments = execute_query(
                     """
                     SELECT enr.student_id, enr.course_id, ex.id as exam_id, ex.duration_minutes,
@@ -180,7 +183,6 @@ class SchedulingService:
                 for acc in accommodations:
                     accs_by_student.setdefault(str(acc["student_id"]), []).append(acc)
 
-                # Batch insert snapshot using execute_values
                 snapshot_tuples = []
                 for row in enrollments:
                     s_id = str(row["student_id"])
@@ -203,8 +205,13 @@ class SchedulingService:
 
                     eff_dur = base_dur + extra_min
                     has_acc = extra_min > 0 or accessible or low_dist or (special_eq is not None)
+                    acc_dict = {"extra_min": extra_min, "accessible": accessible, "low_dist": low_dist} if has_acc else {}
+
+                    res_id = str(uuid.uuid4())
+                    res_map[(e_id, s_id)] = res_id
 
                     snapshot_tuples.append((
+                        res_id,
                         run_id,
                         e_id,
                         s_id,
@@ -212,8 +219,23 @@ class SchedulingService:
                         extra_min,
                         eff_dur,
                         has_acc,
-                        json.dumps({"extra_min": extra_min, "accessible": accessible, "low_dist": low_dist}) if has_acc else None,
+                        json.dumps(acc_dict) if has_acc else None,
                     ))
+
+                    participants_by_exam.setdefault(e_id, []).append(
+                        ExamParticipant(
+                            student_id=s_id,
+                            student_code=row.get("student_code", f"STU-{s_id[:6]}"),
+                            first_name=row.get("first_name", "Student"),
+                            last_name=row.get("last_name", ""),
+                            base_duration_minutes=base_dur,
+                            extra_duration_minutes=extra_min,
+                            effective_duration_minutes=eff_dur,
+                            requires_accessible_room=accessible,
+                            requires_low_distraction=low_dist,
+                            accommodation_details=acc_dict,
+                        )
+                    )
 
                 if snapshot_tuples:
                     with get_db_cursor(commit=True) as cur:
@@ -221,7 +243,7 @@ class SchedulingService:
                             cur,
                             """
                             INSERT INTO run_exam_students (
-                                scheduling_run_id, exam_id, student_id,
+                                id, scheduling_run_id, exam_id, student_id,
                                 base_duration_minutes, extra_duration_minutes, effective_duration_minutes,
                                 has_accommodation, accommodation_details
                             ) VALUES %s
@@ -230,40 +252,31 @@ class SchedulingService:
                             snapshot_tuples,
                             page_size=2000,
                         )
-
-                snapshot_rows = execute_query(
-                    "SELECT * FROM run_exam_students WHERE scheduling_run_id = %s;",
-                    (run_id,),
-                )
-
-            # Map snapshot rows for scheduler models
-            student_meta = {
-                str(s["id"]): s
-                for s in execute_query("SELECT id, student_code, first_name, last_name FROM students;")
-            }
-            res_map: Dict[Tuple[str, str], str] = {}  # (exam_id, student_id) -> run_exam_student_id
-            participants_by_exam: Dict[str, List[ExamParticipant]] = {}
-
-            for snap in snapshot_rows:
-                e_id = str(snap["exam_id"])
-                s_id = str(snap["student_id"])
-                res_map[(e_id, s_id)] = str(snap["id"])
-                sm = student_meta.get(s_id, {})
-                acc_details = snap.get("accommodation_details") or {}
-                participants_by_exam.setdefault(e_id, []).append(
-                    ExamParticipant(
-                        student_id=s_id,
-                        student_code=sm.get("student_code", f"STU-{s_id[:6]}"),
-                        first_name=sm.get("first_name", "Student"),
-                        last_name=sm.get("last_name", ""),
-                        base_duration_minutes=snap["base_duration_minutes"],
-                        extra_duration_minutes=snap["extra_duration_minutes"],
-                        effective_duration_minutes=snap["effective_duration_minutes"],
-                        requires_accessible_room=acc_details.get("accessible", False),
-                        requires_low_distraction=acc_details.get("low_dist", False),
-                        accommodation_details=acc_details,
+            else:
+                student_meta = {
+                    str(s["id"]): s
+                    for s in execute_query("SELECT id, student_code, first_name, last_name FROM students;")
+                }
+                for snap in snapshot_rows:
+                    e_id = str(snap["exam_id"])
+                    s_id = str(snap["student_id"])
+                    res_map[(e_id, s_id)] = str(snap["id"])
+                    sm = student_meta.get(s_id, {})
+                    acc_details = snap.get("accommodation_details") or {}
+                    participants_by_exam.setdefault(e_id, []).append(
+                        ExamParticipant(
+                            student_id=s_id,
+                            student_code=sm.get("student_code", f"STU-{s_id[:6]}"),
+                            first_name=sm.get("first_name", "Student"),
+                            last_name=sm.get("last_name", ""),
+                            base_duration_minutes=snap["base_duration_minutes"],
+                            extra_duration_minutes=snap["extra_duration_minutes"],
+                            effective_duration_minutes=snap["effective_duration_minutes"],
+                            requires_accessible_room=acc_details.get("accessible", False),
+                            requires_low_distraction=acc_details.get("low_dist", False),
+                            accommodation_details=acc_details,
+                        )
                     )
-                )
 
             # Build ExamModel instances
             exam_models = []

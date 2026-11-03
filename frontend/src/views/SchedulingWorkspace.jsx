@@ -98,27 +98,51 @@ export default function SchedulingWorkspace() {
     setCreating(true);
     try {
       const periodId = activeRun?.academic_period_id || '11111111-1111-1111-1111-111111111111';
+      // 1. Create the timetable record quickly (~100ms)
       const newRun = await api.createRun({
         academic_period_id: periodId,
         algorithm_version: newRunVersion,
         seed: Number(newRunSeed),
-        auto_execute: autoExecute,
       });
+
+      // 2. Immediately close modal so user is never trapped/frozen in modal
       setCreateModalOpen(false);
+      setCreating(false);
+
       await loadRuns();
       setSelectedRunId(newRun.id);
-      if (autoExecute && newRun.scheduled_count > 0) {
+
+      // 3. If autoExecute requested, trigger the solver with visible workspace progress
+      if (autoExecute) {
         setActionMessage({
-          type: 'success',
-          text: `Created and scheduled timetable ${newRun.run_code}: ${newRun.scheduled_count} exams scheduled across rooms with 0 conflicts!`,
+          type: 'info',
+          text: `Created ${newRun.run_code}. Now solving conflict-free room allocations...`,
         });
+        setExecuting(true);
+        try {
+          const result = await api.executeRun(newRun.id);
+          setActionMessage({
+            type: 'success',
+            text: `Timetable ${newRun.run_code} scheduled successfully: ${result.metrics.scheduled_count} exams scheduled across rooms with 0 conflicts!`,
+          });
+          await loadRunDetails(newRun.id);
+          await loadRuns();
+        } catch (execErr) {
+          setActionMessage({
+            type: 'error',
+            text: `Timetable created, but solver failed: ${execErr.message || 'Unable to complete timetable calculation.'}`,
+          });
+        } finally {
+          setExecuting(false);
+        }
       } else {
         setActionMessage({
           type: 'success',
-          text: `Created new timetable draft ${newRun.run_code}. You can now run the scheduler.`,
+          text: `Created new timetable draft ${newRun.run_code}. Click "Run Scheduler" to allocate rooms and times.`,
         });
       }
     } catch (err) {
+      setCreating(false);
       const msg = err.message || '';
       let userFriendlyError = err.message;
       if (
@@ -130,9 +154,6 @@ export default function SchedulingWorkspace() {
         userFriendlyError = `You do not have permission to create timetables in your current role (${currentRole || 'Learner'}). Please switch to Exam Officer or Academic Administrator.`;
       }
       setModalError(userFriendlyError);
-      setActionMessage({ type: 'error', text: userFriendlyError });
-    } finally {
-      setCreating(false);
     }
   };
 
