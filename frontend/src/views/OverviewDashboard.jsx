@@ -13,26 +13,47 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { api } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import MetricDisplay from '../components/common/MetricDisplay';
 import StatusBadge from '../components/common/StatusBadge';
 import LoadingState from '../components/common/LoadingState';
 
 export default function OverviewDashboard() {
   const navigate = useNavigate();
+  const { currentRole, currentUser } = useAuth();
   const [loading, setLoading] = useState(true);
   const [overview, setOverview] = useState(null);
   const [error, setError] = useState(null);
 
+  // Student portal specific state
+  const [studentSchedule, setStudentSchedule] = useState([]);
+  const [studentEnrollments, setStudentEnrollments] = useState([]);
+  const [studentAccommodations, setStudentAccommodations] = useState([]);
+
   useEffect(() => {
     loadOverview();
-  }, []);
+  }, [currentRole]);
 
   const loadOverview = async () => {
     try {
       setLoading(true);
       setError(null);
-      const data = await api.getAnalyticsOverview();
-      setOverview(data);
+
+      if (currentRole === 'LEARNER') {
+        const studentId = currentUser?.student_id;
+        const [sched, enrs, accs] = await Promise.all([
+          studentId ? api.getStudentSchedule(studentId).catch(() => []) : [],
+          studentId ? api.getStudentEnrollments(studentId).catch(() => []) : [],
+          api.listAccommodations().catch(() => []),
+        ]);
+        setStudentSchedule(Array.isArray(sched) ? sched : []);
+        setStudentEnrollments(Array.isArray(enrs) ? enrs : []);
+        const accItems = Array.isArray(accs) ? accs : (accs?.items || []);
+        setStudentAccommodations(accItems);
+      } else {
+        const data = await api.getAnalyticsOverview();
+        setOverview(data);
+      }
     } catch (err) {
       setError(err.message || 'Unable to load timetable overview. Please verify your connection.');
     } finally {
@@ -52,6 +73,161 @@ export default function OverviewDashboard() {
         >
           Try Again
         </button>
+      </div>
+    );
+  }
+
+  // Learner Role View: Dedicated Personal Student Portal
+  if (currentRole === 'LEARNER') {
+    return (
+      <div className="space-y-6">
+        {/* Student Welcome Banner */}
+        <div className="bg-[#121212] border border-brand-border rounded-[4px] p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <span className="text-xs uppercase font-mono tracking-wider text-brand-accent font-semibold">
+                Student Examination Portal
+              </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
+              <span className="text-xs text-brand-muted">Fall 2026 Examination Period</span>
+            </div>
+            <h2 className="text-lg sm:text-xl font-bold text-white tracking-tight">
+              Welcome, {currentUser?.display_name || 'Candidate'}
+            </h2>
+            <p className="text-xs text-brand-muted mt-1">
+              Account: <span className="font-mono text-slate-300">{currentUser?.email}</span> • Status:{' '}
+              <span className="text-brand-accent font-semibold">Active Enrolled Student</span>
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 bg-brand-elevated border border-brand-border rounded-[4px] px-3.5 py-2">
+            <CheckCircle2 className="w-4 h-4 text-brand-accent shrink-0" />
+            <div className="text-xs">
+              <div className="font-semibold text-white">Timetable Published</div>
+              <div className="text-[11px] text-brand-muted">Official Examination Schedule</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Student Scale Metrics */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          <MetricDisplay
+            label="Scheduled Exams"
+            value={studentSchedule.length}
+            icon={GraduationCap}
+            secondary="Published exam sessions"
+          />
+          <MetricDisplay
+            label="Enrolled Courses"
+            value={studentEnrollments.length}
+            icon={Calendar}
+            secondary="Active term registrations"
+          />
+          <MetricDisplay
+            label="Accommodations"
+            value={studentAccommodations.length}
+            icon={HeartHandshake}
+            secondary="Verified adjustments"
+          />
+          <MetricDisplay
+            label="Privacy Status"
+            value="Protected"
+            icon={CheckCircle2}
+            secondary="Student records isolated"
+          />
+        </div>
+
+        {/* Personal Examination Timetable */}
+        <div className="bg-brand-surface border border-brand-border rounded-[4px] p-4 sm:p-5 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-brand-border">
+            <div>
+              <h3 className="text-sm font-bold text-white tracking-tight flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-brand-accent" />
+                My Official Examination Timetable
+              </h3>
+              <p className="text-xs text-brand-muted mt-0.5">
+                Confirmed room locations, dates, and times for your scheduled examinations.
+              </p>
+            </div>
+            <span className="text-[11px] font-mono text-brand-accent bg-brand-elevated px-2 py-0.5 rounded border border-brand-border self-start sm:self-auto">
+              {studentSchedule.length} Examinations Seated
+            </span>
+          </div>
+
+          {studentSchedule.length === 0 ? (
+            <div className="p-8 text-center text-brand-muted text-xs bg-brand-elevated/40 rounded border border-brand-border">
+              <Calendar className="w-8 h-8 text-slate-500 mx-auto mb-2" />
+              <div className="font-semibold text-slate-300">No Examinations Scheduled</div>
+              <div className="mt-1 text-slate-400">
+                You do not have any examinations scheduled in the published timetable.
+              </div>
+            </div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="border-b border-brand-border text-brand-muted font-mono text-[11px] uppercase tracking-wider">
+                    <th className="py-2.5 px-3">Exam Code</th>
+                    <th className="py-2.5 px-3">Examination Title</th>
+                    <th className="py-2.5 px-3">Date & Time</th>
+                    <th className="py-2.5 px-3">Venue / Room</th>
+                    <th className="py-2.5 px-3">Duration</th>
+                    <th className="py-2.5 px-3">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-brand-border/60">
+                  {studentSchedule.map((s) => {
+                    const start = new Date(s.start_time);
+                    const end = new Date(s.end_time);
+                    return (
+                      <tr key={s.assignment_student_id || s.exam_code} className="hover:bg-white/[0.02] transition-colors">
+                        <td className="py-3 px-3 font-mono font-semibold text-brand-accent">
+                          {s.exam_code}
+                        </td>
+                        <td className="py-3 px-3">
+                          <span className="font-medium text-white block">{s.exam_title}</span>
+                          <span className="text-[11px] text-brand-muted font-mono">{s.assignment_code}</span>
+                        </td>
+                        <td className="py-3 px-3 font-mono text-slate-300">
+                          <div>{start.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</div>
+                          <div className="text-[11px] text-brand-muted">
+                            {start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} -{' '}
+                            {end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                          </div>
+                        </td>
+                        <td className="py-3 px-3">
+                          <div className="font-mono text-slate-200 font-semibold">{s.room_code}</div>
+                          <div className="text-[11px] text-brand-muted">
+                            {s.room_name} • {s.building}
+                          </div>
+                        </td>
+                        <td className="py-3 px-3 font-mono text-slate-300">
+                          {s.effective_duration_minutes} min
+                        </td>
+                        <td className="py-3 px-3">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                            Confirmed
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Student Privacy & Guidelines Notice */}
+        <div className="p-4 bg-brand-surface border border-brand-border rounded-[4px] flex items-start gap-3 text-xs text-brand-muted">
+          <CheckCircle2 className="w-4 h-4 text-brand-accent shrink-0 mt-0.5" />
+          <div className="space-y-1">
+            <span className="font-semibold text-white block">Student Data Privacy & Examination Protocols</span>
+            <p className="text-slate-400 text-[11px]">
+              Your examination timetable is tailored to your registered courses. Candidate information, accommodations, and personal timetable entries are strictly isolated under institutional privacy policies. For queries regarding your schedule or accommodations, contact the Examinations Office.
+            </p>
+          </div>
+        </div>
       </div>
     );
   }

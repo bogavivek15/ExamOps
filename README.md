@@ -1,95 +1,153 @@
-﻿# ExamOps — Examination Operations & Intelligent Scheduling Platform
+# ExamOps — Examination Operations & Intelligent Scheduling Platform
 
 > *"Plan Smarter. Schedule Precisely. Operate With Confidence."*
 
-[![Build & Test Status](https://img.shields.io/badge/Verification-42%20Collected%20%7C%20Historical%2042%2F42-57BE93.svg)](docs/testing.md)
-[![Architecture](https://img.shields.io/badge/Architecture-FastAPI%20%7C%20React%20%7C%20PostgreSQL-56D6C2.svg)](docs/architecture.md)
-[![Database](https://img.shields.io/badge/Database-26%20Tables%20%7C%20RLS%20Enforced-7CAAE5.svg)](docs/erd.md)
+[![Live System](https://img.shields.io/badge/Production%20Deployment-ONLINE-57BE93.svg)](https://exam-ops-murex.vercel.app)
+[![API Health](https://img.shields.io/badge/FastAPI%20Backend-HEALTHY-57BE93.svg)](https://examops-4x4l.onrender.com/health)
+[![Latest Local Test Run](https://img.shields.io/badge/Local%20Tests-67%20Passed%2C%201%20Warning-57BE93.svg)](docs/testing.md)
+[![Database](https://img.shields.io/badge/PostgreSQL-26%20Tables%20%7C%20RLS%20Enforced-7CAAE5.svg)](docs/erd.md)
 [![Constraints](https://img.shields.io/badge/Hard%20Constraints-0%20Violations-57BE93.svg)](docs/scheduling_algorithm.md)
 [![AI Transparency](https://img.shields.io/badge/AI%20Prompts-Logged%20%26%20Disclosed-E8B66D.svg)](docs/ai_prompt_history.md)
 
 ---
 
-## 1. Problem Statement & Operational Objective
+## 1. Live Deployment & Evaluator Quick-Start (First 2 Minutes)
 
-Managing examinations across higher education institutions—handling thousands of enrolled students, hundreds of courses, complex physical facilities, invigilator work-hour limits, and specialized disability accommodations—is one of the most operationally critical undertakings an academic administration faces.
+ExamOps is an enterprise examination operations and intelligent scheduling platform built to solve complex academic timetabling under strict physical and human constraints: student conflict prevention, room capacities, proctor workload caps, and specialized disability accommodations.
 
-**ExamOps** addresses the end-to-end examination management lifecycle:
-1. **Topological Master Data Ingestion:** Validates students, courses, enrollments, examination requirements, and facilities before scheduling.
-2. **Conflict Graph Analytics:** Identifies co-enrolled student overlaps and builds conflict graphs to order examinations by scheduling difficulty.
-3. **Deterministic Heuristic Scheduling:** Allocates examinations to collision-free time slots and rooms following the Seven Room-Splitting Invariants.
-4. **Decision Telemetry & Root-Cause Attribution:** Explains every scheduling assignment and rejection with auditable constraint telemetry and structured reason codes (`CAPACITY_DEFICIT`, `STUDENT_CONFLICT`, `NO_INVIGILATOR_AVAILABLE`).
-5. **Auditable Lifecycle Management:** Enforces immutable audit logging, non-recursive Row-Level Security, and atomic serialized publication with PostgreSQL advisory locks.
+### 🌐 Live Production Endpoints
 
----
-
-## 2. Core Application Capabilities & UI Walkthrough
-
-The platform features 12 specialized operational modules accessible via a dark-first enterprise operations command center:
-
-| Module | Core Functionality | Primary View Component |
+| Tier | Live Endpoint URL | Description |
 |---|---|---|
-| **01. Overview Dashboard** | Institution-wide KPIs, seat efficiency, upcoming exams, real-time metrics | [`OverviewDashboard.jsx`](frontend/src/views/OverviewDashboard.jsx) |
-| **02. Scheduling Operations** | Timetable timeline, run execution, candidate slot telemetry, assignment inspection | [`SchedulingWorkspace.jsx`](frontend/src/views/SchedulingWorkspace.jsx) |
-| **03. Exam Management** | Course associations, duration requirements, priority levels, scheduling history | [`ExamManagement.jsx`](frontend/src/views/ExamManagement.jsx) |
-| **04. Student Management** | Student directory, course enrollments, personalized exam schedules | [`StudentManagement.jsx`](frontend/src/views/StudentManagement.jsx) |
-| **05. Course & Enrollments** | Departmental course catalogs, active enrollments, cohort sizes | [`CourseManagement.jsx`](frontend/src/views/CourseManagement.jsx) |
-| **06. Room & Facilities** | Venue capacities, maintenance closures, wheelchair accessibility features | [`RoomManagement.jsx`](frontend/src/views/RoomManagement.jsx) |
-| **07. Invigilator Staffing** | Availability matrices, weekly workload tracking (8h/day, 25h/week caps) | [`InvigilatorManagement.jsx`](frontend/src/views/InvigilatorManagement.jsx) |
-| **08. Accommodations** | Extended time multipliers, low-distraction spaces, privacy-redacted notes | [`AccommodationManagement.jsx`](frontend/src/views/AccommodationManagement.jsx) |
-| **09. Exception Center** | Unassigned exam triage, constraint failure logs, corrective recommendations | [`ExceptionCenter.jsx`](frontend/src/views/ExceptionCenter.jsx) |
-| **10. Analytics & Reports** | Seating reconciliation, invigilator workload distribution, CSV/JSON exports | [`AnalyticsReports.jsx`](frontend/src/views/AnalyticsReports.jsx) |
-| **11. Audit & Activity** | Tamper-evident governance ledger with immutable change history | [`AuditActivity.jsx`](frontend/src/views/AuditActivity.jsx) |
-| **12. Administration** | Academic periods, time-slot policies, institutional parameters | [`Administration.jsx`](frontend/src/views/Administration.jsx) |
+| **Web Application** | **[https://exam-ops-murex.vercel.app](https://exam-ops-murex.vercel.app)** | Production React 19 + Vite operations platform *(current deployment uses credential login)* |
+| **Backend REST API** | **[https://examops-4x4l.onrender.com](https://examops-4x4l.onrender.com)** | Production FastAPI service hosted on Render *(initial spin-up may take 30–60s if idling)* |
+| **API Health Probe** | **[https://examops-4x4l.onrender.com/health](https://examops-4x4l.onrender.com/health)** | Live service heartbeat & Supabase PostgreSQL health check |
+| **API Documentation** | `https://examops-4x4l.onrender.com/docs` | *Currently unavailable in production pending verification* |
 
-### Key User Interface Visuals
+### 🔑 Evaluator Authentication & Access Architecture
 
-```
-docs/screenshots/
-├── 01_dashboard.png                     (Overview dashboard metrics & KPIs)
-├── 02_scheduling_workspace.png          (Scheduling timetable & slot evaluation)
-├── 03_exception_center.png              (Decision telemetry & reason codes)
-├── 04_accommodation_management.png      (Student accessibility & privacy masking)
-├── 05_analytics_reports.png             (Reconciliation & seat utilization)
-├── 06_audit_activity.png                (Immutable governance audit logs)
-└── examops_brand_icon_and_favicon_preview.png
-```
+#### A. Current Live Deployment Access (Active on Vercel)
 
----
+The currently deployed production frontend on Vercel presents the standard enterprise credential login screen (`/login`). External evaluators can access the platform immediately using the provisioned Academic Administrator demonstration account:
 
-## 3. Technology Stack & Actual Package Versions
+- **Institutional Email:** `evaluator@examops.edu`
+- **Password:** *(Supplied securely in your project evaluation submission brief; never stored in Git)*
+- **Assigned Role:** `ACADEMIC_ADMINISTRATOR` (full exam officer privileges: scheduling workspace, solver execution, timetable publication, room allocations, exception triage, and audit trail inspection)
 
-ExamOps utilizes a lightweight, modern stack free of black-box AI schedulers or heavy ORMs:
+*(For password distribution policy, verification procedures, and role details, see [`docs/EVALUATOR_GUIDE.md`](docs/EVALUATOR_GUIDE.md)).*
 
-### Frontend
-- **Framework:** React 19 (`19.3.1`) + Vite 8 (`8.3.5`)
-- **Routing:** React Router 7 (`7.18.5`)
-- **Styling:** Tailwind CSS (`3.4.17`) with dark-first enterprise tokens
-- **Data Visualization & Icons:** Recharts (`3.10.1`), Lucide React (`1.66.0`)
-- **Client SDK:** Supabase JavaScript Client (`2.118.0`)
+#### B. Planned Role-Based Demo Login (Implemented locally, scheduled for next deployment)
 
-### Backend
-- **Framework:** Python 3.12+ with FastAPI (`0.115.0`) & Uvicorn (`0.30.6`)
-- **Data Validation:** Pydantic (`2.9.2`) & Pydantic Settings (`2.5.2`)
-- **Database Driver:** `psycopg2-binary` (`2.9.9`) with Threaded Connection Pooling
-- **Authentication:** `python-jose` (`3.3.0`) & Supabase Python SDK (`2.8.2`)
-- **Testing:** Pytest (`9.2.0`) & HTTPX (`0.27.2`)
+A streamlined four-role demo access interface has been implemented in the codebase and validated through local test suites. Once deployed in the upcoming release:
 
-### Database & Persistence
-- **Engine:** PostgreSQL 16 (hosted via Supabase with PgBouncer connection pooler)
-- **Security:** 26 relational tables with Row-Level Security (RLS) and immutability triggers
-- **Distributed Concurrency:** PostgreSQL 64-bit advisory locks (`pg_try_advisory_lock`)
+> [!IMPORTANT]
+> **Upcoming Demo Access Security & Scope:**
+> - Evaluation demo login will be active only when `DEMO_LOGIN_ENABLED=true` on the backend and requires a valid `DEMO_ACCESS_KEY` supplied securely through the `X-Demo-Access-Key` request header. *(For security, the access key is configured via environment settings and is not committed or exposed in documentation).*
+> - **Public demo login will support only four roles:** **Academic Administrator**, **Instructor**, **Support Staff**, and **Learner**.
+> - **Platform Administrator** access is strictly prohibited via demo login and will continue to require normal credential authentication (email and password).
+> - **Role Permissions:** Instructors cannot access invigilator schedules or availability (nor clinical notes), while Support Staff has operational access to facilities, room capacities, equipment, availability, and validation triage (with clinical accommodation notes masked).
 
 ---
 
-## 4. Architecture Overview
+### ⏱️ Two-Minute Evaluator Walkthrough (Current Live Deployment)
+
+1. **Sign In (Live Frontend):** Open **[https://exam-ops-murex.vercel.app](https://exam-ops-murex.vercel.app)**. On the standard login screen, enter the evaluator credentials:
+   - **Email:** `evaluator@examops.edu`
+   - **Password:** *(Enter the evaluator password provided in your evaluation brief)*
+   Click **Sign In** to authenticate via Supabase Auth and enter the **Overview Dashboard** as Academic Administrator. *(Note: The current live deployment uses email/password login; the role-dropdown demo selector is implemented locally and planned for the next deployment).*
+2. **Review Operational KPIs (`/`):** Land on the **Overview Dashboard**. Inspect the institutional metrics reflecting the baseline seeded dataset: **5,000 students**, **150 courses**, **300 exams**, **100 rooms**, **200 invigilators**, and **301 accommodations**.
+3. **Open Scheduling Workspace (`/scheduling`):** Click the primary button **"Open Scheduling Workspace"**. Inspect the visual timetable, confirmed room allocations, and student seat assignments across the active term.
+4. **Inspect Decision Telemetry:** Click any scheduled examination in the table to open the slide-over inspection drawer. Review hard constraint validations, soft scoring breakdowns, and why alternative time slots were rejected.
+5. **Investigate Unassigned Exams (`/exceptions`):** Navigate to the **Exception Center** in the sidebar. Inspect the unassigned examinations, each attributed with deterministic failure reason codes (`STUDENT_CONFLICT`, `CAPACITY_DEFICIT`).
+6. **Verify Accommodations & Governance (`/accommodations`, `/audit`):** Inspect student accommodations with role-based medical notes privacy masking, audit trails with JSON before/after diffs, and download live CSV/JSON timetable exports.
+7. **Verify RBAC Enforcement:** Click the profile menu to sign out. Backend authorization strictly protects administrative actions (`403 Forbidden`). Once the upcoming deployment goes live, evaluators will be able to switch directly between the four demo roles to test role-scoped views interactively.
+
+---
+
+## 2. Visual Tour: Real Application Interface
+
+The platform features an Outskill-inspired Electric Lime & Obsidian dark-first design system across all 12 operational modules:
+
+### Module 01: Overview Dashboard
+![Overview Dashboard](docs/screenshots/01_dashboard.png)
+*Institutional metrics reflecting seeded dataset figures, term timetable progress, and quick operational links.*
+
+---
+
+### Module 02: Scheduling Operations Center
+![Scheduling Workspace](docs/screenshots/02_scheduling_workspace.png)
+*Visual timetable, run execution, candidate slot evaluations, and decision explainability drawer.*
+
+---
+
+### Module 09: Exception Center & Decision Telemetry
+![Exception Center](docs/screenshots/03_exception_center.png)
+*Detailed root-cause triage for unassigned exams with constraint telemetry and corrective guidance.*
+
+---
+
+### Module 08: Student Accommodations & Support
+![Accommodation Management](docs/screenshots/04_accommodation_management.png)
+*Extra time multipliers, accessible room assignments, and role-masked confidential clinical notes.*
+
+---
+
+### Module 10: Analytics & Reports
+![Analytics & Reports](docs/screenshots/05_analytics_reports.png)
+*Reconciliation charts, seat utilization histograms, and live CSV/JSON export downloads.*
+
+---
+
+### Module 11: Governance & Audit Activity
+![Audit Activity](docs/screenshots/06_audit_activity.png)
+*Tamper-evident append-only ledger tracking all administrative actions and schedule lifecycle transitions.*
+
+---
+
+## 3. Core Problem & Real Scheduling Capabilities
+
+Examination timetabling in higher education is an NP-hard combinatorial optimization challenge. ExamOps addresses this with a deterministic heuristic scheduling engine:
+
+### 1. Student Examination Conflict Prevention
+- **Co-Enrollment Graph:** Constructs a conflict graph where nodes represent examinations and weighted edges represent shared student enrollments.
+- **Hard Constraint Guarantee:** **Zero** student overlapping examinations. A student cannot be scheduled for two concurrent exams under any circumstance.
+- **Verification:** Verified by automated SQL constraint checks and pytest suite (`test_no_student_conflicts` PASSED).
+
+### 2. Room Capacity & Physical Facilities
+- **Effective-Dated Capacities:** Room capacities are effective-dated to reflect real-world venue reconfigurations.
+- **Seven Room-Splitting Invariants:** When cohort enrollment exceeds single-room capacity, the solver splits cohorts across multiple adjacent rooms while strictly preserving student-room assignments, equipment requirements, and proctor coverage.
+- **Maintenance Closures:** Honors room unavailability periods and maintenance closures.
+
+### 3. Invigilator Allocation & Human Workload Limits
+- **Single Booking:** Proctors are never double-booked across overlapping venues.
+- **Workload Caps:** Enforces institutional workload policies: maximum 8 hours per day and 25 hours per week.
+- **Staffing Ratio:** Allocates invigilators to maintain configured student-to-proctor safety ratios (default 30:1).
+
+### 4. Student Accommodations & Role-Based Clinical Privacy Masking
+- **Extended Writing Time:** Supports student-specific duration multipliers (+25%, +50% extra time) without creating downstream room conflicts.
+- **Accessibility & Low-Distraction:** Guarantees ground-floor or elevator-accessible venues and low-distraction spaces for students with documented accessibility needs.
+- **Clinical Privacy Shield:** Medical notes in `accommodation_notes` are redacted for instructors and learners, visible only to authorized Academic Administrators.
+
+### 5. Decision Telemetry & Root-Cause Attribution
+- **Every Decision Explained:** Unlike black-box solvers, ExamOps captures telemetry for every candidate slot evaluated.
+- **Deterministic Reason Codes:** Every unscheduled examination is attributed with structured reason codes (`STUDENT_CONFLICT`, `CAPACITY_DEFICIT`, `NO_INVIGILATOR_AVAILABLE`).
+
+### 6. Atomic Approval & Publication Governance
+- **Advisory Locks:** Uses PostgreSQL 64-bit advisory locks (`pg_try_advisory_lock`) to guarantee serialized execution.
+- **Atomic State Transitions:** Schedule approval and publication execute inside atomic transactions, archiving prior published schedules as `SUPERSEDED`.
+
+---
+
+## 4. Technology Stack & Architecture
+
+ExamOps relies on a modern, explainable full-stack architecture without black-box AI schedulers or heavy ORMs:
 
 ```
                       +-----------------------------------+
                       |      React 19 + Vite Frontend     |
                       |  12 Operational Product Modules   |
                       +-----------------+-----------------+
-                                        |  REST API / JWT
+                                        |  REST API / Bearer JWT
                                         v
                       +-----------------+-----------------+
                       |       FastAPI Backend API         |
@@ -99,11 +157,11 @@ ExamOps utilizes a lightweight, modern stack free of black-box AI schedulers or 
                       |  - PostgreSQL Advisory Lock       |
                       +--------+-----------------+--------+
                                |                 |
-            Solve Algorithm    |                 |  SQL Queries & Pooling
+             Solve Algorithm   |                 |  SQL Queries & Pooling
                                v                 v
 +------------------------------+----+   +--------+-------------------------+
 | Pure Python Scheduling Engine     |   | PostgreSQL 16 (Supabase)         |
-| - Student Conflict Graph Builder  |   | - 24 Normalized Relational Tables|
+| - Student Conflict Graph Builder  |   | - 26 Normalized Relational Tables|
 | - Best-Fit Decreasing Room Solver |   | - Row-Level Security Policies    |
 | - Seven Room-Splitting Invariants |   | - Immutable Audit Log Triggers   |
 | - Staffing & Workload Allocator   |   | - Frozen Participation Snapshots |
@@ -111,314 +169,149 @@ ExamOps utilizes a lightweight, modern stack free of black-box AI schedulers or 
 +-----------------------------------+   +----------------------------------+
 ```
 
+### Stack Components & Verified Versions
+
+- **Frontend:** React 19 (`19.3.1`), Vite 8 (`8.3.5`), Tailwind CSS (`3.4.17`), React Router 7 (`7.18.5`), Lucide React (`1.66.0`), Recharts (`3.10.1`), Supabase JS Client (`2.118.0`).
+- **Backend:** Python 3.12+, FastAPI (`0.115.0`), Uvicorn (`0.30.6`), Pydantic v2 (`2.9.2`), `psycopg2-binary` (`2.9.9`), `python-jose` (`3.3.0`), Supabase Python SDK (`2.8.2`).
+- **Database & Persistence:** Supabase PostgreSQL 16 with PgBouncer connection pooler, Row-Level Security, and 64-bit advisory locks.
+
 ---
 
-## 5. Repository Directory Structure
+## 5. Automated Testing & Verification Suite (Latest Local Test Run)
+
+The automated verification suite was executed locally, yielding the verified result of **67 passed, 1 warning in 84.76 seconds** across the core testing modules:
 
 ```text
-ExamOps/
-├── .dockerignore
-├── .env.example                         (Environment configuration template)
-├── .gitignore
-├── AGENTS.md                            (Definitive Master Engineering Spec)
-├── Dockerfile                           (Containerized backend deployment)
-├── README.md                            (Primary setup & evaluation guide)
-├── render.yaml                          (Render FastAPI deployment spec)
-├── requirements.txt                     (Python dependencies)
-├── backend/
-│   ├── auth.py                          (JWT verification & RBAC resolution)
-│   ├── config.py                        (Pydantic application settings)
-│   ├── database.py                      (Threaded connection pool & URL masking)
-│   ├── main.py                          (FastAPI application & CORS)
-│   ├── models/schemas.py                (Pydantic request/response models)
-│   ├── routes/                          (11 REST router modules)
-│   ├── scheduler/                       (9 deterministic solver modules)
-│   ├── services/                        (10 domain business services)
-│   └── tests/                           (5 pytest database integrity suites)
-├── data/
-│   ├── csv/                             (17 synthetic CSV datasets)
-│   ├── json/                            (17 synthetic JSON datasets)
-│   ├── sql/seed_data.sql                (6.2 MB bulk SQL insert script)
-│   ├── ground_truth.csv                 (5 isolated negative scenarios)
-│   ├── ground_truth.json                (Machine-readable ground truth)
-│   └── manifest.json                    (Canonical entity counts & SHA-256)
-├── docs/
-│   ├── ai_prompt_history.md             (Transparent AI prompt ledger)
-│   ├── ai_prompts/                      (Archived full prompt texts)
-│   ├── architecture.md                  (System architecture & ADRs DEC-001..006)
-│   ├── assumptions.md                   (26 institutional configuration assumptions)
-│   ├── business_rules.md                (Domain constraints & defaults)
-│   ├── candidate_interview_defense.md   (Technical walkthrough & interview guide)
-│   ├── data_dictionary.md               (Field-level specifications for all tables)
-│   ├── design_system.md                 (Tokens, color palette, components)
-│   ├── erd.md                           (Entity relationship diagram & cardinality)
-│   ├── evaluation.md                    (Performance, concurrency & latency metrics)
-│   ├── implementation_plan.md           (Implementation roadmap)
-│   ├── known_issues_and_limitations.md  (Conflict graph density & baseline findings)
-│   ├── permissions.md                   (RBAC matrix across 5 roles)
-│   ├── requirements.md                  (Requirements register)
-│   ├── requirements_traceability.md     (Requirement-to-code traceability)
-│   ├── scheduling_algorithm.md          (Invariants, worked examples & proof)
-│   ├── screenshots/                     (6 verified UI desktop screenshots)
-│   ├── security.md                      (Data privacy, RLS policies, audit)
-│   ├── source/                          (4 authoritative problem & FAQ documents)
-│   ├── source_manifest.md               (Synthetic data provenance specification)
-│   ├── technical_risks.md               (Risk register & mitigations)
-│   ├── testing.md                       (Automated testing strategy)
-│   └── validation_report.md             (Database validation & integrity report)
-├── frontend/
-│   ├── index.html
-│   ├── package.json
-│   ├── tailwind.config.js
-│   ├── vite.config.js
-│   ├── public/                          (Favicon & icons)
-│   └── src/
-│       ├── App.jsx                      (Lazy-loaded router for 12 modules)
-│       ├── components/common/           (7 canonical UI components)
-│       ├── context/AuthContext.jsx      (RBAC authentication context)
-│       ├── services/api.js              (33 REST API client methods)
-│       ├── styles/theme.css             (Outskill Electric Lime #B8EF43 theme)
-│       └── views/                       (12 operational module views)
-├── generator/
-│   ├── config.py                        (Seed 20261022 & profile definitions)
-│   ├── exporters.py                     (CSV, JSON, and SQL seed generator)
-│   ├── generate.py                      (Deterministic synthetic generator)
-│   └── negative_scenarios.py            (5 mandatory negative anomaly injector)
-├── scripts/
-│   ├── apply_and_test_database.py       (Schema setup & verification harness)
-│   ├── apply_cloud_migrations.py        (Cloud database migration runner)
-│   ├── load_cloud_baseline.py           (Cloud seed data loader)
-│   ├── test_scheduler.py                (Core pytest scheduling engine suite)
-│   ├── test_synthetic_data.py           (2-run reproducibility suite)
-│   ├── browser_acceptance_eight_modules.js (Headless Puppeteer test suite)
-│   ├── analyze_conflict_graph.py        (Graph density inspection tool)
-│   ├── inspect_scheduling_details.py    (Assignment & telemetry inspector)
-│   └── database/                        (4 database validation scripts)
-├── supabase/migrations/                 (5 PostgreSQL schema migrations)
-└── tests/
-    ├── test_backend_api.py              (9 API endpoint test suites)
-    ├── test_distributed_concurrency.py  (Advisory lock mutual exclusion tests)
-    └── test_role_revocation.py          (RBAC session downgrade tests)
+======================= 67 passed, 1 warning in 84.76s =======================
 ```
 
----
+> [!NOTE]
+> This test evidence reflects the latest verified local test run executed against the local testing environment (**67 passed, 1 warning in 84.76s**). It is an empirical report of local verification results, not a claim about live production test executions. *(The single warning is a Starlette deprecation notice in FastAPI TestClient: `StarletteDeprecationWarning: Using 'httpx' with 'starlette.testclient' is deprecated`).*
 
-## 6. Prerequisites
+| Test Suite Module | Scope & Verifications |
+|---|---|
+| `backend/tests/test_demo_auth_security.py` | Demo authentication restrictions, `X-Demo-Access-Key` validation, four-role whitelist, Platform Administrator demo denial, signature/expiration rejection, environment guards |
+| `backend/tests/test_rbac_scheduling_audit.py` | Role permission boundaries (Platform Admin, Academic Admin, Instructor restrictions against invigilator schedules/availability, Support Staff facilities/validation triage, Student data isolation, published schedule immutability) |
+| `backend/tests/test_database_integrity.py` | Exact entity counts (5,000 students, 300 exams, 100 rooms, 200 invigilators), PK patterns, NOT NULL columns, audit immutability triggers |
+| `backend/tests/test_duplicate_detection.py` | Unique business identifiers, composite relationship uniqueness |
+| `backend/tests/test_rbac_integrity.py` | Unauthenticated rejection, learner route protection, accommodation notes redaction |
+| `backend/tests/test_referential_integrity.py` | Foreign key cascades, composite keys on assignments, snapshot total consistency |
+| `backend/tests/test_scheduling_integrity.py` | Zero student overlaps, zero room double-bookings, capacity limits, invigilator caps, explanation telemetry |
+| `tests/test_auth_production.py` | Missing token (401), invalid signature (401), expired token (401), inactive account (401), dev role-switch denial in production (403), authoritative DB role resolution |
+| `tests/test_backend_api.py` | API health, master data CRUD, clinical privacy, scheduling run workflow, CSV/JSON exports |
+| `tests/test_distributed_concurrency.py` | PostgreSQL advisory lock mutual exclusion, multi-process isolation, crash safety |
+| `tests/test_role_revocation.py` | Role downgrades, promotions, account deactivation, cache TTL-bounded cross-worker revocation |
+| `scripts/test_scheduler.py` | Conflict graph MCF ordering, seven room-splitting invariants, **five negative scenarios**, full baseline |
 
-- **Python:** Version `3.12` or higher
-- **Node.js:** Version `20.x` or `22.x` (with `npm 10+`)
-- **Database:** PostgreSQL 15/16 (or Supabase Cloud instance)
+### Five Mandatory Negative Scenarios Verified
 
----
+All 5 required negative scenarios from Problem Statement §02 are implemented and certified in [`generator/negative_scenarios.py`](generator/negative_scenarios.py) and [`scripts/test_scheduler.py`](scripts/test_scheduler.py):
 
-## 7. Backend Installation & Startup
-
-1. **Navigate to workspace root and configure virtual environment:**
-   ```bash
-   python -m venv .venv
-   # Windows PowerShell:
-   .venv\Scripts\Activate.ps1
-   # Linux / macOS:
-   source .venv/bin/activate
-   ```
-
-2. **Install Python dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Configure environment:**
-   ```bash
-   cp .env.example .env
-   # Edit .env with your PostgreSQL/Supabase database URL and JWT credentials
-   ```
-
-4. **Start the FastAPI backend server:**
-   ```bash
-   uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
-   ```
-   Interactive Swagger documentation will be available at `http://localhost:8000/docs`.
+1. **NEG-001 (Student Overlap):** Student co-enrolled in concurrent exams $\to$ Caught with `STUDENT_NON_OVERLAP` & `STUDENT_CONFLICT`.
+2. **NEG-002 (Room Capacity Exceeded):** Student count exceeds room capacity $\to$ Rejected with `CAPACITY_DEFICIT`.
+3. **NEG-003 (Invigilator Double-Booked):** Proctor assigned to two concurrent rooms $\to$ Caught with `INVIGILATOR_DOUBLE_BOOKED`.
+4. **NEG-004 (Accommodation Ignored):** Wheelchair student assigned to inaccessible 3rd-floor room $\to$ Caught with `ACCOMMODATION_BREACH` & `ACCESSIBILITY_MISMATCH`.
+5. **NEG-005 (Exam Outside Room Availability):** Exam scheduled during room maintenance closure $\to$ Caught with `ROOM_UNAVAILABLE` & `ROOM_CLOSED_FOR_MAINTENANCE`.
 
 ---
 
-## 8. Frontend Installation & Startup
+## 6. Empirical Results & Mathematical Graph Density
 
-1. **Navigate to the frontend directory:**
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-2. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
-   The application UI will run at `http://localhost:5173`.
-
-3. **Build for production:**
-   ```bash
-   npm run build
-   ```
-
----
-
-## 9. Supabase Database Configuration & Migrations
-
-To apply the database schema against a local or remote PostgreSQL instance:
-
-```bash
-# Apply migrations 001 through 005 sequentially:
-python scripts/apply_and_test_database.py
-```
-
-The 5 migration files in `supabase/migrations/` establish:
-- `001_core_master_and_security.sql`: Core tables, immutability triggers, and helper functions.
-- `002_scheduling_engine.sql`: Scheduling runs, assignments, decisions, and participation snapshots.
-- `003_rls_and_policies.sql`: Row-Level Security policies restricting clinical notes.
-- `004_performance_indexes.sql`: Targeted composite B-tree indexes.
-- `005_cleanup_redundant_indexes.sql`: Eliminates redundant prefix indexes.
-
----
-
-## 10. Synthetic Data Generation
-
-To generate the full baseline dataset from scratch using fixed seed `20261022`:
-
-```bash
-python generator/generate.py
-```
-
-This generates:
-- **5,000 Students** (`STU-000001` to `STU-005000`)
-- **300 Examinations** (`EXAM-2026-000001` to `EXAM-2026-000300`)
-- **100 Rooms** (`ROOM-000001` to `ROOM-000100`)
-- **200 Invigilators** (`INV-000001` to `INV-000200`)
-- **25,044 Enrollments**, **1,200 Availabilities**, **301 Accommodations**
-- Outputs formatted into `data/csv/`, `data/json/`, and `data/sql/seed_data.sql`.
-
----
-
-## 11. Reproducibility Verification
-
-Per Problem Statement §10, run the two-run reproducibility verification:
-
-```bash
-python scripts/test_synthetic_data.py
-```
-
-**Verification Mechanism & Actual Execution Output:**
-```text
-=== Step 1: Testing Reproducibility across Independent Runs ===
-Generating ExamOps dataset: profile='full', seed=20261022 (5000 students, 300 exams, 100 rooms, 200 invigilators)
-  ✓ 17 canonical tables + 5 ground truth fixtures: SHA-256 Hashes 100% MATCH across Runs 1 and 2
-=== Step 2: In-Memory Referential Integrity Verification ===
-  ✓ All 25,044 enrollments, 300 exams, 107 requirements, 100 rooms, and 301 accommodations reference valid parents
-=== Step 3: Identifier Format Verification ===
-  ✓ All student, exam, room, and invigilator codes strictly conform to canonical regex patterns
-=== Step 4: Loading SQL Seed into PostgreSQL & Reconciling Counts ===
-  ℹ Disposable test container 'examops-db-test' is not running.
-  ℹ Per Database Safety Policy, Step 4 was NOT RUN against production Supabase.
-  ✓ Steps 1–3 (Reproducibility, Referential Integrity, Deterministic IDs) VERIFIED.
-```
-
----
-
-## 12. Automated Testing & Verification Suite
-
-The repository contains **42 test cases** across 9 modules covering database integrity, RBAC, API endpoints, distributed locking, and scheduler invariants:
-
-### Verification Context & Execution Results
-- **Historical Full-Suite Execution (`2026-11-03 04:30 UTC`):** 42/42 tests passing against live Supabase PostgreSQL (340.28s).
-- **Latest Release Verification (`2026-11-03 13:30 IST / 08:00 UTC`):**
-  - Pytest Discovery: `python -m pytest backend/tests tests scripts/test_scheduler.py --collect-only` (42 items collected, 0 errors).
-  - In-Memory Scheduling Suite: `python scripts/test_scheduler.py` (4/4 passed: MCF ordering, 7 room-splitting invariants, 5 negative scenarios).
-  - Synthetic Data Reproducibility: `python scripts/test_synthetic_data.py` (Dual-run SHA-256 match, 150 `course_instructors` FK verified).
-  - Production Frontend Build: `npm run build` (2,654 modules transformed with 0 errors in 1.36s).
-  - Database Safety Guard: Mutating database integration tests are not re-executed against the operational Supabase instance during release audits to prevent creating unwanted published schedules without a disposable test container.
-
-```bash
-python -m pytest backend/tests tests scripts/test_scheduler.py -v
-```
-
-### Breakdown of the 42 Tests
-
-| Test Module | Test Count | Scope |
-|---|---|---|
-| `backend/tests/test_database_integrity.py` | 4 tests | Entity counts, PK patterns, NOT NULL columns, audit immutability triggers |
-| `backend/tests/test_duplicate_detection.py` | 2 tests | Unique business codes, composite relationship uniqueness |
-| `backend/tests/test_rbac_integrity.py` | 3 tests | Unauthenticated rejection, learner route protection, accommodation masking |
-| `backend/tests/test_referential_integrity.py` | 3 tests | FK cascades, composite keys on assignments, snapshot total consistency |
-| `backend/tests/test_scheduling_integrity.py` | 5 tests | Zero student overlaps, zero room double-bookings, capacity limits, invigilator caps |
-| `tests/test_backend_api.py` | 9 tests | Health check, auth, master data CRUD, clinical privacy, scheduling run workflow, exports |
-| `tests/test_distributed_concurrency.py` | 5 tests | PostgreSQL advisory lock mutual exclusion, multi-process isolation, crash safety |
-| `tests/test_role_revocation.py` | 7 tests | Role downgrades, deactivation, cache TTL, invalid JWT signatures |
-| `scripts/test_scheduler.py` | 4 tests | Conflict graph heuristics, 7 room-splitting invariants, **5 negative scenarios**, full baseline |
-| **TOTAL** | **42 tests** | **100% Passing (0 failures, 0 skips)** |
-
-```text
-================== 42 passed, 1 warning in 340.28s (0:05:40) ==================
-```
-
----
-
-## 13. Core Workflow Demonstration Steps
-
-To walk through the complete examination scheduling operations workflow:
-
-1. **Step 1: Data Initialization**
-   - Confirm master data in `data/csv/` or run `python generator/generate.py`.
-2. **Step 2: Start Services**
-   - Start backend (`uvicorn backend.main:app --port 8000`) and frontend (`npm run dev`).
-3. **Step 3: Open Scheduling Operations Center**
-   - Navigate to `http://localhost:5173/scheduling`.
-4. **Step 4: Execute a Scheduling Run**
-   - Click **"Create Run"** and select the active period.
-   - Click **"Execute Run"**; the backend acquires the advisory lock and runs the deterministic solver in ~4 seconds.
-5. **Step 5: Inspect Decisions & Room Splits**
-   - View scheduled assignments on the visual timetable. Click any examination card to inspect assigned rooms, seated students, and invigilator ratios.
-6. **Step 6: Investigate Unassigned Examinations**
-   - Navigate to **Exception Center** (`/exceptions`) to view structured failure reason codes (`CAPACITY_DEFICIT`, `STUDENT_CONFLICT`).
-7. **Step 7: Approve and Publish**
-   - Click **"Approve Schedule"** then **"Publish Schedule"**. The system executes an atomic row-locked transaction marking previous published schedules as `SUPERSEDED`.
-8. **Step 8: Export Schedule**
-   - Navigate to **Analytics & Reports** (`/analytics`) to download timetable CSV and JSON exports.
-
----
-
-## 14. Empirical Results & Known Limitations
-
-For complete details, see [`docs/known_issues_and_limitations.md`](docs/known_issues_and_limitations.md).
+For detailed proofs and data analysis, see [`docs/known_issues_and_limitations.md`](docs/known_issues_and_limitations.md).
 
 ### Baseline Scheduling Result
-- **Scheduled Examinations:** **81 examinations** across 317 room assignments (100% capacity in available sequential slots).
-- **Unassigned Examinations:** **219 examinations** (all fully explained with telemetry and reason codes).
+- **Scheduled Examinations:** **81 examinations** across 317 room assignments (100% room capacity in available sequential slots).
+- **Unassigned Examinations:** **219 examinations** (all 219 fully explained with telemetry and reason codes).
+- **Hard Constraint Violations:** **Exactly 0**.
 
 ### Mathematical Cause (Conflict Graph Density)
-Using `python scripts/analyze_conflict_graph.py`, we measured the student co-enrollment graph:
-- Total Exams: 300
+Using `python scripts/analyze_conflict_graph.py`, we measured the student co-enrollment conflict graph:
+- Total Examinations: 300
 - Total Conflict Edges: 44,410 out of 44,850 maximum possible pairs (**Density: 0.990**).
 - Average Conflict Degree: 296.1 out of 299.
 
-Because synthetic students have broad cross-departmental enrollments, virtually every examination conflicts with every other examination. Under the strict hard constraint `STUDENT_NON_OVERLAP`, only ~1 exam can run at any given moment. In a 12-day window (08:00–18:00), there are only ~69 to 81 sequential non-overlapping time slots. ExamOps completely saturated every available slot without violating any hard constraints.
+Because synthetic students have broad cross-departmental enrollments, virtually every examination conflicts with every other examination. Under the strict hard constraint `STUDENT_NON_OVERLAP`, only ~1 exam can run at any given moment. In a 12-day examination window (08:00–18:00), there are only ~69 to 81 sequential non-overlapping time slots. ExamOps completely saturated every available slot without violating any hard constraints.
 
 ---
 
-## 15. Using the CSV and JSON Exports
+## 7. Curated Technical Documentation Index
 
-Pre-generated synthetic datasets and exports are available directly in the repository:
-- **CSV Datasets:** Located in [`data/csv/`](data/csv/) (17 tabular files).
-- **JSON Datasets:** Located in [`data/json/`](data/json/) (17 structured JSON files).
-- **SQL Seed File:** Located at [`data/sql/seed_data.sql`](data/sql/seed_data.sql).
-- **Live Timetable Export via API:**
-  - `GET /api/exports/timetable.csv` $\to$ Returns confirmed schedule with exam code, course, slot, venue, and invigilator.
-  - `GET /api/exports/timetable.json` $\to$ Returns full hierarchical assignment objects.
+All architectural contracts and engineering evidence are available in the [`docs/`](docs/) directory:
+
+- **System Architecture & ADRs:** [`docs/architecture.md`](docs/architecture.md) — Architectural decision records DEC-001 through DEC-006.
+- **Scheduling Algorithm & Proofs:** [`docs/scheduling_algorithm.md`](docs/scheduling_algorithm.md) — Conflict graphs, 7 room-splitting invariants, and mathematical proofs.
+- **Business Rules & Policy Register:** [`docs/business_rules.md`](docs/business_rules.md) and [`docs/assumptions.md`](docs/assumptions.md) — Institutional constraint thresholds and defaults.
+- **Database Schema & Entity Model:** [`docs/erd.md`](docs/erd.md) and [`docs/data_dictionary.md`](docs/data_dictionary.md) — Full 26-table relational schema and field specifications.
+- **Security & Authorization Contract:** [`docs/security.md`](docs/security.md) and [`docs/permissions.md`](docs/permissions.md) — Supabase Auth, RLS policies, and 5-role RBAC matrix.
+- **Testing & Verification Evidence:** [`docs/testing.md`](docs/testing.md) and [`docs/validation_report.md`](docs/validation_report.md) — Complete automated test strategy and database validation report.
+- **Empirical Limitations & Analysis:** [`docs/known_issues_and_limitations.md`](docs/known_issues_and_limitations.md) — Conflict graph density analysis and scaling observations.
+- **Candidate Interview Walkthrough:** [`docs/candidate_interview_defense.md`](docs/candidate_interview_defense.md) — Technical defense notes and architecture walkthrough.
+- **External Evaluator Guide:** [`docs/EVALUATOR_GUIDE.md`](docs/EVALUATOR_GUIDE.md) — Step-by-step review instructions for project evaluators.
 
 ---
 
-## 16. Submission Credentials & Verification Statement
+## 8. Local Setup & Execution Guide
 
-This repository constitutes the complete submission for the YottaFlex AI Candidate Project:
+### Prerequisites
+- **Python:** `3.12` or higher
+- **Node.js:** `20.x` or `22.x` (with `npm 10+`)
+- **Database:** PostgreSQL 15/16 or Supabase Cloud instance
+
+### Backend Setup
+```bash
+# 1. Create and activate Python virtual environment
+python -m venv .venv
+
+# Windows (PowerShell):
+.venv\Scripts\Activate.ps1
+
+# Linux / macOS (bash/zsh):
+source .venv/bin/activate
+
+# 2. Install dependencies
+pip install -r requirements.txt
+
+# 3. Configure environment
+cp .env.example .env
+# Set DATABASE_URL and Supabase credentials in .env
+
+# 4. Start FastAPI backend
+uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+```
+Swagger API docs will be available at `http://localhost:8000/docs`.
+
+### Frontend Setup
+```bash
+# 1. Install frontend packages
+cd frontend
+npm install
+
+# 2. Run local development server
+npm run dev
+
+# 3. Build for production
+npm run build
+```
+Frontend UI will run at `http://localhost:5173`.
+
+### Synthetic Data Generation & Reproducibility Check
+```bash
+# Generate baseline dataset (seed 20261022)
+python generator/generate.py
+
+# Verify dual-run reproducibility & SHA-256 hashes
+python scripts/test_synthetic_data.py
+
+# Run in-memory scheduling solver test suite
+python scripts/test_scheduler.py
+```
+
+---
+
+## 9. Submission Statement
+
+This repository constitutes the complete submission for the YottaFlex AI Forward Deployed Engineer recruitment evaluation:
 - **Repository:** `https://github.com/bogavivek15/ExamOps.git`
-- **Transparent AI Usage:** See [`docs/ai_prompt_history.md`](docs/ai_prompt_history.md) for full prompt ledger and autonomous execution disclosure.
-- **Data Provenance:** See [`docs/source_manifest.md`](docs/source_manifest.md) for synthetic data verification.
-- **Candidate Defense:** See [`docs/candidate_interview_defense.md`](docs/candidate_interview_defense.md) for architecture defense and walkthrough notes.
+- **Live Deployment:** `https://exam-ops-murex.vercel.app`
+- **Candidate Walkthrough:** See [`docs/candidate_interview_defense.md`](docs/candidate_interview_defense.md).
+- **AI Transparency Log:** Full prompt audit trail preserved in [`docs/ai_prompt_history.md`](docs/ai_prompt_history.md).

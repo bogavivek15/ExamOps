@@ -66,6 +66,8 @@ export default function AccommodationManagement() {
     }
   }
 
+  const isAdmin = ['ACADEMIC_ADMINISTRATOR', 'PLATFORM_ADMINISTRATOR', 'EXAM_OFFICER'].includes(currentRole);
+
   const columns = [
     {
       header: 'Student',
@@ -105,7 +107,7 @@ export default function AccommodationManagement() {
       header: 'Status',
       cell: (row) => <StatusBadge status={row.status || 'ACTIVE'} />,
     },
-    {
+    ...(isAdmin ? [{
       header: 'Confidential Notes',
       cell: (row) => (
         <button
@@ -117,8 +119,20 @@ export default function AccommodationManagement() {
           View Notes
         </button>
       ),
-    },
+    }] : []),
   ];
+
+  if (currentRole === 'INSTRUCTOR') {
+    return (
+      <div className="p-8 bg-brand-surface border border-brand-border rounded-[4px] text-center space-y-3">
+        <Lock className="w-10 h-10 text-amber-400 mx-auto" />
+        <h2 className="text-base font-bold text-white">Student Accommodations Restricted</h2>
+        <p className="text-xs text-brand-muted max-w-lg mx-auto">
+          Under institutional disability confidentiality guidelines, student medical files and individual accommodation records are strictly managed by Disability Support Services and Examination Officers. Course instructors are notified directly when exam adjustments affect their course setup.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -127,28 +141,31 @@ export default function AccommodationManagement() {
         <div>
           <h1 className="text-lg sm:text-xl font-bold text-brand-text tracking-tight flex items-center gap-2.5">
             <Shield className="w-5 h-5 text-brand-accent" />
-            Student Accommodations & Support
+            {currentRole === 'LEARNER' ? 'My Approved Accommodations' : 'Student Accommodations & Support'}
           </h1>
           <p className="text-xs text-brand-muted mt-1">
-            Manage student accessibility needs, exam extra time, and specialized room support.
+            {currentRole === 'LEARNER'
+              ? 'Verified examination accessibility adjustments and extra time provisions.'
+              : 'Manage student accessibility needs, exam extra time, and specialized room support.'}
           </p>
         </div>
       </div>
 
-      {/* KPI Overview */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-        <MetricDisplay
-          label="Active Accommodations"
-          value={total}
-          subtext="Fall 2026 Term"
-          icon={Shield}
-        />
-        <MetricDisplay
-          label="Extra Time Requests"
-          value="45%"
-          subtext="+25% or +50% extra minutes"
-          icon={Clock}
-        />
+      {/* KPI Overview (hidden for learners) */}
+      {currentRole !== 'LEARNER' && (
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          <MetricDisplay
+            label="Active Accommodations"
+            value={total}
+            subtext="Fall 2026 Term"
+            icon={Shield}
+          />
+          <MetricDisplay
+            label="Extra Time Requests"
+            value="45%"
+            subtext="+25% or +50% extra minutes"
+            icon={Clock}
+          />
         <MetricDisplay
           label="Accessible Seating"
           value="35%"
@@ -162,6 +179,7 @@ export default function AccommodationManagement() {
           icon={Lock}
         />
       </div>
+      )}
 
       {/* Filter Bar */}
       <div className="bg-brand-surface border border-brand-border rounded-[4px] p-3 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4">

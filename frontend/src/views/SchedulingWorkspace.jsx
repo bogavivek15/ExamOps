@@ -67,14 +67,17 @@ export default function SchedulingWorkspace() {
   const loadRunDetails = async (runId) => {
     try {
       setLoading(true);
-      const [runData, asgns, decs] = await Promise.all([
+      const promises = [
         api.getRun(runId),
         api.getRunAssignments(runId, { limit: 500 }),
-        api.getRunDecisions(runId, { limit: 500 }),
-      ]);
-      setActiveRun(runData);
-      setAssignments(asgns);
-      setDecisions(decs);
+      ];
+      if (isAdmin) {
+        promises.push(api.getRunDecisions(runId, { limit: 500 }));
+      }
+      const results = await Promise.all(promises);
+      setActiveRun(results[0]);
+      setAssignments(results[1] || []);
+      setDecisions(isAdmin && results[2] ? results[2] : []);
     } catch (err) {
       console.error('Failed to load timetable details:', err);
     } finally {
@@ -95,7 +98,7 @@ export default function SchedulingWorkspace() {
       setCreateModalOpen(false);
       await loadRuns();
       setSelectedRunId(newRun.id);
-      setActionMessage({ type: 'success', text: `Created new timetable ${newRun.run_code}` });
+      setActionMessage({ type: 'success', text: `Created new timetable draft ${newRun.run_code}. You can now run the scheduler.` });
     } catch (err) {
       const msg = err.message || '';
       let userFriendlyError = err.message;
@@ -114,13 +117,20 @@ export default function SchedulingWorkspace() {
 
   const handleExecuteSolver = async () => {
     if (!selectedRunId) return;
+    if (activeRun?.status === 'PUBLISHED') {
+      setActionMessage({
+        type: 'error',
+        text: 'This timetable is already PUBLISHED and cannot be re-executed. Please click "New Timetable" to create a new draft.',
+      });
+      return;
+    }
     try {
       setExecuting(true);
-      setActionMessage({ type: 'info', text: 'Creating exam timetable and assigning rooms...' });
+      setActionMessage({ type: 'info', text: 'Running scheduling algorithm and allocating rooms...' });
       const result = await api.executeRun(selectedRunId);
       setActionMessage({
         type: 'success',
-        text: `Timetable created successfully: ${result.metrics.scheduled_count} exams scheduled without any conflicts!`,
+        text: `Timetable scheduled successfully: ${result.metrics.scheduled_count} exams scheduled without any conflicts!`,
       });
       await loadRunDetails(selectedRunId);
       await loadRuns();
@@ -262,7 +272,7 @@ export default function SchedulingWorkspace() {
       width: '110px',
       render: (val) => <StatusBadge status={val} size="xs" />,
     },
-    {
+    ...(isAdmin ? [{
       header: 'Reason',
       accessor: 'exam_id',
       width: '110px',
@@ -276,7 +286,7 @@ export default function SchedulingWorkspace() {
           <Eye size={12} className="text-brand-accent" /> Details
         </button>
       ),
-    },
+    }] : []),
   ];
 
   return (
@@ -302,26 +312,29 @@ export default function SchedulingWorkspace() {
               ))}
             </select>
 
-            <button
-              onClick={() => {
-                setModalError(null);
-                setCreateModalOpen(true);
-              }}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded-[4px] text-xs text-brand-text hover:border-brand-accent transition-colors shrink-0"
-            >
-              <Plus size={14} className="text-brand-accent" /> New Timetable
-            </button>
+            {isAdmin && (
+              <button
+                onClick={() => {
+                  setModalError(null);
+                  setCreateModalOpen(true);
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border rounded-[4px] text-xs text-brand-text hover:border-brand-accent transition-colors shrink-0"
+              >
+                <Plus size={14} className="text-brand-accent" /> New Timetable
+              </button>
+            )}
           </div>
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2 flex-wrap justify-start md:justify-end">
             <button
               onClick={handleExecuteSolver}
-              disabled={executing || !isAdmin}
+              disabled={executing || !isAdmin || activeRun?.status === 'PUBLISHED' || activeRun?.status === 'SUPERSEDED' || activeRun?.status === 'APPROVED'}
+              title={activeRun?.status === 'PUBLISHED' ? "Published timetables are immutable and cannot be re-executed. Click 'New Timetable' to create and run a new draft." : undefined}
               className="flex items-center gap-1.5 px-3.5 py-2 sm:py-1.5 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold text-xs rounded-[4px] transition-all shadow-md shadow-brand-accent/20 disabled:opacity-50"
             >
               <Play size={13} className="fill-current" />
-              {executing ? 'Creating Timetable...' : 'Create Timetable'}
+              {executing ? 'Running Scheduler...' : 'Run Scheduler'}
             </button>
 
             <button
@@ -374,6 +387,29 @@ export default function SchedulingWorkspace() {
                 <span className="font-mono font-bold text-amber-300">{currentRole || 'Learner'}</span> role. Creating or publishing timetables requires <strong>Exam Officer</strong> or <strong>Administrator</strong> permissions.
               </span>
             </div>
+          </div>
+        )}
+
+        {/* Published Timetable Immutability Notice */}
+        {activeRun?.status === 'PUBLISHED' && (
+          <div className="p-3 bg-brand-elevated/70 border border-brand-accent/30 rounded-[4px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-brand-text">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-brand-accent shrink-0" />
+              <span>
+                <strong>Official Timetable Published:</strong> Run <span className="font-mono text-brand-accent font-semibold">{activeRun.run_code}</span> is officially published and immutable. Historical assignments are permanently preserved for audit. To modify or generate a new schedule, create a new timetable draft.
+              </span>
+            </div>
+            {isAdmin && (
+              <button
+                onClick={() => {
+                  setModalError(null);
+                  setCreateModalOpen(true);
+                }}
+                className="px-2.5 py-1 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold text-xs rounded transition-colors shrink-0 flex items-center gap-1"
+              >
+                <Plus size={12} /> New Timetable Draft
+              </button>
+            )}
           </div>
         )}
 

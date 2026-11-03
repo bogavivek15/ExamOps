@@ -63,6 +63,10 @@ class ProfileCache:
             else:
                 self._cache.clear()
 
+    def clear(self):
+        """Clears all entries from the profile cache."""
+        self.invalidate()
+
 _profile_cache = ProfileCache(ttl_seconds=5.0)
 
 def invalidate_profile_cache(key: Optional[str] = None):
@@ -144,78 +148,91 @@ def create_access_token(user_id: str, email: str, role: str, expires_delta_secon
 
 def verify_and_decode_jwt(token: str) -> Optional[Dict[str, Any]]:
     """
-    Verifies JWT cryptographic signature and expiration against:
-    1. Supabase JWKS (ES256 / RS256 asymmetric keys)
-    2. Supabase Auth /auth/v1/user endpoint (if online/configured)
-    3. Secret key HMAC (HS256)
+    Verifies JWT cryptographic signature, expiration, and issuer against:
+    1. Supabase JWKS (ES256 / RS256 asymmetric keys) - requires exact Supabase issuer
+    2. SUPABASE_JWT_SECRET (HS256) - requires exact Supabase issuer
+    3. JWT_SECRET_KEY (HS256) - internal ExamOps tokens; preserves compatibility with tokens lacking an issuer
     Returns decoded payload dictionary or None if invalid.
     """
     if not token or not isinstance(token, str):
         return None
 
-    # Step 1: Attempt JWKS / asymmetric decode
     try:
         unverified_header = jwt.get_unverified_header(token)
-        alg = unverified_header.get("alg", "HS256")
-        kid = unverified_header.get("kid")
-
-        if alg in ("ES256", "RS256"):
-            key = _jwks_cache.get_key(kid)
-            if key:
-                try:
-                    payload = jwt.decode(
-                        token,
-                        key,
-                        algorithms=[alg],
-                        options={"verify_signature": True, "verify_exp": True, "verify_aud": False},
-                    )
-                    return payload
-                except (JWTError, ExpiredSignatureError):
-                    return None
     except Exception:
-        pass
+        return None
 
-    # Step 2: Attempt HS256 decode with configured secrets
-    for secret in [settings.SUPABASE_JWT_SECRET, settings.JWT_SECRET_KEY]:
-        if not secret or secret.startswith("placeholder"):
-            continue
+    alg = unverified_header.get("alg", "HS256")
+    kid = unverified_header.get("kid")
+
+    supabase_url = (settings.SUPABASE_URL or "").strip().rstrip("/")
+    expected_iss = f"{supabase_url}/auth/v1" if supabase_url else ""
+
+    # Step 1: Attempt JWKS / asymmetric decode (ES256 / RS256)
+    if alg in ("ES256", "RS256"):
+        key = _jwks_cache.get_key(kid)
+        if not key:
+            return None
         try:
             payload = jwt.decode(
                 token,
-                secret,
+                key,
+                algorithms=[alg],
+                options={"verify_signature": True, "verify_exp": True, "verify_aud": False},
+            )
+            # Requirement 1: require iss to exactly match SUPABASE_URL.rstrip("/") + "/auth/v1"
+            if not expected_iss or payload.get("iss") != expected_iss:
+                return None
+            return payload
+        except (JWTError, ExpiredSignatureError):
+            return None
+        except Exception:
+            return None
+
+    # Step 2: Attempt HS256 decode using SUPABASE_JWT_SECRET (if configured)
+    supabase_secret = settings.SUPABASE_JWT_SECRET
+    jwt_secret = settings.JWT_SECRET_KEY
+
+    if supabase_secret and "placeholder" not in supabase_secret.lower() and supabase_secret != jwt_secret:
+        try:
+            payload = jwt.decode(
+                token,
+                supabase_secret,
                 algorithms=["HS256"],
                 options={"verify_signature": True, "verify_exp": True, "verify_aud": False},
             )
+            # Token signature was cryptographically verified under SUPABASE_JWT_SECRET.
+            # Requirement 2: For HS256 tokens signed using SUPABASE_JWT_SECRET, require the exact same issuer.
+            # Requirement 4: Do not allow a token with a missing or incorrect issuer to fall through.
+            if not expected_iss or payload.get("iss") != expected_iss:
+                return None
             return payload
-        except (JWTError, ExpiredSignatureError):
+        except ExpiredSignatureError:
+            return None
+        except JWTError:
             pass
         except Exception:
             pass
 
-    # Step 3: Online Supabase Auth user verification fallback
-    if settings.SUPABASE_URL and not settings.SUPABASE_URL.startswith("placeholder"):
+    # Step 3: Attempt HS256 decode using internal JWT_SECRET_KEY
+    if jwt_secret and "placeholder" not in jwt_secret.lower():
         try:
-            headers = {"Authorization": f"Bearer {token}"}
-            if settings.SUPABASE_ANON_KEY and not settings.SUPABASE_ANON_KEY.startswith("placeholder"):
-                headers["apikey"] = settings.SUPABASE_ANON_KEY
-            elif settings.SUPABASE_SERVICE_ROLE_KEY and not settings.SUPABASE_SERVICE_ROLE_KEY.startswith("placeholder"):
-                headers["apikey"] = settings.SUPABASE_SERVICE_ROLE_KEY
-
-            if "apikey" in headers:
-                r = httpx.get(
-                    f"{settings.SUPABASE_URL.rstrip('/')}/auth/v1/user",
-                    headers=headers,
-                    timeout=4.0,
-                )
-                if r.status_code == 200:
-                    data = r.json()
-                    return {
-                        "sub": data.get("id"),
-                        "id": data.get("id"),
-                        "email": data.get("email"),
-                        "role": data.get("role", "authenticated"),
-                        "user_metadata": data.get("user_metadata", {}),
-                    }
+            payload = jwt.decode(
+                token,
+                jwt_secret,
+                algorithms=["HS256"],
+                options={"verify_signature": True, "verify_exp": True, "verify_aud": False},
+            )
+            # Requirement 3: For internal ExamOps tokens signed using JWT_SECRET_KEY,
+            # preserve compatibility with tokens that do not contain an issuer.
+            token_iss = payload.get("iss")
+            if token_iss is not None:
+                # If an issuer is explicitly provided, it must match the expected issuer
+                if expected_iss and token_iss != expected_iss:
+                    return None
+            return payload
+        except (JWTError, ExpiredSignatureError):
+            pass
         except Exception:
             pass
 
@@ -246,34 +263,36 @@ def get_current_user(
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-    elif settings.ENVIRONMENT != "production":
-        # Internal test harness fallbacks allowed strictly in non-production test suites
-        if x_test_user_id:
-            user_id = x_test_user_id
-        elif x_test_role:
-            canonical_role = ROLE_ALIASES.get(x_test_role.upper(), x_test_role)
-            cache_key = f"role:{canonical_role}"
-            cached = _profile_cache.get(cache_key)
-            if cached:
-                return cached
+    else:
+        env = (settings.ENVIRONMENT or "").strip().lower()
+        if env not in ("production", "prod"):
+            # Internal test harness fallbacks allowed strictly in non-production test suites
+            if x_test_user_id:
+                user_id = x_test_user_id
+            elif x_test_role:
+                canonical_role = ROLE_ALIASES.get(x_test_role.upper(), x_test_role)
+                cache_key = f"role:{canonical_role}"
+                cached = _profile_cache.get(cache_key)
+                if cached:
+                    return cached
 
-            prof = execute_query(
-                "SELECT * FROM user_profiles WHERE role = %s AND status = 'ACTIVE' ORDER BY created_at ASC LIMIT 1;",
-                (canonical_role,),
-                fetch_one=True,
-            )
-            if prof:
-                user = CurrentUser(
-                    id=str(prof["id"]),
-                    email=prof["email"],
-                    display_name=prof["display_name"],
-                    role=prof["role"],
-                    student_id=str(prof["student_id"]) if prof["student_id"] else None,
-                    invigilator_id=str(prof["invigilator_id"]) if prof["invigilator_id"] else None,
-                    department=prof["department"],
+                prof = execute_query(
+                    "SELECT * FROM user_profiles WHERE role = %s AND status = 'ACTIVE' ORDER BY created_at ASC LIMIT 1;",
+                    (canonical_role,),
+                    fetch_one=True,
                 )
-                _profile_cache.set(cache_key, user)
-                return user
+                if prof:
+                    user = CurrentUser(
+                        id=str(prof["id"]),
+                        email=prof["email"],
+                        display_name=prof["display_name"],
+                        role=prof["role"],
+                        student_id=str(prof["student_id"]) if prof["student_id"] else None,
+                        invigilator_id=str(prof["invigilator_id"]) if prof["invigilator_id"] else None,
+                        department=prof["department"],
+                    )
+                    _profile_cache.set(cache_key, user)
+                    return user
 
     if not user_id:
         raise HTTPException(

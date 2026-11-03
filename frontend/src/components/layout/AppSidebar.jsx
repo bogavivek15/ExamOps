@@ -55,6 +55,14 @@ const NAV_GROUPS = [
   },
 ];
 
+const ROLE_PERMITTED_ROUTES = {
+  LEARNER: ['/', '/exams', '/courses', '/accommodations', '/students'],
+  INSTRUCTOR: ['/', '/exams', '/courses', '/rooms', '/invigilators'],
+  SUPPORT_STAFF: ['/', '/exceptions', '/rooms', '/invigilators', '/accommodations', '/analytics'],
+  ACADEMIC_ADMINISTRATOR: ['/', '/scheduling', '/exceptions', '/exams', '/students', '/courses', '/rooms', '/invigilators', '/accommodations', '/analytics', '/audit', '/admin'],
+  PLATFORM_ADMINISTRATOR: ['/', '/scheduling', '/exceptions', '/exams', '/students', '/courses', '/rooms', '/invigilators', '/accommodations', '/analytics', '/audit', '/admin'],
+};
+
 export default function AppSidebar({ collapsed, onToggle, mobileOpen, onCloseMobile }) {
   const navigate = useNavigate();
   const { currentRole, availableRoles, logout } = useAuth();
@@ -65,6 +73,23 @@ export default function AppSidebar({ collapsed, onToggle, mobileOpen, onCloseMob
     await logout();
     navigate('/login', { replace: true });
   };
+
+  const permittedRoutes = ROLE_PERMITTED_ROUTES[currentRole] || ROLE_PERMITTED_ROUTES.ACADEMIC_ADMINISTRATOR;
+  const visibleGroups = NAV_GROUPS.map((group) => {
+    const items = group.items
+      .filter((item) => permittedRoutes.includes(item.to))
+      .map((item) => {
+        if (currentRole === 'LEARNER') {
+          if (item.to === '/') return { ...item, label: 'My Timetable' };
+          if (item.to === '/students') return { ...item, label: 'My Profile' };
+          if (item.to === '/exams') return { ...item, label: 'My Exams' };
+          if (item.to === '/courses') return { ...item, label: 'My Courses' };
+          if (item.to === '/accommodations') return { ...item, label: 'My Accommodations' };
+        }
+        return item;
+      });
+    return { ...group, items };
+  }).filter((group) => group.items.length > 0);
 
   return (
     <>
@@ -153,7 +178,7 @@ export default function AppSidebar({ collapsed, onToggle, mobileOpen, onCloseMob
 
           {/* Navigation Groups */}
           <div className="p-3 space-y-6 overflow-y-auto max-h-[calc(100vh-140px)]">
-            {NAV_GROUPS.map((group) => (
+            {visibleGroups.map((group) => (
               <div key={group.title} className="space-y-1">
                 {(!collapsed || mobileOpen) && (
                   <div className="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-2">

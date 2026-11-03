@@ -93,6 +93,22 @@ export function AuthProvider({ children }) {
     };
   }, []);
 
+  const demoLogin = async (role, accessKey = null) => {
+    try {
+      setLoading(true);
+      setAuthError(null);
+      const data = await api.demoLogin(role, accessKey);
+      setCurrentUser(data.user);
+      return data.user;
+    } catch (err) {
+      const msg = err.message || 'Demo session initialization failed. Please try again.';
+      setAuthError(msg);
+      throw new Error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const login = async (email, password) => {
     try {
       setLoading(true);
@@ -161,6 +177,7 @@ export function AuthProvider({ children }) {
         loading,
         authError,
         login,
+        demoLogin,
         logout,
         availableRoles: ROLES,
       }}

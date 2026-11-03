@@ -17,6 +17,9 @@ def list_invigilators(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Lists invigilators and staffing profiles."""
+    if current_user.role in ("LEARNER", "STUDENT"):
+        raise HTTPException(status_code=403, detail="Forbidden: Invigilator records are restricted to academic staff.")
+
     return InvigilatorService.list_invigilators(
         limit=limit,
         offset=offset,
@@ -30,6 +33,9 @@ def get_invigilator(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Retrieves detailed invigilator record."""
+    if current_user.role in ("LEARNER", "STUDENT"):
+        raise HTTPException(status_code=403, detail="Forbidden: Invigilator records are restricted to academic staff.")
+
     inv = InvigilatorService.get_invigilator_by_id(invigilator_id)
     if not inv:
         raise HTTPException(status_code=404, detail="Invigilator not found")
@@ -41,6 +47,9 @@ def get_invigilator_availabilities(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Retrieves availability windows for an invigilator."""
+    if current_user.role in ("LEARNER", "STUDENT", "INSTRUCTOR"):
+        raise HTTPException(status_code=403, detail="Forbidden: Invigilator availability is restricted to operational staff.")
+
     return InvigilatorService.get_invigilator_availabilities(invigilator_id)
 
 @router.get("/{invigilator_id}/schedule")
@@ -50,9 +59,12 @@ def get_invigilator_schedule(
 ):
     """
     Retrieves confirmed examination assignments for an invigilator.
-    Restricts invigilator self-inspection if user is of role INVIGILATOR.
+    Restricts invigilator self-inspection if user is of role INVIGILATOR or SUPPORT_STAFF with invigilator_id.
     """
-    if current_user.role == "INVIGILATOR" and current_user.invigilator_id != invigilator_id:
+    if current_user.role in ("LEARNER", "STUDENT", "INSTRUCTOR"):
+        raise HTTPException(status_code=403, detail="Forbidden: Invigilator schedules are restricted to operational staff.")
+
+    if current_user.role in ("SUPPORT_STAFF", "INVIGILATOR") and current_user.invigilator_id and current_user.invigilator_id != invigilator_id:
         raise HTTPException(status_code=403, detail="Forbidden: You may only view your own assignments.")
     return InvigilatorService.get_invigilator_assignments(invigilator_id)
 

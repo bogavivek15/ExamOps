@@ -12,7 +12,7 @@ import LoadingState from '../components/common/LoadingState';
 import EmptyState from '../components/common/EmptyState';
 
 export default function Administration() {
-  const { currentRole, switchRole } = useAuth();
+  const { currentRole, currentUser } = useAuth();
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -63,16 +63,12 @@ export default function Administration() {
       cell: (row) => <StatusBadge status={row.status || 'ACTIVE'} />,
     },
     {
-      header: 'Switch Perspective',
+      header: 'Access Control',
       cell: (row) => (
-        <button
-          onClick={() => switchRole(row.role_name || row.role)}
-          className="px-2.5 py-1 text-xs rounded bg-brand-elevated hover:bg-brand-border border border-brand-border text-brand-text hover:text-brand-accent transition-colors flex items-center gap-1"
-          aria-label={`Switch to role ${row.role_name || row.role}`}
-        >
-          <UserCheck className="w-3 h-3 text-brand-accent" />
-          Switch to Role
-        </button>
+        <div className="flex items-center gap-1.5 text-xs text-brand-muted">
+          <Shield className="w-3.5 h-3.5 text-brand-accent shrink-0" />
+          <span className="font-mono text-[11px] text-slate-300">Database Enforced</span>
+        </div>
       ),
     },
   ];
@@ -94,8 +90,9 @@ export default function Administration() {
         {/* Current Role Indicator */}
         <div className="flex items-center gap-2 bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-1.5 self-start sm:self-auto">
           <Key className="w-3.5 h-3.5 text-brand-accent" />
-          <span className="text-xs text-brand-muted">Current Role:</span>
+          <span className="text-xs text-brand-muted">Authoritative Role:</span>
           <span className="text-xs font-mono font-bold text-brand-accent">{currentRole}</span>
+          <span className="hidden sm:inline text-[10px] px-1.5 py-0.5 rounded bg-brand-accent/15 text-brand-accent border border-brand-accent/30 font-medium">PostgreSQL RBAC</span>
         </div>
       </div>
 
@@ -161,6 +158,19 @@ export default function Administration() {
               subtext="All changes tracked"
               icon={CheckCircle2}
             />
+          </div>
+
+          {/* RBAC Notice Banner */}
+          <div className="p-3 bg-brand-surface border border-brand-border rounded-[4px] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-brand-muted">
+            <div className="flex items-center gap-2">
+              <Shield className="w-4 h-4 text-brand-accent shrink-0" />
+              <span>
+                User accounts and role privileges are cryptographically verified and authoritative from PostgreSQL (<code className="text-slate-200">user_profiles</code>). Client-side role spoofing is strictly prohibited in production.
+              </span>
+            </div>
+            <span className="shrink-0 font-mono text-[10px] px-2 py-0.5 rounded bg-brand-elevated border border-brand-border text-brand-accent font-semibold">
+              RLS Enforced
+            </span>
           </div>
 
           {loading ? (

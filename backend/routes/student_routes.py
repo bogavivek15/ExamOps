@@ -16,7 +16,17 @@ def list_students(
     search: Optional[str] = None,
     current_user: CurrentUser = Depends(get_current_user),
 ):
-    """Lists students with optional keyword search across code, name, and email."""
+    """Lists students with optional keyword search across code, name, and email.
+    Learners are strictly isolated to viewing only their own record."""
+    if current_user.role in ("LEARNER", "STUDENT"):
+        if current_user.student_id:
+            stu = StudentService.get_student_by_id(current_user.student_id)
+            items = [stu] if stu else []
+            response.headers["X-Total-Count"] = str(len(items))
+            return items
+        response.headers["X-Total-Count"] = "0"
+        return []
+
     items, total = StudentService.list_students(limit=limit, offset=offset, search=search)
     response.headers["X-Total-Count"] = str(total)
     return items
@@ -27,6 +37,9 @@ def get_student(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Retrieves detailed profile for a specific student."""
+    if current_user.role in ("LEARNER", "STUDENT") and current_user.student_id != student_id:
+        raise HTTPException(status_code=403, detail="Forbidden: You may only view your own student record.")
+
     student = StudentService.get_student_by_id(student_id)
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
@@ -38,6 +51,9 @@ def get_student_enrollments(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Retrieves all active course enrollments for a specific student."""
+    if current_user.role in ("LEARNER", "STUDENT") and current_user.student_id != student_id:
+        raise HTTPException(status_code=403, detail="Forbidden: You may only view your own enrollments.")
+
     return StudentService.get_student_enrollments(student_id)
 
 @router.get("/{student_id}/schedule")
@@ -49,7 +65,7 @@ def get_student_schedule(
     Retrieves the confirmed examination schedule for a student.
     Enforces that students can only inspect their own schedule unless the user is staff/admin.
     """
-    if current_user.role == "STUDENT" and current_user.student_id != student_id:
+    if current_user.role in ("LEARNER", "STUDENT") and current_user.student_id != student_id:
         raise HTTPException(status_code=403, detail="Forbidden: You may only view your own schedule.")
     
     return StudentService.get_student_schedule(student_id)

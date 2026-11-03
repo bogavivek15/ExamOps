@@ -16,8 +16,12 @@ def list_exams(
     search: Optional[str] = None,
     current_user: CurrentUser = Depends(get_current_user),
 ):
-    """Lists examinations with enrolled student counts."""
-    return ExamService.list_exams(limit=limit, offset=offset, status=status, search=search)
+    """Lists examinations with enrolled student counts.
+    Learners are restricted strictly to PUBLISHED examinations."""
+    effective_status = status
+    if current_user.role in ("LEARNER", "STUDENT"):
+        effective_status = "PUBLISHED"
+    return ExamService.list_exams(limit=limit, offset=offset, status=effective_status, search=search)
 
 @router.get("/{exam_id}")
 def get_exam(
@@ -28,6 +32,8 @@ def get_exam(
     exam = ExamService.get_exam_by_id(exam_id)
     if not exam:
         raise HTTPException(status_code=404, detail="Examination not found")
+    if current_user.role in ("LEARNER", "STUDENT") and exam.get("status") != "PUBLISHED":
+        raise HTTPException(status_code=403, detail="Forbidden: Unreleased examination drafts are restricted to academic staff.")
     return exam
 
 @router.get("/{exam_id}/requirements")
@@ -36,5 +42,7 @@ def get_exam_requirements(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Retrieves equipment and physical requirements for an examination."""
+    if current_user.role in ("LEARNER", "STUDENT"):
+        raise HTTPException(status_code=403, detail="Forbidden: Examination equipment requirements are restricted to faculty and staff.")
     return ExamService.get_exam_requirements(exam_id)
 

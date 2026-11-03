@@ -45,6 +45,8 @@ def get_room_capacities(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Retrieves effective capacity history for a room."""
+    if current_user.role in ("LEARNER", "STUDENT"):
+        raise HTTPException(status_code=403, detail="Forbidden: Room capacity details are restricted to academic staff.")
     return RoomService.get_room_capacities(room_id)
 
 @router.get("/{room_id}/equipment")
@@ -53,6 +55,8 @@ def get_room_equipment(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Retrieves verified equipment installed in a room."""
+    if current_user.role in ("LEARNER", "STUDENT"):
+        raise HTTPException(status_code=403, detail="Forbidden: Room equipment details are restricted to academic staff.")
     return RoomService.get_room_equipment(room_id)
 
 @router.get("/{room_id}/availabilities")
@@ -61,5 +65,7 @@ def get_room_availabilities(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Retrieves operating hours and maintenance closures for a room."""
+    if current_user.role in ("LEARNER", "STUDENT"):
+        raise HTTPException(status_code=403, detail="Forbidden: Room availability details are restricted to academic staff.")
     return RoomService.get_room_availabilities(room_id)
 

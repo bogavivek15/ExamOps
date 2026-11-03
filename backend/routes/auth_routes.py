@@ -1,9 +1,10 @@
 """
 ExamOps Authentication & User Profile Routes
 """
-from fastapi import APIRouter, Depends, HTTPException, Body
+from fastapi import APIRouter, Depends, HTTPException, Body, Header
 from typing import List, Dict, Any, Optional
 import httpx
+import secrets
 from pydantic import BaseModel
 from backend.config import settings
 from backend.auth import (
@@ -26,6 +27,168 @@ class LoginRequest(BaseModel):
 
 class DevSwitchRoleRequest(BaseModel):
     role: str
+
+class DemoLoginRequest(BaseModel):
+    role: str
+
+ALLOWED_DEMO_ROLES = {
+    "ACADEMIC_ADMINISTRATOR",
+    "INSTRUCTOR",
+    "SUPPORT_STAFF",
+    "LEARNER",
+}
+
+DEMO_ROLE_ACCOUNTS: Dict[str, Dict[str, str]] = {
+    "ACADEMIC_ADMINISTRATOR": {
+        "email": "evaluator@examops.edu",
+        "title": "Academic Administrator (Exam Officer)",
+        "description": "Full operational authority over timetables, constraints, room allocations, exception triage, and publication.",
+    },
+    "INSTRUCTOR": {
+        "email": "head.computer@faculty.institution.edu",
+        "title": "Course Instructor",
+        "description": "Departmental curriculum view, student cohort enrollments, and schedule examination details.",
+    },
+    "SUPPORT_STAFF": {
+        "email": "facilities.lead.1@examops.institution.edu",
+        "title": "Support Staff / Invigilator",
+        "description": "Invigilator duties, venue accessibility features, and proctoring schedules.",
+    },
+    "LEARNER": {
+        "email": "carlos.garcia.0008@student.institution.edu",
+        "title": "Student / Learner",
+        "description": "Student portal viewing personal exam timetables and venue locations without administrative controls.",
+    },
+}
+
+@router.get("/demo-roles")
+def list_demo_roles():
+    """Returns the supported demo roles and their institutional descriptions for evaluation access."""
+    if not settings.DEMO_LOGIN_ENABLED:
+        raise HTTPException(
+            status_code=403,
+            detail="Demo evaluation access is currently disabled.",
+        )
+    return [
+        {
+            "id": role_id,
+            "title": info["title"],
+            "description": info["description"],
+            "email": info["email"],
+        }
+        for role_id, info in DEMO_ROLE_ACCOUNTS.items()
+        if role_id in ALLOWED_DEMO_ROLES
+    ]
+
+@router.post("/demo-login")
+def demo_login(
+    req: DemoLoginRequest,
+    x_demo_access_key: Optional[str] = Header(None, alias="X-Demo-Access-Key"),
+):
+    """
+    Dedicated demo evaluation access endpoint.
+    Issues a cryptographically signed Bearer session for the requested role.
+    Strictly protected:
+    1. Requires DEMO_LOGIN_ENABLED to be true.
+    2. Requires valid DEMO_ACCESS_KEY.
+    3. Strictly forbids PLATFORM_ADMINISTRATOR and SUPER_ADMIN.
+    4. Only permits the four authorized demo roles.
+    5. Resolves role from active database profile and validates role match without fallback.
+    """
+    # 1. Reject if demo login is not explicitly enabled
+    if not settings.DEMO_LOGIN_ENABLED:
+        raise HTTPException(
+            status_code=403,
+            detail="Demo login is disabled.",
+        )
+
+    # 2. Validate demo access key header
+    if not settings.DEMO_ACCESS_KEY:
+        raise HTTPException(
+            status_code=403,
+            detail="Demo access key is not configured on the server.",
+        )
+
+    provided_key = (x_demo_access_key or "").strip()
+
+    if not provided_key or not secrets.compare_digest(provided_key, settings.DEMO_ACCESS_KEY):
+        raise HTTPException(
+            status_code=403,
+            detail="Missing or invalid demo access key.",
+        )
+
+    # 3. Role validation
+    requested_raw = (req.role or "").strip().upper()
+    canonical_role = ROLE_ALIASES.get(requested_raw, requested_raw)
+
+    # Never allow public demo login to issue a Platform Administrator or Super Admin token
+    if canonical_role in ("PLATFORM_ADMINISTRATOR", "SUPER_ADMIN") or requested_raw in ("PLATFORM_ADMINISTRATOR", "SUPER_ADMIN"):
+        raise HTTPException(
+            status_code=403,
+            detail="Platform Administrator access is strictly prohibited via demo login.",
+        )
+
+    # Only allow the four intended public demo roles
+    if canonical_role not in ALLOWED_DEMO_ROLES or canonical_role not in DEMO_ROLE_ACCOUNTS:
+        raise HTTPException(
+            status_code=403,
+            detail=f"Unsupported demo role '{req.role}'. Allowed demo roles: {sorted(list(ALLOWED_DEMO_ROLES))}",
+        )
+
+    # 4. Resolve role from active database profile for the designated account
+    demo_info = DEMO_ROLE_ACCOUNTS[canonical_role]
+    target_email = demo_info["email"]
+
+    prof = execute_query(
+        "SELECT * FROM user_profiles WHERE LOWER(email) = %s AND status = 'ACTIVE' LIMIT 1;",
+        (target_email.lower(),),
+        fetch_one=True,
+    )
+
+    if not prof:
+        raise HTTPException(
+            status_code=404,
+            detail=f"No active demo account found for role '{canonical_role}'.",
+        )
+
+    # 5. Strict role verification: Verify the database profile's actual role matches the requested role
+    # Never fall back to a different account or role!
+    actual_db_role = prof.get("role")
+    if actual_db_role != canonical_role:
+        raise HTTPException(
+            status_code=403,
+            detail=f"Database profile role '{actual_db_role}' does not match requested role '{canonical_role}'.",
+        )
+
+    # Secondary safety assertion: Never issue a platform admin token under any circumstances
+    if actual_db_role in ("PLATFORM_ADMINISTRATOR", "SUPER_ADMIN"):
+        raise HTTPException(
+            status_code=403,
+            detail="Issuing Platform Administrator tokens via demo login is strictly prohibited.",
+        )
+
+    token = create_access_token(
+        user_id=str(prof["id"]),
+        email=prof["email"],
+        role=actual_db_role,
+    )
+
+    invalidate_profile_cache()
+
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "demo_mode": True,
+        "user": {
+            "id": str(prof["id"]),
+            "email": prof["email"],
+            "display_name": prof["display_name"],
+            "role": actual_db_role,
+            "student_id": str(prof["student_id"]) if prof.get("student_id") else None,
+            "invigilator_id": str(prof["invigilator_id"]) if prof.get("invigilator_id") else None,
+            "department": prof.get("department"),
+        },
+    }
 
 @router.post("/login")
 def login(req: LoginRequest):
@@ -130,13 +293,20 @@ def dev_switch_role(req: DevSwitchRoleRequest):
     Local development role switcher.
     Strictly disabled in production environments.
     """
-    if settings.ENVIRONMENT == "production":
+    env = (settings.ENVIRONMENT or "").strip().lower()
+    if env in ("production", "prod"):
         raise HTTPException(
             status_code=403,
             detail="Forbidden: Role switching is disabled in production environments.",
         )
 
     canonical_role = ROLE_ALIASES.get(req.role.upper(), req.role.upper())
+
+    if canonical_role in ("PLATFORM_ADMINISTRATOR", "SUPER_ADMIN"):
+        raise HTTPException(
+            status_code=403,
+            detail="Forbidden: Cannot switch to Platform Administrator role via dev switcher.",
+        )
 
     # Query database for active profile with this role
     prof = execute_query(
@@ -194,7 +364,7 @@ def list_user_profiles(limit: int = 50, offset: int = 0):
         (limit, offset),
     )
 
-@router.patch("/profiles/{user_id}", dependencies=[Depends(require_roles("ACADEMIC_ADMINISTRATOR", "PLATFORM_ADMINISTRATOR", "SUPER_ADMIN"))])
+@router.patch("/profiles/{user_id}", dependencies=[Depends(require_roles("PLATFORM_ADMINISTRATOR", "SUPER_ADMIN"))])
 def update_user_profile(
     user_id: str,
     req: UpdateProfileRequest,

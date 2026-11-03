@@ -9,7 +9,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from contextlib import asynccontextmanager
 import time
 
-from backend.config import settings
+from backend.config import settings, validate_security_configuration
 from backend.database import execute_query, init_db_pool
 
 # Import route modules
@@ -27,6 +27,7 @@ from backend.routes.export_routes import router as export_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    validate_security_configuration(settings)
     init_db_pool()
     yield
 

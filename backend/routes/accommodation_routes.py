@@ -17,11 +17,18 @@ def list_accommodations(
     active_only: bool = False,
     current_user: CurrentUser = Depends(get_current_user),
 ):
-    """Lists student accommodations (extra time, accessible rooms, low-distraction environments)."""
+    """Lists student accommodations (extra time, accessible rooms, low-distraction environments).
+    Learners are restricted strictly to viewing their own accommodations."""
+    effective_student_id = student_id
+    if current_user.role in ("LEARNER", "STUDENT"):
+        if not current_user.student_id:
+            return []
+        effective_student_id = current_user.student_id
+
     return AccommodationService.list_accommodations(
         limit=limit,
         offset=offset,
-        student_id=student_id,
+        student_id=effective_student_id,
         accommodation_type=accommodation_type,
         active_only=active_only,
     )
@@ -35,6 +42,8 @@ def get_accommodation(
     acc = AccommodationService.get_accommodation_by_id(acc_id)
     if not acc:
         raise HTTPException(status_code=404, detail="Accommodation not found")
+    if current_user.role in ("LEARNER", "STUDENT") and str(acc.get("student_id")) != str(current_user.student_id):
+        raise HTTPException(status_code=403, detail="Forbidden: You may only view your own accommodations.")
     return acc
 
 @router.get("/{acc_id}/notes")

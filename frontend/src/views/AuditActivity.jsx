@@ -140,7 +140,7 @@ export default function AuditActivity() {
         <MetricDisplay
           label="Audit Status"
           value="Active"
-          subtext="Institutional compliance"
+          subtext="Institutional audit logging"
           icon={ShieldCheck}
         />
       </div>

@@ -37,6 +37,13 @@ def list_enrollments(
     limit: int = Query(50, ge=1, le=500),
     current_user: CurrentUser = Depends(get_current_user),
 ):
-    """Lists student course enrollments."""
-    return CourseService.list_enrollments(course_id=course_id, student_id=student_id, limit=limit)
+    """Lists student course enrollments.
+    Learners are restricted strictly to viewing their own enrollments."""
+    effective_student_id = student_id
+    if current_user.role in ("LEARNER", "STUDENT"):
+        if not current_user.student_id:
+            return []
+        effective_student_id = current_user.student_id
+
+    return CourseService.list_enrollments(course_id=course_id, student_id=effective_student_id, limit=limit)
 

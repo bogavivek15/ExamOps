@@ -139,6 +139,25 @@ class ApiClient {
   }
 
   // Auth & Profile
+  async demoLogin(role, accessKey = null) {
+    const body = { role };
+    const headers = {};
+    if (accessKey) {
+      headers['X-Demo-Access-Key'] = accessKey;
+    }
+    const data = await this.request('/auth/demo-login', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(body),
+    });
+    this.setSession(data.access_token, data.user);
+    return data;
+  }
+
+  async getDemoRoles() {
+    return this.request('/auth/demo-roles');
+  }
+
   async login(email, password = null) {
     const data = await this.request('/auth/login', {
       method: 'POST',
@@ -177,6 +196,10 @@ class ApiClient {
 
   async getStudentSchedule(id) {
     return this.request(`/students/${id}/schedule`);
+  }
+
+  async getStudentEnrollments(id) {
+    return this.request(`/students/${id}/enrollments`);
   }
 
   async listCourses(params = {}) {

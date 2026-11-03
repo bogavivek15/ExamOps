@@ -68,9 +68,10 @@ class StudentService:
                r.id as room_id, r.room_code, r.name as room_name, r.building, r.floor, r.is_accessible
         FROM assignment_students ast
         JOIN schedule_assignments sa ON sa.id = ast.assignment_id
+        JOIN scheduling_runs sr ON sr.id = sa.scheduling_run_id
         JOIN exams ex ON ex.id = ast.exam_id
         JOIN rooms r ON r.id = ast.room_id
-        WHERE ast.student_id = %s
+        WHERE ast.student_id = %s AND sr.status = 'PUBLISHED'
         ORDER BY sa.start_time ASC;
         """
         return execute_query(sql, (student_id,))

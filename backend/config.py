@@ -4,7 +4,8 @@ Loads environment variables from local .env files and environment variables.
 """
 import os
 from pathlib import Path
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel, model_validator
 
 def _load_env_file():
     """Loads key-value pairs from .env without overwriting existing environment variables."""
@@ -80,10 +81,67 @@ def _parse_cors_origins() -> list:
 
 _load_env_file()
 
+DEFAULT_DEV_JWT_SECRET = "examops-dev-secret-key-for-local-authentication-20261022"
+
+def validate_security_configuration(s: Optional["Settings"] = None) -> None:
+    """
+    Enforces production security invariants:
+    1. Default development JWT secret MUST NEVER be used in production.
+    2. JWT secret must be at least 32 characters with sufficient entropy.
+    3. If DEMO_LOGIN_ENABLED is active in production, a strong DEMO_ACCESS_KEY is required.
+    """
+    target = s or settings
+    env = (target.ENVIRONMENT or "development").strip().lower()
+    if env in ("production", "prod"):
+        secret = (target.JWT_SECRET_KEY or "").strip()
+        insecure_secrets = {
+            DEFAULT_DEV_JWT_SECRET,
+            "secret",
+            "changeme",
+            "password",
+            "placeholder",
+            "1234567890",
+        }
+        if (
+            not secret
+            or secret in insecure_secrets
+            or len(secret) < 32
+            or "dev-secret" in secret.lower()
+            or "placeholder" in secret.lower()
+        ):
+            raise RuntimeError(
+                "FATAL SECURITY CONFIGURATION: Unsafe JWT_SECRET_KEY detected in production environment. "
+                "Production requires a strong, high-entropy secret of at least 32 characters. "
+                "Default development keys are strictly prohibited in production."
+            )
+        if target.SUPABASE_JWT_SECRET is not None:
+            supabase_secret = target.SUPABASE_JWT_SECRET.strip()
+            if (
+                not supabase_secret
+                or supabase_secret in insecure_secrets
+                or len(supabase_secret) < 32
+                or "dev-secret" in supabase_secret.lower()
+                or "placeholder" in supabase_secret.lower()
+            ):
+                raise RuntimeError(
+                    "FATAL SECURITY CONFIGURATION: Unsafe SUPABASE_JWT_SECRET detected in production environment. "
+                    "When configured for HS256 verification in production, a strong, high-entropy secret "
+                    "of at least 32 characters is required. Default, empty, or placeholder values are strictly prohibited."
+                )
+        if target.DEMO_LOGIN_ENABLED:
+            demo_key = (target.DEMO_ACCESS_KEY or "").strip()
+            if not demo_key or len(demo_key) < 16 or "placeholder" in demo_key.lower():
+                raise RuntimeError(
+                    "FATAL SECURITY CONFIGURATION: DEMO_LOGIN_ENABLED is enabled in production "
+                    "without a sufficiently strong DEMO_ACCESS_KEY (minimum 16 characters required)."
+                )
+
 class Settings(BaseModel):
     PROJECT_NAME: str = "ExamOps"
     VERSION: str = "1.0.0"
     ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    DEMO_LOGIN_ENABLED: bool = os.getenv("DEMO_LOGIN_ENABLED", "false").lower() in ("true", "1", "yes", "t")
+    DEMO_ACCESS_KEY: str = os.getenv("DEMO_ACCESS_KEY", "")
     SUPABASE_URL: str = os.getenv("SUPABASE_URL", "http://127.0.0.1:54321")
     SUPABASE_ANON_KEY: str = os.getenv("SUPABASE_ANON_KEY", "anon-key-placeholder")
     SUPABASE_SERVICE_ROLE_KEY: str = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "service-role-key-placeholder")
@@ -96,10 +154,15 @@ class Settings(BaseModel):
     # (4 workers * 4 maxconn = 16 combined max connections, preserving 4 connections headroom)
     DB_POOL_MIN_CONN: int = int(os.getenv("DB_POOL_MIN_CONN", "1"))
     DB_POOL_MAX_CONN: int = int(os.getenv("DB_POOL_MAX_CONN", "4"))
-    JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", "examops-dev-secret-key-for-local-authentication-20261022")
+    JWT_SECRET_KEY: str = os.getenv("JWT_SECRET_KEY", DEFAULT_DEV_JWT_SECRET)
     JWT_ALGORITHM: str = os.getenv("JWT_ALGORITHM", "HS256")
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "480"))
-    SUPABASE_JWT_SECRET: str = os.getenv("SUPABASE_JWT_SECRET", "")
+    SUPABASE_JWT_SECRET: Optional[str] = os.getenv("SUPABASE_JWT_SECRET", None)
     CORS_ORIGINS: list = _parse_cors_origins()
+
+    @model_validator(mode="after")
+    def validate_security(self) -> "Settings":
+        validate_security_configuration(self)
+        return self
 
 settings = Settings()

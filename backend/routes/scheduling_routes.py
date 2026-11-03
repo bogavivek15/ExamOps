@@ -24,8 +24,12 @@ def list_scheduling_runs(
     offset: int = Query(0, ge=0),
     current_user: CurrentUser = Depends(get_current_user),
 ):
-    """Lists all scheduling runs with status, execution counts, and creator metadata."""
-    return SchedulingService.list_runs(academic_period_id=academic_period_id, limit=limit, offset=offset)
+    """Lists all scheduling runs with status, execution counts, and creator metadata.
+    Learners and Instructors are restricted strictly to PUBLISHED runs."""
+    runs = SchedulingService.list_runs(academic_period_id=academic_period_id, limit=limit, offset=offset)
+    if current_user.role in ("LEARNER", "STUDENT", "INSTRUCTOR"):
+        return [r for r in runs if r.get("status") == "PUBLISHED"]
+    return runs
 
 @router.post("/runs", dependencies=[Depends(require_roles("ACADEMIC_ADMINISTRATOR", "PLATFORM_ADMINISTRATOR", "SUPER_ADMIN", "EXAM_OFFICER"))])
 def create_scheduling_run(
@@ -58,6 +62,8 @@ def get_scheduling_run(
     run = SchedulingService.get_run_by_id(run_id)
     if not run:
         raise HTTPException(status_code=404, detail="Scheduling run not found")
+    if current_user.role in ("LEARNER", "STUDENT", "INSTRUCTOR") and run.get("status") != "PUBLISHED":
+        raise HTTPException(status_code=403, detail="Forbidden: Unreleased timetable drafts are restricted to operations staff.")
     return run
 
 @router.post("/runs/{run_id}/execute", dependencies=[Depends(require_roles("ACADEMIC_ADMINISTRATOR", "PLATFORM_ADMINISTRATOR", "SUPER_ADMIN", "EXAM_OFFICER"))])
@@ -71,6 +77,15 @@ def execute_scheduling_run(
     performs independent validation, and commits assignments and telemetry.
     Uses PostgreSQL-backed distributed advisory locks for multi-worker and multi-process safety.
     """
+    run = SchedulingService.get_run_by_id(run_id)
+    if not run:
+        raise HTTPException(status_code=404, detail=f"Scheduling run '{run_id}' not found.")
+    if run.get("status") == "PUBLISHED":
+        raise HTTPException(
+            status_code=400,
+            detail=f"Scheduling run '{run_id}' is already PUBLISHED and cannot be re-executed. Create a new scheduling run to generate a new timetable.",
+        )
+
     try:
         with distributed_advisory_lock(run_id):
             result = SchedulingService.execute_scheduling_run(run_id)
@@ -88,6 +103,8 @@ def execute_scheduling_run(
             status_code=409,
             detail=f"Scheduling run '{run_id}' is already actively executing on another worker. Please wait for completion.",
         )
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except HTTPException:
         raise
     except Exception as e:
@@ -112,6 +129,11 @@ def get_run_assignments(
     current_user: CurrentUser = Depends(get_current_user),
 ):
     """Retrieves confirmed room and timetable assignments for a run."""
+    if current_user.role in ("LEARNER", "STUDENT"):
+        raise HTTPException(
+            status_code=403,
+            detail="Forbidden: Learners cannot inspect institutional assignment tables. Please access your personal schedule via /api/students/{student_id}/schedule.",
+        )
     return SchedulingService.get_run_assignments(
         run_id=run_id,
         exam_id=exam_id,
@@ -120,7 +142,7 @@ def get_run_assignments(
         offset=offset,
     )
 
-@router.get("/runs/{run_id}/decisions")
+@router.get("/runs/{run_id}/decisions", dependencies=[Depends(require_roles("ACADEMIC_ADMINISTRATOR", "PLATFORM_ADMINISTRATOR", "SUPER_ADMIN", "EXAM_OFFICER"))])
 def get_run_decisions(
     run_id: str,
     exam_id: Optional[str] = None,
@@ -138,7 +160,7 @@ def get_run_decisions(
         offset=offset,
     )
 
-@router.get("/runs/{run_id}/issues")
+@router.get("/runs/{run_id}/issues", dependencies=[Depends(require_roles("SUPPORT_STAFF", "ACADEMIC_ADMINISTRATOR", "PLATFORM_ADMINISTRATOR", "SUPER_ADMIN", "EXAM_OFFICER", "INVIGILATOR"))])
 def get_run_validation_issues(
     run_id: str,
     current_user: CurrentUser = Depends(get_current_user),
