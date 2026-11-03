@@ -28,8 +28,23 @@ export function AuthProvider({ children }) {
       try {
         setLoading(true);
 
+        // 1. Check existing backend session token first (handles both demo and password logins)
+        const existingToken = api.getToken();
+        if (existingToken) {
+          try {
+            const profile = await api.getMe();
+            api.setSession(existingToken, profile);
+            setCurrentUser(profile);
+            return;
+          } catch (err) {
+            console.warn('Backend token expired or invalid:', err);
+            api.clearSession();
+            setCurrentUser(null);
+          }
+        }
+
+        // 2. Check Supabase Auth session if configured
         if (isSupabaseConfigured && supabase) {
-          // 1. Check existing Supabase session from localStorage
           const { data: { session }, error } = await supabase.auth.getSession();
           if (session?.access_token && !error) {
             try {
@@ -42,37 +57,6 @@ export function AuthProvider({ children }) {
               api.clearSession();
               setCurrentUser(null);
             }
-          } else {
-            api.clearSession();
-            setCurrentUser(null);
-          }
-
-          // 2. Subscribe to auth changes (token refresh, logout)
-          const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
-            if (event === 'SIGNED_OUT' || !session) {
-              api.clearSession();
-              setCurrentUser(null);
-            } else if (event === 'TOKEN_REFRESHED' && session) {
-              api.setSession(session.access_token, currentUser);
-            }
-          });
-          unsubscribe = listener?.subscription?.unsubscribe;
-        } else {
-          // Standalone backend token verification fallback
-          const existingToken = api.getToken();
-          if (existingToken) {
-            try {
-              const profile = await api.getMe();
-              api.setSession(existingToken, profile);
-              setCurrentUser(profile);
-            } catch (err) {
-              console.warn('Backend token expired or invalid:', err);
-              api.clearSession();
-              setCurrentUser(null);
-            }
-          } else {
-            api.clearSession();
-            setCurrentUser(null);
           }
         }
       } catch (err) {
@@ -83,6 +67,18 @@ export function AuthProvider({ children }) {
         setLoading(false);
       }
     };
+
+    if (isSupabaseConfigured && supabase) {
+      const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
+        if (event === 'SIGNED_OUT') {
+          api.clearSession();
+          setCurrentUser(null);
+        } else if (event === 'TOKEN_REFRESHED' && session?.access_token) {
+          api.setSession(session.access_token, currentUser);
+        }
+      });
+      unsubscribe = listener?.subscription?.unsubscribe;
+    }
 
     initAuth();
 
@@ -114,33 +110,13 @@ export function AuthProvider({ children }) {
       setLoading(true);
       setAuthError(null);
 
-      if (isSupabaseConfigured && supabase) {
-        // Authenticate directly through Supabase Auth
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email: email.trim(),
-          password: password,
-        });
-
-        if (error) {
-          throw new Error(error.message || 'Invalid email or password.');
-        }
-
-        const token = data.session?.access_token;
-        if (!token) {
-          throw new Error('Authentication failed: no access token returned.');
-        }
-
-        api.setSession(token, null);
-        const profile = await api.getMe();
-        api.setSession(token, profile);
-        setCurrentUser(profile);
-        return profile;
-      } else {
-        // Authenticate via backend verified login
-        const data = await api.login(email.trim(), password);
-        setCurrentUser(data.user);
-        return data.user;
+      // Authenticate via backend verified login (central authority supporting Supabase Auth and database bcrypt)
+      const data = await api.login(email.trim(), password);
+      if (!data?.user) {
+        throw new Error('Authentication failed: no user data returned.');
       }
+      setCurrentUser(data.user);
+      return data.user;
     } catch (err) {
       const msg = err.message || 'Authentication failed. Please verify your credentials.';
       setAuthError(msg);
