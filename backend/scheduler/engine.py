@@ -37,7 +37,7 @@ class SchedulingEngine:
         daily_start_time: time = time(8, 0),
         daily_end_time: time = time(18, 0),
         slot_granularity_minutes: int = 30,
-        max_improvement_passes: int = 3,
+        max_improvement_passes: int = 1,
     ):
         self.exams = exams
         self.rooms = rooms

@@ -384,8 +384,9 @@ class SchedulingService:
                     cur.execute("DELETE FROM assignment_students WHERE scheduling_run_id = %s;", (run_id,))
                     cur.execute("DELETE FROM assignment_invigilators WHERE assignment_id IN (SELECT id FROM schedule_assignments WHERE scheduling_run_id = %s);", (run_id,))
                     cur.execute("DELETE FROM schedule_assignments WHERE scheduling_run_id = %s;", (run_id,))
-                    cur.execute("DELETE FROM scheduling_decisions WHERE scheduling_run_id = %s;", (run_id,))
                     cur.execute("DELETE FROM validation_issues WHERE scheduling_run_id = %s;", (run_id,))
+                    # Note: scheduling_decisions is protected by an immutable trigger (append-only audit log)
+                    # We do not delete from it; instead we use ON CONFLICT DO NOTHING below.
 
                     # Batch Insert ScheduleAssignments
                     asgn_tuples = []
@@ -499,12 +500,7 @@ class SchedulingService:
                                 id, scheduling_run_id, exam_id, decision_order,
                                 is_assigned, reason_codes, selected_candidate, candidate_details
                             ) VALUES %s
-                            ON CONFLICT (scheduling_run_id, exam_id) DO UPDATE SET
-                                is_assigned = EXCLUDED.is_assigned,
-                                reason_codes = EXCLUDED.reason_codes,
-                                selected_candidate = EXCLUDED.selected_candidate,
-                                candidate_details = EXCLUDED.candidate_details,
-                                decision_order = EXCLUDED.decision_order;
+                            ON CONFLICT (scheduling_run_id, exam_id) DO NOTHING;
                             """,
                             dec_tuples,
                             page_size=1000,

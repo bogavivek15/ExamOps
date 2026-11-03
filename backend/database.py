@@ -55,6 +55,11 @@ def get_db_connection() -> Generator[psycopg2.extensions.connection, None, None]
                 if conn.closed:
                     _pool.putconn(conn, close=True)
                 else:
+                    try:
+                        with conn.cursor() as cur:
+                            cur.execute("SELECT pg_advisory_unlock_all();")
+                    except Exception:
+                        pass
                     _pool.putconn(conn)
             except Exception:
                 try:
