@@ -329,7 +329,7 @@ The repository contains **42 test cases** across 9 modules covering database int
 
 ### Verification Context & Execution Results
 - **Historical Full-Suite Execution (`2026-11-03 04:30 UTC`):** 42/42 tests passing against live Supabase PostgreSQL (340.28s).
-- **Latest Release Verification (`2026-11-03 13:30 UTC`):**
+- **Latest Release Verification (`2026-11-03 13:30 IST / 08:00 UTC`):**
   - Pytest Discovery: `python -m pytest backend/tests tests scripts/test_scheduler.py --collect-only` (42 items collected, 0 errors).
   - In-Memory Scheduling Suite: `python scripts/test_scheduler.py` (4/4 passed: MCF ordering, 7 room-splitting invariants, 5 negative scenarios).
   - Synthetic Data Reproducibility: `python scripts/test_synthetic_data.py` (Dual-run SHA-256 match, 150 `course_instructors` FK verified).

@@ -136,7 +136,6 @@ python -m pytest backend/tests tests scripts/test_scheduler.py -v
 ```
 
 ```text
-```text
 ============================= test session starts =============================
 platform win32 -- Python 3.12.10, pytest-9.2.0, pluggy-1.7.0
 cachedir: .pytest_cache
@@ -190,7 +189,7 @@ scripts/test_scheduler.py::test_full_baseline_execution PASSED           [100%]
 ================== 42 passed, 1 warning in 340.28s (0:05:40) ==================
 ```
 
-### 4.2 Latest Release Verification (`2026-11-03 13:30 UTC`)
+### 4.2 Latest Release Verification (`2026-11-03 13:30 IST / 08:00 UTC`)
 Following repository cleanup and test safety reconciliation:
 1. **Pytest Discovery & Collection:**
    ```bash
