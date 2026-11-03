@@ -259,3 +259,33 @@ def test_published_run_immutability(published_run):
     # Verify run remains in PUBLISHED status and was NOT altered to CANCELLED or DRAFT
     current_run = client.get(f"/api/scheduling/runs/{run_id}", headers=headers).json()
     assert current_run["status"] == "PUBLISHED"
+
+
+def test_published_run_publish_idempotency(published_run):
+    """
+    Publishing an already published run must be idempotent and return HTTP 200,
+    rather than throwing an unhandled database exception or failing.
+    """
+    run_id = str(published_run["id"])
+    headers = {"X-Test-Role": "ACADEMIC_ADMINISTRATOR"}
+
+    res = client.post(f"/api/scheduling/runs/{run_id}/publish", headers=headers)
+    assert res.status_code == 200
+    data = res.json()
+    assert data["success"] is True
+    assert data["status"] == "PUBLISHED"
+    assert "already officially published" in data.get("message", "")
+
+
+def test_published_run_approve_idempotency(published_run):
+    """
+    Approving an already published or approved run must be idempotent.
+    """
+    run_id = str(published_run["id"])
+    headers = {"X-Test-Role": "ACADEMIC_ADMINISTRATOR"}
+
+    res = client.post(f"/api/scheduling/runs/{run_id}/approve", headers=headers)
+    assert res.status_code == 200
+    data = res.json()
+    assert data["success"] is True
+

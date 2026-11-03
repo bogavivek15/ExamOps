@@ -297,8 +297,19 @@ BEGIN
         RAISE EXCEPTION 'Scheduling run % not found.', p_run_id;
     END IF;
 
+    -- Idempotent check: If already published, return immediately with success
+    IF v_current_status = 'PUBLISHED' THEN
+        RETURN jsonb_build_object(
+            'success', TRUE,
+            'published_run_id', p_run_id,
+            'academic_period_id', v_period_id,
+            'status', 'PUBLISHED',
+            'message', 'Timetable is already officially published and immutable.'
+        );
+    END IF;
+
     IF v_current_status NOT IN ('APPROVED', 'REVIEW_REQUIRED', 'DRAFT') THEN
-        RAISE EXCEPTION 'Run % has status %, which cannot be published.', p_run_id, v_current_status;
+        RAISE EXCEPTION 'Timetable % cannot be published because its status is %.', p_run_id, v_current_status;
     END IF;
 
     -- 2. Concurrency Lock: Acquire exclusive row lock on the academic period

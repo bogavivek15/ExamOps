@@ -214,6 +214,31 @@ def publish_scheduling_run(
     Uses PostgreSQL distributed advisory lock to guarantee consistency with ongoing execution.
     """
     try:
+        run = SchedulingService.get_run_by_id(run_id)
+        if not run:
+            raise HTTPException(status_code=404, detail=f"Scheduling run '{run_id}' not found.")
+
+        # Idempotent: If run is already published, return success immediately
+        if run.get("status") == "PUBLISHED":
+            return {
+                "success": True,
+                "published_run_id": run_id,
+                "status": "PUBLISHED",
+                "message": f"Timetable '{run.get('run_code', run_id)}' is already officially published and immutable.",
+            }
+
+        if run.get("status") == "SUPERSEDED":
+            raise HTTPException(
+                status_code=400,
+                detail=f"Timetable '{run.get('run_code', run_id)}' has been superseded by a newer published schedule and cannot be published. Please create a new timetable draft.",
+            )
+
+        if run.get("status") == "CANCELLED":
+            raise HTTPException(
+                status_code=400,
+                detail=f"Timetable '{run.get('run_code', run_id)}' is cancelled and cannot be published. Please create a new timetable draft.",
+            )
+
         with distributed_advisory_lock(run_id):
             res = SchedulingService.publish_run(run_id, current_user.id)
             return res
@@ -225,5 +250,8 @@ def publish_scheduling_run(
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Publication failed: {str(e)}")
+        # Strip PostgreSQL context if present to avoid leaking raw PL/pgSQL internals
+        raw_msg = str(e).split("\nCONTEXT:")[0].strip()
+        clean_msg = raw_msg.replace("Publication failed: ", "").strip()
+        raise HTTPException(status_code=400, detail=clean_msg)
 

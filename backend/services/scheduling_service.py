@@ -635,8 +635,25 @@ class SchedulingService:
         if not run:
             raise ValueError(f"Run {run_id} not found.")
 
+        # Idempotent: If run is already approved, return success
+        if run.get("status") == "APPROVED":
+            return {
+                "success": True,
+                "run_id": run_id,
+                "status": "APPROVED",
+                "message": f"Timetable '{run.get('run_code', run_id)}' is already approved.",
+            }
+
+        if run.get("status") == "PUBLISHED":
+            return {
+                "success": True,
+                "run_id": run_id,
+                "status": "PUBLISHED",
+                "message": f"Timetable '{run.get('run_code', run_id)}' is already officially published and immutable.",
+            }
+
         if run["status"] not in ("COMPLETED", "REVIEW_REQUIRED"):
-            raise ValueError(f"Run status is '{run['status']}', expected 'COMPLETED' or 'REVIEW_REQUIRED'.")
+            raise ValueError(f"Timetable '{run.get('run_code', run_id)}' status is '{run['status']}'. Only COMPLETED or REVIEW_REQUIRED timetables can be approved.")
 
         # Verify no unresolved blocker issues
         blockers = execute_query(

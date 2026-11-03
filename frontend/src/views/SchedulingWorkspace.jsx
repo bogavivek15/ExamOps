@@ -28,6 +28,8 @@ export default function SchedulingWorkspace() {
   const [decisions, setDecisions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [executing, setExecuting] = useState(false);
+  const [approving, setApproving] = useState(false);
+  const [publishing, setPublishing] = useState(false);
   const [actionMessage, setActionMessage] = useState(null);
 
   // Decision Inspection Drawer State
@@ -227,11 +229,11 @@ export default function SchedulingWorkspace() {
   };
 
   const handleExecuteSolver = async () => {
-    if (!selectedRunId) return;
+    if (!selectedRunId || executing) return;
     if (activeRun?.status === 'PUBLISHED') {
       setActionMessage({
-        type: 'error',
-        text: 'This timetable is already PUBLISHED and cannot be re-executed. Please click "New Timetable" to create a new draft.',
+        type: 'info',
+        text: 'This timetable is officially published and immutable. Historical assignments are permanently preserved for audit. To modify or generate a new schedule, click "New Timetable" to create a new draft.',
       });
       return;
     }
@@ -239,7 +241,9 @@ export default function SchedulingWorkspace() {
   };
 
   const handleApprove = async () => {
-    if (!selectedRunId) return;
+    if (!selectedRunId || approving || activeRun?.status === 'APPROVED' || activeRun?.status === 'PUBLISHED') return;
+    setApproving(true);
+    setActionMessage(null);
     try {
       await api.approveRun(selectedRunId);
       setActionMessage({ type: 'success', text: 'Timetable approved successfully for official release!' });
@@ -247,11 +251,15 @@ export default function SchedulingWorkspace() {
       await loadRuns();
     } catch (err) {
       setActionMessage({ type: 'error', text: err.message || 'Unable to approve timetable.' });
+    } finally {
+      setApproving(false);
     }
   };
 
   const handlePublish = async () => {
-    if (!selectedRunId) return;
+    if (!selectedRunId || publishing || activeRun?.status === 'PUBLISHED') return;
+    setPublishing(true);
+    setActionMessage(null);
     try {
       const res = await api.publishRun(selectedRunId);
       if (res.success) {
@@ -263,7 +271,10 @@ export default function SchedulingWorkspace() {
         await loadRuns();
       }
     } catch (err) {
-      setActionMessage({ type: 'error', text: `Publication failed: ${err.message}` });
+      const cleanMsg = (err.message || '').replace(/^Publication failed:\s*/i, '');
+      setActionMessage({ type: 'error', text: `Publication failed: ${cleanMsg}` });
+    } finally {
+      setPublishing(false);
     }
   };
 
@@ -395,8 +406,16 @@ export default function SchedulingWorkspace() {
             </span>
             <select
               value={selectedRunId || ''}
-              onChange={(e) => setSelectedRunId(e.target.value)}
-              className="bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-1.5 text-xs text-brand-text font-mono focus:outline-none focus:border-brand-accent max-w-full sm:max-w-md"
+              onChange={(e) => {
+                const runId = e.target.value;
+                const match = runs.find((r) => r.id === runId);
+                if (match) {
+                  setActiveRun((prev) => ({ ...prev, ...match }));
+                }
+                setSelectedRunId(runId);
+                setActionMessage(null);
+              }}
+              className="bg-brand-elevated border border-brand-border rounded-[4px] px-3 py-1.5 text-xs text-brand-text font-mono focus:outline-none focus:border-brand-accent max-w-full sm:max-w-md cursor-pointer"
               aria-label="Select timetable version"
             >
               {runs.map((r) => (
@@ -425,29 +444,53 @@ export default function SchedulingWorkspace() {
               onClick={handleExecuteSolver}
               disabled={executing || !isAdmin || activeRun?.status === 'PUBLISHED' || activeRun?.status === 'SUPERSEDED' || activeRun?.status === 'APPROVED'}
               title={activeRun?.status === 'PUBLISHED' ? "Published timetables are immutable and cannot be re-executed. Click 'New Timetable' to create and run a new draft." : undefined}
-              className="flex items-center gap-1.5 px-3.5 py-2 sm:py-1.5 bg-brand-accent hover:bg-brand-accent-hover text-slate-950 font-bold text-xs rounded-[4px] transition-all shadow-md shadow-brand-accent/20 disabled:opacity-50"
+              className={`flex items-center gap-1.5 px-3.5 py-2 sm:py-1.5 font-bold text-xs rounded-[4px] transition-all ${
+                activeRun?.status === 'PUBLISHED' || activeRun?.status === 'SUPERSEDED' || activeRun?.status === 'APPROVED' || !isAdmin || executing
+                  ? 'bg-brand-elevated text-slate-500 border border-brand-border cursor-not-allowed opacity-50 shadow-none'
+                  : 'bg-brand-accent hover:bg-brand-accent-hover text-slate-950 shadow-md shadow-brand-accent/20 cursor-pointer'
+              }`}
             >
               <Play size={13} className="fill-current" />
               {executing ? 'Running Scheduler...' : 'Run Scheduler'}
             </button>
 
-            <button
-              onClick={handleApprove}
-              disabled={!activeRun || activeRun.status === 'PUBLISHED' || !isAdmin}
-              className="flex items-center gap-1.5 px-3 py-2 sm:py-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border hover:border-brand-accent text-xs text-slate-300 rounded-[4px] transition-colors disabled:opacity-50"
-            >
-              <Check size={14} className="text-brand-accent" />
-              Approve Timetable
-            </button>
+            {/* Approve Button / Indicator */}
+            {activeRun?.status === 'APPROVED' ? (
+              <div className="flex items-center gap-1.5 px-3 py-2 sm:py-1.5 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-semibold text-xs rounded-[4px] select-none">
+                <Check size={14} className="text-emerald-400" />
+                Approved
+              </div>
+            ) : activeRun?.status === 'PUBLISHED' ? null : (
+              <button
+                onClick={handleApprove}
+                disabled={!activeRun || activeRun.status === 'SUPERSEDED' || !isAdmin || approving}
+                className="flex items-center gap-1.5 px-3 py-2 sm:py-1.5 bg-brand-elevated hover:bg-brand-surface border border-brand-border hover:border-brand-accent text-xs text-slate-300 rounded-[4px] transition-colors disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+              >
+                <Check size={14} className="text-brand-accent" />
+                {approving ? 'Approving...' : 'Approve Timetable'}
+              </button>
+            )}
 
-            <button
-              onClick={handlePublish}
-              disabled={!activeRun || activeRun.status === 'PUBLISHED' || !isAdmin}
-              className="flex items-center gap-1.5 px-3 py-2 sm:py-1.5 bg-brand-accent hover:bg-brand-accent-hover border border-[#62626266]/40 text-black font-semibold text-xs rounded-[4px] transition-colors disabled:opacity-50"
-            >
-              <UploadCloud size={14} />
-              Publish Timetable
-            </button>
+            {/* Publish Button / Indicator */}
+            {activeRun?.status === 'PUBLISHED' ? (
+              <div className="flex items-center gap-1.5 px-3 py-2 sm:py-1.5 bg-brand-accent/15 border border-brand-accent/40 text-brand-accent font-semibold text-xs rounded-[4px] select-none">
+                <CheckCircle2 size={14} className="text-brand-accent" />
+                Published
+              </div>
+            ) : (
+              <button
+                onClick={handlePublish}
+                disabled={!activeRun || activeRun.status === 'SUPERSEDED' || !isAdmin || publishing}
+                className={`flex items-center gap-1.5 px-3 py-2 sm:py-1.5 text-xs rounded-[4px] transition-colors font-semibold ${
+                  publishing || !isAdmin
+                    ? 'bg-brand-elevated text-slate-500 border border-brand-border cursor-not-allowed opacity-50'
+                    : 'bg-brand-accent hover:bg-brand-accent-hover text-slate-950 shadow-md shadow-brand-accent/20 cursor-pointer'
+                }`}
+              >
+                <UploadCloud size={14} />
+                {publishing ? 'Publishing...' : 'Publish Timetable'}
+              </button>
+            )}
 
             {/* Downloads */}
             <div className="flex items-center gap-1 pl-2 border-l border-brand-border">
